@@ -27,7 +27,7 @@ const Page = () => {
   const [sendNewText, setNewText] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [total, setTotal] = useState(0);
-  const [pageNum, setPageNum] = useState(1);
+  const [pageNum, setPageNum] = useState(1); 
   const [loading, setLoading] = useState(false);
 
   const handleItemChange = (id) => {
