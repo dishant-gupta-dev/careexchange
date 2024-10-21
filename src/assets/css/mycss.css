@@ -1,0 +1,155 @@
+.react-datepicker__view-calendar-icon input {
+  padding: 15px 40px !important;
+}
+.react-datepicker__input-container .react-datepicker__calendar-icon {
+  padding: 0.86rem !important;
+}
+.alert.alert-danger {
+  color: red;
+  font-size: 12px;
+  margin: 5px 0 0 5px;
+}
+.vehicle-type-card .iq-card{
+    background: #ffffff !important;
+}
+.content-wrapper-login {
+  background: #f8f8ff;
+  padding: 2.75rem 2.25rem;
+  width: 100%;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+}
+.footer{
+  margin-left: 260px;
+  width: 100%;
+}
+.btn-gradient-danger{
+  background: linear-gradient(to right, #db2d2d, #b62222);
+    border: 0;
+    padding: 14px 30px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #fff;
+    -webkit-transition: opacity 0.3s ease;
+    -moz-transition: opacity 0.3s ease;
+    -ms-transition: opacity 0.3s ease;
+    -o-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
+}
+.btn-gradient-success{
+  background: linear-gradient(to right, #2ddb66, #5dce60);
+    border: 0;
+    padding: 14px 30px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #fff;
+    -webkit-transition: opacity 0.3s ease;
+    -moz-transition: opacity 0.3s ease;
+    -ms-transition: opacity 0.3s ease;
+    -o-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
+}
+.sidebar .nav {
+  margin-bottom: 70px !important;
+}
+.sidebar .nav .nav-item {
+  padding: 0 1.8rem !important;
+}
+.iq-bg-success {
+  background: var(--iq-light-danger) !important;
+  color: #2ddb66 !important;
+  border: 1px solid #2ddb66;
+  cursor: pointer;
+}
+.modal-body .react-datepicker-wrapper{
+  width: 100%;
+}
+
+.care-table-pagination {padding: 10px 0 0 0; }
+ul.care-pagination {display: flex;padding-left: 0;list-style: none;margin: 0;}
+ul.care-pagination li a.page-link {color: #fff;background: #292b56;position: relative;display: block;padding: 5px 15px;font-size: 14px;margin: 2px;border-radius: 5px; border: 1px solid #292b56;}
+ul.care-pagination li.active a.page-link {color: #292b56;background: #fff; border: 1px solid #292b56;}
+ul.care-pagination li.disabled a.page-link {color: #fff;pointer-events: none;background: #292b56;}
+
+.btn-view-pending{
+  background: #e8eb36;
+  border: 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #fff;
+}
+
+.care-status-pending, .care-status-inactive {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 0;
+  color: var(--black);
+}
+.care-status-inactive span {
+  color: #ff0000;
+}
+.care-status-pending span {
+  color: #e8eb36;
+}
+a{
+  text-decoration: none;
+}
+input[type="text"][disabled]{
+  background: #eee;
+}
+.switch-toggle {display: flex; justify-content: space-evenly;} 
+.switch-toggle p {font-size: 13px; margin: 0; color: #455A64; line-height: 24px; font-weight: 600; } 
+.switch-toggle a {color: #007ADF; }
+.toggle {--width: 40px; --height: calc(40px / 2); --border-radius: calc(40px / 2); display: inline-block; cursor: pointer; }
+.toggle__input {display: none; }
+.toggle__fill {position: relative; width: 50px; height: calc(50px / 2); border-radius: 50px; background: #e5e5f5; transition: background 0.2s; }
+.toggle__fill::after {content: ""; position: absolute; top: 0; left: 0; height: calc(50px / 2); background: #ffffff; box-shadow: 0px 0px 13px rgb(0 0 0 / 5%); border-radius: 40px; transition: transform 0.2s; width: calc(50px / 2);} 
+.toggle__input:checked ~ .toggle__fill {background: #00ee57;}
+.toggle__input:checked ~ .toggle__fill::after {transform: translateX(24px); }
+
+.select select {
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  -ms-appearance:none;
+  appearance:none;
+  outline:0;
+  box-shadow:none;
+  border:0!important;
+  background: #5c6664;
+  background-image: none;
+  flex: 1;
+  padding: 0 .7em;
+  color:#fff;
+  cursor:pointer;
+  font-size: 0.9rem;
+}
+.select select::-ms-expand {
+  display: none;
+}
+.select .green-select {
+  background: #3cd60c;
+}
+.select .red-select {
+  background:#ff0000;
+}
+.select {
+  position: relative;
+  display: flex;
+  width: 10em;
+  height: 2.5em;
+  line-height: 2.5;
+  overflow: hidden;
+  border-radius: .25em;
+}
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 1em;
+  cursor:pointer;
+  border-left: 1px #fff solid;
+  pointer-events:none;
+  transition:.25s all ease;
+}
