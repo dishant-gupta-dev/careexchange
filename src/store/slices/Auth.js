@@ -1,4 +1,4 @@
-import { api } from '../../utlis/api.utlis';
+import { api } from '../../utlis/admin/api.utlis';
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setMessage } from "./Message";
 import ApiService from "../../core/services/ApiService";

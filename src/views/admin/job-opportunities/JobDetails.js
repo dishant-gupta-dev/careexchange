@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Face1 from "../../../assets/images/face1.jpg";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { api } from "../../../utlis/api.utlis";
+import { api } from "../../../utlis/admin/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import { decode, encode } from "base-64";
 import moment from "moment";
-import NoImage from "../../../assets/images/no-image.jpg";
-import { routes } from "../../../utlis/routes.utlis";
+import NoImage from "../../../assets/admin/images/no-image.jpg";
+import { routes } from "../../../utlis/admin/routes.utlis";
 import { status } from "../../../utlis/common.utlis";
 import { Modal, ModalBody } from "react-bootstrap";
 import toast from "react-hot-toast";

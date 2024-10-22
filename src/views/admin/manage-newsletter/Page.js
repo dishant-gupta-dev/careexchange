@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { api } from "../../../utlis/api.utlis";
-import { routes } from "../../../utlis/routes.utlis";
+import { api } from "../../../utlis/admin/api.utlis";
+import { routes } from "../../../utlis/admin/routes.utlis";
 import ApiService from "../../../core/services/ApiService";
 import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -214,16 +214,18 @@ const Page = () => {
 
   const handleChangeStatus = async (e, id, status_number) => {
     setLoading(true);
-    let data = {
+    let data = JSON.stringify({
       status: status_number === "2" ? 1 : 2,
-    };
+    });
     const response = await ApiService.putAPIWithAccessToken(
       api.newsletterChangeStatus + `${id}`,
       data
     );
-    if (response.data.headers.success === 1) {
-      toast.success("Status changed!");
+    if (response.data.status && response.data.statusCode === 200) {
+      toast.success(response.data.message);
       getNewsletterList(api.newsletterList + `?page=${pageNum}&limit=${LIMIT}`);
+    } else {
+      toast.error(response.data.message);
     }
     setLoading(false);
   };

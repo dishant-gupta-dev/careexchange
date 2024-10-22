@@ -1,0 +1,19 @@
+.care-title-header{display: flex;align-items: center;justify-content: space-between;margin-bottom: 10px;}
+.heading-title{font-size: 20px;font-weight: 600;margin: 0;padding: 0;color:var(--black);}
+
+.subscription-card {padding: 2rem;box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 24px; position: relative; background: var(--darkblue); border-radius: 10px; border-bottom:3px solid var(--green); }
+.planname-text {background: #F1F1F1; font-size: 16px;display: inline-block; padding: 5px 20px; border-radius: 5px; color: var(--darkblue); font-weight: 600; margin-bottom: 10px; }
+.subscription-info{margin-bottom: 1rem;}
+.subscription-info p {font-size: 16px; font-weight: 300; color: var(--white); margin: 0; padding: 0; }
+
+.subscription-price-info {border-top: 2px solid #778695; border-bottom: 2px solid #778695; padding: 1rem 0; margin-bottom: 1rem; position: relative; }
+.plan-price-text {font-size: 60px; font-weight: 600; color: var(--white); margin: 0; padding: 0; line-height: 70px; }
+.plan-persave-content {display: flex; align-items: center; gap: 20px; }
+.plan-save-text {background: var(--green); font-size: 14px; display: inline-block; padding: 5px 20px; border-radius: 5px; color: var(--white); font-weight: 600; }
+.plan-per-text {font-size: 14px; font-weight: 600; color: var(--white); margin: 0; padding: 0; }
+
+.plan-point-list ul {list-style: none; margin: 0 0 1rem 0; padding: 0; }
+.plan-point-list ul li{font-size: 14px; font-weight: 300; color: var(--white); display:flex; gap:10px; align-items: center; line-height: 24px; margin-bottom: 5px;}
+.plan-action{margin-bottom: 5px;}
+.plan-action a {outline: none; width: 100%; padding: 8px 40px; display: inline-block; color: #fff; font-size: 14px; font-weight: 600; border-radius: 5px; border: none; background: var(--blue); box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05); text-align: center; }
+.subscription-point-info p {font-size: 14px;text-align: center; font-weight: 400; color: var(--white); margin: 0; padding: 0; }

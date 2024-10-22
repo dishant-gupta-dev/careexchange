@@ -1,0 +1,58 @@
+.care-title-header{display: flex;align-items: center;justify-content: space-between;margin-bottom: 10px;}
+.heading-title{font-size: 20px;font-weight: 600;margin: 0;padding: 0;color:var(--black);}
+
+.care-card {background: var(--white); position: relative; border-radius: 10px; box-shadow: 0 8px 13px rgb(0 0 0 / 5%); margin-bottom:1rem; }
+.care-card-head{position: relative; align-items: center; border-radius: 10px 10px  0 0; background: var(--white);box-shadow: 0 4px 13px rgb(0 0 0 / 5%); display: flex;justify-content: space-between; padding:5px 10px;}
+.care-action a {color: var(--white); background: var(--blue); box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12); padding: 8px 14px; display: inline-block; border-radius: 5px; font-size: 14px; font-weight: 600;}
+.care-status {font-size: 14px; font-weight: 600; padding: 10px 0; color: var(--black); }
+.care-status span {color: var(--green); }
+.care-id {font-size: 14px; font-weight: 600; padding: 10px 0; color: var(--black); }
+.care-id span {color: var(--green); }
+
+.care-card-body{padding: 10px;}
+
+.title-text {font-size: 18px; margin: 0 0 5px 0; padding: 0; color: var(--black); font-weight: 600; }
+.date-text {font-size: 14px; margin: 0; padding: 5px 20px; color: var(--white); font-weight: 600; background: var(--blue); display: inline-block; border-radius: 5px; margin-bottom: 1rem; }
+.care-point-box {display: flex; gap: 10px;  }
+.care-point-text h4 {font-size: 14px; margin: 0; padding: 0; color: var(--black); font-weight: 600; }
+.care-point-text p {font-size: 14px; margin: 0; padding: 0; color: var(--gray); }
+
+.care-day-Weekly-info{display: flex; justify-content: space-between;}
+.care-day-item {color: var(--white); background: var(--green); box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12); display: inline-block; width: 40px; text-align: center; line-height: 40px; border-radius: 5px; font-size: 18px; font-weight: 600; }
+
+.care-tag-text {font-size: 14px; margin: 0; padding: 8px 20px; color: var(--white);box-shadow: 0 8px 13px rgb(0 0 0 / 5%); font-weight: 600; background: var(--green); display: inline-block; border-radius: 5px; margin-bottom: 1rem; }
+
+
+.care-card-foot{position: relative;border-radius:0 0 10px 10px; background: var(--white);box-shadow: 0 -4px 13px rgb(0 0 0 / 5%); display: flex;justify-content: space-between; padding:5px 10px;}
+.care-user-info{display: flex; align-items: center; gap: 10px;}
+.care-user-image{position: relative; width: 40px; height: 40px;border-radius: 50%;overflow: hidden;}
+.care-user-image img{width: 100%; height: 100%; object-fit: cover;}
+.care-user-image-2 img.img1{    width: 40px; height: 40px;border: 1px solid #fff; border-radius: 50px;}
+.care-user-image-2 img.img2{    width: 40px; height: 40px;margin-left: -32px; border: 1px solid #fff; border-radius: 50px;}
+.care-user-image-2 img.img3{    width: 40px; height: 40px; margin-left: -32px;border: 1px solid #fff; border-radius: 50px;}
+
+.care-user-text{flex: 1;}
+.care-user-name {font-size: 16px; font-weight: 600; color: var(--black); }
+.care-user-text p {font-size: 14px;line-height: normal;color: var(--gray); margin:0; }
+
+.submitted-date {font-size: 14px; font-weight: 600; padding: 0px 0; color: var(--black); }
+.submitted-date span {color: var(--green); }
+
+.Confirmed-Provider{font-size: 14px;line-height: normal;color: var(--gray); margin:0; }
+
+.care-user-info-list{display: flex; gap: 20px;}
+.Exp-text {font-size: 14px; line-height: normal; color: var(--gray); margin: 0; display:flex; gap:5px; align-items:center; }
+.rating-text {font-size: 14px; line-height: normal; color: var(--gray); margin: 0; display:flex; gap:5px; align-items:center}
+.rate-text {font-size: 14px; line-height: normal; color: var(--gray); margin: 0; display:flex; gap:5px; align-items:center}
+
+
+.calendar-card {
+    background: var(--white);
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 8px 13px rgb(0 0 0 / 5%);
+    margin-bottom: 1rem;
+}
+.calendar-card img {
+    width: 100%;
+}

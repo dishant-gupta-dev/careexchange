@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { api } from "../../../utlis/api.utlis";
-import { routes } from "../../../utlis/routes.utlis";
+import { api } from "../../../utlis/admin/api.utlis";
+import { routes } from "../../../utlis/admin/routes.utlis";
 import ApiService from "../../../core/services/ApiService";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-datepicker";

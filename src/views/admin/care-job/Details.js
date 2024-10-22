@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { api } from "../../../utlis/api.utlis";
+import { api } from "../../../utlis/admin/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import { decode } from "base-64";
 import { status } from "../../../utlis/common.utlis";
 import moment from "moment";
 import { encode } from "base-64";
-import NoImage from "../../../assets/images/no-image.jpg";
-import { routes } from "../../../utlis/routes.utlis";
+import NoImage from "../../../assets/admin/images/no-image.jpg";
+import { routes } from "../../../utlis/admin/routes.utlis";
 
 const Details = () => {
   const navigate = useNavigate();

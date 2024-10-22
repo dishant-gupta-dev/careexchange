@@ -1,8 +1,8 @@
 import React from "react";
-import { routes } from "../../utlis/routes.utlis";
+import { routes } from "../../utlis/admin/routes.utlis";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import Face1 from "../../assets/images/face1.jpg";
+import Face1 from "../../assets/admin/images/face1.jpg";
 
 const Sidebar = () => {
   const location = useLocation();

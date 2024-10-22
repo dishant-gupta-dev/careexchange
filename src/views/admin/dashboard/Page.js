@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Circle from "../../../assets/images/circle.svg";
-import Icuser from "../../../assets/images/icuser.png";
-import ActiveJob from "../../../assets/images/activejobs.png";
-import PendingRequest from "../../../assets/images/pendingrequest.png";
-import TotalEarning from "../../../assets/images/totalearning.png";
-import SubsPlan from "../../../assets/images/subscriptionplan.png";
-import NoImage from "../../../assets/images/no-image.jpg";
+import Circle from "../../../assets/admin/images/circle.svg";
+import Icuser from "../../../assets/admin/images/icuser.png";
+import ActiveJob from "../../../assets/admin/images/activejobs.png";
+import PendingRequest from "../../../assets/admin/images/pendingrequest.png";
+import TotalEarning from "../../../assets/admin/images/totalearning.png";
+import SubsPlan from "../../../assets/admin/images/subscriptionplan.png";
+import NoImage from "../../../assets/admin/images/no-image.jpg";
 import BarChart from "./BarChart";
 import { Link, useNavigate } from "react-router-dom";
-import { routes } from "../../../utlis/routes.utlis";
-import { api } from "../../../utlis/api.utlis";
+import { routes } from "../../../utlis/admin/routes.utlis";
+import { api } from "../../../utlis/admin/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
 import moment from "moment";
@@ -206,7 +206,7 @@ const Page = () => {
                   <div className="card">
                     <div className="card bg-card-payment-1 card-img-holder text-dark position-relative">
                       <div className="card-body">
-                        <h6 className="font-weight-normal mb-4">Active Jobs</h6>
+                        <h6 className="font-weight-normal">Active Jobs</h6>
                         <div className="d-flex justify-content-between align-items-center">
                           <h2 className="mb-0">
                             <Link to={routes.careJob}>{dashboard.totalActiveJobsCount ?? 0}</Link>
@@ -224,7 +224,7 @@ const Page = () => {
                   <div className="card">
                     <div className="card bg-card-payment-1 card-img-holder text-dark">
                       <div className="card-body">
-                        <h6 className="font-weight-normal mb-4">
+                        <h6 className="font-weight-normal">
                           Pending Requests
                         </h6>
                         <div className="d-flex justify-content-between align-items-center">

@@ -1,6 +1,6 @@
 import React from "react";
 import LoginForm from "./LoginForm.js";
-import Logo from "../../../assets/images/logo.svg";
+import Logo from "../../../assets/admin/images/logo.svg";
 
 const Page = () => {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import Face1 from "../../../assets/images/face1.jpg";
+import Face1 from "../../../assets/admin/images/face1.jpg";
 
 const Details = () => {
   return (

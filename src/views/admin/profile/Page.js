@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { api } from "../../../utlis/api.utlis";
+import { api } from "../../../utlis/admin/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
-import NoImage from "../../../assets/images/no-image.jpg";
+import NoImage from "../../../assets/admin/images/no-image.jpg";
 import moment from "moment";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
