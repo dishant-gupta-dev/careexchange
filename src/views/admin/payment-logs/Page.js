@@ -1,8 +1,8 @@
 import React from "react";
-import SubsPlan from "../../../assets/images/subscriptionplan.png"
-import Status6 from "../../../assets/images/imgstatus6.svg"
-import Status4 from "../../../assets/images/imgstatus4.svg"
-import Icplan from "../../../assets/images/icplan.png"
+import SubsPlan from "../../../assets/admin/images/subscriptionplan.png"
+import Status6 from "../../../assets/admin/images/imgstatus6.svg"
+import Status4 from "../../../assets/admin/images/imgstatus4.svg"
+import Icplan from "../../../assets/admin/images/icplan.png"
 
 const Page = () => {
   return (

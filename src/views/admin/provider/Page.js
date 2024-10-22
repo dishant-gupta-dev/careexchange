@@ -1,14 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { api } from "../../../utlis/api.utlis";
-import { routes } from "../../../utlis/routes.utlis";
+import { api } from "../../../utlis/admin/api.utlis";
+import { routes } from "../../../utlis/admin/routes.utlis";
 import ApiService from "../../../core/services/ApiService";
 import { Link, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../layouts/loader/Loader";
-import NoImage from "../../../assets/images/no-image.jpg";
+import NoImage from "../../../assets/admin/images/no-image.jpg";
 import { encode } from "base-64";
 import { totalPageCalculator, LIMIT } from "../../../utlis/common.utlis";
 

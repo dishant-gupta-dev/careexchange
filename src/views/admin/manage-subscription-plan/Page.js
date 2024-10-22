@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { api } from "../../../utlis/api.utlis";
+import { api } from "../../../utlis/admin/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../layouts/loader/Loader";
@@ -9,7 +9,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { Modal, ModalBody, ModalHeader } from "react-bootstrap";
-import NoData from "../../../assets/images/no-data-found.svg";
+import NoData from "../../../assets/admin/images/no-data-found.svg";
 import { Link } from "react-router-dom";
 
 const Page = () => {

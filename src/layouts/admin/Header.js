@@ -9,13 +9,13 @@ import {
   DropdownToggle,
   Nav,
 } from "reactstrap";
-import LogoSvg from "../../assets/images/logo.svg";
-import LogoMini from "../../assets/images/logomini.svg";
-import Face1 from "../../assets/images/face1.jpg";
-import { routes } from "../../utlis/routes.utlis";
-import { api } from "../../utlis/api.utlis";
+import LogoSvg from "../../assets/admin/images/logo.svg";
+import LogoMini from "../../assets/admin/images/logomini.svg";
+import Face1 from "../../assets/admin/images/face1.jpg";
+import { routes } from "../../utlis/admin/routes.utlis";
+import { api } from "../../utlis/admin/api.utlis";
 import ApiService from "../../core/services/ApiService";
-import NoImage from "../../assets/images/no-image.jpg";
+import NoImage from "../../assets/admin/images/no-image.jpg";
 
 const Header = (props) => {
   const navigate = useNavigate();

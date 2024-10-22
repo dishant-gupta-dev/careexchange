@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Calender from "../../../assets/images/whcalendar.svg";
-import NoData from "../../../assets/images/no-data-found.svg";
-import NoImage from "../../../assets/images/no-image.jpg";
-import { api } from "../../../utlis/api.utlis";
+import Calender from "../../../assets/admin/images/whcalendar.svg";
+import NoData from "../../../assets/admin/images/no-data-found.svg";
+import NoImage from "../../../assets/admin/images/no-image.jpg";
+import { api } from "../../../utlis/admin/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
@@ -15,7 +15,7 @@ import { Modal, ModalBody, ModalHeader } from "react-bootstrap";
 import { status, totalPageCalculator, adsLIMIT } from "../../../utlis/common.utlis";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { routes } from "../../../utlis/routes.utlis";
+import { routes } from "../../../utlis/admin/routes.utlis";
 import Select from "react-select";
 import { encode } from "base-64";
 

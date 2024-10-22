@@ -1,5 +1,5 @@
 import React from "react";
-import Curve from "../../assets/images/curvelogo.svg";
+import Curve from "../../assets/admin/images/curvelogo.svg";
 
 const Loader = () => {
   return (

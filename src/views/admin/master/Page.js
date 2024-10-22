@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import NoImage from "../../../assets/images/no-image.jpg";
-import NoData from "../../../assets/images/no-data-found.svg";
-import { api } from "../../../utlis/api.utlis";
+import NoImage from "../../../assets/admin/images/no-image.jpg";
+import NoData from "../../../assets/admin/images/no-data-found.svg";
+import { api } from "../../../utlis/admin/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";

@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import ActiveJob from "../../../assets/images/activejobs.png";
-import PendingRequest from "../../../assets/images/pendingrequest.png";
+import ActiveJob from "../../../assets/admin/images/activejobs.png";
+import PendingRequest from "../../../assets/admin/images/pendingrequest.png";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { api } from "../../../utlis/api.utlis";
+import { api } from "../../../utlis/admin/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import { decode, encode } from "base-64";
-import Calender from "../../../assets/images/whcalendar.svg";
-import NoImage from "../../../assets/images/no-image.jpg";
-import NoData from "../../../assets/images/no-data-found.svg";
+import Calender from "../../../assets/admin/images/whcalendar.svg";
+import NoImage from "../../../assets/admin/images/no-image.jpg";
+import NoData from "../../../assets/admin/images/no-data-found.svg";
 import moment from "moment";
 import { status } from "../../../utlis/common.utlis";
 import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
-import { routes } from "../../../utlis/routes.utlis";
+import { routes } from "../../../utlis/admin/routes.utlis";
 import { Modal, ModalBody } from "react-bootstrap";
 import toast from "react-hot-toast";
 

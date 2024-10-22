@@ -3,7 +3,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes as ReactRoutes, Route, Navigate, Outlet } from "react-router-dom";
 import AuthRoutes from "./AuthRoutes";
 import AdminRoutes from "./AdminRoutes";
-import { routes } from '../utlis/routes.utlis';
+import { routes } from '../utlis/admin/routes.utlis';
+import UserRoutes from './UserRoutes';
 
 
 const AdminRoute = ({ redirectPath = routes.login }) => {
@@ -42,6 +43,18 @@ const Routes = (props) => {
                         );
                     })}
                 </Route>
+
+                {UserRoutes.map((authRoute, index) => {
+                    return (
+                        <Route element={<authRoute.layout />} key={index}>
+                            <Route
+                                path={authRoute.path}
+                                exact={authRoute.exact}
+                                element={<authRoute.component />}
+                            />
+                        </Route>
+                    );
+                })}
 
             </ReactRoutes>
         </Router>

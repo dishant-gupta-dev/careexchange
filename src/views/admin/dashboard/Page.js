@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Circle from "../../../assets/images/circle.svg";
-import Icuser from "../../../assets/images/icuser.png";
-import ActiveJob from "../../../assets/images/activejobs.png";
-import PendingRequest from "../../../assets/images/pendingrequest.png";
-import TotalEarning from "../../../assets/images/totalearning.png";
-import SubsPlan from "../../../assets/images/subscriptionplan.png";
-import NoImage from "../../../assets/images/no-image.jpg";
+import Circle from "../../../assets/admin/images/circle.svg";
+import Icuser from "../../../assets/admin/images/icuser.png";
+import ActiveJob from "../../../assets/admin/images/activejobs.png";
+import PendingRequest from "../../../assets/admin/images/pendingrequest.png";
+import TotalEarning from "../../../assets/admin/images/totalearning.png";
+import SubsPlan from "../../../assets/admin/images/subscriptionplan.png";
+import NoImage from "../../../assets/admin/images/no-image.jpg";
 import BarChart from "./BarChart";
 import { Link, useNavigate } from "react-router-dom";
-import { routes } from "../../../utlis/routes.utlis";
-import { api } from "../../../utlis/api.utlis";
+import { routes } from "../../../utlis/admin/routes.utlis";
+import { api } from "../../../utlis/admin/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
 import moment from "moment";
@@ -66,29 +66,14 @@ const Page = () => {
             <div className="col-md-4">
               <div className="card-overview">
                 <div className="card-overview-image">
-                    <img src={Icuser} alt="" height={80} />
+                  <img src={Icuser} alt="" height={80} />
                 </div>
                 <div className="card-overview-content">
-                  <h4>
-                    Total Registered Users
-                    
-                  </h4>
-                  <h2><Link to={routes.userManagement}>{dashboard.totalUserCount ?? 0}</Link></h2>
-                </div>
-              </div>
-            </div>
-
-
-            <div className="col-md-4">
-              <div className="card-overview">
-                <div className="card-overview-image">
-                <img src={Icuser} alt="" height={80} />
-                </div>
-                <div className="card-overview-content">
-                 
-                  <h4>Total Registered Care Provider</h4>
+                  <h4>Total Registered Users</h4>
                   <h2>
-                    <Link to={routes.provider}>{dashboard.totalCareProviderCount ?? 0}</Link>
+                    <Link to={routes.userManagement}>
+                      {dashboard.totalUserCount ?? 0}
+                    </Link>
                   </h2>
                 </div>
               </div>
@@ -97,14 +82,31 @@ const Page = () => {
             <div className="col-md-4">
               <div className="card-overview">
                 <div className="card-overview-image">
-                  <img  src={Icuser} alt="" height={80} />
+                  <img src={Icuser} alt="" height={80} />
                 </div>
                 <div className="card-overview-content">
-                  <h4>
-                    Total Registered Care Staff
-                    
-                  </h4>
-                  <h2><Link to={routes.jobOpportunities}>{dashboard.totalCareStaffCount ?? 0}</Link></h2>
+                  <h4>Total Registered Care Provider</h4>
+                  <h2>
+                    <Link to={routes.provider}>
+                      {dashboard.totalCareProviderCount ?? 0}
+                    </Link>
+                  </h2>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-md-4">
+              <div className="card-overview">
+                <div className="card-overview-image">
+                  <img src={Icuser} alt="" height={80} />
+                </div>
+                <div className="card-overview-content">
+                  <h4>Total Registered Care Staff</h4>
+                  <h2>
+                    <Link to={routes.jobOpportunities}>
+                      {dashboard.totalCareStaffCount ?? 0}
+                    </Link>
+                  </h2>
                 </div>
               </div>
             </div>
@@ -153,7 +155,9 @@ const Page = () => {
                                 <td>{ele.request_status ?? "NA"}</td>
                                 <td>
                                   {" "}
-                                  {moment(ele.start_date).format("MM-DD-yyyy")}{" "}
+                                  {moment(ele.start_date).format(
+                                    "MM-DD-yyyy"
+                                  )}{" "}
                                 </td>
                                 <td>
                                   {ele.start_time} -{ele.end_time}
@@ -179,7 +183,10 @@ const Page = () => {
                                       ele.id
                                     )}`}
                                   >
-                                    <label style={{cursor: "pointer"}} className="badge badge-gradient-success">
+                                    <label
+                                      style={{ cursor: "pointer" }}
+                                      className="badge badge-gradient-success"
+                                    >
                                       <i className="fa fa-eye"></i>
                                     </label>
                                   </Link>
@@ -208,194 +215,227 @@ const Page = () => {
                       <div className="activejbs-card-content">
                         <h6>Active Jobs</h6>
                         <h2>
-                          <Link to={routes.careJob}>{dashboard.totalActiveJobsCount ?? 0}</Link>
+                          <Link to={routes.careJob}>
+                            {dashboard.totalActiveJobsCount ?? 0}
+                          </Link>
                         </h2>
                       </div>
                       <div className="activejbs-card-image">
-                          <img src={ActiveJob} alt="" height={60} />
+                        <img src={ActiveJob} alt="" height={60} />
                       </div>
-                    </div>
-                  </div>
-
-
-                  <div className="col-md-12">
-                    <div className="activejbs-card">
-                      <div className="activejbs-card-content">
-                        <h6>Pending Requests</h6>
-                        <h2>
-                          <Link to={routes.careJob}>{dashboard.totalPendingJobsCount ?? 0}</Link>
-                        </h2>
-                      </div>
-                      <div className="activejbs-card-image">
-                          <img src={PendingRequest} alt="" height={60} />
-                      </div>
-                    </div>
-                  </div>
-
-                 
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="advertisement-section">
-          <div className="care-title-header">
-              <h2 className="heading-title">Payments</h2>
-              <div className="search-filter wd30">
-              </div>
-          </div>
-          <div className="payments-content">
-            <div className="row">
-              <div className="col-md-5">
-                <div className="payments-overview">
-                  <div className="payments-overview-image">
-                    <img src={TotalEarning} alt="" height={40} />
-                  </div>
-                  <div className="payments-overview-content">
-                    <h6>Total Earning</h6>
-                    <h2 className="mb-0">$ 1795.00 </h2>
-                    <h6 className="card-text">Mar, 2024</h6>
-                  </div>   
-                </div>
-              </div>
-              <div className="col-md-7">
-                <div className="barchartcard">
-                  <BarChart />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        
-
-        <div className="advertisement-section">
-          <div className="care-title-header">
-              <h2 className="heading-title">Care Network</h2>
-              <div className="search-filter wd30">
-                <button
-                      type="button"
-                      className="btn-gr"
-                      onClick={() => navigate(routes.jobOpportunities)}
-                    >
-                      View All
-                    </button>         
-              </div>
-          </div>
-          <div className="requests-table-card">
-            <div className="table-responsive">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th> Name </th>
-                        <th> Job ID </th>
-                        <th> Salary </th>
-                        <th> Work Experience </th>
-                        <th> View Details </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {dashboard.careNetwork.length !== 0 ? (
-                        dashboard.careNetwork.map((ele, indx) => {
-                          return (
-                            <tr key={indx}>
-                              <td>{ele.title ?? "NA"}</td>
-                              <td> {ele.job_id ?? "NA"} </td>
-                              <td>{ele.pay_range ?? "NA"}/Annually</td>
-                              <td>{ele.working_expirence ?? "NA"}</td>
-                              <td>
-                                <Link
-                                  to={`${routes.jobOpportunityDetail}/${encode(
-                                    ele.id
-                                  )}`}
-                                >
-                                  <label style={{cursor: "pointer"}} className="badge badge-gradient-success">
-                                    <i className="fa fa-eye"></i>
-                                  </label>
-                                </Link>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      ) : (
-                        <tr className="text-center">
-                          <td colSpan="5">
-                            <div>
-                              <p>No record found</p>
+                      <div className="col-md-3 col-lg-3">
+                        <div className="row">
+                          <div className="col-md-12 mt-4">
+                            <div className="card">
+                              <div className="card bg-card-payment-1 card-img-holder text-dark position-relative">
+                                <div className="card-body">
+                                  <h6 className="font-weight-normal">
+                                    Active Jobs
+                                  </h6>
+                                  <div className="d-flex justify-content-between align-items-center">
+                                    <h2 className="mb-0">
+                                      <Link to={routes.careJob}>
+                                        {dashboard.totalActiveJobsCount ?? 0}
+                                      </Link>
+                                    </h2>
+                                    <div className="active-jobs-img">
+                                      <img src={ActiveJob} alt="" height={60} />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-          </div>
-        </div>
 
-       
-
-        <div className="advertisement-section">
-          <div className="care-title-header">
-              <h2 className="heading-title">Advertisement</h2>
-              <div className="search-filter wd30">
-                 <button
-                    type="button"
-                    className="btn-gr"
-                    onClick={() => navigate(routes.advertisement)}
-                  >
-                    View All
-                  </button>          
-              </div>
-          </div>
-                 
-          <div className="row g-2">
-            {dashboard.AdvertisementList.length !== 0
-              ? dashboard.AdvertisementList.map((ele, indx) => {
-                  return (
-                    <div key={indx} className="col-md-4">
-                      <div className="advertisement-card">
-                        <div className="advertisement-user-image">
-                            {ele.image === null ||
-                              ele.image === "" ||
-                              ele.image === undefined ? (
-                                <img
-                                  src={NoImage}
-                                  className="mb-2 mw-100 w-100 rounded"
-                                  alt="image"
-                                  height={190}
-                                  width={250}
-                                  style={{
-                                    objectFit: "cover",
-                                    objectPosition: "center",
-                                  }}
-                                />
-                              ) : (
-                                <img
-                                  src={ele.image}
-                                  height={190}
-                                  width={250}
-                                  className="mb-2 mw-100 w-100 rounded"
-                                  alt="image"
-                                  style={{
-                                    objectFit: "cover",
-                                    objectPosition: "center",
-                                  }}
-                                />
-                              )}
-                        </div>
-                        <div className="advertisement-content">
-                            <h4>{ele.title ?? "NA"}</h4>
-                            <Link
-                                to={routes.advertisementDetails+`/${encode(ele.id)}`}
-                                className="viewmorebtn"
-                              >View More</Link>
+                            <div className="col-md-12">
+                              <div className="activejbs-card">
+                                <div className="activejbs-card-content">
+                                  <h6>Pending Requests</h6>
+                                  <h2>
+                                    <Link to={routes.careJob}>
+                                      {dashboard.totalPendingJobsCount ?? 0}
+                                    </Link>
+                                  </h2>
+                                </div>
+                                <div className="activejbs-card-image">
+                                  <img
+                                    src={PendingRequest}
+                                    alt=""
+                                    height={60}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  );
-                })
-              : "No advertisement found"}
+                  </div>
+
+                  <div className="advertisement-section">
+                    <div className="care-title-header">
+                      <h2 className="heading-title">Payments</h2>
+                      <div className="search-filter wd30"></div>
+                    </div>
+                    <div className="payments-content">
+                      <div className="row">
+                        <div className="col-md-5">
+                          <div className="payments-overview">
+                            <div className="payments-overview-image">
+                              <img src={TotalEarning} alt="" height={40} />
+                            </div>
+                            <div className="payments-overview-content">
+                              <h6>Total Earning</h6>
+                              <h2 className="mb-0">$ 1795.00 </h2>
+                              <h6 className="card-text">Mar, 2024</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-7">
+                          <div className="barchartcard">
+                            <BarChart />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="advertisement-section">
+                    <div className="care-title-header">
+                      <h2 className="heading-title">Care Network</h2>
+                      <div className="search-filter wd30">
+                        <button
+                          type="button"
+                          className="btn-gr"
+                          onClick={() => navigate(routes.jobOpportunities)}
+                        >
+                          View All
+                        </button>
+                      </div>
+                    </div>
+                    <div className="requests-table-card">
+                      <div className="table-responsive">
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th> Name </th>
+                              <th> Job ID </th>
+                              <th> Salary </th>
+                              <th> Work Experience </th>
+                              <th> View Details </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {dashboard.careNetwork.length !== 0 ? (
+                              dashboard.careNetwork.map((ele, indx) => {
+                                return (
+                                  <tr key={indx}>
+                                    <td>{ele.title ?? "NA"}</td>
+                                    <td> {ele.job_id ?? "NA"} </td>
+                                    <td>{ele.pay_range ?? "NA"}/Annually</td>
+                                    <td>{ele.working_expirence ?? "NA"}</td>
+                                    <td>
+                                      <Link
+                                        to={`${
+                                          routes.jobOpportunityDetail
+                                        }/${encode(ele.id)}`}
+                                      >
+                                        <label
+                                          style={{ cursor: "pointer" }}
+                                          className="badge badge-gradient-success"
+                                        >
+                                          <i className="fa fa-eye"></i>
+                                        </label>
+                                      </Link>
+                                    </td>
+                                  </tr>
+                                );
+                              })
+                            ) : (
+                              <tr className="text-center">
+                                <td colSpan="5">
+                                  <div>
+                                    <p>No record found</p>
+                                  </div>
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="advertisement-section">
+                    <div className="care-title-header">
+                      <h2 className="heading-title">Advertisement</h2>
+                      <div className="search-filter wd30">
+                        <button
+                          type="button"
+                          className="btn-gr"
+                          onClick={() => navigate(routes.advertisement)}
+                        >
+                          View All
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="row g-2">
+                      {dashboard.AdvertisementList.length !== 0
+                        ? dashboard.AdvertisementList.map((ele, indx) => {
+                            return (
+                              <div key={indx} className="col-md-4">
+                                <div className="advertisement-card">
+                                  <div className="advertisement-user-image">
+                                    {ele.image === null ||
+                                    ele.image === "" ||
+                                    ele.image === undefined ? (
+                                      <img
+                                        src={NoImage}
+                                        className="mb-2 mw-100 w-100 rounded"
+                                        alt="image"
+                                        height={190}
+                                        width={250}
+                                        style={{
+                                          objectFit: "cover",
+                                          objectPosition: "center",
+                                        }}
+                                      />
+                                    ) : (
+                                      <img
+                                        src={ele.image}
+                                        height={190}
+                                        width={250}
+                                        className="mb-2 mw-100 w-100 rounded"
+                                        alt="image"
+                                        style={{
+                                          objectFit: "cover",
+                                          objectPosition: "center",
+                                        }}
+                                      />
+                                    )}
+                                  </div>
+                                  <div className="advertisement-content">
+                                    <h4>{ele.title ?? "NA"}</h4>
+                                    <Link
+                                      to={
+                                        routes.advertisementDetails +
+                                        `/${encode(ele.id)}`
+                                      }
+                                      className="viewmorebtn"
+                                    >
+                                      View More
+                                    </Link>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })
+                        : "No advertisement found"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
