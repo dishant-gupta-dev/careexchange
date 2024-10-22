@@ -87,7 +87,7 @@ const LoginForm = () => {
           <div className="mt-3 d-grid gap-2">
             <button
               type="submit"
-              className="btn btn-primary-login btn-lg font-weight-medium"
+              className="auth-form-btn"
             >
               LOGIN
             </button>

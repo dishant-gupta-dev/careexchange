@@ -1,28 +1,35 @@
 import React from "react";
 import LoginForm from "./LoginForm.js";
 import Logo from "../../../assets/images/logo.svg";
+import authbg from "../../../assets/images/authbg.jpg";
 
 const Page = () => {
   return (
     <>
-      <div className="container-scroller">
-        <div className="container-fluid page-body-wrapper full-page-wrapper">
-          <div className="content-wrapper-login d-flex align-items-center auth">
-            <div className="row flex-grow">
-              <div className="col-lg-4 mx-auto">
-                <div className="auth-form-light text-left p-5 border-black">
-                  <div className="brand-logo text-center">
-                    <img src={Logo} alt="project-img" width={150} />
-                  </div>
-                  {/* <h4>Hello! let's get started</h4>
-                  <h6 className="font-weight-light">Sign in to continue.</h6> */}
-                  <LoginForm />
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="auth-section auth-height">
+        <div className="auth-bg-video">
+            <img src={authbg} alt="project-img"  />
         </div>
-      </div>
+        <div className="auth-content-card">
+            <div className="container">
+                  <div className="row justify-content-center align-items-center">
+                      <div className="col-md-12">
+                          <div className="auth-card-content">
+                            <div className="auth-form">
+                                <div className="brand-logo text-center">
+                                  <img src={Logo} alt="project-img" width={250} />
+                                </div>
+                                {/* <h4>Hello! let's get started</h4>
+                                <h6 className="font-weight-light">Sign in to continue.</h6> */}
+                                <LoginForm />
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      
     </>
   );
 };

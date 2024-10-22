@@ -1,21 +1,4 @@
 @charset "UTF-8";
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-:root {
-    --darkblue:#1d364e;
-    --blue:#276E91;
-    --sky:#66c2f9;
-    --green:#45B14A;
-    --orange:#F19A3A;
-    --gray:#959FA6;
-    --red:#ba4831;
-    --lightgray:#8F93A0;
-    --white:#ffffff;
-    --body:#FCFCFC;
-    --black:#132A3A;
-    --border:#d1d1d1;
-}
-
 /*-------------------------------------------------------------------
   ===== Table of Contents =====
 
@@ -8459,13 +8442,13 @@
 
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
   line-height: var(--bs-body-line-height);
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
-  background-color: var(--body);
+  background-color: var(--bs-body-bg);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -10133,7 +10116,7 @@ progress {
   border-color: var(--bs-table-border-color);
 }
 
-.table tbody tr{border: 1px solid var(--border);}
+.table tbody tr{border: 1px dashed #bfc1df;}
 
 .table > :not(caption) > * > * {
   padding: 0.5rem 0.5rem;
@@ -10147,8 +10130,8 @@ progress {
 }
 .table > thead {
     vertical-align: bottom;
-    background:var(--border);
-    border: 1px solid var(--border);
+    background: #e8e8fb;
+    border: 1px solid #cdcdf2;
 }
 
 .table-group-divider {
@@ -14016,11 +13999,32 @@ input:focus {
   outline: none;
 }
 
-
+/* Fonts */
+@font-face {
+  font-family: "ubuntu-light";
+  src: url("../fonts/Ubuntu/Ubuntu-Light.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/Ubuntu/Ubuntu-Light.woff2") format("woff2"), url("../fonts/Ubuntu/Ubuntu-Light.woff") format("woff"), url("../fonts/Ubuntu/Ubuntu-Light.ttf") format("truetype");
+}
+@font-face {
+  font-family: "ubuntu-regular";
+  src: url("../fonts/Ubuntu/Ubuntu-Regular.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/Ubuntu/Ubuntu-Regular.woff2") format("woff2"), url("../fonts/Ubuntu/Ubuntu-Regular.woff") format("woff"), url("../fonts/Ubuntu/Ubuntu-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "ubuntu-medium";
+  src: url("../fonts/Ubuntu/Ubuntu-Medium.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/Ubuntu/Ubuntu-Medium.woff2") format("woff2"), url("../fonts/Ubuntu/Ubuntu-Medium.woff") format("woff"), url("../fonts/Ubuntu/Ubuntu-Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "ubuntu-bold";
+  src: url("../fonts/Ubuntu/Ubuntu-Bold.eot"); /* IE9 Compat Modes */
+  src: url("../fonts/Ubuntu/Ubuntu-Bold.woff2") format("woff2"), url("../fonts/Ubuntu/Ubuntu-Bold.woff") format("woff"), url("../fonts/Ubuntu/Ubuntu-Bold.ttf") format("truetype");
+}
 
 /* Typography */
 body {
   font-size: 1rem;
+  font-family: "ubuntu-regular", sans-serif !important;
   font-weight: initial;
   line-height: normal;
   -webkit-font-smoothing: antialiased;
@@ -14038,7 +14042,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-
+  font-family: "ubuntu-medium", sans-serif;
 }
 
 p {
@@ -14254,7 +14258,7 @@ pre {
 code {
   padding: 5px;
   color: #fe7c96;
-
+  font-family: "ubuntu-light", sans-serif;
   font-size: 0.875rem;
   border-radius: 4px;
 }
@@ -14312,7 +14316,7 @@ code {
   -webkit-transition: all 0.25s ease;
   -ms-transition: all 0.25s ease;
   font-size: calc(0.875rem - 0.05rem);
-
+  font-family: "ubuntu-regular", sans-serif;
 }
 .footer a {
   color: #000;
@@ -14454,12 +14458,15 @@ code {
 }
 
 .font-weight-light {
+  font-family: "ubuntu-light", sans-serif;
 }
 
 .font-weight-bold {
+  font-family: "ubuntu-bold", sans-serif;
 }
 
 .font-weight-normal {
+  font-family: "ubuntu-regular", sans-serif;
 }
 
 .font-weight-medium {
@@ -14895,7 +14902,7 @@ code {
 }
 .card-revenue-table .revenue-item .revenue-amount p {
   font-size: 1.25rem;
-
+  font-family: "roboto", sans-serif;
   font-weight: 600;
   text-align: right;
 }
@@ -14910,7 +14917,7 @@ code {
 }
 .card-revenue .highlight-text {
   font-size: 1.875rem;
-
+  font-family: "roboto", sans-serif;
   font-weight: 500;
 }
 .card-revenue .badge {
@@ -15185,7 +15192,7 @@ code {
 
 
 .badge-gradient-success {
-    background:var(--green);
+    background: linear-gradient(to right, #61F892, #B0EE97);
     color: #ffffff;
     padding: 6px 8px;
     border-radius: 6px;
@@ -15265,20 +15272,203 @@ code {
   /* background: url("../../images/auth/lockscreen-bg.jpg"); */
   background-size: cover;
 }
-.auth-card-content {border-radius: 15px; padding: 2rem; position: relative; background-color: rgb(29 54 78); overflow: hidden; }
+/*.auth .lock-profile-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 100%;
+}
+.auth .auth-form-dark {
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+}
+.auth .auth-form-dark .form-control, .auth .auth-form-dark .select2-container--default .select2-selection--single, .select2-container--default .auth .auth-form-dark .select2-selection--single, .auth .auth-form-dark .select2-container--default .select2-selection--single .select2-search__field, .select2-container--default .select2-selection--single .auth .auth-form-dark .select2-search__field, .auth .auth-form-dark .typeahead,
+.auth .auth-form-dark .tt-query,
+.auth .auth-form-dark .tt-hint,
+.auth .auth-form-dark .form-select {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+.auth .auth-form-dark .form-control:-ms-input-placeholder, .auth .auth-form-dark .select2-container--default .select2-selection--single:-ms-input-placeholder, .select2-container--default .auth .auth-form-dark .select2-selection--single:-ms-input-placeholder, .auth .auth-form-dark .select2-container--default .select2-selection--single .select2-search__field:-ms-input-placeholder, .select2-container--default .select2-selection--single .auth .auth-form-dark .select2-search__field:-ms-input-placeholder, .auth .auth-form-dark .typeahead:-ms-input-placeholder,
+.auth .auth-form-dark .tt-query:-ms-input-placeholder,
+.auth .auth-form-dark .tt-hint:-ms-input-placeholder,
+.auth .auth-form-dark .form-select:-ms-input-placeholder {
+  color: #ffffff;
+}
+.auth .auth-form-dark .form-control:-moz-placeholder, .auth .auth-form-dark .select2-container--default .select2-selection--single:-moz-placeholder, .select2-container--default .auth .auth-form-dark .select2-selection--single:-moz-placeholder, .auth .auth-form-dark .select2-container--default .select2-selection--single .select2-search__field:-moz-placeholder, .select2-container--default .select2-selection--single .auth .auth-form-dark .select2-search__field:-moz-placeholder, .auth .auth-form-dark .typeahead:-moz-placeholder,
+.auth .auth-form-dark .tt-query:-moz-placeholder,
+.auth .auth-form-dark .tt-hint:-moz-placeholder,
+.auth .auth-form-dark .form-select:-moz-placeholder {
+  color: #ffffff;
+}
+.auth .auth-form-dark .form-control::-moz-placeholder, .auth .auth-form-dark .select2-container--default .select2-selection--single::-moz-placeholder, .select2-container--default .auth .auth-form-dark .select2-selection--single::-moz-placeholder, .auth .auth-form-dark .select2-container--default .select2-selection--single .select2-search__field::-moz-placeholder, .select2-container--default .select2-selection--single .auth .auth-form-dark .select2-search__field::-moz-placeholder, .auth .auth-form-dark .typeahead::-moz-placeholder,
+.auth .auth-form-dark .tt-query::-moz-placeholder,
+.auth .auth-form-dark .tt-hint::-moz-placeholder,
+.auth .auth-form-dark .form-select::-moz-placeholder {
+  color: #ffffff;
+}
+.auth .auth-form-dark .form-control::-webkit-input-placeholder, .auth .auth-form-dark .select2-container--default .select2-selection--single::-webkit-input-placeholder, .select2-container--default .auth .auth-form-dark .select2-selection--single::-webkit-input-placeholder, .auth .auth-form-dark .select2-container--default .select2-selection--single .select2-search__field::-webkit-input-placeholder, .select2-container--default .select2-selection--single .auth .auth-form-dark .select2-search__field::-webkit-input-placeholder, .auth .auth-form-dark .typeahead::-webkit-input-placeholder,
+.auth .auth-form-dark .tt-query::-webkit-input-placeholder,
+.auth .auth-form-dark .tt-hint::-webkit-input-placeholder,
+.auth .auth-form-dark .form-select::-webkit-input-placeholder {
+  color: #ffffff;
+}
+.auth .auth-form-light {
+  background: #ffffff;
+}
+.auth .auth-form-light select {
+  color: #c9c8c8;
+}
+.auth .auth-form-light .input-group .form-control:focus, .auth .auth-form-light .input-group .select2-container--default .select2-selection--single:focus, .select2-container--default .auth .auth-form-light .input-group .select2-selection--single:focus, .auth .auth-form-light .input-group .select2-container--default .select2-selection--single .select2-search__field:focus, .select2-container--default .select2-selection--single .auth .auth-form-light .input-group .select2-search__field:focus, .auth .auth-form-light .input-group .typeahead:focus,
+.auth .auth-form-light .input-group .tt-query:focus,
+.auth .auth-form-light .input-group .tt-hint:focus, .auth .auth-form-light .input-group .form-control:active, .auth .auth-form-light .input-group .select2-container--default .select2-selection--single:active, .select2-container--default .auth .auth-form-light .input-group .select2-selection--single:active, .auth .auth-form-light .input-group .select2-container--default .select2-selection--single .select2-search__field:active, .select2-container--default .select2-selection--single .auth .auth-form-light .input-group .select2-search__field:active, .auth .auth-form-light .input-group .typeahead:active,
+.auth .auth-form-light .input-group .tt-query:active,
+.auth .auth-form-light .input-group .tt-hint:active {
+  border-color: #ebedf2;
+}
+.auth .auth-form-transparent {
+  background: transparent;
+}
+.auth .auth-form-transparent .form-control, .auth .auth-form-transparent .select2-container--default .select2-selection--single, .select2-container--default .auth .auth-form-transparent .select2-selection--single, .auth .auth-form-transparent .select2-container--default .select2-selection--single .select2-search__field, .select2-container--default .select2-selection--single .auth .auth-form-transparent .select2-search__field, .auth .auth-form-transparent .typeahead,
+.auth .auth-form-transparent .tt-query,
+.auth .auth-form-transparent .tt-hint,
+.auth .auth-form-transparent .input-group-text {
+  border-color: #c3bdbd;
+}
+.auth .auth-form-transparent .form-control:focus, .auth .auth-form-transparent .select2-container--default .select2-selection--single:focus, .select2-container--default .auth .auth-form-transparent .select2-selection--single:focus, .auth .auth-form-transparent .select2-container--default .select2-selection--single .select2-search__field:focus, .select2-container--default .select2-selection--single .auth .auth-form-transparent .select2-search__field:focus, .auth .auth-form-transparent .typeahead:focus,
+.auth .auth-form-transparent .tt-query:focus,
+.auth .auth-form-transparent .tt-hint:focus, .auth .auth-form-transparent .form-control:active, .auth .auth-form-transparent .select2-container--default .select2-selection--single:active, .select2-container--default .auth .auth-form-transparent .select2-selection--single:active, .auth .auth-form-transparent .select2-container--default .select2-selection--single .select2-search__field:active, .select2-container--default .select2-selection--single .auth .auth-form-transparent .select2-search__field:active, .auth .auth-form-transparent .typeahead:active,
+.auth .auth-form-transparent .tt-query:active,
+.auth .auth-form-transparent .tt-hint:active,
+.auth .auth-form-transparent .input-group-text:focus,
+.auth .auth-form-transparent .input-group-text:active {
+  border-color: #c3bdbd;
+}
+.auth .auth-form-transparent .input-group-append .input-group-text,
+.auth .auth-form-transparent .input-group-prepend .input-group-text {
+  padding: 1.1rem 0.75rem;
+}
+.auth .auth-form-transparent select {
+  outline-color: #c3bdbd;
+}
+.auth.auth-img-bg {
+  padding: 0;
+}
+@media (min-width: 768px) {
+  .auth.auth-img-bg .auth-form-transparent {
+    width: 55%;
+    margin: auto;
+  }
+}
+.auth .brand-logo {
+  margin-bottom: 2rem;
+}
+.auth .brand-logo img {
+  width: 150px;
+}
+.auth form .form-group {
+  margin-bottom: 1.5rem;
+}
+.auth form .form-group label {
+  font-size: 0.8125rem;
+}
+.auth form .form-group .form-control, .auth form .form-group .select2-container--default .select2-selection--single, .select2-container--default .auth form .form-group .select2-selection--single, .auth form .form-group .select2-container--default .select2-selection--single .select2-search__field, .select2-container--default .select2-selection--single .auth form .form-group .select2-search__field, .auth form .form-group .typeahead,
+.auth form .form-group .tt-query,
+.auth form .form-group .tt-hint {
+  background: transparent;
+  border-radius: 0;
+  font-size: 0.9375rem;
+}
+.auth form .form-group .form-select {
+  border-radius: 0;
+  padding: 15.04px 31.04px;
+  font-size: 0.9375rem;
+}
+.auth form .auth-form-btn {
+  height: 50px;
+  line-height: 1.5;
+}
+.auth form .auth-link {
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+.auth form .auth-link:hover {
+  color: initial;
+}
+.auth.multi-step-login {
+  height: 100%;
+  min-height: 100vh;
+  background: #f2edf3;
+}
+.auth.multi-step-login .step-form {
+  position: relative;
+  width: auto;
+  margin: 50px auto;
+  text-align: center;
+}
+.auth.multi-step-login .step-form .step-progress {
+  padding-left: 0;
+  list-style-type: none;
+  margin-bottom: 30px;
+  overflow: hidden;
+  counter-reset: step;
+  display: flex;
+  justify-content: space-around;
+}
+.auth.multi-step-login .step-form .step-progress li {
+  position: relative;
+  list-style-type: none;
+  color: #343a40;
+  font-size: 18px;
+  font-weight: 500;
+  float: left;
+}
+.auth.multi-step-login .step-form .step-progress li:before {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  content: counter(step);
+  counter-increment: step;
+  width: 30px;
+  height: 30px;
+  line-height: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #343a40;
+  background: #e7dee9;
+  border-radius: 100px;
+  margin: 0 auto 5px auto;
+}
+.auth.multi-step-login .step-form .step-progress li.active:before {
+  background: #1bcfb4;
+  color: #fff;
+}
+.auth.multi-step-login .step-form .step-progress li:first-child:after {
+  content: none;
+}
+.auth.multi-step-login .step-form fieldset {
+  background: #fff;
+  border-radius: 10px;
+  padding: 30px 30px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+}
+.auth.multi-step-login .step-form fieldset:not(:first-of-type) {
+  display: none;
+}
+.auth.multi-step-login .step-form .form-control, .auth.multi-step-login .step-form .select2-container--default .select2-selection--single, .select2-container--default .auth.multi-step-login .step-form .select2-selection--single, .auth.multi-step-login .step-form .select2-container--default .select2-selection--single .select2-search__field, .select2-container--default .select2-selection--single .auth.multi-step-login .step-form .select2-search__field, .auth.multi-step-login .step-form .typeahead,
+.auth.multi-step-login .step-form .tt-query,
+.auth.multi-step-login .step-form .tt-hint {
+  height: 40px;
+  border-radius: 4px;
+}
+@media (max-width: 576px) {
+  .auth.multi-step-login .step-form {
+    width: 100%;
+  }
+}*/
 
-.auth-form .form-group {margin-bottom: 1rem; }
-.auth-form .form-group label {color: #fff; font-size: 14px; font-weight: 600; }
-.auth-form input.form-control {background:var(--white);border-radius: 5px;font-size: 13px;border: 1px solid var(--white);font-weight: 400;height: auto;padding: 0.94rem 0.94rem;outline: 0;width: 100%;display: inline-block;color:var(--gray);box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05);}
-.auth-form input.form-control:focus {border: 1px solid var(--green); }
- button.auth-form-btn {outline: none;    width: 100%; padding:18px 40px; display: inline-block; color: #fff; font-size: 14px; font-weight: 600; border-radius: 5px; border: none; background: var(--green, #7BC043); box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05); }
-.note-msg-info {background: #fbfbfb; display: inline-block; font-size: 12px; border-radius: 10px; line-height: 20px; color: #455A64; position: relative; padding: 8px 8px 8px 45px; }
-.note-msg-info i {position: absolute; left: 8px; font-size: 30px; top: 14px; }
-.forgotpsw-text a {font-size: 14px; color: var(--green, #7BC043); }
-.auth-bg-video img {width: 100vw; height: 100vh; object-fit: cover; position: fixed; left: 0; right: 0; top: 0; bottom: 0; z-index: -1; }
-.auth-height{height: 100vh;}
-.auth-section {display: flex; align-items: center; height: 100vh; width:100% }
-.auth-content-card {width: 32%; margin: auto; }
 
 
 /* Cards */
@@ -15296,16 +15486,18 @@ code {
   color: #343a40;
   margin-bottom: 0.75rem;
   text-transform: capitalize;
-
+  font-family: "ubuntu-medium", sans-serif;
   font-size: 1.125rem;
 }
 .card .card-subtitle {
+  font-family: "ubuntu-regular", sans-serif;
   margin-top: 0.625rem;
   margin-bottom: 0.625rem;
 }
 .card .card-description {
   color: #76838f;
   margin-bottom: 1.5rem;
+  font-family: "ubuntu-regular", sans-serif;
 }
 .card.card-outline-success {
   border: 1px solid #1bcfb4;
@@ -15731,6 +15923,7 @@ code {
 .tt-hint, .select2-container--default .select2-selection--single .select2-search__field, .select2-container--default .select2-selection--single,
 .form-select {
   border: 1px solid #ebedf2;
+  font-family: "ubuntu-regular", sans-serif;
   background-color: #ffffff;
 }
 
@@ -15765,6 +15958,7 @@ code {
 .table thead th {
   border-top: 0;
 /*  border-bottom-width: 1px;*/
+  font-family: "ubuntu-medium", sans-serif;
   font-weight: initial;
 }
 .table thead th i {
@@ -15805,6 +15999,7 @@ code {
 
 /* Navbar */
 .navbar {
+  font-family: "ubuntu-light", sans-serif;
   background: #fff;
   transition: background 0.25s ease;
   -webkit-transition: background 0.25s ease;
@@ -15819,7 +16014,7 @@ code {
   -webkit-transition: width 0.25s ease, background 0.25s ease;
   -moz-transition: width 0.25s ease, background 0.25s ease;
   -ms-transition: width 0.25s ease, background 0.25s ease;
-      background: var(--darkblue);
+  background: #fff;
   width: 260px;
   height: 70px;
 }
@@ -15863,7 +16058,6 @@ code {
   -moz-transition: width 0.25s ease;
   -ms-transition: width 0.25s ease;
   color: #9c9fa6;
-  box-shadow: 0px 4px 35px 0px rgb(0 0 0 / 10%);
   padding-left: 24px;
   padding-right: 24px;
   width: calc(100% - 260px);
@@ -15915,18 +16109,22 @@ code {
 .navbar .navbar-menu-wrapper .search-field .input-group input:-ms-input-placeholder {
   font-size: 0.875rem;
   color: #9c9fa6;
+  font-family: "ubuntu-light", sans-serif;
 }
 .navbar .navbar-menu-wrapper .search-field .input-group input:-moz-placeholder {
   font-size: 0.875rem;
   color: #9c9fa6;
+  font-family: "ubuntu-light", sans-serif;
 }
 .navbar .navbar-menu-wrapper .search-field .input-group input::-moz-placeholder {
   font-size: 0.875rem;
   color: #9c9fa6;
+  font-family: "ubuntu-light", sans-serif;
 }
 .navbar .navbar-menu-wrapper .search-field .input-group input::-webkit-input-placeholder {
   font-size: 0.875rem;
   color: #9c9fa6;
+  font-family: "ubuntu-light", sans-serif;
 }
 .navbar .navbar-menu-wrapper .search-field .input-group i {
   font-size: 17px;
@@ -16153,7 +16351,8 @@ code {
 
 .sidebar {
   min-height: calc(100vh - 70px);
-  background: var(--darkblue);
+  background: #ffffff;
+  font-family: "ubuntu-regular", sans-serif;
   padding: 0;
   position: fixed;
   height: 100%;
@@ -16189,7 +16388,7 @@ code {
   align-items: center;
   white-space: nowrap;
   padding: 1.125rem 0 1.125rem 0;
-  color:var(--white);
+  color: #3e4b5b;
   -webkit-transition-duration: 0.45s;
   -moz-transition-duration: 0.45s;
   -o-transition-duration: 0.45s;
@@ -16204,7 +16403,7 @@ code {
   font-size: 1.125rem;
   line-height: 1;
   margin-left: auto;
-  color:var(--white);
+  color: rgba(187, 168, 191, 0.9607843137);
 }
 .rtl .sidebar .nav .nav-item .nav-link i.menu-icon {
   margin-left: 0;
@@ -16255,10 +16454,11 @@ code {
   content: "\f0140";
 }
 .sidebar .nav .nav-item.active {
-  background:var(--blue);
+  background: linear-gradient(to right, #292b56, #292b56);
 }
 .sidebar .nav .nav-item.active > .nav-link .menu-title {
   color: #fff;
+  font-family: "ubuntu-medium", sans-serif;
 }
 .sidebar .nav .nav-item.active > .nav-link i {
   color: #fff;
@@ -16312,7 +16512,7 @@ code {
   color: initial;
 }
 .sidebar .nav:not(.sub-menu) > .nav-item:hover:not(.nav-category):not(.nav-profile) > .nav-link {
-  color: var(--blue);
+  color: #29323d;
 }
 .sidebar .nav.sub-menu {
   margin-bottom: 20px;
@@ -16712,7 +16912,7 @@ code {
 }
 
 .content-wrapper {
-  background: var(--body);
+  background: #f8f8ff;
   padding: 2.75rem 2.25rem;
   width: 100%;
   -webkit-flex-grow: 1;
