@@ -146,7 +146,7 @@ const Page = () => {
       <div className="content-wrapper">
         <div className="page-header">
           <h3 className="page-title">Manage Subscription Plan</h3>
-          <div className="d-flex">
+          {/* <div className="d-flex">
             <button
               style={{ marginLeft: "20px" }}
               type="button"
@@ -155,7 +155,7 @@ const Page = () => {
             >
               Add New Plan
             </button>
-          </div>
+          </div> */}
         </div>
         <div className="">
           <div className="row mt-3">

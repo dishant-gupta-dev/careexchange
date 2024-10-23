@@ -465,7 +465,7 @@ const Page = () => {
                                 <div className="advertisement-content w-100">
                                   <div className="d-flex justify-content-between">
                                     <div className="care-status">
-                                      Ad Id: <span>{encode(ele.id)}</span>
+                                      Ad Id: <span>{ele.id}</span>
                                     </div>
 
                                     <div className="care-status">

@@ -37,4 +37,6 @@ exports.api = {
     sendText: `admin/newsletter/send-text`,
     sendNewEmail: `admin/newsletter/send/email`,
     sendNewText: `admin/newsletter/send/text`,
+    assessmentList: `admin/care/assessment/requests/in-Home`,
+    sendRequestProvider: `admin/send/request-to-provider`,
 };

@@ -18,6 +18,6 @@ exports.routes = {
     careAssessmentRequest: `/admin/care-assessment/care-provider-requests`,
     manageSubscriptionPlan: `/admin/manage-subscription-plan`,
     paymentLogs: `/admin/payment-logs`,
-    master: `/admin/master`,
+    master: `/admin/cms`,
     manageNewsletter: `/admin/manage-newsletter`,
 }

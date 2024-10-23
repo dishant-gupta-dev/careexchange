@@ -233,7 +233,7 @@ const Page = () => {
       {loading ? <Loader /> : null}
       <div className="content-wrapper">
         <div className="page-header">
-          <h3 className="page-title">Master</h3>
+          <h3 className="page-title">CMS</h3>
           <div className="d-flex">
             <button
               style={{ marginLeft: "20px" }}

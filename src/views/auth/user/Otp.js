@@ -17,7 +17,7 @@ const Otp = () => {
             <div className="auth-card">
               <div className="row">
                 <div className="col-md-6">
-                  <div className="auth-content1"></div>
+                  <div className="user-auth-content1"></div>
                 </div>
                 <div className="col-md-6 auth-form-info">
                   <div className="auth-form">

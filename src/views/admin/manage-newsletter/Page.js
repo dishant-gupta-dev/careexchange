@@ -1,22 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { api } from "../../../utlis/admin/api.utlis";
-import { routes } from "../../../utlis/admin/routes.utlis";
 import ApiService from "../../../core/services/ApiService";
 import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../layouts/loader/Loader";
-import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
+import { Modal, ModalBody, ModalHeader } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import {
-  totalPageCalculator,
-  LIMIT,
-  status,
-} from "../../../utlis/common.utlis";
+import { totalPageCalculator, LIMIT } from "../../../utlis/common.utlis";
 import toast from "react-hot-toast";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const Page = () => {
   const [selectAll, setSelectAll] = useState(false);
@@ -27,7 +24,11 @@ const Page = () => {
   const [sendNewText, setNewText] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [total, setTotal] = useState(0);
-  const [pageNum, setPageNum] = useState(1); 
+  const [fullContent, setFullContent] = useState("");
+  const [formError, setFormError] = useState(false);
+  const [fullContent1, setFullContent1] = useState("");
+  const [formError1, setFormError1] = useState(false);
+  const [pageNum, setPageNum] = useState(1);
   const [loading, setLoading] = useState(false);
 
   const handleItemChange = (id) => {
@@ -39,7 +40,6 @@ const Page = () => {
     setSelectAll(allSelected);
   };
 
-  // Handle "Select All" checkbox change
   const handleSelectAllChange = () => {
     const newSelectAll = !selectAll;
     setSelectAll(newSelectAll);
@@ -85,13 +85,17 @@ const Page = () => {
   });
 
   const sendMailUser = async (formValue) => {
+    if (fullContent.length === 0) {
+      setFormError(true);
+      return;
+    } else setFormError(false);
     setLoading(true);
     const form = new FormData();
     news.forEach((ele) => {
       if (ele.checked) form.append("subscriberIds[]", ele.id);
     });
     form.append("subject", formValue.subject);
-    form.append("bodyText", formValue.bodyText);
+    form.append("bodyText", fullContent);
     const response = await ApiService.postAPIWithAccessTokenMultiPart(
       api.sendMail,
       form
@@ -113,11 +117,15 @@ const Page = () => {
   };
 
   const sendNewMailUser = async (formValue) => {
+    if (fullContent1.length === 0) {
+      setFormError1(true);
+      return;
+    } else setFormError1(false);
     setLoading(true);
     const form = new FormData();
     form.append("email", formValue.email);
     form.append("subject", formValue.subject);
-    form.append("bodyText", formValue.bodyText);
+    form.append("bodyText", fullContent1);
     const response = await ApiService.postAPIWithAccessTokenMultiPart(
       api.sendNewEmail,
       form
@@ -183,7 +191,7 @@ const Page = () => {
   const getNewsletterList = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    // console.log("all users list => ", response.data);
+    // console.log("all newsletter list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       const newsData = [];
       for (const key in response.data.data.subscribers) {
@@ -277,7 +285,6 @@ const Page = () => {
                         onChange={(e) => handleFilter(e)}
                       >
                         <option value="">Select Status</option>
-                        <option value="0">Pending Newsletter</option>
                         <option value="1">Active Newsletter</option>
                         <option value="2">Inactive Newsletter</option>
                       </select>
@@ -473,7 +480,7 @@ const Page = () => {
                         setText(true);
                       }}
                     >
-                      Send Text Message
+                      Send Message
                     </button>
                     <button
                       type="button"
@@ -491,7 +498,7 @@ const Page = () => {
                         setNewText(true);
                       }}
                     >
-                      Create New Text Message
+                      Create New Message
                     </button>
                   </div>
                 </div>
@@ -506,11 +513,11 @@ const Page = () => {
         onHide={() => {
           setSendEmail(false);
         }}
-        className=""
+        className="modal-xl"
       >
         <div className="modal-content">
           <ModalHeader>
-            <h5 className="mb-0">Send Email</h5>
+            <h5 className="mb-0">Compose Email</h5>
           </ModalHeader>
           <ModalBody className="">
             <div className="add-items d-flex row">
@@ -522,11 +529,25 @@ const Page = () => {
               >
                 <Form>
                   <div className="form-group">
+                    <label htmlFor="" className="font-bold">
+                      To: &nbsp;
+                    </label>
+                    <span>
+                      {news.length !== 0
+                        ? news.map((ele, indx) => {
+                            return ele.checked ? (
+                              <span key={indx}>{ele.email_address}, </span>
+                            ) : null;
+                          })
+                        : "None"}
+                    </span>
+                  </div>
+                  <div className="form-group">
                     <Field
                       type="text"
                       className="form-control todo-list-input"
                       name="subject"
-                      placeholder="Enter Mail Subject"
+                      placeholder="Subject"
                     />
                     <ErrorMessage
                       name="subject"
@@ -535,18 +556,26 @@ const Page = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <Field
-                      as="textarea"
-                      type="text"
-                      className="form-control todo-list-input"
-                      name="bodyText"
-                      placeholder="Enter Message"
+                    <CKEditor
+                      editor={ClassicEditor}
+                      data=""
+                      onReady={(editor) => {}}
+                      onChange={(event, editor) => {
+                        const data = editor.getData();
+                        setFullContent(data);
+                      }}
+                      onBlur={(event, editor) => {
+                        fullContent.length === 0
+                          ? setFormError(true)
+                          : setFormError(false);
+                      }}
+                      onFocus={(event, editor) => {}}
                     />
-                    <ErrorMessage
-                      name="bodyText"
-                      component="div"
-                      className="alert alert-danger"
-                    />
+                    {formError && (
+                      <div className="alert alert-danger">
+                        Message is required
+                      </div>
+                    )}
                   </div>
                   <div className="form-group text-end">
                     <button
@@ -564,7 +593,7 @@ const Page = () => {
                       className="btn btn-gradient-primary me-2"
                       data-bs-dismiss="modal"
                     >
-                      Send Email
+                      Send
                     </button>
                   </div>
                 </Form>
@@ -579,11 +608,11 @@ const Page = () => {
         onHide={() => {
           setSendNewEmail(false);
         }}
-        className=""
+        className="modal-xl"
       >
         <div className="modal-content">
           <ModalHeader>
-            <h5 className="mb-0">Send New Email</h5>
+            <h5 className="mb-0">Compose Email</h5>
           </ModalHeader>
           <ModalBody className="">
             <div className="add-items d-flex row">
@@ -599,7 +628,7 @@ const Page = () => {
                       type="text"
                       className="form-control todo-list-input"
                       name="email"
-                      placeholder="Enter Mail"
+                      placeholder="To"
                     />
                     <ErrorMessage
                       name="email"
@@ -612,7 +641,7 @@ const Page = () => {
                       type="text"
                       className="form-control todo-list-input"
                       name="subject"
-                      placeholder="Enter Mail Subject"
+                      placeholder="Subject"
                     />
                     <ErrorMessage
                       name="subject"
@@ -621,18 +650,26 @@ const Page = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <Field
-                      as="textarea"
-                      type="text"
-                      className="form-control todo-list-input"
-                      name="bodyText"
-                      placeholder="Enter Message"
+                    <CKEditor
+                      editor={ClassicEditor}
+                      data=""
+                      onReady={(editor) => {}}
+                      onChange={(event, editor) => {
+                        const data = editor.getData();
+                        setFullContent1(data);
+                      }}
+                      onBlur={(event, editor) => {
+                        fullContent1.length === 0
+                          ? setFormError1(true)
+                          : setFormError1(false);
+                      }}
+                      onFocus={(event, editor) => {}}
                     />
-                    <ErrorMessage
-                      name="bodyText"
-                      component="div"
-                      className="alert alert-danger"
-                    />
+                    {formError1 && (
+                      <div className="alert alert-danger">
+                        Message is required
+                      </div>
+                    )}
                   </div>
                   <div className="form-group text-end">
                     <button
@@ -650,7 +687,7 @@ const Page = () => {
                       className="btn btn-gradient-primary me-2"
                       data-bs-dismiss="modal"
                     >
-                      Send Email
+                      Send
                     </button>
                   </div>
                 </Form>
@@ -680,6 +717,20 @@ const Page = () => {
                 onSubmit={sendTextMessage}
               >
                 <Form>
+                  <div className="form-group">
+                    <label htmlFor="" className="font-bold">
+                      To: &nbsp;
+                    </label>
+                    <span>
+                      {news.length !== 0
+                        ? news.map((ele, indx) => {
+                            return ele.checked ? (
+                              <span key={indx}>{ele.phone}, </span>
+                            ) : null;
+                          })
+                        : "None"}
+                    </span>
+                  </div>
                   <div className="form-group">
                     <Field
                       type="text"

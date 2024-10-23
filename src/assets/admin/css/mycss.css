@@ -108,6 +108,10 @@ input[type="text"][disabled]{
 .toggle__input:checked ~ .toggle__fill {background: #00ee57;}
 .toggle__input:checked ~ .toggle__fill::after {transform: translateX(24px); }
 
+.ck-editor__editable_inline{
+  height: 35vh !important;
+} 
+
 .select select {
   -webkit-appearance:none;
   -moz-appearance:none;

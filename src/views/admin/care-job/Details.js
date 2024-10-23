@@ -136,56 +136,7 @@ const Details = () => {
             </div>
           </div>
 
-          {details?.providers?.length !== 0
-            ? details?.providers?.map((ele, indx) => {
-                return (
-                  <div key={indx} className="col-md-4">
-                    <div className="card">
-                      <div className="card statistics-card-1 card-img-holder text-dark position-relative">
-                        <div className="card-body align-items-center d-flex">
-                          <div className="d-flex">
-                            <div className="">
-                              <div className="care-for-profile-img me-3">
-                                {ele.image === null ||
-                                ele.image === "" ||
-                                ele.image === undefined ? (
-                                  <img src={NoImage} alt="" />
-                                ) : (
-                                  <img
-                                    src={ele.image}
-                                    alt=""
-                                  />
-                                )}
-                              </div>
-                            </div>
-                            <div className="">
-                              <h6 className="text-capitalize">
-                                {ele.fullname}
-                              </h6>
-                              <button
-                                type="button"
-                                className="btn btn-view-profile"
-                                onClick={() =>
-                                  navigate(
-                                    `${routes.providerDetails}/${encode(
-                                      ele.provider_id
-                                    )}`
-                                  )
-                                }
-                              >
-                                View Profile
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            : null}
-
-          <div className="col-lg-12 mt-4">
+          <div className="col-lg-12">
             <div className="iq-card">
               <div className="iq-card-header d-flex justify-content-between">
                 <div className="iq-header-title">
@@ -220,7 +171,7 @@ const Details = () => {
                           {details?.address ?? "NA"}
                         </p>
                       </div>
-                      <div className="form-group col-md-4 mb-0">
+                      {/* <div className="form-group col-md-4 mb-0">
                         <label for="add1">Image </label>
                         <p>
                           {details?.image === null ||
@@ -255,13 +206,69 @@ const Details = () => {
                             />
                           )}
                         </p>
-                      </div>
+                      </div> */}
                     </div>
                   </form>
                 </div>
               </div>
             </div>
           </div>
+
+          {details?.providers?.length !== 0
+            ? details?.providers?.map((ele, indx) => {
+                return (
+                  <div className="col-md-12" key={indx}>
+                    <div className="card">
+                      <div className="card statistics-card-1 card-img-holder text-dark position-relative">
+                        <div className="card-body align-items-center d-flex">
+                          <div className="d-flex justify-content-between w-100">
+                            <div className="care-for-profile-img me-3 d-flex align-items-center">
+                              {ele.image === null ||
+                              ele.image === "" ||
+                              ele.image === undefined ? (
+                                <img src={NoImage} className="me-3" alt="" />
+                              ) : (
+                                <img src={ele.image} className="me-3" alt="" />
+                              )}
+                              <div className="">
+                                <h5 className="">{ele.fullname ?? "NA"}</h5>
+                                <p className="m-0">
+                                  <i className="mdi mdi-checkbox-multiple-marked-circle-outline"></i>{" "}
+                                  Confirmed Care-Provider
+                                </p>
+                              </div>
+                            </div>
+                            <div className="d-flex align-items-center">
+                              <div>
+                                <button
+                                  type="button"
+                                  className="btn btn-view-profile"
+                                  onClick={() =>
+                                    navigate(
+                                      `${routes.providerDetails}/${encode(
+                                        ele.provider_id
+                                      )}`
+                                    )
+                                  }
+                                >
+                                  View Care-Provider Profile
+                                </button>
+                                {/* <button
+                                  type="button"
+                                  className="btn btn-view-profile"
+                                >
+                                  View Job Detail
+                                </button> */}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            : null}
         </div>
       </div>
     </>

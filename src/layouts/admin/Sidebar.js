@@ -142,7 +142,7 @@ const Sidebar = () => {
             }
           >
             <Link className="nav-link" to={routes.master}>
-              <span className="menu-title">Master</span>
+              <span className="menu-title">CMS</span>
               <i className="mdi mdi-file-account-outline menu-icon"></i>
             </Link>
           </li>

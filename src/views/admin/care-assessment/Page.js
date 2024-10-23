@@ -1,27 +1,132 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import { api } from "../../../utlis/admin/api.utlis";
+import { routes } from "../../../utlis/admin/routes.utlis";
+import ApiService from "../../../core/services/ApiService";
+import { Link } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import moment from "moment";
+import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
+import Loader from "../../../layouts/loader/Loader";
+import { Modal, ModalBody } from "react-bootstrap";
+import {
+  totalPageCalculator,
+  LIMIT,
+} from "../../../utlis/common.utlis";
+import { encode } from "base-64";
+import toast from "react-hot-toast";
 
 const Page = () => {
+  const [selectAll, setSelectAll] = useState(false);
+  const [send, setSend] = useState(false);
+  const [categories, setCategory] = useState([]);
+  const [assessment, setAssessment] = useState([]);
+  const [startDate, setStartDate] = useState("");
+  const [total, setTotal] = useState(0);
+  const [pageNum, setPageNum] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const handleItemChange = (id) => {
+    const updatedItems = assessment.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+    setAssessment(updatedItems);
+    const allSelected = updatedItems.every((item) => item.checked);
+    setSelectAll(allSelected);
+  };
+
+  const handleSelectAllChange = () => {
+    const newSelectAll = !selectAll;
+    setSelectAll(newSelectAll);
+    const updatedItems = assessment.map((item) => ({
+      ...item,
+      checked: newSelectAll,
+    }));
+    setAssessment(updatedItems);
+  };
+
+  const sendRequest = async () => {
+    setLoading(true);
+    const request_id = [];
+    const user_id = [];
+    assessment.forEach((ele) => {
+      if (ele.checked) {
+        request_id.push(ele.id);
+        user_id.push(ele.userid);
+      }
+    });
+    const form = JSON.stringify({
+      request_id: request_id,
+      user_id: user_id,
+    });
+    const response = await ApiService.postAPIWithAccessToken(
+      api.sendRequestProvider,
+      form
+    );
+    setSend(false);
+    if (response.data.status) {
+      toast.success(response.data.message);
+      getAssessmentList(api.assessmentList + `?page=${pageNum}&limit=${LIMIT}`);
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
+  };
+
+  const getAssessmentList = async (api) => {
+    setLoading(true);
+    const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log("all assessment list => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      const assessmentData = [];
+      for (const key in response.data.data.homeCareAssessmentList) {
+        response.data.data.homeCareAssessmentList[key].checked = false;
+        const itemData = response.data.data.homeCareAssessmentList[key];
+        assessmentData.push(itemData);
+      }
+      setAssessment(assessmentData);
+      setTotal(response.data.data.total);
+    } else setAssessment([]);
+    setLoading(false);
+  };
+
+  const getCategoryList = async (api) => {
+    const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log("category list => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setCategory(response.data.data.categories);
+    } else setCategory([]);
+  };
+
+  const handleFilter = (e, date = null) => {
+    e.persist();
+    let name = "";
+    let status = "";
+    let categoryid = "";
+    if (e.target.name === "name") name = e.target.value;
+    if (e.target.name === "status") status = e.target.value;
+    if (e.target.name === "categoryid") categoryid = e.target.value;
+    if (date !== null && date != undefined && date !== "")
+      date = moment(date).format("yyyy-MM-DD");
+    else date = "";
+    getAssessmentList(
+      api.assessmentList +
+        `?page=${pageNum}&limit=${LIMIT}&search=${name}&date=${date}&status=${status}&categoryid=${categoryid}`
+    );
+  };
+
+  useEffect(() => {
+    getAssessmentList(api.assessmentList + `?page=${pageNum}&limit=${LIMIT}`);
+    getCategoryList(api.categoryList);
+    setSelectAll(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageNum]);
   return (
     <>
+      {loading ? <Loader /> : null}
       <div className="content-wrapper">
         <div className="page-header">
-          <h3 className="page-title">In-Home Care Assessment Requests</h3>
-          <div className="d-flex">
-            <div className="">
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search by User Name"
-                  aria-label="Username"
-                  aria-describedby="basic-addon1"
-                />
-                <div className="input-group-prepend">
-                  <i className="input-group-text border-0 mdi mdi-magnify"></i>
-                </div>
-              </div>
-            </div>
-          </div>
+          <h3 className="page-title">Care Assessment Requests</h3>
         </div>
         <div className="">
           <div className="row mt-3">
@@ -29,7 +134,7 @@ const Page = () => {
               <div className="card">
                 <div className="card-body">
                   <div className="row d-flex align-items-center">
-                    <div className="col-lg-2">
+                    {/* <div className="col-lg-2">
                       <div className="d-flex align-items-center btn-select-all">
                         <input
                           className="me-2"
@@ -39,98 +144,214 @@ const Page = () => {
                         />
                         <p className="mb-0">Select All</p>
                       </div>
+                    </div> */}
+                    <div className="col-lg-3">
+                      <div className="">
+                        <div className="input-group">
+                          <input
+                            type="text"
+                            name="name"
+                            className="form-control"
+                            placeholder="Search"
+                            aria-label="Username"
+                            aria-describedby="basic-addon1"
+                            onChange={(e) => handleFilter(e)}
+                          />
+                          <div className="input-group-prepend">
+                            <i className="input-group-text border-0 mdi mdi-magnify"></i>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="col-lg-4">
-                      <input
-                        type="date"
+                    <div className="col-lg-3 dropdown-select">
+                      <select
+                        className="form-select"
+                        name="categoryid"
+                        onChange={(e) => handleFilter(e)}
+                      >
+                        <option value="">Select Category</option>
+                        {categories.length !== 0
+                          ? categories.map((ele, indx) => {
+                              return (
+                                <option key={indx} value={ele.id}>
+                                  {ele.name ?? "NA"}
+                                </option>
+                              );
+                            })
+                          : null}
+                      </select>
+                    </div>
+                    <div className="col-lg-3 dropdown-select">
+                      <select
+                        className="form-select"
+                        name="status"
+                        onChange={(e) => handleFilter(e)}
+                      >
+                        <option value="">Select Status</option>
+                        <option value="1">Active Assessment</option>
+                        <option value="2">Inactive Assessment</option>
+                      </select>
+                    </div>
+                    <div className="col-lg-3">
+                      <DatePicker
+                        toggleCalendarOnIconClick
+                        showIcon
+                        dateFormat={"MM-dd-yyyy"}
+                        selected={startDate}
+                        onChange={(date, e) => {
+                          setStartDate(date);
+                          handleFilter(e, date);
+                        }}
                         className="form-control"
-                        id="exampleInputdate"
-                        defaultValue="2019-12-18"
+                        style={{ padding: "15px 40px" }}
+                        isClearable
+                        name="date"
+                        autoComplete="off"
+                        placeholderText="Select Date"
                       />
-                    </div>
-                    <div className="col-lg-3 dropdown-select">
-                      <select className="form-select">
-                        <option>Georgia</option>
-                        <option></option>
-                      </select>
-                    </div>
-                    <div className="col-lg-3 dropdown-select">
-                      <select className="form-select">
-                        <option>Senior Care</option>
-                        <option></option>
-                      </select>
                     </div>
                   </div>
                   <div className="table-responsive mt-4">
                     <table className="table">
                       <thead>
                         <tr>
-                          <th>Select</th>
+                          <th>
+                            <input
+                              className="me-2"
+                              type="checkbox"
+                              name="imgsel"
+                              checked={selectAll}
+                              onChange={handleSelectAllChange}
+                            />
+                            Select All
+                          </th>
                           <th>Name</th>
                           <th>Email ID</th>
                           <th>Phone Number</th>
+                          <th>Address</th>
                           <th>View Detail</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td scope="row">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td> Michal Jeff </td>
-                          <td>Johnsmith@gmail.com</td>
-                          <td>(817) 237-7205</td>
-                          <td>
-                            <label className="badge badge-gradient-success">
-                              {" "}
-                              <i className="fa fa-eye"></i>{" "}
-                            </label>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td scope="row">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td> Michal Jeff </td>
-                          <td>Johnsmith@gmail.com</td>
-                          <td>(817) 237-7205</td>
-                          <td>
-                            <label className="badge badge-gradient-success">
-                              {" "}
-                              <i className="fa fa-eye"></i>{" "}
-                            </label>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td scope="row">
-                            <input
-                              className="form-check-input"
-                              type="checkbox"
-                            />
-                          </td>
-                          <td> Michal Jeff </td>
-                          <td>Johnsmith@gmail.com</td>
-                          <td>(817) 237-7205</td>
-                          <td>
-                            <label className="badge badge-gradient-success">
-                              {" "}
-                              <i className="fa fa-eye"></i>{" "}
-                            </label>
-                          </td>
-                        </tr>
+                        {assessment.length !== 0 ? (
+                          assessment.map((ele, indx) => {
+                            return (
+                              <tr key={indx}>
+                                <td scope="row">
+                                  <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    checked={ele.checked}
+                                    onChange={() => handleItemChange(ele.id)}
+                                  />
+                                </td>
+                                <td className="text-capitalize">
+                                  {" "}
+                                  {ele.first_name ?? "NA"}{" "}
+                                </td>
+                                <td className="text-lowercase">
+                                  {" "}
+                                  {ele.email_id ?? "NA"}{" "}
+                                </td>
+                                <td> {ele.phone ?? "NA"} </td>
+                                <td> {ele.address ?? "NA"} </td>
+                                <td>
+                                  <Link
+                                    to={`${
+                                      routes.careAssessmentDetail
+                                    }/${encode(ele.id)}`}
+                                  >
+                                    <label
+                                      style={{ cursor: "pointer" }}
+                                      className="badge badge-gradient-success"
+                                    >
+                                      <i className="fa fa-eye"></i>
+                                    </label>
+                                  </Link>
+                                </td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <tr className="text-center">
+                            <td colSpan="6">
+                              <div>
+                                <p>No assessment found</p>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
+                    <div className="d-flex align-items-center justify-content-center mt-3">
+                      {assessment.length !== 0 ? (
+                        <div className="care-table-pagination">
+                          <ul className="care-pagination">
+                            {pageNum !== 1 && (
+                              <li
+                                className="disabled"
+                                id="example_previous"
+                                onClick={() => setPageNum(pageNum - 1)}
+                              >
+                                <Link
+                                  to=""
+                                  aria-controls="example"
+                                  data-dt-idx="0"
+                                  tabIndex="0"
+                                  className="page-link"
+                                >
+                                  Previous
+                                </Link>
+                              </li>
+                            )}
+
+                            {totalPageCalculator(total, LIMIT).length === 1
+                              ? null
+                              : totalPageCalculator(total, LIMIT).map(
+                                  (pageNo, indx) => {
+                                    return (
+                                      <li
+                                        className={
+                                          pageNo === pageNum ? "active" : ""
+                                        }
+                                        key={indx}
+                                        onClick={() => setPageNum(pageNo)}
+                                      >
+                                        <Link to="" className="page-link">
+                                          {pageNo}
+                                        </Link>
+                                      </li>
+                                    );
+                                  }
+                                )}
+
+                            {pageNum !== Math.ceil(total / LIMIT) && (
+                              <li
+                                className="next"
+                                id="example_next"
+                                onClick={() => setPageNum(pageNum + 1)}
+                              >
+                                <Link
+                                  to=""
+                                  aria-controls="example"
+                                  data-dt-idx="7"
+                                  tabIndex="0"
+                                  className="page-link"
+                                >
+                                  Next
+                                </Link>
+                              </li>
+                            )}
+                          </ul>
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
                   <div className="d-flex justify-content-end">
                     <button
                       type="button"
                       className="btn btn-gradient-primary mt-4"
+                      onClick={() => setSend(true)}
                     >
                       Send Request to Care Providers
                     </button>
@@ -141,6 +362,43 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={send}
+        onHide={() => {
+          setSend(false);
+        }}
+        className=""
+      >
+        <div className="modal-content">
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <h5 className="text-center">Are you sure</h5>
+              <p className="text-center">
+                You want to send request to care provider?
+              </p>
+              <div className="form-group text-center">
+                <button
+                  type="button"
+                  onClick={() => setSend(false)}
+                  className="btn btn-gradient-danger me-2"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-gradient-primary me-2"
+                  data-bs-dismiss="modal"
+                  onClick={() => sendRequest()}
+                >
+                  Yes! Send
+                </button>
+              </div>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
     </>
   );
 };
