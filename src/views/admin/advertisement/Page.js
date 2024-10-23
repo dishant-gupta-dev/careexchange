@@ -12,7 +12,11 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { Modal, ModalBody, ModalHeader } from "react-bootstrap";
-import { status, totalPageCalculator, adsLIMIT } from "../../../utlis/common.utlis";
+import {
+  status,
+  totalPageCalculator,
+  adsLIMIT,
+} from "../../../utlis/common.utlis";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { routes } from "../../../utlis/admin/routes.utlis";
@@ -307,12 +311,16 @@ const Page = () => {
   };
 
   const handleTag = (arr) => {
-    console.log("My array => ",arr);
-    const deleteTags = editTags.filter(({ value: id1 }) => !arr.some(({ value: id2 }) => id2 === id1));
+    console.log("My array => ", arr);
+    const deleteTags = editTags.filter(
+      ({ value: id1 }) => !arr.some(({ value: id2 }) => id2 === id1)
+    );
     setSelectedDelTag(deleteTags);
-    const tags = arr.filter(({ value: id1 }) => !editTags.some(({ value: id2 }) => id2 === id1));
+    const tags = arr.filter(
+      ({ value: id1 }) => !editTags.some(({ value: id2 }) => id2 === id1)
+    );
     setSelectedEditTag(tags);
-  }
+  };
 
   const handleImgChange = (e) => {
     if (!e.target.files[0]) {
@@ -326,7 +334,9 @@ const Page = () => {
   };
 
   useEffect(() => {
-    getAdvertisementList(api.advertisement + `?page=${pageNum}&limit=${adsLIMIT}`);
+    getAdvertisementList(
+      api.advertisement + `?page=${pageNum}&limit=${adsLIMIT}`
+    );
     getCategoryList(api.categoryList);
     getTagsList(api.tagsList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -336,302 +346,292 @@ const Page = () => {
     <>
       {loading ? <Loader /> : null}
       <div className="content-wrapper">
-        <div className="page-header">
-          <h3 className="page-title">Manage Advertisement</h3>
-          <div className="d-flex">
-            <button
-              style={{ marginLeft: "20px" }}
-              type="button"
-              className="btn btn-gradient-primary"
-              onClick={() => setAddAd({ status: true })}
-            >
-              Add New Advertisement
-            </button>
-          </div>
-        </div>
-        <div className="">
-          <div className="row mt-3">
-            <div className="col-12 grid-margin">
-              <div className="card">
-                <div className="card-body">
-                  <div className="row d-flex justify-content-between align-items-center">
-                    <div className="col-lg-2 dropdown-select">
-                      <div className="tabs-section"></div>
-                    </div>
-                    <div className="col-lg-4">
-                      <div className="">
-                        <div className="input-group">
-                          <input
-                            type="text"
-                            name="name"
-                            className="form-control"
-                            placeholder="Search"
-                            aria-label="Username"
-                            aria-describedby="basic-addon1"
-                            onChange={(e) => handleFilter(e)}
-                          />
-                          <div className="input-group-prepend">
-                            <i className="input-group-text border-0 mdi mdi-magnify"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-3">
-                      <DatePicker
-                        toggleCalendarOnIconClick
-                        showIcon
-                        dateFormat={"MM-dd-yyyy"}
-                        selected={date}
-                        onChange={(date, e) => {
-                          setDate(date);
-                          handleFilter(e, date);
-                        }}
-                        className="form-control"
-                        style={{ padding: "15px 40px" }}
-                        isClearable
-                        autoComplete="off"
-                        name="date"
-                        placeholderText="Select Date"
-                      />
-                    </div>
-                  </div>
-                  <div className="row mt-4 ">
-                    {advertisement.length !== 0 ? (
-                      advertisement.map((ele, indx) => {
-                        return (
-                          <div key={indx} className="col-md-12 mb-3">
-                            <div className="advertisement-card">
-                              <div className="care-card-head">
-                                <div className="care-id">
-                                  {ele.title ?? "NA"}
-                                </div>
+        <div className="care-title-header">
+          <h3 className="heading-title">Manage Advertisement</h3>
+          <div className="cc-search-filter">
+            <div className="row g-2">
+              <div className="col-md-4">
+                <div className="form-group">
+                  <button
+                    style={{ width: "100%" }}
+                    type="button"
+                    className="btn-gr"
+                    onClick={() => setAddAd({ status: true })}
+                  >
+                    Add New Advertisement
+                  </button>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="form-group search-form-group">
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-control"
+                    placeholder="Search"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
+                    onChange={(e) => handleFilter(e)}
+                  />
+                  <span className="search-icon">
+                    <i className="cc-input-group-text  mdi mdi-magnify"></i>
+                  </span>
+                </div>
+              </div>
 
-                                <div>
-                                  <Link
-                                    className="btn-bl edit-btn"
-                                    to=""
-                                    onClick={() => adsDetails(ele.id)}
-                                  >
-                                    Edit
-                                  </Link>
-                                  <Link
-                                    className="btn-bl delete-btn mx-2"
-                                    to=""
-                                    onClick={() =>
-                                      setDeleteAd({ status: true, id: ele.id })
-                                    }
-                                  >
-                                    Delete
-                                  </Link>
-                                  <Link
-                                    className="btn-bl"
-                                    to={
-                                      routes.advertisementDetails +
-                                      `/${encode(ele.id)}`
-                                    }
-                                  >
-                                    View Detail
-                                  </Link>
-                                </div>
-                              </div>
-                              <div className=" d-flex align-items-center px-3">
-                                <div className="advertisement-image">
-                                  {ele.image === null ||
-                                  ele.image === "" ||
-                                  ele.image === undefined ? (
-                                    <img
-                                      src={NoImage}
-                                      alt=""
-                                      height={100}
-                                      width={100}
-                                      style={{
-                                        objectFit: "cover",
-                                        objectPosition: "center",
-                                      }}
-                                    />
-                                  ) : (
-                                    <img
-                                      src={ele.image}
-                                      alt=""
-                                      height={100}
-                                      width={100}
-                                      style={{
-                                        objectFit: "cover",
-                                        objectPosition: "center",
-                                      }}
-                                    />
-                                  )}
-                                </div>
-                                <div className="advertisement-content w-100">
-                                  <div className="d-flex justify-content-between">
-                                    <div className="care-status">
-                                      Ad Id: <span>{encode(ele.id)}</span>
-                                    </div>
-
-                                    <div className="care-status">
-                                      Status: <span>{status(ele.status)}</span>
-                                    </div>
-                                  </div>
-
-                                  <div className="advertisement-tags d-flex mt-2">
-                                    {ele.category ? (
-                                      <p>{ele.category ?? "NA"}</p>
-                                    ) : null}
-                                    {ele.subcategory ? (
-                                      <p>{ele.subcategory ?? "NA"}</p>
-                                    ) : null}
-                                  </div>
-                                  <div className="date-text mt-2">
-                                    <img src={Calender} /> Posted on{" "}
-                                    {moment(ele.created_date).format(
-                                      "MM-DD-yyyy hh:mm A"
-                                    )}
-                                  </div>
-                                  <p>{ele.description ?? "NA"}</p>
-                                </div>
-                              </div>
-                              <div className="care-card-foot">
-                                <div className="care-user-info">
-                                  <div className="care-user-image">
-                                    {ele?.user?.image === null ||
-                                    ele?.user?.image === "" ||
-                                    ele?.user?.image === undefined ? (
-                                      <img
-                                        src={NoImage}
-                                        alt=""
-                                        height={40}
-                                        width={40}
-                                        style={{
-                                          objectFit: "cover",
-                                          objectPosition: "center",
-                                        }}
-                                      />
-                                    ) : (
-                                      <img
-                                        src={ele?.user?.image}
-                                        alt=""
-                                        height={40}
-                                        width={40}
-                                        style={{
-                                          objectFit: "cover",
-                                          objectPosition: "center",
-                                        }}
-                                      />
-                                    )}
-                                  </div>
-                                  <div className="care-user-text ms-2">
-                                    <div className="care-user-name text-capitalize">
-                                      {ele?.user?.fullname ?? "NA"}
-                                    </div>
-                                    <div className="Confirmed-Provider text-lowercase">
-                                      {ele?.user?.email ?? "NA"}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="care-action1">
-                                  {ele?.user?.user_type === null ||
-                                  ele?.user?.user_type === undefined ||
-                                  ele?.user?.user_type === "" ? null : ele?.user
-                                      ?.user_type == 4 ? null : ele?.user
-                                      ?.user_type == 2 ? (
-                                    <Link
-                                      className="btn-bl"
-                                      to={`${routes.providerDetails}/${encode(
-                                        ele?.user?.provider_id
-                                      )}`}
-                                    >
-                                      View Profile
-                                    </Link>
-                                  ) : (
-                                    <Link className="btn-bl" to="">
-                                      View Profile
-                                    </Link>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })
-                    ) : (
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          margin: "5% 0",
-                        }}
-                      >
-                        <img width={300} src={NoData} alt="" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="d-flex align-items-center justify-content-center mt-3">
-                    {advertisement.length !== 0 ? (
-                      <div className="care-table-pagination">
-                        <ul className="care-pagination">
-                          {pageNum !== 1 && (
-                            <li
-                              className="disabled"
-                              id="example_previous"
-                              onClick={() => setPageNum(pageNum - 1)}
-                            >
-                              <Link
-                                to=""
-                                aria-controls="example"
-                                data-dt-idx="0"
-                                tabIndex="0"
-                                className="page-link"
-                              >
-                                Previous
-                              </Link>
-                            </li>
-                          )}
-
-                          {totalPageCalculator(total, adsLIMIT).length === 1
-                            ? null
-                            : totalPageCalculator(total, adsLIMIT).map(
-                                (pageNo, indx) => {
-                                  return (
-                                    <li
-                                      className={
-                                        pageNo === pageNum ? "active" : ""
-                                      }
-                                      key={indx}
-                                      onClick={() => setPageNum(pageNo)}
-                                    >
-                                      <Link to="" className="page-link">
-                                        {pageNo}
-                                      </Link>
-                                    </li>
-                                  );
-                                }
-                              )}
-
-                          {pageNum !== Math.ceil(total / adsLIMIT) && (
-                            <li
-                              className="next"
-                              id="example_next"
-                              onClick={() => setPageNum(pageNum + 1)}
-                            >
-                              <Link
-                                to=""
-                                aria-controls="example"
-                                data-dt-idx="7"
-                                tabIndex="0"
-                                className="page-link"
-                              >
-                                Next
-                              </Link>
-                            </li>
-                          )}
-                        </ul>
-                      </div>
-                    ) : null}
-                  </div>
+              <div className="col-md-4">
+                <div className="form-group">
+                  <DatePicker
+                    toggleCalendarOnIconClick
+                    showIcon
+                    dateFormat={"MM-dd-yyyy"}
+                    selected={date}
+                    onChange={(date, e) => {
+                      setDate(date);
+                      handleFilter(e, date);
+                    }}
+                    className="DatePicker-control"
+                    style={{ padding: "15px 40px" }}
+                    isClearable
+                    autoComplete="off"
+                    name="date"
+                    placeholderText="Select Date"
+                  />
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="care-content-card">
+          <div className="row mt-4 ">
+            {advertisement.length !== 0 ? (
+              advertisement.map((ele, indx) => {
+                return (
+                  <div key={indx} className="col-md-12 mb-3">
+                    <div className="advertisement-card">
+                      <div className="care-card-head">
+                        <div className="care-id">{ele.title ?? "NA"}</div>
+
+                        <div>
+                          <Link
+                            className="btn-bl edit-btn"
+                            to=""
+                            onClick={() => adsDetails(ele.id)}
+                          >
+                            Edit
+                          </Link>
+                          <Link
+                            className="btn-bl delete-btn mx-2"
+                            to=""
+                            onClick={() =>
+                              setDeleteAd({ status: true, id: ele.id })
+                            }
+                          >
+                            Delete
+                          </Link>
+                          <Link
+                            className="btn-bl"
+                            to={
+                              routes.advertisementDetails + `/${encode(ele.id)}`
+                            }
+                          >
+                            View Detail
+                          </Link>
+                        </div>
+                      </div>
+                      <div className=" d-flex align-items-center px-3">
+                        <div className="advertisement-image">
+                          {ele.image === null ||
+                          ele.image === "" ||
+                          ele.image === undefined ? (
+                            <img
+                              src={NoImage}
+                              alt=""
+                              height={100}
+                              width={100}
+                              style={{
+                                objectFit: "cover",
+                                objectPosition: "center",
+                              }}
+                            />
+                          ) : (
+                            <img
+                              src={ele.image}
+                              alt=""
+                              height={100}
+                              width={100}
+                              style={{
+                                objectFit: "cover",
+                                objectPosition: "center",
+                              }}
+                            />
+                          )}
+                        </div>
+                        <div className="advertisement-content w-100">
+                          <div className="d-flex justify-content-between">
+                            <div className="care-status">
+                              Ad Id: <span>{encode(ele.id)}</span>
+                            </div>
+
+                            <div className="care-status">
+                              Status: <span>{status(ele.status)}</span>
+                            </div>
+                          </div>
+
+                          <div className="advertisement-tags d-flex mt-2">
+                            {ele.category ? (
+                              <p>{ele.category ?? "NA"}</p>
+                            ) : null}
+                            {ele.subcategory ? (
+                              <p>{ele.subcategory ?? "NA"}</p>
+                            ) : null}
+                          </div>
+                          <div className="date-text mt-2">
+                            <img src={Calender} /> Posted on{" "}
+                            {moment(ele.created_date).format(
+                              "MM-DD-yyyy hh:mm A"
+                            )}
+                          </div>
+                          <p>{ele.description ?? "NA"}</p>
+                        </div>
+                      </div>
+                      <div className="care-card-foot">
+                        <div className="care-user-info">
+                          <div className="care-user-image">
+                            {ele?.user?.image === null ||
+                            ele?.user?.image === "" ||
+                            ele?.user?.image === undefined ? (
+                              <img
+                                src={NoImage}
+                                alt=""
+                                height={40}
+                                width={40}
+                                style={{
+                                  objectFit: "cover",
+                                  objectPosition: "center",
+                                }}
+                              />
+                            ) : (
+                              <img
+                                src={ele?.user?.image}
+                                alt=""
+                                height={40}
+                                width={40}
+                                style={{
+                                  objectFit: "cover",
+                                  objectPosition: "center",
+                                }}
+                              />
+                            )}
+                          </div>
+                          <div className="care-user-text ms-2">
+                            <div className="care-user-name text-capitalize">
+                              {ele?.user?.fullname ?? "NA"}
+                            </div>
+                            <div className="Confirmed-Provider text-lowercase">
+                              {ele?.user?.email ?? "NA"}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="care-action1">
+                          {ele?.user?.user_type === null ||
+                          ele?.user?.user_type === undefined ||
+                          ele?.user?.user_type === "" ? null : ele?.user
+                              ?.user_type == 4 ? null : ele?.user?.user_type ==
+                            2 ? (
+                            <Link
+                              className="btn-bl"
+                              to={`${routes.providerDetails}/${encode(
+                                ele?.user?.provider_id
+                              )}`}
+                            >
+                              View Profile
+                            </Link>
+                          ) : (
+                            <Link className="btn-bl" to="">
+                              View Profile
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  margin: "5% 0",
+                }}
+              >
+                <img width={300} src={NoData} alt="" />
+              </div>
+            )}
+          </div>
+          <div className="d-flex align-items-center justify-content-center mt-3">
+            {advertisement.length !== 0 ? (
+              <div className="care-table-pagination">
+                <ul className="care-pagination">
+                  {pageNum !== 1 && (
+                    <li
+                      className="disabled"
+                      id="example_previous"
+                      onClick={() => setPageNum(pageNum - 1)}
+                    >
+                      <Link
+                        to=""
+                        aria-controls="example"
+                        data-dt-idx="0"
+                        tabIndex="0"
+                        className="page-link"
+                      >
+                        Previous
+                      </Link>
+                    </li>
+                  )}
+
+                  {totalPageCalculator(total, adsLIMIT).length === 1
+                    ? null
+                    : totalPageCalculator(total, adsLIMIT).map(
+                        (pageNo, indx) => {
+                          return (
+                            <li
+                              className={pageNo === pageNum ? "active" : ""}
+                              key={indx}
+                              onClick={() => setPageNum(pageNo)}
+                            >
+                              <Link to="" className="page-link">
+                                {pageNo}
+                              </Link>
+                            </li>
+                          );
+                        }
+                      )}
+
+                  {pageNum !== Math.ceil(total / adsLIMIT) && (
+                    <li
+                      className="next"
+                      id="example_next"
+                      onClick={() => setPageNum(pageNum + 1)}
+                    >
+                      <Link
+                        to=""
+                        aria-controls="example"
+                        data-dt-idx="7"
+                        tabIndex="0"
+                        className="page-link"
+                      >
+                        Next
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

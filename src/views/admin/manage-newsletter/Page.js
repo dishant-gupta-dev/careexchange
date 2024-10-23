@@ -27,7 +27,7 @@ const Page = () => {
   const [sendNewText, setNewText] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [total, setTotal] = useState(0);
-  const [pageNum, setPageNum] = useState(1); 
+  const [pageNum, setPageNum] = useState(1);
   const [loading, setLoading] = useState(false);
 
   const handleItemChange = (id) => {
@@ -240,262 +240,269 @@ const Page = () => {
     <>
       {loading ? <Loader /> : null}
       <div className="content-wrapper">
-        <div className="page-header">
-          <h3 className="page-title">Manage Newsletter</h3>
+        <div className="care-title-header">
+          <h3 className="heading-title">Manage Newsletter</h3>
+          <div className="cc-search-filter">
+            <div className="row g-2">
+              <div className="col-md-4">
+                <div className="form-group search-form-group">
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-control"
+                    placeholder="Search"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
+                    onChange={(e) => handleFilter(e)}
+                  />
+                  <span className="search-icon">
+                    <i className="cc-input-group-text  mdi mdi-magnify"></i>
+                  </span>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="form-group">
+                  <select
+                    className="form-control"
+                    name="status"
+                    onChange={(e) => handleFilter(e)}
+                  >
+                    <option value="">Select Status</option>
+                    <option value="0">Pending Newsletter</option>
+                    <option value="1">Active Newsletter</option>
+                    <option value="2">Inactive Newsletter</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="col-md-4">
+                <div className="form-group">
+                  <DatePicker
+                    toggleCalendarOnIconClick
+                    showIcon
+                    dateFormat={"MM-dd-yyyy"}
+                    selected={startDate}
+                    onChange={(date, e) => {
+                      setStartDate(date);
+                      handleFilter(e, date);
+                    }}
+                    className="DatePicker-control"
+                    style={{ padding: "15px 40px" }}
+                    isClearable
+                    name="date"
+                    autoComplete="off"
+                    placeholderText="Select Date"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="">
-          <div className="row mt-3">
-            <div className="col-12 grid-margin">
-              <div className="card">
-                <div className="card-body">
-                  <div className="row d-flex justify-content-between align-items-center">
-                    <div className="col-lg-3">
-                      <h4 className="mb-0">Subscribed By {total ?? 0} Users</h4>
-                    </div>
-                    <div className="col-lg-3">
-                      <div className="">
-                        <div className="input-group">
-                          <input
-                            type="text"
-                            name="name"
-                            className="form-control"
-                            placeholder="Search"
-                            aria-label="Username"
-                            aria-describedby="basic-addon1"
-                            onChange={(e) => handleFilter(e)}
-                          />
-                          <div className="input-group-prepend">
-                            <i className="input-group-text border-0 mdi mdi-magnify"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-3 dropdown-select">
-                      <select
-                        className="form-select"
-                        name="status"
-                        onChange={(e) => handleFilter(e)}
-                      >
-                        <option value="">Select Status</option>
-                        <option value="0">Pending Newsletter</option>
-                        <option value="1">Active Newsletter</option>
-                        <option value="2">Inactive Newsletter</option>
-                      </select>
-                    </div>
-                    <div className="col-lg-3">
-                      <DatePicker
-                        toggleCalendarOnIconClick
-                        showIcon
-                        dateFormat={"MM-dd-yyyy"}
-                        selected={startDate}
-                        onChange={(date, e) => {
-                          setStartDate(date);
-                          handleFilter(e, date);
-                        }}
-                        className="form-control"
-                        style={{ padding: "15px 40px" }}
-                        isClearable
-                        name="date"
-                        autoComplete="off"
-                        placeholderText="Select Date"
-                      />
-                    </div>
-                  </div>
-                  <div className="table-responsive mt-4">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th>
-                            <input
-                              className="me-2"
-                              type="checkbox"
-                              name="imgsel"
-                              checked={selectAll}
-                              onChange={handleSelectAllChange}
-                            />
-                            Select All
-                          </th>
-                          <th>Name</th>
-                          <th>Email ID</th>
-                          <th>Phone Number</th>
-                          <th>Status</th>
-                          <th>Posted On</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {news.length !== 0 ? (
-                          news.map((ele, indx) => {
-                            return (
-                              <tr key={indx}>
-                                <td scope="row">
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    checked={ele.checked}
-                                    onChange={() => handleItemChange(ele.id)}
-                                  />
-                                </td>
-                                <td> {ele.name ?? "NA"} </td>
-                                <td> {ele.email_address ?? "NA"} </td>
-                                <td> {ele.phone ?? "NA"} </td>
-                                <td>
-                                  {" "}
-                                  {ele.status !== "3" ? (
-                                    <div className="switch-toggle">
-                                      <div className="">
-                                        <label
-                                          className="toggle"
-                                          onChange={(e) =>
-                                            handleChangeStatus(
-                                              e,
-                                              ele.id,
-                                              ele.status
-                                            )
-                                          }
-                                          htmlFor={`myToggle_${indx}`}
-                                        >
-                                          <input
-                                            className="toggle__input"
-                                            name={`active_${indx}`}
-                                            type="checkbox"
-                                            id={`myToggle_${indx}`}
-                                            defaultChecked={
-                                              ele.status === "1"
-                                                ? "checked"
-                                                : null
-                                            }
-                                            defaultValue={2}
-                                          />
-                                          <div className="toggle__fill"></div>
-                                        </label>
-                                      </div>
-                                    </div>
-                                  ) : null}{" "}
-                                </td>
-                                <td>
-                                  {" "}
-                                  {moment(ele.created_date).format(
-                                    "MM-DD-yyyy"
-                                  )}{" "}
-                                </td>
-                              </tr>
-                            );
-                          })
-                        ) : (
-                          <tr className="text-center">
-                            <td colSpan="6">
-                              <div>
-                                <p>No newsletter found</p>
-                              </div>
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                    <div className="d-flex align-items-center justify-content-center mt-3">
-                      {news.length !== 0 ? (
-                        <div className="care-table-pagination">
-                          <ul className="care-pagination">
-                            {pageNum !== 1 && (
-                              <li
-                                className="disabled"
-                                id="example_previous"
-                                onClick={() => setPageNum(pageNum - 1)}
-                              >
-                                <Link
-                                  to=""
-                                  aria-controls="example"
-                                  data-dt-idx="0"
-                                  tabIndex="0"
-                                  className="page-link"
-                                >
-                                  Previous
-                                </Link>
-                              </li>
-                            )}
 
-                            {totalPageCalculator(total, LIMIT).length === 1
-                              ? null
-                              : totalPageCalculator(total, LIMIT).map(
-                                  (pageNo, indx) => {
-                                    return (
-                                      <li
-                                        className={
-                                          pageNo === pageNum ? "active" : ""
-                                        }
-                                        key={indx}
-                                        onClick={() => setPageNum(pageNo)}
-                                      >
-                                        <Link to="" className="page-link">
-                                          {pageNo}
-                                        </Link>
-                                      </li>
-                                    );
-                                  }
-                                )}
-
-                            {pageNum !== Math.ceil(total / LIMIT) && (
-                              <li
-                                className="next"
-                                id="example_next"
-                                onClick={() => setPageNum(pageNum + 1)}
-                              >
-                                <Link
-                                  to=""
-                                  aria-controls="example"
-                                  data-dt-idx="7"
-                                  tabIndex="0"
-                                  className="page-link"
-                                >
-                                  Next
-                                </Link>
-                              </li>
-                            )}
-                          </ul>
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-end">
+        <div className="cc-table-card">
+          <div className="care-title-header">
+            <h3 className="heading-title">Subscribed By {total ?? 0} Users</h3>
+            <div className="cc-search-filter wd80">
+              <div className="row g-2">
+                <div className="col-md-3">
+                  <div className="form-group">
                     <button
                       type="button"
-                      className="btn btn-gradient-primary-border mt-4 me-2"
+                      className="btn-gr wd100"
                       onClick={() => {
                         setSendEmail(true);
                       }}
                     >
                       Send Email
                     </button>
+                  </div>
+                </div>
+                <div className="col-md-3">
+                  <div className="form-group">
                     <button
                       type="button"
-                      className="btn btn-gradient-primary-border mt-4 me-2"
+                      className="btn-bl wd100"
                       onClick={() => {
                         setText(true);
                       }}
                     >
                       Send Text Message
                     </button>
+                  </div>
+                </div>
+
+                <div className="col-md-3">
+                  <div className="form-group">
                     <button
                       type="button"
-                      className="btn btn-gradient-primary mt-4 me-2"
+                      className="btn-dbl wd100"
                       onClick={() => {
                         setSendNewEmail(true);
                       }}
                     >
                       Create New Email
                     </button>
+                  </div>
+                </div>
+                <div className="col-md-3">
+                  <div className="form-group">
                     <button
                       type="button"
-                      className="btn btn-gradient-secondary mt-4"
+                      className="btn-gra wd100"
                       onClick={() => {
                         setNewText(true);
                       }}
                     >
-                      Create New Text Message
+                      Create Text Message
                     </button>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="table-responsive mt-4">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>
+                    <input
+                      className="me-2"
+                      type="checkbox"
+                      name="imgsel"
+                      checked={selectAll}
+                      onChange={handleSelectAllChange}
+                    />
+                    Select All
+                  </th>
+                  <th>Name</th>
+                  <th>Email ID</th>
+                  <th>Phone Number</th>
+                  <th>Status</th>
+                  <th>Posted On</th>
+                </tr>
+              </thead>
+              <tbody>
+                {news.length !== 0 ? (
+                  news.map((ele, indx) => {
+                    return (
+                      <tr key={indx}>
+                        <td scope="row">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            checked={ele.checked}
+                            onChange={() => handleItemChange(ele.id)}
+                          />
+                        </td>
+                        <td> {ele.name ?? "NA"} </td>
+                        <td> {ele.email_address ?? "NA"} </td>
+                        <td> {ele.phone ?? "NA"} </td>
+                        <td>
+                          {" "}
+                          {ele.status !== "3" ? (
+                            <div className="switch-toggle">
+                              <div className="">
+                                <label
+                                  className="toggle"
+                                  onChange={(e) =>
+                                    handleChangeStatus(e, ele.id, ele.status)
+                                  }
+                                  htmlFor={`myToggle_${indx}`}
+                                >
+                                  <input
+                                    className="toggle__input"
+                                    name={`active_${indx}`}
+                                    type="checkbox"
+                                    id={`myToggle_${indx}`}
+                                    defaultChecked={
+                                      ele.status === "1" ? "checked" : null
+                                    }
+                                    defaultValue={2}
+                                  />
+                                  <div className="toggle__fill"></div>
+                                </label>
+                              </div>
+                            </div>
+                          ) : null}{" "}
+                        </td>
+                        <td>
+                          {" "}
+                          {moment(ele.created_date).format("MM-DD-yyyy")}{" "}
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr className="text-center">
+                    <td colSpan="6">
+                      <div>
+                        <p>No newsletter found</p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+            <div className="d-flex align-items-center justify-content-center mt-3">
+              {news.length !== 0 ? (
+                <div className="care-table-pagination">
+                  <ul className="care-pagination">
+                    {pageNum !== 1 && (
+                      <li
+                        className="disabled"
+                        id="example_previous"
+                        onClick={() => setPageNum(pageNum - 1)}
+                      >
+                        <Link
+                          to=""
+                          aria-controls="example"
+                          data-dt-idx="0"
+                          tabIndex="0"
+                          className="page-link"
+                        >
+                          Previous
+                        </Link>
+                      </li>
+                    )}
+
+                    {totalPageCalculator(total, LIMIT).length === 1
+                      ? null
+                      : totalPageCalculator(total, LIMIT).map(
+                          (pageNo, indx) => {
+                            return (
+                              <li
+                                className={pageNo === pageNum ? "active" : ""}
+                                key={indx}
+                                onClick={() => setPageNum(pageNo)}
+                              >
+                                <Link to="" className="page-link">
+                                  {pageNo}
+                                </Link>
+                              </li>
+                            );
+                          }
+                        )}
+
+                    {pageNum !== Math.ceil(total / LIMIT) && (
+                      <li
+                        className="next"
+                        id="example_next"
+                        onClick={() => setPageNum(pageNum + 1)}
+                      >
+                        <Link
+                          to=""
+                          aria-controls="example"
+                          data-dt-idx="7"
+                          tabIndex="0"
+                          className="page-link"
+                        >
+                          Next
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -513,7 +520,7 @@ const Page = () => {
             <h5 className="mb-0">Send Email</h5>
           </ModalHeader>
           <ModalBody className="">
-            <div className="add-items d-flex row">
+            <div className="cc-modal-form add-items d-flex row">
               <Formik
                 initialValues={initialValues}
                 validateOnChange={true}
@@ -554,14 +561,14 @@ const Page = () => {
                       onClick={() => {
                         setSendEmail(false);
                       }}
-                      className="btn btn-gradient-danger me-2"
+                      className="btn-re  me-2"
                       data-bs-dismiss="modal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-gradient-primary me-2"
+                      className="btn-gr"
                       data-bs-dismiss="modal"
                     >
                       Send Email

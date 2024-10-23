@@ -233,215 +233,123 @@ const Page = () => {
       {loading ? <Loader /> : null}
       <div className="content-wrapper">
         <div className="page-header">
-          <h3 className="page-title">Master</h3>
+          <h3 class="heading-title">Master</h3>
           <div className="d-flex">
             <button
               style={{ marginLeft: "20px" }}
               type="button"
-              className="btn btn-gradient-primary"
+              className="btn-gr"
               onClick={() => setAddCat({ status: true })}
             >
               Add New Category
             </button>
           </div>
         </div>
-        <div className="">
-          <div className="row mt-3">
-            <div className="col-12 grid-margin">
-              <div className="card">
-                <div className="card-body">
-                  <div className="row d-flex justify-content-between align-items-center">
-                    <div className="col-lg-12">
-                      <h4 className="page-title">Manage Category</h4>
-                    </div>
-
-                    <div className="col-lg-12 mt-4">
-                      <div className="iq-card">
-                        <div className="">
-                          <div className="">
-                            {category.length !== 0 ? (
-                              category.map((ele, indx) => {
+        <div className="Manage-iq-card">
+          <h4 class="heading-title mb-2">Manage Category</h4>
+          <div className="master-content">
+            {category.length !== 0 ? (
+              category.map((ele, indx) => {
+                return (
+                  <div key={indx} className="vehicle-type-card mb-2">
+                    <div className="row">
+                      <div className="col-lg-3">
+                        <div className="iq-card ">
+                          <div className="iq-card-body p-4">
+                            <div className=" text-center">
+                              <div className="iq-card-icon  ">
+                                {ele.image === null ||
+                                ele.image === "" ||
+                                ele.image === undefined ? (
+                                  <img src={NoImage} alt="" height={50} />
+                                ) : (
+                                  <img src={ele.image} alt="" height={50} />
+                                )}
+                              </div>
+                              <div className="mt-4">
+                                <h5>{ele.name ?? "NA"}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-sm-9">
+                        <div className="row">
+                          {ele.sub_category.length !== 0
+                            ? ele.sub_category.map((elements, index) => {
                                 return (
-                                  <div key={indx} className="vehicle-type-card">
-                                    <div className="row">
-                                      <div className="col-lg-3">
-                                        <div className="iq-card">
-                                          <div className="iq-card-body p-4">
-                                            <div className=" text-center">
-                                              <div className="iq-card-icon  ">
-                                                {ele.image === null ||
-                                                ele.image === "" ||
-                                                ele.image === undefined ? (
-                                                  <img
-                                                    src={NoImage}
-                                                    alt=""
-                                                    height={50}
-                                                  />
-                                                ) : (
-                                                  <img
-                                                    src={ele.image}
-                                                    alt=""
-                                                    height={50}
-                                                  />
-                                                )}
-                                              </div>
-                                              <div className="mt-4">
-                                                <h5>{ele.name ?? "NA"}</h5>
-                                              </div>
+                                  <div
+                                    key={index}
+                                    className="col-sm-6 col-md-6 col-lg-6"
+                                  >
+                                    <div className="iq-card">
+                                      <div className="iq-card-body">
+                                        <div className="d-flex align-items-center justify-content-between">
+                                          <div className="d-flex align-items-center justify-content-between">
+                                            <div>
+                                              {elements.image === null ||
+                                              elements.image === "" ||
+                                              elements.image === undefined ? (
+                                                <img
+                                                  src={NoImage}
+                                                  alt=""
+                                                  height={40}
+                                                  width={40}
+                                                  style={{
+                                                    objectFit: "cover",
+                                                    objectPosition: "center",
+                                                    borderRadius: "50%",
+                                                  }}
+                                                />
+                                              ) : (
+                                                <img
+                                                  src={elements.image}
+                                                  alt=""
+                                                  height={40}
+                                                  width={40}
+                                                  style={{
+                                                    objectFit: "cover",
+                                                    objectPosition: "center",
+                                                    borderRadius: "50%",
+                                                  }}
+                                                />
+                                              )}
+                                            </div>
+                                            <div>
+                                              <h5 className="mx-2">
+                                                {elements.name ?? "NA"}
+                                              </h5>
                                             </div>
                                           </div>
-                                        </div>
-                                      </div>
-                                      <div className="col-sm-9">
-                                        <div className="row">
-                                          {ele.sub_category.length !== 0
-                                            ? ele.sub_category.map(
-                                                (elements, index) => {
-                                                  return (
-                                                    <div
-                                                      key={index}
-                                                      className="col-sm-6 col-md-6 col-lg-6"
-                                                    >
-                                                      <div className="iq-card">
-                                                        <div className="iq-card-body">
-                                                          <div className="d-flex align-items-center justify-content-between">
-                                                            <div className="d-flex align-items-center justify-content-between">
-                                                              <div>
-                                                                {elements.image ===
-                                                                  null ||
-                                                                elements.image ===
-                                                                  "" ||
-                                                                elements.image ===
-                                                                  undefined ? (
-                                                                  <img
-                                                                    src={
-                                                                      NoImage
-                                                                    }
-                                                                    alt=""
-                                                                    height={40}
-                                                                    width={40}
-                                                                    style={{
-                                                                      objectFit:
-                                                                        "cover",
-                                                                      objectPosition:
-                                                                        "center",
-                                                                      borderRadius:
-                                                                        "50%",
-                                                                    }}
-                                                                  />
-                                                                ) : (
-                                                                  <img
-                                                                    src={
-                                                                      elements.image
-                                                                    }
-                                                                    alt=""
-                                                                    height={40}
-                                                                    width={40}
-                                                                    style={{
-                                                                      objectFit:
-                                                                        "cover",
-                                                                      objectPosition:
-                                                                        "center",
-                                                                      borderRadius:
-                                                                        "50%",
-                                                                    }}
-                                                                  />
-                                                                )}
-                                                              </div>
-                                                              <div>
-                                                                <h5 className="mx-2">
-                                                                  {elements.name ??
-                                                                    "NA"}
-                                                                </h5>
-                                                              </div>
-                                                            </div>
-                                                            <div>
-                                                              <div
-                                                                className="rounded-circle iq-card-icon dark-icon-light iq-bg-success mx-1"
-                                                                onClick={() => {
-                                                                  setEditCat({
-                                                                    status: true,
-                                                                    cate: 2,
-                                                                    id: elements.id,
-                                                                    name: elements.name,
-                                                                    description:
-                                                                      elements.description,
-                                                                    image:
-                                                                      elements.image,
-                                                                    statusVal:
-                                                                      elements.status,
-                                                                  });
-                                                                }}
-                                                              >
-                                                                <i className="mdi mdi-square-edit-outline menu-icon"></i>
-                                                              </div>
-                                                              <div
-                                                                className="rounded-circle iq-card-icon dark-icon-light iq-bg-danger mx-1"
-                                                                onClick={() => {
-                                                                  setDeleteSubCat(
-                                                                    {
-                                                                      status: true,
-                                                                      id: elements.id,
-                                                                    }
-                                                                  );
-                                                                }}
-                                                              >
-                                                                <i className="mdi mdi-delete menu-icon"></i>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  );
-                                                }
-                                              )
-                                            : null}
-
-                                          <div className="col-sm-6 col-md-12 col-lg-12 mt-3 justify-content-end d-flex">
-                                            <button
-                                              type="button"
-                                              className="btn btn-gradient-primary"
-                                              onClick={() => {
-                                                setAddSubCat({
-                                                  status: true,
-                                                  parent_id: ele.id,
-                                                });
-                                              }}
-                                            >
-                                              Add Sub Category
-                                            </button>
-                                            <button
-                                              style={{ marginLeft: "20px" }}
-                                              type="button"
-                                              className="btn btn-gradient-success"
+                                          <div className="cat-action">
+                                            <div
+                                              className="rounded-circle iq-card-icon dark-icon-light iq-bg-success mx-1"
                                               onClick={() => {
                                                 setEditCat({
                                                   status: true,
-                                                  cate: 1,
-                                                  id: ele.id,
-                                                  name: ele.name,
-                                                  description: ele.description,
-                                                  image: ele.image,
-                                                  statusVal: ele.status,
+                                                  cate: 2,
+                                                  id: elements.id,
+                                                  name: elements.name,
+                                                  description:
+                                                    elements.description,
+                                                  image: elements.image,
+                                                  statusVal: elements.status,
                                                 });
                                               }}
                                             >
-                                              Edit Category
-                                            </button>
-                                            <button
-                                              style={{ marginLeft: "20px" }}
-                                              type="button"
-                                              className="btn btn-gradient-danger"
+                                              <i className="mdi mdi-square-edit-outline menu-icon"></i>
+                                            </div>
+                                            <div
+                                              className="rounded-circle iq-card-icon dark-icon-light iq-bg-danger mx-1"
                                               onClick={() => {
-                                                setDeleteCat({
+                                                setDeleteSubCat({
                                                   status: true,
-                                                  id: ele.id,
+                                                  id: elements.id,
                                                 });
                                               }}
                                             >
-                                              Delete Category
-                                            </button>
+                                              <i className="mdi mdi-delete menu-icon"></i>
+                                            </div>
                                           </div>
                                         </div>
                                       </div>
@@ -449,26 +357,71 @@ const Page = () => {
                                   </div>
                                 );
                               })
-                            ) : (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  margin: "5% 0",
-                                }}
-                              >
-                                <img width={300} src={NoData} alt="" />
-                              </div>
-                            )}
+                            : null}
+
+                          <div className="col-sm-6 col-md-12 col-lg-12 mt-3 justify-content-end d-flex">
+                            <button
+                              type="button"
+                              className="btn-gr"
+                              onClick={() => {
+                                setAddSubCat({
+                                  status: true,
+                                  parent_id: ele.id,
+                                });
+                              }}
+                            >
+                              Add Sub Category
+                            </button>
+                            <button
+                              style={{ marginLeft: "20px" }}
+                              type="button"
+                              className="btn-bl"
+                              onClick={() => {
+                                setEditCat({
+                                  status: true,
+                                  cate: 1,
+                                  id: ele.id,
+                                  name: ele.name,
+                                  description: ele.description,
+                                  image: ele.image,
+                                  statusVal: ele.status,
+                                });
+                              }}
+                            >
+                              Edit Category
+                            </button>
+                            <button
+                              style={{ marginLeft: "20px" }}
+                              type="button"
+                              className="btn-dbl"
+                              onClick={() => {
+                                setDeleteCat({
+                                  status: true,
+                                  id: ele.id,
+                                });
+                              }}
+                            >
+                              Delete Category
+                            </button>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                );
+              })
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  margin: "5% 0",
+                }}
+              >
+                <img width={300} src={NoData} alt="" />
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,9 +1,14 @@
-.react-datepicker__view-calendar-icon input {
+/* .react-datepicker__view-calendar-icon input {
   padding: 15px 40px !important;
-}
+} */
 .react-datepicker__input-container .react-datepicker__calendar-icon {
-  padding: 0.86rem !important;
+  padding: 1rem !important;
 }
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
 .alert.alert-danger {
   color: red;
   font-size: 12px;
@@ -58,14 +63,16 @@
 }
 .iq-bg-success {
   background: var(--iq-light-danger) !important;
-  color: #2ddb66 !important;
-  border: 1px solid #2ddb66;
+  color: var(--green) !important;
+  border: 1px solid var(--green);
   cursor: pointer;
 }
 .modal-body .react-datepicker-wrapper {
   width: 100%;
 }
-
+.cat-action {
+  display: flex;
+}
 .care-table-pagination {
   padding: 10px 0 0 0;
 }
@@ -77,14 +84,14 @@ ul.care-pagination {
 }
 ul.care-pagination li a.page-link {
   color: #fff;
-  background: #292b56;
+  background: var(--darkblue);
   position: relative;
   display: block;
   padding: 5px 15px;
   font-size: 14px;
   margin: 2px;
   border-radius: 5px;
-  border: 1px solid #292b56;
+  border: 1px solid var(--darkblue);
 }
 ul.care-pagination li.active a.page-link {
   color: #292b56;
@@ -170,7 +177,7 @@ input[type="text"][disabled] {
   width: calc(50px / 2);
 }
 .toggle__input:checked ~ .toggle__fill {
-  background: #00ee57;
+  background: var(--green);
 }
 .toggle__input:checked ~ .toggle__fill::after {
   transform: translateX(24px);
@@ -389,6 +396,20 @@ button.btn-bl {
   font-weight: 600;
   padding: 10px 20px;
 }
+
+button.btn-dbl {
+  color: var(--white);
+  border: none;
+  white-space: nowrap;
+  background: var(--darkblue);
+  box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12);
+  display: inline-block;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+}
 button.btn-wh {
   color: var(--black);
   border: none;
@@ -555,4 +576,281 @@ a.viewmorebtn {
   background: var(--green);
   display: inline-block;
   border-radius: 5px;
+}
+
+/*----------------------------
+   Search filter    
+----------------------------*/
+.cc-search-filter .form-group {
+  margin-bottom: 0;
+}
+.cc-search-filter .search-form-group {
+  position: relative;
+}
+.cc-search-filter .form-group input.form-control {
+  position: relative;
+  color: var(--gray);
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 13px;
+  box-sizing: border-box;
+  padding: 13px 15px 13px 15px;
+  border: 1px solid var(--border);
+  width: 100%;
+  background: #fff;
+  box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05);
+}
+.cc-search-filter .form-group select.form-control {
+  position: relative;
+  color: var(--gray);
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 13px;
+  appearance: auto;
+  box-sizing: border-box;
+  padding: 13px 15px 13px 15px;
+  border: 1px solid var(--border);
+  width: 100%;
+  background: #fff;
+  box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05);
+}
+.cc-search-filter .form-group textaera.form-control {
+  position: relative;
+  color: var(--gray);
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 13px;
+  box-sizing: border-box;
+  padding: 13px 15px 13px 15px;
+  border: 1px solid var(--border);
+  width: 100%;
+  background: #fff;
+  box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05);
+}
+.cc-search-filter .search-form-group input.form-control {
+  padding: 13px 15px 13px 40px;
+}
+.cc-search-filter .search-form-group span.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  pointer-events: none;
+  transform: translateY(-50%) scaleX(-1);
+  color: var(--green);
+  font-size: 18px;
+}
+
+.cc-search-filter .form-group input.DatePicker-control {
+  color: var(--gray);
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 14px;
+  appearance: auto;
+  box-sizing: border-box;
+  padding: 11px 15px 11px 46px;
+  border: 1px solid var(--border);
+  width: 100%;
+  background: #fff;
+  box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05);
+  height: auto;
+}
+
+.cc-table-card {
+  background: var(--white);
+  margin-bottom: 1rem;
+  gap: 20px;
+  position: relative;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 13px rgb(0 0 0 / 5%);
+}
+
+.cc-subscription-card {
+  padding: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 24px;
+  position: relative;
+  background: var(--darkblue);
+  border-radius: 10px;
+  border-bottom: 3px solid var(--green);
+}
+.cc-planname-text {
+  background: #f1f1f1;
+  font-size: 16px;
+  display: inline-block;
+  padding: 5px 20px;
+  border-radius: 5px;
+  color: var(--darkblue);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.cc-subscription-info {
+  margin-bottom: 1rem;
+}
+.cc-subscription-info p {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--white);
+  margin: 0;
+  padding: 0;
+}
+
+.cc-subscription-price-info {
+  border-top: 2px solid #778695;
+  border-bottom: 2px solid #778695;
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.cc-plan-price-text {
+  font-size: 50px;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0;
+  padding: 0;
+  line-height: 70px;
+}
+.cc-plan-persave-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.cc-plan-save-text {
+  background: var(--green);
+  font-size: 14px;
+  display: inline-block;
+  padding: 5px 20px;
+  border-radius: 5px;
+  color: var(--white);
+  font-weight: 600;
+}
+.cc-plan-per-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0;
+  padding: 0;
+}
+
+.cc-plan-point-list ul {
+  list-style: none;
+  margin: 0 0 1rem 0;
+  padding: 0;
+}
+.cc-plan-point-list ul li {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--white);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  line-height: 24px;
+  margin-bottom: 5px;
+}
+.cc-plan-action {
+  margin-bottom: 5px;
+}
+.cc-plan-action a {
+  outline: none;
+  width: 100%;
+  padding: 8px 40px;
+  display: inline-block;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 5px;
+  border: none;
+  background: var(--blue);
+  box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.cc-plan-action {
+  margin-bottom: 5px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.cc-subscription-point-info p {
+  font-size: 14px;
+  text-align: center;
+  font-weight: 400;
+  color: var(--white);
+  margin: 0;
+  padding: 0;
+}
+
+/*----------------------------
+   modal filter    
+----------------------------*/
+
+.cc-modal-form .search-form-group {
+  position: relative;
+}
+.cc-modal-form .form-group input.form-control {
+  position: relative;
+  color: var(--gray);
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 13px;
+  box-sizing: border-box;
+  padding: 13px 15px 13px 15px;
+  border: 1px solid var(--border);
+  width: 100%;
+  background: #fff;
+  box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05);
+}
+.cc-modal-form .form-group select.form-control {
+  position: relative;
+  color: var(--gray);
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 13px;
+  appearance: auto;
+  box-sizing: border-box;
+  padding: 13px 15px 13px 15px;
+  border: 1px solid var(--border);
+  width: 100%;
+  background: #fff;
+  box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05);
+}
+.cc-modal-form .form-group textarea.form-control {
+  position: relative;
+  color: var(--gray);
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 13px;
+  box-sizing: border-box;
+  padding: 13px 15px 13px 15px;
+  border: 1px solid var(--border);
+  width: 100%;
+  background: #fff;
+  box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05);
+}
+.cc-modal-form .search-form-group input.form-control {
+  padding: 13px 15px 13px 40px;
+}
+.cc-modal-form .search-form-group span.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  pointer-events: none;
+  transform: translateY(-50%) scaleX(-1);
+  color: var(--green);
+  font-size: 18px;
+}
+
+.cc-modal-form .form-group input.DatePicker-control {
+  color: var(--gray);
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 14px;
+  appearance: auto;
+  box-sizing: border-box;
+  padding: 11px 15px 11px 46px;
+  border: 1px solid var(--border);
+  width: 100%;
+  background: #fff;
+  box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05);
+  height: auto;
 }

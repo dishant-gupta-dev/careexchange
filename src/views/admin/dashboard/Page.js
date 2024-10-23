@@ -116,7 +116,7 @@ const Page = () => {
         <div className="requests-section">
           <div className="care-title-header">
             <h2 className="heading-title">Care Job Requests</h2>
-            <div className="search-filter wd30">
+            <div className="search-filter">
               <button
                 type="button"
                 className="btn-gr"
@@ -262,11 +262,11 @@ const Page = () => {
 
                 <div className="payments-overview">
                   <div className="payments-overview-image">
-                    <img src={TotalEarning} alt="" height={40} />
+                    <img src={SubsPlan} alt="" height={40} />
                   </div>
                   <div className="payments-overview-content">
-                    <h4>Total Earning</h4>
-                    <h2>$ 1795.00 </h2>
+                    <h4>Total Subscription Plan Purchased</h4>
+                    <h2>$ 16434 </h2>
                     <h6 className="card-text">Mar, 2024</h6>
                   </div>
                 </div>
@@ -283,7 +283,7 @@ const Page = () => {
         <div className="advertisement-section">
           <div className="care-title-header">
             <h2 className="heading-title">Care Network</h2>
-            <div className="search-filter wd30">
+            <div className="search-filter">
               <button
                 type="button"
                 className="btn-gr"
@@ -349,7 +349,7 @@ const Page = () => {
         <div className="advertisement-section">
           <div className="care-title-header">
             <h2 className="heading-title">Advertisement</h2>
-            <div className="search-filter wd30">
+            <div className="search-filter">
               <button
                 type="button"
                 className="btn-gr"
