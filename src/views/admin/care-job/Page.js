@@ -82,263 +82,248 @@ const Page = () => {
       {loading ? <Loader /> : null}
       <div className="content-wrapper">
         <div className="page-header">
-          <h3 className="page-title">Care Jobs</h3>
+          <h3 className="heading-title">Care Jobs</h3>
         </div>
-        <div className="">
-          <div className="row mt-3">
-            <div className="col-12 grid-margin">
-              <div className="card">
-                <div className="card-body">
-                  <div className="row d-flex align-items-center">
-                    <div className="col-lg-3 d-flex justify-content-end ">
-                      <div className="">
-                        <div className="input-group">
-                          <input
-                            type="text"
-                            name="name"
-                            className="form-control"
-                            placeholder="Search"
-                            aria-label="Username"
-                            aria-describedby="basic-addon1"
-                            onChange={(e) => handleFilter(e)}
-                          />
-                          <div className="input-group-prepend">
-                            <i className="input-group-text border-0 mdi mdi-magnify"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-2 dropdown-select">
-                      <div className="">
-                        <div className="dropdown-select">
-                          <select
-                            className="form-select"
-                            name="status"
-                            onChange={(e) => handleFilter(e)}
-                          >
-                            <option value="">Select Status</option>
-                            <option value="0">Pending</option>
-                            <option value="1">Active</option>
-                            <option value="3">Cancelled</option>
-                            <option value="4">Completed</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-2 dropdown-select">
-                      <div className="">
-                        <div className="dropdown-select">
-                          <select
-                            className="form-select"
-                            name="category"
-                            onChange={(e) => handleFilter(e)}
-                          >
-                            <option value="">Select Category</option>
-                            {categories.length !== 0
-                              ? categories.map((ele, indx) => {
-                                  return (
-                                    <option key={indx} value={ele.id}>
-                                      {ele.name ?? "NA"}
-                                    </option>
-                                  );
-                                })
-                              : null}
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-3 dropdown-select">
-                      <div className="">
-                        <div
-                          className="dropdown-select"
-                          style={{ marginLeft: "10px" }}
-                        >
-                          <select
-                            className="form-select"
-                            name="subcategory"
-                            onChange={(e) => handleFilter(e)}
-                          >
-                            <option value="">Select Sub Category</option>
-                            {subCategories.length !== 0
-                              ? subCategories.map((ele, indx) => {
-                                  return (
-                                    <option key={indx} value={ele.id}>
-                                      {ele.name ?? "NA"}
-                                    </option>
-                                  );
-                                })
-                              : null}
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-2 d-flex justify-content-end">
-                      <DatePicker
-                        toggleCalendarOnIconClick
-                        showIcon
-                        dateFormat={"MM-dd-yyyy"}
-                        selected={startDate}
-                        onChange={(date, e) => {
-                          setStartDate(date);
-                          handleFilter(e, date);
-                        }}
-                        className="form-control"
-                        style={{ padding: "15px 40px" }}
-                        isClearable
-                        name="date"
-                        autoComplete="off"
-                        placeholderText="Select Date"
-                      />
-                    </div>
-                  </div>
-                  <div className="table-responsive mt-4">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th> Name </th>
-                          <th> Job ID </th>
-                          <th> Status </th>
-                          <th> Start Date </th>
-                          <th> Time</th>
-                          <th> Repeat Weekly </th>
-                          {/* <th> Care Provider Name </th>
+
+        <div className="care-title-header">
+          <div className="cc-search-filter wd100">
+            <div className="row g-2">
+              <div className="col-md-4">
+                <div className="form-group search-form-group">
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-control"
+                    placeholder="Search"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
+                    onChange={(e) => handleFilter(e)}
+                  />
+                  <span className="search-icon">
+                    <i className="cc-input-group-text  mdi mdi-magnify"></i>
+                  </span>
+                </div>
+              </div>
+              <div className="col-md-2">
+                <div className="form-group">
+                  <select
+                    className="form-control"
+                    name="status"
+                    onChange={(e) => handleFilter(e)}
+                  >
+                    <option value="">Select Status</option>
+                    <option value="0">Pending</option>
+                    <option value="1">Active</option>
+                    <option value="3">Cancelled</option>
+                    <option value="4">Completed</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="col-md-2">
+                <div className="form-group">
+                  <select
+                    className="form-control"
+                    name="category"
+                    onChange={(e) => handleFilter(e)}
+                  >
+                    <option value="">Select Category</option>
+                    {categories.length !== 0
+                      ? categories.map((ele, indx) => {
+                          return (
+                            <option key={indx} value={ele.id}>
+                              {ele.name ?? "NA"}
+                            </option>
+                          );
+                        })
+                      : null}
+                  </select>
+                </div>
+              </div>
+
+              <div className="col-md-2">
+                <div className="form-group">
+                  <select
+                    className="form-control"
+                    name="subcategory"
+                    onChange={(e) => handleFilter(e)}
+                  >
+                    <option value="">Select Sub Category</option>
+                    {subCategories.length !== 0
+                      ? subCategories.map((ele, indx) => {
+                          return (
+                            <option key={indx} value={ele.id}>
+                              {ele.name ?? "NA"}
+                            </option>
+                          );
+                        })
+                      : null}
+                  </select>
+                </div>
+              </div>
+
+              <div className="col-md-2">
+                <div className="form-group">
+                  <DatePicker
+                    toggleCalendarOnIconClick
+                    showIcon
+                    dateFormat={"MM-dd-yyyy"}
+                    selected={startDate}
+                    onChange={(date, e) => {
+                      setStartDate(date);
+                      handleFilter(e, date);
+                    }}
+                    className="DatePicker-control"
+                    isClearable
+                    name="date"
+                    autoComplete="off"
+                    placeholderText="Select Date"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="cc-table-card">
+          <div className="table-responsive ">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th> Name </th>
+                  <th> Job ID </th>
+                  <th> Status </th>
+                  <th> Start Date </th>
+                  <th> Time</th>
+                  <th> Repeat Weekly </th>
+                  {/* <th> Care Provider Name </th>
                           <th> Care Provider Status </th>
                           <th> View Care Provider Profile </th> */}
-                          <th> View Job Detail </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {jobs.length !== 0 ? (
-                          jobs.map((ele, indx) => {
-                            return (
-                              <tr key={indx}>
-                                <td className="text-capitalize">
-                                  {ele.first_name ?? "NA"}
-                                </td>
-                                <td>{ele.job_id ?? "NA"}</td>
-                                <td>{status(ele.status)}</td>
-                                <td>
-                                  {moment(ele.start_date).format("MM-DD-yyyy")}
-                                </td>
-                                <td>
-                                  {ele.start_time} - {ele.end_time}
-                                </td>
-                                <td>
-                                  Every Week &nbsp;
-                                  {ele?.days?.length !== 0
-                                    ? ele?.days?.map((element, index) => {
-                                        return (
-                                          <label
-                                            key={index}
-                                            className="badge badge-gradient-success mx-1"
-                                          >
-                                            {element}
-                                          </label>
-                                        );
-                                      })
-                                    : null}
-                                </td>
-                                {/* <td>Joseph Phill Will Take Care</td>
+                  <th> View Job Detail </th>
+                </tr>
+              </thead>
+              <tbody>
+                {jobs.length !== 0 ? (
+                  jobs.map((ele, indx) => {
+                    return (
+                      <tr key={indx}>
+                        <td className="text-capitalize">
+                          {ele.first_name ?? "NA"}
+                        </td>
+                        <td>{ele.job_id ?? "NA"}</td>
+                        <td>{status(ele.status)}</td>
+                        <td>{moment(ele.start_date).format("MM-DD-yyyy")}</td>
+                        <td>
+                          {ele.start_time} - {ele.end_time}
+                        </td>
+                        <td>
+                          Every Week &nbsp;
+                          {ele?.days?.length !== 0
+                            ? ele?.days?.map((element, index) => {
+                                return (
+                                  <label
+                                    key={index}
+                                    className="badge badge-gradient-success mx-1"
+                                  >
+                                    {element}
+                                  </label>
+                                );
+                              })
+                            : null}
+                        </td>
+                        {/* <td>Joseph Phill Will Take Care</td>
                                 <td>Confirmed Care Provider </td>
                                 <td>
                                   <label className="badge badge-gradient-success">
                                     <i className="fa fa-eye"></i>
                                   </label>
                                 </td> */}
-                                <td>
-                                  <Link
-                                    to={`${routes.careJobDetails}/${encode(
-                                      ele.id
-                                    )}`}
-                                  >
-                                    <label
-                                      className="badge badge-gradient-success"
-                                      style={{ cursor: "pointer" }}
-                                    >
-                                      <i className="fa fa-eye"></i>
-                                    </label>
-                                  </Link>
-                                </td>
-                              </tr>
+                        <td>
+                          <Link
+                            to={`${routes.careJobDetails}/${encode(ele.id)}`}
+                          >
+                            <label
+                              className="badge badge-gradient-success"
+                              style={{ cursor: "pointer" }}
+                            >
+                              <i className="fa fa-eye"></i>
+                            </label>
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr className="text-center">
+                    <td colSpan="7">
+                      <div>
+                        <p>No care jobs found</p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+            <div className="d-flex align-items-center justify-content-center mt-3">
+              {jobs.length !== 0 ? (
+                <div className="care-table-pagination">
+                  <ul className="care-pagination">
+                    {pageNum !== 1 && (
+                      <li
+                        className="disabled"
+                        id="example_previous"
+                        onClick={() => setPageNum(pageNum - 1)}
+                      >
+                        <Link
+                          to=""
+                          aria-controls="example"
+                          data-dt-idx="0"
+                          tabIndex="0"
+                          className="page-link"
+                        >
+                          Previous
+                        </Link>
+                      </li>
+                    )}
+
+                    {totalPageCalculator(total, LIMIT).length === 1
+                      ? null
+                      : totalPageCalculator(total, LIMIT).map(
+                          (pageNo, indx) => {
+                            return (
+                              <li
+                                className={pageNo === pageNum ? "active" : ""}
+                                key={indx}
+                                onClick={() => setPageNum(pageNo)}
+                              >
+                                <Link to="" className="page-link">
+                                  {pageNo}
+                                </Link>
+                              </li>
                             );
-                          })
-                        ) : (
-                          <tr className="text-center">
-                            <td colSpan="7">
-                              <div>
-                                <p>No care jobs found</p>
-                              </div>
-                            </td>
-                          </tr>
+                          }
                         )}
-                      </tbody>
-                    </table>
-                    <div className="d-flex align-items-center justify-content-center mt-3">
-                      {jobs.length !== 0 ? (
-                        <div className="care-table-pagination">
-                          <ul className="care-pagination">
-                            {pageNum !== 1 && (
-                              <li
-                                className="disabled"
-                                id="example_previous"
-                                onClick={() => setPageNum(pageNum - 1)}
-                              >
-                                <Link
-                                  to=""
-                                  aria-controls="example"
-                                  data-dt-idx="0"
-                                  tabIndex="0"
-                                  className="page-link"
-                                >
-                                  Previous
-                                </Link>
-                              </li>
-                            )}
 
-                            {totalPageCalculator(total, LIMIT).length === 1
-                              ? null
-                              : totalPageCalculator(total, LIMIT).map(
-                                  (pageNo, indx) => {
-                                    return (
-                                      <li
-                                        className={
-                                          pageNo === pageNum ? "active" : ""
-                                        }
-                                        key={indx}
-                                        onClick={() => setPageNum(pageNo)}
-                                      >
-                                        <Link to="" className="page-link">
-                                          {pageNo}
-                                        </Link>
-                                      </li>
-                                    );
-                                  }
-                                )}
-
-                            {pageNum !== Math.ceil(total / LIMIT) && (
-                              <li
-                                className="next"
-                                id="example_next"
-                                onClick={() => setPageNum(pageNum + 1)}
-                              >
-                                <Link
-                                  to=""
-                                  aria-controls="example"
-                                  data-dt-idx="7"
-                                  tabIndex="0"
-                                  className="page-link"
-                                >
-                                  Next
-                                </Link>
-                              </li>
-                            )}
-                          </ul>
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
+                    {pageNum !== Math.ceil(total / LIMIT) && (
+                      <li
+                        className="next"
+                        id="example_next"
+                        onClick={() => setPageNum(pageNum + 1)}
+                      >
+                        <Link
+                          to=""
+                          aria-controls="example"
+                          data-dt-idx="7"
+                          tabIndex="0"
+                          className="page-link"
+                        >
+                          Next
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
                 </div>
-              </div>
+              ) : null}
             </div>
           </div>
         </div>

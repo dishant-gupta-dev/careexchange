@@ -145,147 +145,140 @@ const Page = () => {
       {loading ? <Loader /> : null}
       <div className="content-wrapper">
         <div className="page-header">
-          <h3 className="page-title">Manage Subscription Plan</h3>
+          <h3 className="heading-title">Manage Subscription Plan</h3>
           {/* <div className="d-flex">
             <button
               style={{ marginLeft: "20px" }}
               type="button"
-              className="btn btn-gradient-primary"
+              className="btn-gr"
               onClick={() => setAddPlan({ status: true })}
             >
               Add New Plan
             </button>
-          </div> */}
+          </div>  */}
         </div>
-        <div className="">
-          <div className="row mt-3">
-            <div className="col-12 grid-margin">
-              <div className="card">
-                <div className="card-body">
-                  <div className="row d-flex justify-content-between align-items-center">
-                    <div className="col-md-6 align-items-center d-flex">
-                      <div className="tabs-section">
-                        <ul className="nav">
-                          <li className="nav-item">
-                            <Link
-                              className={
-                                type == "provider"
-                                  ? "nav-link active"
-                                  : "nav-link"
-                              }
-                              to=""
-                              onClick={() => setType("provider")}
-                            >
-                              Care-Provider
-                            </Link>
-                          </li>
-                          <li className="nav-item">
-                            <Link
-                              className={
-                                type == "staff" ? "nav-link active" : "nav-link"
-                              }
-                              to=""
-                              onClick={() => setType("staff")}
-                            >
-                              Care-Staff
-                            </Link>
-                          </li>
-                          <li className="nav-item">
-                            <Link
-                              className={
-                                type == "client"
-                                  ? "nav-link active"
-                                  : "nav-link"
-                              }
-                              to=""
-                              onClick={() => setType("client")}
-                            >
-                              Client
-                            </Link>
-                          </li>
-                        </ul>
+        <div className="subscription-content">
+          <div className="row d-flex justify-content-between align-items-center">
+            <div className="col-md-6 align-items-center d-flex">
+              <div className="tabs-section">
+                <ul className="nav">
+                  <li className="nav-item">
+                    <Link
+                      className={
+                        type == "provider" ? "nav-link active" : "nav-link"
+                      }
+                      to=""
+                      onClick={() => setType("provider")}
+                    >
+                      Care-Provider
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      className={
+                        type == "staff" ? "nav-link active" : "nav-link"
+                      }
+                      to=""
+                      onClick={() => setType("staff")}
+                    >
+                      Care-Staff
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link
+                      className={
+                        type == "client" ? "nav-link active" : "nav-link"
+                      }
+                      to=""
+                      onClick={() => setType("client")}
+                    >
+                      Client
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            {plans.length !== 0 ? (
+              plans.map((ele, indx) => {
+                return (
+                  <div key={indx} className="col-lg-4 mt-5">
+                    <div className="cc-subscription-card">
+                      <div className="cc-subscription-info">
+                        <div className="cc-planname-text">
+                          {ele.name ?? "NA"}
+                        </div>
+                      </div>
+                      <div className="cc-subscription-price-info">
+                        <div className="cc-plan-price-text">
+                          $ {ele.cost ?? "NA"}
+                        </div>
+                        <div className="cc-plan-persave-content">
+                          <div className="cc-plan-per-text">Per Month</div>
+                          <div className="cc-plan-save-text">
+                            {" "}
+                            {ele.name ?? "NA"}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="cc-subscription-point-info">
+                        <div className="cc-plan-point-list">
+                          <ul>
+                            <li>
+                              <i class="mdi mdi-check-circle"></i>
+                              {convert(ele.description)}
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="cc-plan-action">
+                          <button
+                            type="button"
+                            className="btn-bl"
+                            onClick={() =>
+                              setEditPlan({
+                                status: true,
+                                id: ele.id,
+                                name: ele.name,
+                                description: ele.description,
+                                type: ele.type,
+                                cost: ele.cost,
+                                cost_period: ele.cost_period,
+                              })
+                            }
+                          >
+                            Edit Plan
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-re"
+                            onClick={() =>
+                              setDeletePlan({
+                                status: true,
+                                id: ele.id,
+                              })
+                            }
+                          >
+                            Delete Plan
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="row">
-                    {plans.length !== 0 ? (
-                      plans.map((ele, indx) => {
-                        return (
-                          <div key={indx} className="col-lg-4 mt-5">
-                            <div className="pt-5 pb-4 px-4 h-100 d-flex flex-column bg-body-tertiary shadow rounded-4 position-relative">
-                              <span className="badge position-absolute translate-middle text-bg-success px-3 py-2">
-                                {ele.name ?? "NA"}
-                              </span>
-                              <h3>{ele.name ?? "NA"}</h3>
-                              <div
-                                className="my-2"
-                                style={{ color: "#4db1eb" }}
-                              >
-                                <span className="fs-2 fw-bold">$</span>
-                                <span className="fs-2 text-dak fw-bolder essential">
-                                  {ele.cost ?? "NA"}
-                                </span>
-                                <span className="fs-3 ">/mo</span>
-                              </div>
-
-                              <h4 className="my-4">Plan Benefit :</h4>
-                              <div className="my-1 ">
-                                <span>{convert(ele.description)}</span>
-                              </div>
-
-                              <div className="mt-auto">
-                                <button
-                                  type="button"
-                                  style={{ padding: "14px 40px" }}
-                                  className="mt-4 btn btn-gradient-success mx-1"
-                                  onClick={() =>
-                                    setEditPlan({
-                                      status: true,
-                                      id: ele.id,
-                                      name: ele.name,
-                                      description: ele.description,
-                                      type: ele.type,
-                                      cost: ele.cost,
-                                      cost_period: ele.cost_period,
-                                    })
-                                  }
-                                >
-                                  Edit Plan
-                                </button>
-                                <button
-                                  type="button"
-                                  style={{ padding: "14px 37px" }}
-                                  className="mt-4 btn btn-gradient-danger mx-1"
-                                  onClick={() =>
-                                    setDeletePlan({
-                                      status: true,
-                                      id: ele.id,
-                                    })
-                                  }
-                                >
-                                  Delete Plan
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })
-                    ) : (
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          margin: "5% 0",
-                        }}
-                      >
-                        <img width={300} src={NoData} alt="" />
-                      </div>
-                    )}
-                  </div>
-                </div>
+                );
+              })
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  margin: "5% 0",
+                }}
+              >
+                <img width={300} src={NoData} alt="" />
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

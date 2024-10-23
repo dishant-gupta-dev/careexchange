@@ -51,7 +51,8 @@ const Page = () => {
       date = moment(date).format("yyyy-MM-DD");
     else date = "";
     getJobList(
-      api.postedJobList + `?page=${pageNum}&limit=${LIMIT}&search=${name}&categoryid=${category}&date=${date}`
+      api.postedJobList +
+        `?page=${pageNum}&limit=${LIMIT}&search=${name}&categoryid=${category}&date=${date}`
     );
   };
 
@@ -64,208 +65,208 @@ const Page = () => {
     <>
       {loading ? <Loader /> : null}
       <div className="content-wrapper">
-        <div className="page-header">
-          <h3 className="page-title">
-            Posted Job Opportunities
-          </h3>
-        </div>
-        <div className="">
-          <div className="row mt-3">
-            <div className="col-12 grid-margin">
-              <div className="card">
-                <div className="card-body">
-                  <div className="row d-flex justify-content-between align-items-center">
-                    <div className="col-lg-2 dropdown-select">
-                      <div className="tabs-section">
-                        
-                      </div>
-                    </div>
-                    <div className="col-lg-4">
-                      <div className="">
-                        <div className="input-group">
-                          <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Search by Name"
-                            aria-label="Username"
-                            aria-describedby="basic-addon1"
-                            onChange={(e) => handleFilter(e)}
-                            name="name"
-                          />
-                          <div className="input-group-prepend">
-                            <i className="input-group-text border-0 mdi mdi-magnify"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-lg-3 dropdown-select">
-                      <select
-                        className="form-select"
-                        name="category"
-                        onChange={(e) => handleFilter(e)}
-                      >
-                        <option value="">Select Category</option>
-                        {categories.length !== 0
-                          ? categories.map((ele, indx) => {
-                              return (
-                                <option key={indx} value={ele.id}>
-                                  {ele.name ?? "NA"}
-                                </option>
-                              );
-                            })
-                          : null}
-                      </select>
-                    </div>
-                    <div className="col-lg-3">
-                      <DatePicker
-                        toggleCalendarOnIconClick
-                        showIcon
-                        dateFormat={"MM-dd-yyyy"}
-                        selected={startDate}
-                        onChange={(date, e) => {
-                          setStartDate(date);
-                          handleFilter(e, date);
-                        }}
-                        className="form-control"
-                        style={{ padding: "15px 40px" }}
-                        isClearable
-                        autoComplete="off"
-                        name="date"
-                        placeholderText="Select Date"
-                      />
-                    </div>
-                  </div>
-                  <div className="table-responsive mt-4">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th> Title </th>
-                          <th> Job ID</th>
-                          <th> Job Details</th>
-                          <th> Work Experience </th>
-                          <th> Salary </th>
-                          <th> Work Timing </th>
-                          <th> Status</th>
-                          <th> View Job Details </th>
-                          <th> Address</th>
-                          <th> Posted Date</th>
-                          <th> Posted Time</th>
-                          <th> View Profile</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {jobs.length !== 0 ? (
-                          jobs.map((ele, indx) => {
-                            return (
-                              <tr key={indx}>
-                                <td>{ele.title ?? "NA"}</td>
-                                <td> {ele.job_id ?? "NA"} </td>
-                                <td>{ele.description ?? "NA"}</td>
-                                <td>{ele.working_expirence ?? "NA"}</td>
-                                <td>{ele.pay_range ?? "$0"}/Annually</td>
-                                <td>{ele.working_time_value ?? "NA"}</td>
-                                <td>{status(ele.status)}</td>
-                                <td>
-                                  <Link to={`${routes.jobOpportunityDetail}/${encode(ele.id)}`}>
-                                    <label className="badge badge-gradient-success" style={{cursor: "pointer"}}>
-                                      <i className="fa fa-eye"></i>
-                                    </label>
-                                  </Link>
-                                </td>
-                                <td>{ele.address ?? "NA"}</td>
-                                <td>
-                                  {moment(ele.posted_date).format("MM-DD-yyyy")}
-                                </td>
-                                <td>
-                                  {moment(ele.posted_date).format("hh:mm A")}
-                                </td>
-                                <td>
-                                  <Link to={`${routes.providerDetails}/${encode(ele.care_provider_id)}`}>
-                                    <label className="badge badge-gradient-success" style={{cursor: "pointer"}}>
-                                      <i className="fa fa-eye"></i>
-                                    </label>
-                                  </Link>
-                                </td>
-                              </tr>
-                            );
-                          })
-                        ) : (
-                          <tr className="text-center">
-                            <td colSpan="12">
-                              <div>
-                                <p>No posted jobs found</p>
-                              </div>
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                    <div className="d-flex align-items-center justify-content-center mt-3">
-                      {jobs.length !== 0 ? (
-                        <div className="care-table-pagination">
-                          <ul className="care-pagination">
-                            {pageNum !== 1 && (
-                              <li
-                                className="disabled"
-                                id="example_previous"
-                                onClick={() => setPageNum(pageNum - 1)}
-                              >
-                                <Link
-                                  to=""
-                                  aria-controls="example"
-                                  data-dt-idx="0"
-                                  tabIndex="0"
-                                  className="page-link"
-                                >
-                                  Previous
-                                </Link>
-                              </li>
-                            )}
-
-                            {totalPageCalculator(total, LIMIT).length === 1
-                              ? null
-                              : totalPageCalculator(total, LIMIT).map(
-                                  (pageNo, indx) => {
-                                    return (
-                                      <li
-                                        className={
-                                          pageNo === pageNum ? "active" : ""
-                                        }
-                                        key={indx}
-                                        onClick={() => setPageNum(pageNo)}
-                                      >
-                                        <Link to="" className="page-link">
-                                          {pageNo}
-                                        </Link>
-                                      </li>
-                                    );
-                                  }
-                                )}
-
-                            {pageNum !== Math.ceil(total / LIMIT) && (
-                              <li
-                                className="next"
-                                id="example_next"
-                                onClick={() => setPageNum(pageNum + 1)}
-                              >
-                                <Link
-                                  to=""
-                                  aria-controls="example"
-                                  data-dt-idx="7"
-                                  tabIndex="0"
-                                  className="page-link"
-                                >
-                                  Next
-                                </Link>
-                              </li>
-                            )}
-                          </ul>
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
+        <div className="care-title-header">
+          <h2 className="heading-title">Posted Job Opportunities</h2>
+          <div className="cc-search-filter">
+            <div className="row g-2">
+              <div className="col-md-4">
+                <div className="form-group">
+                  <DatePicker
+                    toggleCalendarOnIconClick
+                    showIcon
+                    dateFormat={"MM-dd-yyyy"}
+                    selected={startDate}
+                    onChange={(date, e) => {
+                      setStartDate(date);
+                      handleFilter(e, date);
+                    }}
+                    className="DatePicker-control"
+                    style={{ padding: "15px 40px" }}
+                    isClearable
+                    autoComplete="off"
+                    name="date"
+                    placeholderText="Select Date"
+                  />
                 </div>
               </div>
+
+              <div className="col-md-3">
+                <div className="form-group dropdown-select">
+                  <select
+                    className="form-control"
+                    name="category"
+                    onChange={(e) => handleFilter(e)}
+                  >
+                    <option value="">Select Category</option>
+                    {categories.length !== 0
+                      ? categories.map((ele, indx) => {
+                          return (
+                            <option key={indx} value={ele.id}>
+                              {ele.name ?? "NA"}
+                            </option>
+                          );
+                        })
+                      : null}
+                  </select>
+                </div>
+              </div>
+
+              <div className="col-md-5">
+                <div className="form-group search-form-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search by Name"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
+                    onChange={(e) => handleFilter(e)}
+                    name="name"
+                  />
+                  <span className="search-icon">
+                    <i className="cc-input-group-text  mdi mdi-magnify"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="cc-table-card">
+          <div className="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th> Title </th>
+                  <th> Job ID</th>
+                  <th> Job Details</th>
+                  <th> Work Experience </th>
+                  <th> Salary </th>
+                  <th> Work Timing </th>
+                  <th> Status</th>
+                  <th> View Job Details </th>
+                  <th> Address</th>
+                  <th> Posted Date</th>
+                  <th> Posted Time</th>
+                  <th> View Profile</th>
+                </tr>
+              </thead>
+              <tbody>
+                {jobs.length !== 0 ? (
+                  jobs.map((ele, indx) => {
+                    return (
+                      <tr key={indx}>
+                        <td>{ele.title ?? "NA"}</td>
+                        <td> {ele.job_id ?? "NA"} </td>
+                        <td>{ele.description ?? "NA"}</td>
+                        <td>{ele.working_expirence ?? "NA"}</td>
+                        <td>{ele.pay_range ?? "$0"}/Annually</td>
+                        <td>{ele.working_time_value ?? "NA"}</td>
+                        <td>{status(ele.status)}</td>
+                        <td>
+                          <Link
+                            to={`${routes.jobOpportunityDetail}/${encode(
+                              ele.id
+                            )}`}
+                          >
+                            <label
+                              className="badge badge-gradient-success"
+                              style={{ cursor: "pointer" }}
+                            >
+                              <i className="fa fa-eye"></i>
+                            </label>
+                          </Link>
+                        </td>
+                        <td>{ele.address ?? "NA"}</td>
+                        <td>{moment(ele.posted_date).format("MM-DD-yyyy")}</td>
+                        <td>{moment(ele.posted_date).format("hh:mm A")}</td>
+                        <td>
+                          <Link
+                            to={`${routes.providerDetails}/${encode(
+                              ele.care_provider_id
+                            )}`}
+                          >
+                            <label
+                              className="badge badge-gradient-success"
+                              style={{ cursor: "pointer" }}
+                            >
+                              <i className="fa fa-eye"></i>
+                            </label>
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr className="text-center">
+                    <td colSpan="12">
+                      <div>
+                        <p>No posted jobs found</p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+            <div className="d-flex align-items-center justify-content-center mt-3">
+              {jobs.length !== 0 ? (
+                <div className="care-table-pagination">
+                  <ul className="care-pagination">
+                    {pageNum !== 1 && (
+                      <li
+                        className="disabled"
+                        id="example_previous"
+                        onClick={() => setPageNum(pageNum - 1)}
+                      >
+                        <Link
+                          to=""
+                          aria-controls="example"
+                          data-dt-idx="0"
+                          tabIndex="0"
+                          className="page-link"
+                        >
+                          Previous
+                        </Link>
+                      </li>
+                    )}
+
+                    {totalPageCalculator(total, LIMIT).length === 1
+                      ? null
+                      : totalPageCalculator(total, LIMIT).map(
+                          (pageNo, indx) => {
+                            return (
+                              <li
+                                className={pageNo === pageNum ? "active" : ""}
+                                key={indx}
+                                onClick={() => setPageNum(pageNo)}
+                              >
+                                <Link to="" className="page-link">
+                                  {pageNo}
+                                </Link>
+                              </li>
+                            );
+                          }
+                        )}
+
+                    {pageNum !== Math.ceil(total / LIMIT) && (
+                      <li
+                        className="next"
+                        id="example_next"
+                        onClick={() => setPageNum(pageNum + 1)}
+                      >
+                        <Link
+                          to=""
+                          aria-controls="example"
+                          data-dt-idx="7"
+                          tabIndex="0"
+                          className="page-link"
+                        >
+                          Next
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
