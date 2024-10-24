@@ -6,7 +6,7 @@
   --blue: #276e91;
   --sky: #66c2f9;
   --green: #45b14a;
-  --orange: #f19a3a;
+  --yellow: #ffc107;
   --gray: #959fa6;
   --red: #ba4831;
   --lightgray: #8f93a0;
@@ -14778,8 +14778,9 @@ code {
 
 .page-title {
   color: #343a40;
-  font-size: 1.125rem;
+  font-size: 18px;
   margin-bottom: 0;
+  font-weight: 600;
 }
 .page-title .page-title-icon {
   display: inline-block;
@@ -15751,6 +15752,7 @@ code {
   color: #ffffff;
   padding: 6px 8px;
   border-radius: 6px;
+  margin-right: 5px;
 }
 
 .btn {
@@ -15826,7 +15828,7 @@ code {
   /* background: url("../../images/auth/lockscreen-bg.jpg"); */
   background-size: cover;
 }
-.auth-card-content {
+.cc-auth-card-content {
   border-radius: 15px;
   padding: 2rem;
   position: relative;
@@ -15834,15 +15836,15 @@ code {
   overflow: hidden;
 }
 
-.auth-form .form-group {
+.cc-auth-form .form-group {
   margin-bottom: 1rem;
 }
-.auth-form .form-group label {
+.cc-auth-form .form-group label {
   color: #fff;
   font-size: 14px;
   font-weight: 600;
 }
-.auth-form input.form-control {
+.cc-auth-form input.form-control {
   background: var(--white);
   border-radius: 5px;
   font-size: 13px;
@@ -15856,7 +15858,7 @@ code {
   color: var(--gray);
   box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05);
 }
-.auth-form input.form-control:focus {
+.cc-auth-form input.form-control:focus {
   border: 1px solid var(--green);
 }
 button.auth-form-btn {
@@ -15892,7 +15894,7 @@ button.auth-form-btn {
   font-size: 14px;
   color: var(--green, #7bc043);
 }
-.auth-bg-video img {
+.cc-auth-bg-video img {
   width: 100vw;
   height: 100vh;
   object-fit: cover;
@@ -15903,16 +15905,16 @@ button.auth-form-btn {
   bottom: 0;
   z-index: -1;
 }
-.auth-height {
+.cc-auth-height {
   height: 100vh;
 }
-.auth-section {
+.cc-auth-section {
   display: flex;
   align-items: center;
   height: 100vh;
   width: 100%;
 }
-.auth-content-card {
+.cc-auth-content-card {
   width: 32%;
   margin: auto;
 }
@@ -17873,20 +17875,20 @@ button.auth-form-btn {
   color: #fff;
 }
 .spr .btn-view-inactive {
-  background: linear-gradient(to right, #ff0000, #d93f3f);
+  background: #fff;
   border: 0;
-  padding: 10px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  color: #fff;
+  padding: 0;
+  border-radius: 0px;
+  font-size: 14px;
+  color: var(--red);
 }
 .spr .btn-view-active {
-  background: #3cd60c;
   border: 0;
-  padding: 10px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  color: #fff;
+  padding: 0;
+  border-radius: 0px;
+  font-size: 14px;
+  color: var(--green);
+  background-color: #fff;
 }
 
 .spr .iq-card {
@@ -17924,16 +17926,16 @@ button.auth-form-btn {
 
 .spr .tags-btn-line {
   background: #fff;
-  border: 1px solid #6dc6fa;
+  border: 1px solid var(--blue);
   padding: 6px;
   text-decoration: none;
   border-radius: 6px;
-  color: #6dc6fa;
+  color: var(--blue);
   font-size: 14px;
 }
 
 .spr .btn-back i {
-  background: #71c7fb;
+  background: var(--darkblue);
   border-radius: 20px;
   padding: 5px 6px;
   color: #fff;

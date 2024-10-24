@@ -125,7 +125,9 @@ const Details = () => {
                 <select
                   name="format"
                   id="format"
-                  className={(users?.user?.status==1) ? "green-select" : "red-select"}
+                  className={
+                    users?.user?.status == 1 ? "green-select" : "red-select"
+                  }
                   onChange={(e) =>
                     setStat({
                       status: true,
@@ -158,12 +160,12 @@ const Details = () => {
           </div>
         </div>
         <div className="row">
-          <div className="col-md-6">
-            <div className="card">
-              <div className="card statistics-card-1 card-img-holder text-dark position-relative">
-                <div className="card-body align-items-center d-flex">
-                  <div className="d-flex justify-content-between w-100">
-                    <div className="care-for-profile-img me-3 d-flex align-items-center">
+          <div className="col-md-12">
+            <div className="user-table-item">
+              <div className="row g-1 align-items-center">
+                <div className="col-md-3">
+                  <div className="user-profile-item">
+                    <div className="user-profile-media">
                       {users?.user?.image === null ||
                       users?.user?.image === "" ||
                       users?.user?.image === undefined ? (
@@ -171,23 +173,46 @@ const Details = () => {
                       ) : (
                         <img src={users?.user?.image} alt="" className="me-3" />
                       )}
-                      <div className="">
-                        <h5 className="text-capitalize">{users?.user?.fullname ?? "NA"}</h5>
-                        <p>{users?.user?.email ?? "NA"}</p>
+                    </div>
+                    <div className="user-profile-text">
+                      <h2>{users?.user?.fullname ?? "NA"}</h2>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-9">
+                  <div className="row g-1 align-items-center">
+                    <div className="col-md-4">
+                      <div className="user-contact-info">
+                        <div className="user-contact-info-icon"></div>
+                        <div className="user-contact-info-content">
+                          <h2>Account Created on :</h2>
+                          <p>
+                            {" "}
+                            {moment(users?.user?.created_date).format(
+                              "MM-DD-yyyy"
+                            )}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                    <div className="d-flex align-items-center profile-name-card-details">
-                      <div className="p-3">
-                        <p className="mb-2">
-                          <label>Account Created on :</label>{" "}
-                          {moment(users?.user?.created_date).format(
-                            "MM-DD-yyyy"
-                          )}
-                        </p>
-                        <p className="m-0">
-                          <label>Contact Number :</label>{" "}
-                          {users?.user?.mobile ?? "NA"}
-                        </p>
+
+                    <div className="col-md-4">
+                      <div className="user-contact-info">
+                        <div className="user-contact-info-icon"></div>
+                        <div className="user-contact-info-content">
+                          <h2>Email Address :</h2>
+                          <p>{users?.user?.email ?? "NA"}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="user-contact-info">
+                        <div className="user-contact-info-icon"></div>
+                        <div className="user-contact-info-content">
+                          <h2>Contact Number :</h2>
+                          <p>{users?.user?.mobile ?? "NA"}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -195,46 +220,38 @@ const Details = () => {
               </div>
             </div>
           </div>
-          <div className="col-md-3">
-            <div className="card">
-              <div className="card bg-card-payment-1 card-img-holder text-dark position-relative">
-                <div className="card-body">
-                  <h6 className="font-weight-normal mb-4">Active Jobs</h6>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <h2 className="mb-0">{users?.activeJob ?? "0"}</h2>
-                    <div className="active-jobs-img">
-                      <img src={ActiveJob} alt="" height="60px" />{" "}
-                    </div>
-                  </div>
-                </div>
+        </div>
+        <div className="row g-2">
+          <div className="col-md-6">
+            <div className="card-overview">
+              <div className="card-overview-image">
+                <img src={ActiveJob} alt="" height="60px" />
+              </div>
+              <div className="card-overview-content">
+                <h4>Active Jobs</h4>
+                <h2>{users?.activeJob ?? "0"}</h2>
               </div>
             </div>
           </div>
-          <div className="col-md-3">
-            <div className="card">
-              <div className="card bg-card-payment-1 card-img-holder text-dark">
-                <div className="card-body">
-                  <h6 className="font-weight-normal mb-4">Pending Requests</h6>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <h2 className="mb-0">{users?.pendingRequests ?? "0"}</h2>
-                    <div className="active-jobs-img">
-                      <img src={PendingRequest} alt="" height="60px" />{" "}
-                    </div>
-                  </div>
-                </div>
+          <div className="col-md-6">
+            <div className="card-overview">
+              <div className="card-overview-image">
+                <img src={PendingRequest} alt="" height="60px" />
+              </div>
+              <div className="card-overview-content">
+                <h4>Pending Requests</h4>
+                <h2>{users?.pendingRequests ?? "0"}</h2>
               </div>
             </div>
           </div>
 
           <div className="col-lg-12 mt-4">
-            <div className="iq-card">
-              <div className="iq-card-header d-flex justify-content-between">
-                <div className="iq-header-title">
-                  <h4 className="card-title">Care Job Requests</h4>
-                </div>
-                <div className="d-flex">
-                  <div className="me-1">
-                    <div className="align-items-center d-flex">
+            <div className="care-title-header">
+              <h2 className="heading-title">Care Job Requests</h2>
+              <div className="cc-search-filter wd70">
+                <div className="row g-2">
+                  <div className="col-md-8">
+                    <div className="form-group">
                       <div className="tabs-section">
                         <ul className="nav">
                           <li className="nav-item">
@@ -286,43 +303,50 @@ const Details = () => {
                       </div>
                     </div>
                   </div>
-                  <div>
-                    <DatePicker
-                      toggleCalendarOnIconClick
-                      showIcon
-                      dateFormat={"MM-dd-yyyy"}
-                      selected={startDate}
-                      onChange={(date, e) => {
-                        setStartDate(date);
-                        handleFilter(e, date);
-                      }}
-                      className="form-control"
-                      style={{ padding: "15px 40px" }}
-                      isClearable
-                      name="date"
-                      autoComplete="off"
-                      placeholderText="Select Date"
-                    />
+
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <DatePicker
+                        toggleCalendarOnIconClick
+                        showIcon
+                        dateFormat={"MM-dd-yyyy"}
+                        selected={startDate}
+                        onChange={(date, e) => {
+                          setStartDate(date);
+                          handleFilter(e, date);
+                        }}
+                        className="form-control"
+                        style={{ padding: "15px 40px" }}
+                        isClearable
+                        name="date"
+                        autoComplete="off"
+                        placeholderText="Select Date"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="iq-card-body">
-                <div className="new-user-info">
-                  <form className="px-3">
-                    {users.careJobRequestList?.length !== 0 ? (
-                      users.careJobRequestList?.map((ele, indx) => {
-                        return (
-                          <div key={indx} className="row card-bg-list mb-3">
-                            <div className="col-lg-12 d-flex justify-content-between mb-3">
+            </div>
+
+            <div className="cc-careJobRequestList-card">
+              <form>
+                <div className="row g-2">
+                  {users.careJobRequestList?.length !== 0 ? (
+                    users.careJobRequestList?.map((ele, indx) => {
+                      return (
+                        <div key={indx} className="col-lg-6">
+                          <div className="careJobRequest-card">
+                            <div className="careJobRequest-card-head">
                               <h5 className="text-capitalize">
                                 {ele.first_name ?? "NA"}
                               </h5>
-                              <div>
+                              <div className="careJobRequest-status">
+                                Status:
                                 <button
                                   type="button"
                                   className={
                                     ele.status == 1 || ele.status == 4
-                                      ? "btn btn-view-active px-4"
+                                      ? "btn-status btn-view-active px-4"
                                       : ele.status == 0
                                       ? "btn btn-view-pending px-4"
                                       : "btn btn-view-inactive px-4"
@@ -333,127 +357,138 @@ const Details = () => {
                                 </button>
                               </div>
                             </div>
-                            <div className="form-group col-md-2 mb-0">
-                              <label>Job ID</label>
-                              <p>{ele.job_id ?? "NA"}</p>
-                            </div>
-                            <div className="form-group col-md-2 mb-0">
-                              <label>Date</label>
-                              <p>
-                                {moment(ele.start_date).format("MM-DD-yyyy")}
-                              </p>
-                            </div>
-                            <div className="form-group col-md-3 mb-0">
-                              <label for="lname">Time</label>
-                              <p>
-                                {ele.start_time} to {ele.end_time}
-                              </p>
-                            </div>
-                            <div className="form-group col-md-5 mb-0">
-                              <label for="add1">Repeat Weekly</label>
-                              <p>
-                                Every Week &nbsp;{" "}
-                                {ele?.days?.length !== 0
-                                  ? ele?.days?.map((element, index) => {
-                                      return (
-                                        <label
-                                          key={index}
-                                          className="badge badge-gradient-success mx-1"
-                                        >
-                                          {element}
-                                        </label>
-                                      );
-                                    })
-                                  : null}
-                              </p>
-                            </div>
-                            <div className="col-md-12">
-                              <div className="card">
-                                <div className="card statistics-card-1 card-img-holder text-dark position-relative">
-                                  {ele?.confirmProvider?.length !== 0
-                                    ? ele?.confirmProvider?.map(
-                                        (element, index) => {
+                            <div className="careJobRequest-card-body">
+                              <div className="careJobRequest-point-list">
+                                <div className="careJobRequest-point-item">
+                                  <h3>Job ID</h3>
+                                  <p>{ele.job_id ?? "NA"}</p>
+                                </div>
+
+                                <div className="careJobRequest-point-item">
+                                  <h3>Date</h3>
+                                  <p>
+                                    {moment(ele.start_date).format(
+                                      "MM-DD-yyyy"
+                                    )}
+                                  </p>
+                                </div>
+
+                                <div className="careJobRequest-point-item">
+                                  <h3>Time</h3>
+                                  <p>
+                                    {ele.start_time} to {ele.end_time}
+                                  </p>
+                                </div>
+
+                                <div className="careJobRequest-point-item">
+                                  <h3>Repeat Weekly</h3>
+                                  <p>
+                                    Every Week &nbsp;{" "}
+                                    {ele?.days?.length !== 0
+                                      ? ele?.days?.map((element, index) => {
                                           return (
-                                            <div
+                                            <label
                                               key={index}
-                                              className="p-3 align-items-center d-flex"
+                                              className="badge badge-gradient-success mx-1"
                                             >
-                                              <div className="d-flex justify-content-between w-100">
-                                                <div className="care-for-profile-img me-3 d-flex align-items-center">
-                                                  {element.image === null ||
-                                                  element.image === "" ||
-                                                  element.image ===
-                                                    undefined ? (
-                                                    <img
-                                                      src={NoImage}
-                                                      alt=""
-                                                      className="me-3"
-                                                    />
-                                                  ) : (
-                                                    <img
-                                                      src={element.image}
-                                                      alt=""
-                                                      className="me-3"
-                                                    />
-                                                  )}
-                                                  <div className="">
-                                                    <h5 className="text-capitalize">
-                                                      {element.fullname}
-                                                    </h5>
-                                                    <p className="m-0">
-                                                      <i className="mdi mdi-checkbox-multiple-marked-circle-outline"></i>{" "}
-                                                      Job Confirmed
-                                                    </p>
-                                                  </div>
-                                                </div>
-                                                <div className="d-flex align-items-center">
-                                                  <div>
-                                                    <button
-                                                      type="button"
-                                                      className="btn btn-view-profile"
-                                                      onClick={() =>
-                                                        navigate(
-                                                          routes.careJobDetails +
-                                                            `/${encode(
-                                                              element.request_id
-                                                            )}`
-                                                        )
-                                                      }
-                                                    >
-                                                      View Job Detail
-                                                    </button>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
+                                              {element}
+                                            </label>
                                           );
-                                        }
-                                      )
-                                    : null}
+                                        })
+                                      : null}
+                                  </p>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        );
-                      })
-                    ) : (
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          margin: "5% 0",
-                        }}
-                      >
-                        <img width={300} src={NoData} alt="" />
-                      </div>
-                    )}
-                  </form>
+
+                          <div className="col-md-12">
+                            <div className="card">
+                              <div className="card statistics-card-1 card-img-holder text-dark position-relative">
+                                {ele?.confirmProvider?.length !== 0
+                                  ? ele?.confirmProvider?.map(
+                                      (element, index) => {
+                                        return (
+                                          <div
+                                            key={index}
+                                            className="p-3 align-items-center d-flex"
+                                          >
+                                            <div className="d-flex justify-content-between w-100">
+                                              <div className="care-for-profile-img me-3 d-flex align-items-center">
+                                                {element.image === null ||
+                                                element.image === "" ||
+                                                element.image === undefined ? (
+                                                  <img
+                                                    src={NoImage}
+                                                    alt=""
+                                                    className="me-3"
+                                                  />
+                                                ) : (
+                                                  <img
+                                                    src={element.image}
+                                                    alt=""
+                                                    className="me-3"
+                                                  />
+                                                )}
+                                                <div className="">
+                                                  <h5 className="text-capitalize">
+                                                    {element.fullname}
+                                                  </h5>
+                                                  <p className="m-0">
+                                                    <i className="mdi mdi-checkbox-multiple-marked-circle-outline"></i>{" "}
+                                                    Job Confirmed
+                                                  </p>
+                                                </div>
+                                              </div>
+                                              <div className="d-flex align-items-center">
+                                                <div>
+                                                  <button
+                                                    type="button"
+                                                    className="btn-view-profile"
+                                                    onClick={() =>
+                                                      navigate(
+                                                        routes.careJobDetails +
+                                                          `/${encode(
+                                                            element.request_id
+                                                          )}`
+                                                      )
+                                                    }
+                                                  >
+                                                    View Job Detail
+                                                  </button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        );
+                                      }
+                                    )
+                                  : null}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        margin: "5% 0",
+                      }}
+                    >
+                      <img width={300} src={NoData} alt="" />
+                    </div>
+                  )}
                 </div>
-              </div>
+              </form>
             </div>
           </div>
-          {/* {users.confirmProviders.length !== 0
+        </div>
+      </div>
+      {/* {users.confirmProviders.length !== 0
             ? users.confirmProviders.map((ele, indx) => {
                 return (
                   <div key={indx} className="col-md-12">
@@ -507,8 +542,6 @@ const Details = () => {
                 );
               })
             : null} */}
-        </div>
-      </div>
 
       <Modal
         show={stat.status}
@@ -525,7 +558,10 @@ const Details = () => {
           <ModalBody className="">
             <div className="add-items d-flex row">
               <h5 className="text-center">Are you sure</h5>
-              <p className="text-center">You want to <span className="text-lowercase">{stat.name}</span> this user?</p>
+              <p className="text-center">
+                You want to <span className="text-lowercase">{stat.name}</span>{" "}
+                this user?
+              </p>
               <div className="form-group text-center">
                 <button
                   type="button"

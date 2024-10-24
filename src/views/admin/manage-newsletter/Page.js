@@ -521,14 +521,14 @@ const Page = () => {
         onHide={() => {
           setSendEmail(false);
         }}
-        className="modal-xl"
+        className="cc-modal-form"
       >
         <div className="modal-content">
           <ModalHeader>
             <h5 className="mb-0">Compose Email</h5>
           </ModalHeader>
           <ModalBody className="">
-            <div className="cc-modal-form add-items d-flex row">
+            <div className="add-items d-flex row">
               <Formik
                 initialValues={initialValues}
                 validateOnChange={true}
@@ -585,7 +585,7 @@ const Page = () => {
                       </div>
                     )}
                   </div>
-                  <div className="form-group text-end">
+                  <div className="form-group text-end mb-0">
                     <button
                       type="button"
                       onClick={() => {
@@ -616,7 +616,7 @@ const Page = () => {
         onHide={() => {
           setSendNewEmail(false);
         }}
-        className="modal-xl"
+        className="cc-modal-form"
       >
         <div className="modal-content">
           <ModalHeader>
@@ -679,20 +679,20 @@ const Page = () => {
                       </div>
                     )}
                   </div>
-                  <div className="form-group text-end">
+                  <div className="form-group text-end mb-0">
                     <button
                       type="button"
                       onClick={() => {
                         setSendNewEmail(false);
                       }}
-                      className="btn btn-gradient-danger me-2"
+                      className="btn-re me-2"
                       data-bs-dismiss="modal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-gradient-primary me-2"
+                      className="btn-gr"
                       data-bs-dismiss="modal"
                     >
                       Send
@@ -710,7 +710,7 @@ const Page = () => {
         onHide={() => {
           setText(false);
         }}
-        className=""
+        className="cc-modal-form"
       >
         <div className="modal-content">
           <ModalHeader>
@@ -766,20 +766,20 @@ const Page = () => {
                       className="alert alert-danger"
                     />
                   </div>
-                  <div className="form-group text-end">
+                  <div className="form-group text-end mb-0">
                     <button
                       type="button"
                       onClick={() => {
                         setText(false);
                       }}
-                      className="btn btn-gradient-danger me-2"
+                      className="btn-re me-2"
                       data-bs-dismiss="modal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-gradient-primary me-2"
+                      className="btn-gr"
                       data-bs-dismiss="modal"
                     >
                       Send Message
@@ -797,7 +797,7 @@ const Page = () => {
         onHide={() => {
           setNewText(false);
         }}
-        className=""
+        className="cc-modal-form"
       >
         <div className="modal-content">
           <ModalHeader>
@@ -852,20 +852,20 @@ const Page = () => {
                       className="alert alert-danger"
                     />
                   </div>
-                  <div className="form-group text-end">
+                  <div className="form-group text-end mb-0">
                     <button
                       type="button"
                       onClick={() => {
                         setNewText(false);
                       }}
-                      className="btn btn-gradient-danger me-2"
+                      className="btn-re me-2"
                       data-bs-dismiss="modal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-gradient-primary me-2"
+                      className="btn-gr"
                       data-bs-dismiss="modal"
                     >
                       Send Message
