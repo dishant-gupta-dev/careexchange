@@ -195,7 +195,7 @@ const Page = () => {
                   <th> Status </th>
                   <th> Start Date </th>
                   <th> Time</th>
-                  <th> Repeat Weekly </th>
+                  <th> Frequency </th>
                   {/* <th> Care Provider Name </th>
                           <th> Care Provider Status </th>
                           <th> View Care Provider Profile </th> */}
@@ -214,22 +214,10 @@ const Page = () => {
                         <td>{status(ele.status)}</td>
                         <td>{moment(ele.start_date).format("MM-DD-yyyy")}</td>
                         <td>
-                          {ele.start_time} - {ele.end_time}
+                          {ele.start_time}
                         </td>
                         <td>
-                          Every Week &nbsp;
-                          {ele?.days?.length !== 0
-                            ? ele?.days?.map((element, index) => {
-                                return (
-                                  <label
-                                    key={index}
-                                    className="badge badge-gradient-success mx-1"
-                                  >
-                                    {element}
-                                  </label>
-                                );
-                              })
-                            : null}
+                          {ele.frequency === "O" ? "One Time" : (ele.frequency === "W" ? "Repeat Weekly" : "Repeat Monthly")}
                         </td>
                         {/* <td>Joseph Phill Will Take Care</td>
                                 <td>Confirmed Care Provider </td>

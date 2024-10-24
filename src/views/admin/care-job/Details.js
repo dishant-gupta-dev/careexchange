@@ -108,14 +108,14 @@ const Details = () => {
                       <div className="form-group col-md-4 mb-0">
                         <label for="lname">Time</label>
                         <p>
-                          {details?.start_time} to {details?.end_time}
+                          {details?.start_time}
                         </p>
                       </div>
                       <div className="form-group col-md-4 mb-0">
-                        <label for="add1">Repear Weekly</label>
+                        <label for="add1">Frequency</label>
                         <p>
-                          Every Week{" "}
-                          {details?.days?.length !== 0
+                        {details?.frequency === "O" ? "One Time" : (details?.frequency === "W" ? "Repeat Weekly" : "Repeat Monthly")}
+                          {/* {details?.days?.length !== 0
                             ? details?.days?.map((element, index) => {
                                 return (
                                   <label
@@ -126,7 +126,7 @@ const Details = () => {
                                   </label>
                                 );
                               })
-                            : null}
+                            : null} */}
                         </p>
                       </div>
                     </div>

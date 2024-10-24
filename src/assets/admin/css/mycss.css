@@ -24,6 +24,16 @@
   -webkit-flex-grow: 1;
   flex-grow: 1;
 }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+.fa.fa-eye{
+  color: #fff;
+}
 
 .footer {
   margin-left: 260px;

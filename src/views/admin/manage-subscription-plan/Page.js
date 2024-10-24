@@ -145,7 +145,7 @@ const Page = () => {
       {loading ? <Loader /> : null}
       <div className="content-wrapper">
         <div className="page-header">
-          <h3 className="heading-title">Manage Subscription Plan</h3>
+          <h3 className="heading-title">Subscription Plan</h3>
           {/* <div className="d-flex">
             <button
               style={{ marginLeft: "20px" }}

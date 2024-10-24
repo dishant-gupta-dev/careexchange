@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import jpgImg from "../../../assets/user/images/1.jpg";
 import Logo from "../../../assets/user/images/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
@@ -46,16 +45,21 @@ const Register = () => {
 
   const sendOtp = async (formValue) => {
     setLoading(true);
-    // let form = new FormData();
-    // form.append("username", formValue.username);
-    // form.append("email", formValue.email);
-    // form.append("user_type", formValue.user_type);
     let form = JSON.stringify({
       email: formValue.email,
-      user_type: formValue.user_type,
+      user_type: 1,
     });
-    const response = await ApiService.postAPIWithAccessToken(api.sendOtp, form);
+    const response = await ApiService.postAPI(api.registerSendOtp, form);
     if (response.data.status) {
+      toast(response.data.data?.otp,
+        {
+          style: {
+            borderRadius: '10px',
+            background: '#000',
+            color: '#fff',
+          },
+        }
+      );
       toast.success(response.data.message);
       setData({email: formValue.email, name: formValue.username});
       setMultiScreen(1);
@@ -69,15 +73,15 @@ const Register = () => {
     setLoading(true);
     let form = JSON.stringify({
       email: data.email,
-      otp: formValue.otp1+formValue.otp2+formValue.otp3+formValue.otp4,
+      otp: `${formValue.otp1}${formValue.otp2}${formValue.otp3}${formValue.otp4}`,
     });
-    const response = await ApiService.postAPIWithAccessToken(api.otpVerify, form);
+    const response = await ApiService.postAPI(api.otpVerify, form);
     if (response.data.status) {
       let formData = new FormData();
       formData.append("username", data.name);
       formData.append("email", data.email);
       formData.append("user_type", 1);
-      const responseData = await ApiService.postAPIWithAccessToken(api.register, form);
+      const responseData = await ApiService.postAPI(api.register, formData);
       if (responseData.data.status) {
         // toast.success(response.data.message);
         toast.success(responseData.data.message);
@@ -124,7 +128,7 @@ const Register = () => {
                           <div className="form-group">
                             <Field
                               type="text"
-                              className="form-control form-control-lg mt-2"
+                              className="form-control"
                               name="username"
                               placeholder="Full Name"
                             />
@@ -138,7 +142,7 @@ const Register = () => {
                           <div className="form-group">
                             <Field
                               type="email"
-                              className="form-control form-control-lg mt-2"
+                              className="form-control"
                               name="email"
                               placeholder="Email Address"
                             />
@@ -173,7 +177,7 @@ const Register = () => {
                       <h2>Verification Code</h2>
                       <p>
                         We have sent you a verification code to
-                        (lanxxx_o@yahoo.com)
+                        ({data.email})
                       </p>
                       <Formik
                         initialValues={initialOtpValues}
@@ -185,31 +189,32 @@ const Register = () => {
                           <div className="form-group">
                             <div className="otp-item-input">
                               <div className="otp-item">
-                                <input
-                                  type="taxt"
+                                <Field
+                                  type="number"
                                   className="form-control"
-                                  placeholder=""
+                                  name="otp1"
+                                  minLength="1"
                                 />
                               </div>
                               <div className="otp-item">
-                                <input
-                                  type="taxt"
+                                <Field
+                                  type="number"
                                   className="form-control"
-                                  placeholder=""
+                                  name="otp2"
                                 />
                               </div>
                               <div className="otp-item">
-                                <input
-                                  type="taxt"
+                                <Field
+                                  type="number"
                                   className="form-control"
-                                  placeholder=""
+                                  name="otp3"
                                 />
                               </div>
                               <div className="otp-item">
-                                <input
-                                  type="taxt"
+                                <Field
+                                  type="number"
                                   className="form-control"
-                                  placeholder=""
+                                  name="otp4"
                                 />
                               </div>
                             </div>
@@ -219,6 +224,7 @@ const Register = () => {
                           </div>
                           <div className="form-group">
                             <button
+                              type="submit"
                               className="auth-form-btn"
                             >
                               Validate OTP

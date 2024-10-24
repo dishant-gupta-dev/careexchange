@@ -41,10 +41,10 @@ export const login = createAsyncThunk(
 );
 
 export const verifyOtp = createAsyncThunk(
-  userApi.login,
+  userApi.otpVerify,
   async ({ email, otp }, thunkAPI) => {
     try {
-      const response = await ApiService.postAPI(userApi.login, { email, otp });
+      const response = await ApiService.postAPI(userApi.otpVerify, { email, otp });
       
       if (!response.data.status) {
         thunkAPI.dispatch(setMessage(response.data.message));
@@ -52,7 +52,7 @@ export const verifyOtp = createAsyncThunk(
       } else {
         if (response.data.status && response.data.data.token) {
           const body = response.data;
-          const localData = { token: body.data.token, userId: body.data.adminUser.userid, email: body.data.adminUser.email, role_id: body.data.adminUser.user_type};
+          const localData = { token: body.data.token, userId: body.data.user.userid, email: body.data.user.email, role_id: body.data.user.user_type};
           
           localStorage.setItem("careexchange", JSON.stringify(localData));
           thunkAPI.dispatch(setMessage(response.data.message));

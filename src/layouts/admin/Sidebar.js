@@ -106,7 +106,7 @@ const Sidebar = () => {
             }
           >
             <Link className="nav-link" to={routes.careAssessment}>
-              <span className="menu-title">Care Assessment Requests </span>
+              <span className="menu-title">Care Assessment</span>
               <i className="mdi mdi-medical-bag menu-icon"></i>
             </Link>
           </li>
@@ -118,7 +118,7 @@ const Sidebar = () => {
             }
           >
             <Link className="nav-link" to={routes.manageSubscriptionPlan}>
-              <span className="menu-title">Manage Subscription Plan </span>
+              <span className="menu-title">Subscription Plan </span>
               <i className="mdi mdi-calendar-text-outline menu-icon"></i>
             </Link>
           </li>

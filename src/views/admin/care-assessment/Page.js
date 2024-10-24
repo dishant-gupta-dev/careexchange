@@ -9,10 +9,7 @@ import moment from "moment";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../layouts/loader/Loader";
 import { Modal, ModalBody } from "react-bootstrap";
-import {
-  totalPageCalculator,
-  LIMIT,
-} from "../../../utlis/common.utlis";
+import { totalPageCalculator, LIMIT } from "../../../utlis/common.utlis";
 import { encode } from "base-64";
 import toast from "react-hot-toast";
 
@@ -126,28 +123,15 @@ const Page = () => {
       {loading ? <Loader /> : null}
       <div className="content-wrapper">
         <div className="care-title-header">
-          <h2 className="heading-title">In-Home Care Assessment Requests</h2>
+          <h2 className="heading-title">Care Assessment</h2>
           <div className="cc-search-filter wd50">
             <div className="row g-2">
+              <div className="col-md-6"></div>
               <div className="col-md-6">
                 <div className="form-group">
-                  <button type="button" className="btn-gr">
+                  <button type="button" className="btn-gr" onClick={() => setSend(true)}>
                     Send Request to Care Providers
                   </button>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group search-form-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Search by User Name"
-                    aria-label="Username"
-                    aria-describedby="basic-addon1"
-                  />
-                  <span className="search-icon">
-                    <i className="cc-input-group-text  mdi mdi-magnify"></i>
-                  </span>
                 </div>
               </div>
             </div>
@@ -158,43 +142,72 @@ const Page = () => {
           <div className="cc-search-filter wd100">
             <div className="row g-2">
               <div className="col-md-3">
-                <div className="form-group">
-                  <div className="d-flex align-items-center btn-select-all">
-                    <input
-                      className="me-2"
-                      type="radio"
-                      name="imgsel"
-                      defaultValue=""
-                    />
-                    <p className="mb-0">Select All</p>
-                  </div>
+                <div className="form-group search-form-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search by User Name"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
+                    onChange={(e) => handleFilter(e)}
+                  />
+                  <span className="search-icon">
+                    <i className="cc-input-group-text  mdi mdi-magnify"></i>
+                  </span>
                 </div>
               </div>
               <div className="col-md-3">
                 <div className="form-group">
-                  <input
-                    type="date"
+                  <DatePicker
+                    toggleCalendarOnIconClick
+                    showIcon
+                    dateFormat={"MM-dd-yyyy"}
+                    selected={startDate}
+                    onChange={(date, e) => {
+                      setStartDate(date);
+                      handleFilter(e, date);
+                    }}
                     className="form-control"
-                    id="exampleInputdate"
-                    defaultValue="2019-12-18"
+                    style={{ padding: "15px 40px" }}
+                    isClearable
+                    name="date"
+                    autoComplete="off"
+                    placeholderText="Select Date"
                   />
                 </div>
               </div>
 
               <div className="col-md-3">
                 <div className="form-group dropdown-select">
-                  <select className="form-control">
-                    <option>Georgia</option>
-                    <option></option>
+                  <select
+                    className="form-control"
+                    name="categoryid"
+                    onChange={(e) => handleFilter(e)}
+                  >
+                    <option value="">Select Category</option>
+                    {categories.length !== 0
+                      ? categories.map((ele, indx) => {
+                          return (
+                            <option key={indx} value={ele.id}>
+                              {ele.name ?? "NA"}
+                            </option>
+                          );
+                        })
+                      : null}
                   </select>
                 </div>
               </div>
 
               <div className="col-md-3">
                 <div className="form-group dropdown-select">
-                  <select className="form-control">
-                    <option>Senior Care</option>
-                    <option></option>
+                  <select
+                    className="form-control"
+                    name="status"
+                    onChange={(e) => handleFilter(e)}
+                  >
+                    <option value="">Select Status</option>
+                    <option value="1">Active Assessment</option>
+                    <option value="2">Inactive Assessment</option>
                   </select>
                 </div>
               </div>
@@ -206,78 +219,144 @@ const Page = () => {
             <table className="table">
               <thead>
                 <tr>
-                  <th>Select</th>
+                  <th>
+                    <input
+                      className="me-2"
+                      type="checkbox"
+                      name="imgsel"
+                      checked={selectAll}
+                      onChange={handleSelectAllChange}
+                    />
+                    Select All
+                  </th>
                   <th>Name</th>
                   <th>Email ID</th>
                   <th>Phone Number</th>
+                  <th>Address</th>
                   <th>View Detail</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td scope="row">
-                    <input className="form-check-input" type="checkbox" />
-                  </td>
-                  <td> Michal Jeff </td>
-                  <td>Johnsmith@gmail.com</td>
-                  <td>(817) 237-7205</td>
-                  <td>
-                    <label className="badge badge-gradient-success">
-                      {" "}
-                      <i className="fa fa-eye"></i>{" "}
-                    </label>
-                  </td>
-                </tr>
-                <tr>
-                  <td scope="row">
-                    <input className="form-check-input" type="checkbox" />
-                  </td>
-                  <td> Michal Jeff </td>
-                  <td>Johnsmith@gmail.com</td>
-                  <td>(817) 237-7205</td>
-                  <td>
-                    <label className="badge badge-gradient-success">
-                      {" "}
-                      <i className="fa fa-eye"></i>{" "}
-                    </label>
-                  </td>
-                </tr>
-                <tr>
-                  <td scope="row">
-                    <input className="form-check-input" type="checkbox" />
-                  </td>
-                  <td> Michal Jeff </td>
-                  <td>Johnsmith@gmail.com</td>
-                  <td>(817) 237-7205</td>
-                  <td>
-                    <label className="badge badge-gradient-success">
-                      {" "}
-                      <i className="fa fa-eye"></i>{" "}
-                    </label>
-                  </td>
-                </tr>
+                {assessment.length !== 0 ? (
+                  assessment.map((ele, indx) => {
+                    return (
+                      <tr key={indx}>
+                        <td scope="row">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            checked={ele.checked}
+                            onChange={() => handleItemChange(ele.id)}
+                          />
+                        </td>
+                        <td className="text-capitalize">
+                          {" "}
+                          {ele.first_name ?? "NA"}{" "}
+                        </td>
+                        <td className="text-lowercase">
+                          {" "}
+                          {ele.email_id ?? "NA"}{" "}
+                        </td>
+                        <td> {ele.phone ?? "NA"} </td>
+                        <td> {ele.address ?? "NA"} </td>
+                        <td>
+                          <Link
+                            to={`${routes.careAssessmentDetail}/${encode(
+                              ele.id
+                            )}`}
+                          >
+                            <label
+                              style={{ cursor: "pointer" }}
+                              className="badge badge-gradient-success"
+                            >
+                              <i className="fa fa-eye"></i>
+                            </label>
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr className="text-center">
+                    <td colSpan="6">
+                      <div>
+                        <p>No assessment found</p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
+            <div className="d-flex align-items-center justify-content-center mt-3">
+              {assessment.length !== 0 ? (
+                <div className="care-table-pagination">
+                  <ul className="care-pagination">
+                    {pageNum !== 1 && (
+                      <li
+                        className="disabled"
+                        id="example_previous"
+                        onClick={() => setPageNum(pageNum - 1)}
+                      >
+                        <Link
+                          to=""
+                          aria-controls="example"
+                          data-dt-idx="0"
+                          tabIndex="0"
+                          className="page-link"
+                        >
+                          Previous
+                        </Link>
+                      </li>
+                    )}
+
+                    {totalPageCalculator(total, LIMIT).length === 1
+                      ? null
+                      : totalPageCalculator(total, LIMIT).map(
+                          (pageNo, indx) => {
+                            return (
+                              <li
+                                className={pageNo === pageNum ? "active" : ""}
+                                key={indx}
+                                onClick={() => setPageNum(pageNo)}
+                              >
+                                <Link to="" className="page-link">
+                                  {pageNo}
+                                </Link>
+                              </li>
+                            );
+                          }
+                        )}
+
+                    {pageNum !== Math.ceil(total / LIMIT) && (
+                      <li
+                        className="next"
+                        id="example_next"
+                        onClick={() => setPageNum(pageNum + 1)}
+                      >
+                        <Link
+                          to=""
+                          aria-controls="example"
+                          data-dt-idx="7"
+                          tabIndex="0"
+                          className="page-link"
+                        >
+                          Next
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
 
-        <div className="">
+        {/* <div className="">
           <div className="row mt-3">
             <div className="col-12 grid-margin">
               <div className="card">
                 <div className="card-body">
                   <div className="row d-flex align-items-center">
-                    {/* <div className="col-lg-2">
-                      <div className="d-flex align-items-center btn-select-all">
-                        <input
-                          className="me-2"
-                          type="radio"
-                          name="imgsel"
-                          defaultValue=""
-                        />
-                        <p className="mb-0">Select All</p>
-                      </div>
-                    </div> */}
                     <div className="col-lg-3">
                       <div className="">
                         <div className="input-group">
@@ -365,56 +444,7 @@ const Page = () => {
                           <th>View Detail</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        {assessment.length !== 0 ? (
-                          assessment.map((ele, indx) => {
-                            return (
-                              <tr key={indx}>
-                                <td scope="row">
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    checked={ele.checked}
-                                    onChange={() => handleItemChange(ele.id)}
-                                  />
-                                </td>
-                                <td className="text-capitalize">
-                                  {" "}
-                                  {ele.first_name ?? "NA"}{" "}
-                                </td>
-                                <td className="text-lowercase">
-                                  {" "}
-                                  {ele.email_id ?? "NA"}{" "}
-                                </td>
-                                <td> {ele.phone ?? "NA"} </td>
-                                <td> {ele.address ?? "NA"} </td>
-                                <td>
-                                  <Link
-                                    to={`${
-                                      routes.careAssessmentDetail
-                                    }/${encode(ele.id)}`}
-                                  >
-                                    <label
-                                      style={{ cursor: "pointer" }}
-                                      className="badge badge-gradient-success"
-                                    >
-                                      <i className="fa fa-eye"></i>
-                                    </label>
-                                  </Link>
-                                </td>
-                              </tr>
-                            );
-                          })
-                        ) : (
-                          <tr className="text-center">
-                            <td colSpan="6">
-                              <div>
-                                <p>No assessment found</p>
-                              </div>
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
+                      <tbody></tbody>
                     </table>
                     <div className="d-flex align-items-center justify-content-center mt-3">
                       {assessment.length !== 0 ? (
@@ -494,7 +524,7 @@ const Page = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <Modal

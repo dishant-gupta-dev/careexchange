@@ -22,7 +22,7 @@ const Details = () => {
   const [stat, setStat] = useState({ status: false, value: null, name: null });
   const [provider, setProvider] = useState();
   const [startDate, setStartDate] = useState("");
-  const [jobStatus, setStatus] = useState(1);
+  const [jobStatus, setStatus] = useState(0);
   const [tab, setTab] = useState(1);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
@@ -362,20 +362,6 @@ const Details = () => {
                             <li className="nav-item">
                               <Link
                                 className={
-                                  jobStatus === 1
-                                    ? "nav-link active"
-                                    : "nav-link"
-                                }
-                                aria-current="page"
-                                to=""
-                                onClick={() => setStatus(1)}
-                              >
-                                Active
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className={
                                   jobStatus === 0
                                     ? "nav-link active"
                                     : "nav-link"
@@ -384,6 +370,20 @@ const Details = () => {
                                 onClick={() => setStatus(0)}
                               >
                                 Pending
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className={
+                                  jobStatus === 1
+                                    ? "nav-link active"
+                                    : "nav-link"
+                                }
+                                aria-current="page"
+                                to=""
+                                onClick={() => setStatus(1)}
+                              >
+                                On Going
                               </Link>
                             </li>
                             <li className="nav-item">
@@ -450,7 +450,7 @@ const Details = () => {
                                 <h5 className="text-capitalize">
                                   {ele.first_name ?? "NA"}
                                 </h5>
-                                <div>
+                                {/* <div>
                                   <button
                                     type="button"
                                     className={
@@ -464,7 +464,7 @@ const Details = () => {
                                   >
                                     {status(ele.status)}
                                   </button>
-                                </div>
+                                </div> */}
                               </div>
                               <div className="form-group col-md-2 mb-0">
                                 <label>Job ID</label>

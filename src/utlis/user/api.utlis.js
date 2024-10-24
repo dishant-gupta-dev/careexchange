@@ -1,6 +1,8 @@
 exports.api = {
-    login: `/login`,
-    sendOtp: `/register/send-otp`,
-    otpVerify: `/verify-otp`,
-    register: `/register`,
+    login: `login`,
+    sendOtp: `send-otp`,
+    registerSendOtp: `register/send-otp`,
+    otpVerify: `verify-otp`,
+    register: `register`,
+    logout: `logout`,
 }
