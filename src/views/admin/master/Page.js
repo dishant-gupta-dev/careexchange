@@ -439,7 +439,7 @@ const Page = () => {
             statusVal: null,
           });
         }}
-        className=""
+        className="cc-modal-form"
       >
         <div className="modal-content">
           <ModalHeader>
@@ -508,7 +508,7 @@ const Page = () => {
                       className="alert alert-danger"
                     />
                   </div>
-                  <div className="form-group text-end">
+                  <div className="form-group text-end mb-0">
                     <button
                       type="button"
                       onClick={() => {
@@ -522,14 +522,14 @@ const Page = () => {
                           statusVal: null,
                         });
                       }}
-                      className="btn btn-gradient-danger me-2"
+                      className="btn-re me-2"
                       data-bs-dismiss="modal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-gradient-primary me-2"
+                      className="btn-gr"
                       data-bs-dismiss="modal"
                     >
                       Update
@@ -550,7 +550,7 @@ const Page = () => {
           });
           setImgError(false);
         }}
-        className=""
+        className="cc-modal-form"
       >
         <div className="modal-content">
           <ModalHeader>
@@ -622,7 +622,7 @@ const Page = () => {
                       className="alert alert-danger"
                     />
                   </div>
-                  <div className="form-group text-end">
+                  <div className="form-group text-end mb-0">
                     <button
                       type="button"
                       onClick={() => {
@@ -631,14 +631,14 @@ const Page = () => {
                         });
                         setImgError(false);
                       }}
-                      className="btn btn-gradient-danger me-2"
+                      className="btn-re me-2"
                       data-bs-dismiss="modal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-gradient-primary me-2"
+                      className="btn-gr"
                       data-bs-dismiss="modal"
                     >
                       Add
@@ -659,14 +659,14 @@ const Page = () => {
             id: null,
           });
         }}
-        className=""
+        className="cc-modal-form"
       >
         <div className="modal-content">
           <ModalBody className="">
             <div className="add-items d-flex row">
               <h5 className="text-center">Are you sure</h5>
               <p className="text-center">You want to delete this category?</p>
-              <div className="form-group text-center">
+              <div className="form-group text-center mb-0">
                 <button
                   type="button"
                   onClick={() =>
@@ -675,14 +675,14 @@ const Page = () => {
                       id: null,
                     })
                   }
-                  className="btn btn-gradient-danger me-2"
+                  className="btn-re me-2"
                   data-bs-dismiss="modal"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn btn-gradient-primary me-2"
+                  className="btn-gr"
                   data-bs-dismiss="modal"
                   onClick={() => deleteCategory(deleteCat.id)}
                 >
@@ -703,7 +703,7 @@ const Page = () => {
           });
           setImgError2(false);
         }}
-        className=""
+        className="cc-modal-form"
       >
         <div className="modal-content">
           <ModalHeader>
@@ -775,7 +775,7 @@ const Page = () => {
                       className="alert alert-danger"
                     />
                   </div>
-                  <div className="form-group text-end">
+                  <div className="form-group text-end mb-0">
                     <button
                       type="button"
                       onClick={() => {
@@ -785,14 +785,14 @@ const Page = () => {
                         });
                         setImgError2(false);
                       }}
-                      className="btn btn-gradient-danger me-2"
+                      className="btn-re me-2"
                       data-bs-dismiss="modal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-gradient-primary me-2"
+                      className="btn-gr"
                       data-bs-dismiss="modal"
                     >
                       Add
@@ -813,7 +813,7 @@ const Page = () => {
             id: null,
           });
         }}
-        className=""
+        className="cc-modal-form"
       >
         <div className="modal-content">
           <ModalBody className="">
@@ -822,7 +822,7 @@ const Page = () => {
               <p className="text-center">
                 You want to delete this sub category?
               </p>
-              <div className="form-group text-center">
+              <div className="form-group text-center mb-0">
                 <button
                   type="button"
                   onClick={() =>
@@ -831,14 +831,14 @@ const Page = () => {
                       id: null,
                     })
                   }
-                  className="btn btn-gradient-danger me-2"
+                  className="btn-re me-2"
                   data-bs-dismiss="modal"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn btn-gradient-primary me-2"
+                  className="btn-gr me-2"
                   data-bs-dismiss="modal"
                   onClick={() => deleteCategory(deleteSubCat.id)}
                 >
