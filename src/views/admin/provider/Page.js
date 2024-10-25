@@ -168,12 +168,13 @@ const Page = () => {
               <thead>
                 <tr>
                   <th> Name </th>
+                  <th> Business Name </th>
                   <th> Contact Number </th>
                   <th> Email ID </th>
                   <th> Category </th>
-                  <th> Account Created on </th>
+                  <th> Registered On </th>
                   <th> Status </th>
-                  <th> View Profile </th>
+                  <th> Action </th>
                 </tr>
               </thead>
               <tbody>
@@ -194,6 +195,20 @@ const Page = () => {
                             />
                           )}
                           {ele.name ?? "NA"}
+                        </td>
+                        <td className="text-capitalize">
+                          {ele.logo === null ||
+                          ele.logo === "" ||
+                          ele.logo === undefined ? (
+                            <img src={NoImage} alt="" className="me-3" />
+                          ) : (
+                            <img
+                              src={ele.logo}
+                              alt=""
+                              className="me-3"
+                            />
+                          )}
+                          {ele.business_name ?? "NA"}
                         </td>
                         <td> {ele.mobile ?? "NA"} </td>
                         <td className="text-lowercase">{ele.email ?? "NA"}</td>
@@ -217,7 +232,7 @@ const Page = () => {
                   })
                 ) : (
                   <tr className="text-center">
-                    <td colSpan="7">
+                    <td colSpan="8">
                       <div>
                         <p>No providers found</p>
                       </div>

@@ -4,19 +4,23 @@ import { api } from "../../../utlis/admin/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../layouts/loader/Loader";
-import { convert } from "html-to-text";
+import { htmlToText } from "html-to-text";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { Modal, ModalBody, ModalHeader } from "react-bootstrap";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
-import { Link } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const Page = () => {
   const [plans, setPlan] = useState([]);
   const [total, setTotal] = useState(0);
   const [pageNum, setPageNum] = useState(1);
+  const renderHTML = (rawHTML: string) => React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
   const [type, setType] = useState("provider");
+  const [fullContent, setFullContent] = useState("");
+  const [formError, setFormError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [addPlan, setAddPlan] = useState({ status: false });
   const [deletePlan, setDeletePlan] = useState({ status: false, id: null });
@@ -24,8 +28,7 @@ const Page = () => {
     status: false,
     id: null,
     name: null,
-    description: null,
-    type: null,
+    description: "",
     cost: null,
     cost_period: null,
   });
@@ -33,7 +36,6 @@ const Page = () => {
   const initialValues = {
     name: "",
     description: "",
-    type: "",
     cost: "",
     cost_period: "",
   };
@@ -41,18 +43,13 @@ const Page = () => {
   const initialEditValues = {
     name: editPlan.name ?? "",
     description: editPlan.description ?? "",
-    type: editPlan.type ?? "",
     cost: editPlan.cost ?? "",
     cost_period: editPlan.cost_period ?? "",
   };
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required!"),
-    description: Yup.string()
-      .required("Description is required!")
-      .min(8, "Description must be 8 characters long."),
     cost: Yup.number().required("Cost is required!"),
-    type: Yup.string().required("Type is required!"),
   });
 
   const getPlanList = async (api) => {
@@ -71,7 +68,6 @@ const Page = () => {
     const form = JSON.stringify({
       name: formValue.name,
       description: formValue.description,
-      type: formValue.type,
       cost: formValue.cost,
       cost_period: formValue.cost_period,
     });
@@ -79,7 +75,7 @@ const Page = () => {
     setAddPlan({ status: false });
     if (response.data.status) {
       toast.success(response.data.message);
-      getPlanList(api.planList + `?type=${type}`);
+      getPlanList(api.planList);
     } else {
       toast.error(response.data.message);
     }
@@ -87,11 +83,14 @@ const Page = () => {
   };
 
   const updatePlan = async (formValue) => {
+    if (fullContent.length === 0) {
+      setFormError(true);
+      return;
+    } else setFormError(false);
     setLoading(true);
     const form = JSON.stringify({
       name: formValue.name,
-      description: formValue.description,
-      type: formValue.type,
+      description: fullContent,
       cost: formValue.cost,
       cost_period: formValue.cost_period,
     });
@@ -103,14 +102,13 @@ const Page = () => {
       status: false,
       id: null,
       name: null,
-      description: null,
-      type: null,
+      description: "",
       cost: null,
       cost_period: null,
     });
     if (response.data.status) {
       toast.success(response.data.message);
-      getPlanList(api.planList + `?type=${type}`);
+      getPlanList(api.planList);
     } else {
       toast.error(response.data.message);
     }
@@ -128,7 +126,7 @@ const Page = () => {
     });
     if (response.data.status) {
       toast.success(response.data.message);
-      getPlanList(api.planList + `?type=${type}`);
+      getPlanList(api.planList);
     } else {
       toast.error(response.data.message);
     }
@@ -136,9 +134,9 @@ const Page = () => {
   };
 
   useEffect(() => {
-    getPlanList(api.planList + `?type=${type}`);
+    getPlanList(api.planList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type]);
+  }, []);
 
   return (
     <>
@@ -158,7 +156,7 @@ const Page = () => {
           </div>  */}
         </div>
         <div className="subscription-content">
-          <div className="row d-flex justify-content-between align-items-center">
+          {/* <div className="row d-flex justify-content-between align-items-center">
             <div className="col-md-6 align-items-center d-flex">
               <div className="tabs-section">
                 <ul className="nav">
@@ -198,7 +196,7 @@ const Page = () => {
                 </ul>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="row">
             {plans.length !== 0 ? (
               plans.map((ele, indx) => {
@@ -216,36 +214,31 @@ const Page = () => {
                         </div>
                         <div className="cc-plan-persave-content">
                           <div className="cc-plan-per-text">Per Month</div>
-                          <div className="cc-plan-save-text">
+                          {/* <div className="cc-plan-save-text">
                             {" "}
                             {ele.name ?? "NA"}
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                       <div className="cc-subscription-point-info">
                         <div className="cc-plan-point-list">
-                          <ul>
-                            <li>
-                              <i class="mdi mdi-check-circle"></i>
-                              {convert(ele.description)}
-                            </li>
-                          </ul>
+                          {renderHTML(ele.description)}
                         </div>
                         <div className="cc-plan-action">
                           <button
                             type="button"
                             className="btn-bl"
-                            onClick={() =>
+                            onClick={() => {
                               setEditPlan({
                                 status: true,
                                 id: ele.id,
                                 name: ele.name,
                                 description: ele.description,
-                                type: ele.type,
                                 cost: ele.cost,
                                 cost_period: ele.cost_period,
-                              })
-                            }
+                              });
+                              setFullContent(ele.description);
+                            }}
                           >
                             Edit Plan
                           </button>
@@ -344,24 +337,6 @@ const Page = () => {
                   </div>
                   <div className="form-group">
                     <Field
-                      as="select"
-                      type="text"
-                      className="form-control todo-list-input"
-                      name="type"
-                    >
-                      <option value="">Select Type</option>
-                      <option value="provider">Care Provider</option>
-                      <option value="staff">Care Staff</option>
-                      <option value="client">Client</option>
-                    </Field>
-                    <ErrorMessage
-                      name="type"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <Field
                       as="textarea"
                       className="form-control todo-list-input"
                       name="description"
@@ -404,8 +379,7 @@ const Page = () => {
             status: false,
             id: null,
             name: null,
-            description: null,
-            type: null,
+            description: "",
             cost: null,
             cost_period: null,
           });
@@ -465,35 +439,26 @@ const Page = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <Field
-                      as="select"
-                      type="text"
-                      className="form-control todo-list-input"
-                      name="type"
-                    >
-                      <option value="">Select Type</option>
-                      <option value="provider">Care Provider</option>
-                      <option value="staff">Care Staff</option>
-                      <option value="client">Client</option>
-                    </Field>
-                    <ErrorMessage
-                      name="type"
-                      component="div"
-                      className="alert alert-danger"
+                    <CKEditor
+                      editor={ClassicEditor}
+                      data={editPlan.description}
+                      onReady={(editor) => {}}
+                      onChange={(event, editor) => {
+                        const data = editor.getData();
+                        setFullContent(data);
+                      }}
+                      onBlur={(event, editor) => {
+                        fullContent.length === 0
+                          ? setFormError(true)
+                          : setFormError(false);
+                      }}
+                      onFocus={(event, editor) => {}}
                     />
-                  </div>
-                  <div className="form-group">
-                    <Field
-                      as="textarea"
-                      className="form-control todo-list-input"
-                      name="description"
-                      placeholder="Enter Description"
-                    />
-                    <ErrorMessage
-                      name="description"
-                      component="div"
-                      className="alert alert-danger"
-                    />
+                    {formError && (
+                      <div className="alert alert-danger">
+                        Description is required
+                      </div>
+                    )}
                   </div>
                   <div className="form-group text-end mb-0">
                     <button
@@ -503,7 +468,7 @@ const Page = () => {
                           status: false,
                           id: null,
                           name: null,
-                          description: null,
+                          description: "",
                           type: null,
                           cost: null,
                           cost_period: null,

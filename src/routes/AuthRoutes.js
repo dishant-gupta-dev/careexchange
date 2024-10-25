@@ -33,12 +33,6 @@ var AuthRoutes = [
     layout: UserAuthApp,
     component: Register,
   },
-  {
-    path: userroutes.otp,
-    exact: true,
-    layout: UserAuthApp,
-    component: Otp,
-  },
 
 ];
 

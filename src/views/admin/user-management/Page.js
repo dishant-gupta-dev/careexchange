@@ -121,9 +121,9 @@ const Page = () => {
                     <th> Name </th>
                     <th> Contact Number </th>
                     <th> Email ID </th>
-                    <th> Account Created on </th>
+                    <th> Registered On </th>
                     <th> Status </th>
-                    <th> View Profile </th>
+                    <th> Action </th>
                   </tr>
                 </thead>
                 <tbody>

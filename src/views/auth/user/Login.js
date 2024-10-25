@@ -18,7 +18,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [multiScreen, setMultiScreen] = useState(0);
   const [data, setData] = useState({ email: null });
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, redirect } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message, shallowEqual);
 
   const initialValues = {
@@ -78,13 +78,17 @@ const Login = () => {
   const verifyUser = (formValue) => {
     let otp = `${formValue.otp1}${formValue.otp2}${formValue.otp3}${formValue.otp4}`;
     let email = data.email;
-    let user_type = 1
+    let user_type = 1;
     dispatch(verifyOtp({ email, otp, user_type }))
       .unwrap()
       .then((msg) => {})
       .catch((msg, i) => {
         setLoading(false);
       });
+  };
+
+  if (isLoggedIn) {
+    return navigate(redirect);
   }
 
   return (
@@ -117,17 +121,20 @@ const Login = () => {
                       >
                         <Form className="pt-4">
                           <div className="form-group">
-                            <input
+                            <Field
                               type="email"
                               className="form-control"
+                              name="email"
                               placeholder="Email Address"
+                            />
+                            <ErrorMessage
+                              name="email"
+                              component="div"
+                              className="alert alert-danger"
                             />
                           </div>
                           <div className="form-group">
-                            <button
-                            type="submit"
-                              className="auth-form-btn"
-                            >
+                            <button type="submit" className="auth-form-btn">
                               Get Verification Code
                             </button>
                           </div>

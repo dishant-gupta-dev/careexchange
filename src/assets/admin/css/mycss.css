@@ -759,8 +759,11 @@ a.viewmorebtn {
   margin: 0;
   padding: 0;
 }
+.cc-plan-point-list{
+  color: var(--white);
+}
 
-.cc-plan-point-list ul {
+/* .cc-plan-point-list ul {
   list-style: none;
   margin: 0 0 1rem 0;
   padding: 0;
@@ -774,7 +777,7 @@ a.viewmorebtn {
   align-items: center;
   line-height: 24px;
   margin-bottom: 5px;
-}
+} */
 .cc-plan-action {
   margin-bottom: 5px;
 }

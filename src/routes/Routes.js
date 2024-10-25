@@ -3,11 +3,20 @@ import React from "react";
 import { BrowserRouter as Router, Routes as ReactRoutes, Route, Navigate, Outlet } from "react-router-dom";
 import AuthRoutes from "./AuthRoutes";
 import AdminRoutes from "./AdminRoutes";
+import UserRoutes from "./UserRoutes";
 import { routes } from '../utlis/admin/routes.utlis';
-import UserRoutes from './UserRoutes';
+import { routes as userRoutes } from '../utlis/user/routes.utlis';
 
 
 const AdminRoute = ({ redirectPath = routes.login }) => {
+    const { careexchange: currentUser } = useSelector((state) => state.auth);
+    if (!currentUser) {
+        return <Navigate to={redirectPath} replace />;
+    }
+    return <Outlet />;
+};
+
+const UserRoute = ({ redirectPath = userRoutes.login }) => {
     const { careexchange: currentUser } = useSelector((state) => state.auth);
     if (!currentUser) {
         return <Navigate to={redirectPath} replace />;
@@ -34,7 +43,7 @@ const Routes = (props) => {
                     );
                 })}
 
-                <Route element={<AdminRoute isAllowed={currentUser} />}>
+                <Route element={<AdminRoute isAllowed={(currentUser?.data?.adminUser?.user_type==4 ? true : false)} />}>
                     {AdminRoutes.map((admiRoute, index) => {
                         return (
                             <Route element={<admiRoute.layout />} key={index}>
@@ -44,17 +53,15 @@ const Routes = (props) => {
                     })}
                 </Route>
 
-                {UserRoutes.map((authRoute, index) => {
-                    return (
-                        <Route element={<authRoute.layout />} key={index}>
-                            <Route
-                                path={authRoute.path}
-                                exact={authRoute.exact}
-                                element={<authRoute.component />}
-                            />
-                        </Route>
-                    );
-                })}
+                <Route element={<UserRoute isAllowed={(currentUser?.data?.user?.user_type==1 ? true : false)} />}>
+                    {UserRoutes.map((userRoute, index) => {
+                        return (
+                            <Route element={<userRoute.layout />} key={index}>
+                                <Route path={userRoute.path} exact={userRoute.exact} element={<userRoute.component />} />
+                            </Route>
+                        );
+                    })}
+                </Route>
 
             </ReactRoutes>
         </Router>

@@ -189,6 +189,31 @@ const Details = () => {
                   <form>
                     <div className="row">
                       <div className="form-group col-md-4 mb-0">
+                        <label for="add1">Business Logo</label>
+                        <div className="cc-provider-profile-image">
+                          {provider?.logo === null ||
+                          provider?.logo === "" ||
+                          provider?.logo === undefined ? (
+                            <img src={NoImage} alt="" className="me-3" />
+                          ) : (
+                            <img src={provider?.logo} alt="" className="me-3" />
+                          )}
+                        </div>
+                      </div>
+                      <div className="form-group col-md-4 mb-0">
+                        <label for="add1">Business Name</label>
+                        <p className="text-capitalize">
+                          {provider?.business_name ?? "NA"}
+                        </p>
+                      </div>
+                      <div className="form-group col-md-4 mb-0">
+                        <label for="add1">Business Address</label>
+                        <p className="text-capitalize">
+                          <i className="mdi mdi-map-outline"></i>{" "}
+                          {provider?.business_address ?? "NA"}
+                        </p>
+                      </div>
+                      <div className="form-group col-md-4 mb-0">
                         <label>Account Created Date</label>
                         <p>
                           {moment(provider?.created_date).format("MM-DD-yyyy")}
@@ -214,11 +239,8 @@ const Details = () => {
                         <p>{provider?.experience ?? "NA"} Years</p>
                       </div>
                       <div className="form-group col-md-4 mb-0">
-                        <label for="add1">Business Address</label>
-                        <p className="text-capitalize">
-                          <i className="mdi mdi-map-outline"></i>{" "}
-                          {provider?.business_address ?? "NA"}
-                        </p>
+                        <label for="add1">Fees</label>
+                        <p>{provider?.fee ?? "NA"}</p>
                       </div>
 
                       <div className="form-group col-md-12 mb-0 mt-4">
@@ -472,14 +494,16 @@ const Details = () => {
                                     </div>
                                     <div className="careJobRequest-point-item">
                                       <h3>Time</h3>
-                                      <p>
-                                        {ele.start_time}
-                                      </p>
+                                      <p>{ele.start_time}</p>
                                     </div>
                                     <div className="careJobRequest-point-item">
                                       <h3>Frequency</h3>
                                       <p>
-                                      {ele?.frequency === "O" ? "One Time" : (ele?.frequency === "W" ? "Repeat Weekly" : "Repeat Monthly")}
+                                        {ele?.frequency === "O"
+                                          ? "One Time"
+                                          : ele?.frequency === "W"
+                                          ? "Repeat Weekly"
+                                          : "Repeat Monthly"}
                                         {/* {ele?.days?.length !== 0
                                           ? ele?.days?.map((element, index) => {
                                               return (
@@ -541,7 +565,9 @@ const Details = () => {
                                                 onClick={() =>
                                                   navigate(
                                                     routes.userManagementDetail +
-                                                      `/${encode(element.userid)}`
+                                                      `/${encode(
+                                                        element.userid
+                                                      )}`
                                                   )
                                                 }
                                               >
@@ -738,7 +764,9 @@ const Details = () => {
                                         "MM-DD-yyyy hh:mm A"
                                       )}
                                     </div>
-                                    <p className="mb-3">{ele.description ?? "NA"}</p>
+                                    <p className="mb-3">
+                                      {ele.description ?? "NA"}
+                                    </p>
                                   </div>
                                 </div>
                                 {/* <div className="care-card-foot">

@@ -9,7 +9,7 @@ import Loader from "../../../layouts/loader/Loader";
 
 const LoginForm = () => {
   const router = useNavigate();
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, redirect } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message, shallowEqual);
   const [loading, setLoading] = useState(false);
 
@@ -45,7 +45,7 @@ const LoginForm = () => {
   };
 
   if (isLoggedIn) {
-    return router("/admin/dashboard");
+    return router(redirect);
   }
 
   return (
