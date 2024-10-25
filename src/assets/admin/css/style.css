@@ -11823,7 +11823,8 @@ textarea.form-control-lg {
 }
 
 .card-title {
-  margin-bottom: var(--bs-card-title-spacer-y);
+  margin: 0;
+  padding: 0;
   color: var(--bs-card-title-color);
 }
 
@@ -17774,10 +17775,14 @@ button.auth-form-btn {
   padding: 1rem !important;
   height: 110px !important;
   min-height: 110px !important;
-  border: 1px solid #e7e7fa;
+  /* border: 1px solid #e7e7fa; */
   border-radius: 8px;
+  box-shadow: 0 8px 13px rgb(0 0 0 / 5%);
 }
-
+.spr .statistics-card-1 .card-body h5 {
+  margin: 0;
+  padding: 0;
+}
 .spr .statistics-card-1 .card-body .img-bg {
   position: absolute;
   top: 0;
@@ -17798,7 +17803,7 @@ button.auth-form-btn {
 }
 
 .spr .iq-card-body {
-  padding: 20px;
+  padding: 15px;
   border-top: 1px solid var(--boreder);
   border-radius: 0;
   box-shadow: 0 8px 13px rgb(0 0 0 / 5%);
@@ -17897,14 +17902,13 @@ button.auth-form-btn {
   -moz-border-radius: 8px;
   border-radius: 8px;
   margin-bottom: 30px;
-  border: 1px solid #e7e7fa;
-  /*    -webkit-box-shadow: 0px 2px 8px #ccc, 0px 8px 16px #ccc;*/
-  /*    box-shadow: 0px 2px 8px #ccc, 0px 8px 16px #ccc;*/
+  border: none;
+  box-shadow: 0 8px 13px rgb(0 0 0 / 5%);
 }
 
 .spr .iq-card .iq-card-header {
-  padding: 20px 20px;
-  min-height: 60px;
+  padding: 10px 10px;
+  min-height: auto;
   -ms-flex-align: center !important;
   align-items: center !important;
 }

@@ -129,7 +129,11 @@ const Page = () => {
               <div className="col-md-6"></div>
               <div className="col-md-6">
                 <div className="form-group">
-                  <button type="button" className="btn-gr" onClick={() => setSend(true)}>
+                  <button
+                    type="button"
+                    className="btn-gr"
+                    onClick={() => setSend(true)}
+                  >
                     Send Request to Care Providers
                   </button>
                 </div>
@@ -545,14 +549,14 @@ const Page = () => {
                 <button
                   type="button"
                   onClick={() => setSend(false)}
-                  className="btn btn-gradient-danger me-2"
+                  className="btn-re me-2"
                   data-bs-dismiss="modal"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn btn-gradient-primary me-2"
+                  className="btn-gr me-2"
                   data-bs-dismiss="modal"
                   onClick={() => sendRequest()}
                 >

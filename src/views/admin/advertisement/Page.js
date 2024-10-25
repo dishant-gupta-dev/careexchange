@@ -657,7 +657,7 @@ const Page = () => {
           setTagError(false);
           setSubCategory([]);
         }}
-        className=""
+        className="cc-modal-form"
       >
         <div className="modal-content">
           <ModalHeader>
@@ -852,14 +852,14 @@ const Page = () => {
                           setSubCategory([]);
                         }
                       }}
-                      className="btn btn-gradient-danger me-2"
+                      className="btn-re me-2"
                       data-bs-dismiss="modal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-gradient-primary me-2"
+                      className="btn-gr me-2"
                       data-bs-dismiss="modal"
                     >
                       Update
@@ -884,7 +884,7 @@ const Page = () => {
           setTagError(false);
           setSubCategory([]);
         }}
-        className=""
+        className="cc-modal-form"
       >
         <div className="modal-content">
           <ModalHeader>
@@ -1067,14 +1067,14 @@ const Page = () => {
                           setSubCategory([]);
                         }
                       }}
-                      className="btn btn-gradient-danger me-2"
+                      className="btn-re me-2"
                       data-bs-dismiss="modal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-gradient-primary me-2"
+                      className="btn-gr"
                       data-bs-dismiss="modal"
                     >
                       Add
@@ -1095,7 +1095,7 @@ const Page = () => {
             id: null,
           });
         }}
-        className=""
+        className="cc-modal-form"
       >
         <div className="modal-content">
           <ModalBody className="">
@@ -1113,14 +1113,14 @@ const Page = () => {
                       id: null,
                     })
                   }
-                  className="btn btn-gradient-danger me-2"
+                  className="btn-re me-2"
                   data-bs-dismiss="modal"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn btn-gradient-primary me-2"
+                  className="btn-gr me-2"
                   data-bs-dismiss="modal"
                   onClick={() => deleteAdFunc(deleteAd.id)}
                 >
