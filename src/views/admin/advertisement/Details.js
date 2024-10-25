@@ -119,7 +119,7 @@ const Details = () => {
                             ?.createdBy?.user_type == 2 ? (
                           <button
                             type="button"
-                            className="btn btn-view-profile"
+                            className="btn-gr"
                             onClick={() =>
                               navigate(
                                 routes.providerDetails +
@@ -131,10 +131,7 @@ const Details = () => {
                             View Profile
                           </button>
                         ) : (
-                          <button
-                            type="button"
-                            className="btn btn-view-profile"
-                          >
+                          <button type="button" className="btn-gr">
                             View Profile
                           </button>
                         )}
@@ -154,57 +151,57 @@ const Details = () => {
                   </h4>
                 </div>
                 <div>
-                    {details?.status == 0 ? (
-                      <div>
-                        <button
-                          className="btn btn-gradient-primary me-2"
-                          onClick={(e) =>
-                            setStat({ status: true, value: 1, name: "Approve" })
-                          }
+                  {details?.status == 0 ? (
+                    <div>
+                      <button
+                        className="btn btn-gradient-primary me-2"
+                        onClick={(e) =>
+                          setStat({ status: true, value: 1, name: "Approve" })
+                        }
+                      >
+                        Approve
+                      </button>
+                      <button
+                        className="btn btn-gradient-danger"
+                        onClick={(e) =>
+                          setStat({ status: true, value: 3, name: "Reject" })
+                        }
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="select">
+                      <select
+                        name="format"
+                        id="format"
+                        className={
+                          details?.status == 1 ? "green-select" : "red-select"
+                        }
+                        onChange={(e) =>
+                          setStat({
+                            status: true,
+                            value: e.target.value,
+                            name: status(e.target.value),
+                          })
+                        }
+                      >
+                        <option
+                          selected={details?.status == 1 ? true : false}
+                          value="1"
                         >
-                          Approve
-                        </button>
-                        <button
-                          className="btn btn-gradient-danger"
-                          onClick={(e) =>
-                            setStat({ status: true, value: 3, name: "Reject" })
-                          }
+                          Active
+                        </option>
+                        <option
+                          selected={details?.status == 2 ? true : false}
+                          value="2"
                         >
-                          Reject
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="select">
-                        <select
-                          name="format"
-                          id="format"
-                          className={
-                            details?.status == 1 ? "green-select" : "red-select"
-                          }
-                          onChange={(e) =>
-                            setStat({
-                              status: true,
-                              value: e.target.value,
-                              name: status(e.target.value),
-                            })
-                          }
-                        >
-                          <option
-                            selected={details?.status == 1 ? true : false}
-                            value="1"
-                          >
-                            Active
-                          </option>
-                          <option
-                            selected={details?.status == 2 ? true : false}
-                            value="2"
-                          >
-                            Inactive
-                          </option>
-                        </select>
-                      </div>
-                    )}
-                  </div>
+                          Inactive
+                        </option>
+                      </select>
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="iq-card-body">
                 <div className="new-user-info">

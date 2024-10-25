@@ -180,7 +180,7 @@ const JobDetails = () => {
                               <div>
                                 <button
                                   type="button"
-                                  className="btn btn-view-profile"
+                                  className="btn-gr"
                                   onClick={() =>
                                     navigate(
                                       routes.providerDetails +
@@ -211,7 +211,7 @@ const JobDetails = () => {
                 <div>
                   <button
                     type="button"
-                    className="btn btn-view-profile"
+                    className="btn-bl"
                     style={{ cursor: "default" }}
                   >
                     23+ Applicant Applied for this Job
@@ -303,7 +303,10 @@ const JobDetails = () => {
           <ModalBody className="">
             <div className="add-items d-flex row">
               <h5 className="text-center">Are you sure</h5>
-              <p className="text-center">You want to <span className="text-lowercase">{stat.name}</span> this posted job?</p>
+              <p className="text-center">
+                You want to <span className="text-lowercase">{stat.name}</span>{" "}
+                this posted job?
+              </p>
               <div className="form-group text-center">
                 <button
                   type="button"
