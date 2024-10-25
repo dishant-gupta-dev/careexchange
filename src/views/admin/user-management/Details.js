@@ -20,7 +20,7 @@ import toast from "react-hot-toast";
 const Details = () => {
   const navigate = useNavigate();
   const [stat, setStat] = useState({ status: false, value: null, name: null });
-  const [jobStatus, setStatus] = useState(1);
+  const [jobStatus, setStatus] = useState(0);
   const [startDate, setStartDate] = useState("");
   const [users, setUser] = useState({
     user: null,
@@ -201,7 +201,7 @@ const Details = () => {
                         <div className="user-contact-info-icon"></div>
                         <div className="user-contact-info-content">
                           <h2>Email Address :</h2>
-                          <p>{users?.user?.email ?? "NA"}</p>
+                          <p className="text-lowercase">{users?.user?.email ?? "NA"}</p>
                         </div>
                       </div>
                     </div>
@@ -228,7 +228,7 @@ const Details = () => {
                 <img src={ActiveJob} alt="" height="60px" />
               </div>
               <div className="card-overview-content">
-                <h4>Active Jobs</h4>
+                <h4>On Going Jobs</h4>
                 <h2>{users?.activeJob ?? "0"}</h2>
               </div>
             </div>
@@ -257,24 +257,24 @@ const Details = () => {
                           <li className="nav-item">
                             <Link
                               className={
-                                jobStatus === 1 ? "nav-link active" : "nav-link"
-                              }
-                              aria-current="page"
-                              to=""
-                              onClick={() => setStatus(1)}
-                            >
-                              Active
-                            </Link>
-                          </li>
-                          <li className="nav-item">
-                            <Link
-                              className={
                                 jobStatus === 0 ? "nav-link active" : "nav-link"
                               }
                               to=""
                               onClick={() => setStatus(0)}
                             >
                               Pending
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link
+                              className={
+                                jobStatus === 1 ? "nav-link active" : "nav-link"
+                              }
+                              aria-current="page"
+                              to=""
+                              onClick={() => setStatus(1)}
+                            >
+                              On Going
                             </Link>
                           </li>
                           <li className="nav-item">
@@ -340,7 +340,7 @@ const Details = () => {
                               <h5 className="text-capitalize">
                                 {ele.first_name ?? "NA"}
                               </h5>
-                              <div className="careJobRequest-status">
+                              {/* <div className="careJobRequest-status">
                                 Status:
                                 <button
                                   type="button"
@@ -355,7 +355,7 @@ const Details = () => {
                                 >
                                   {status(ele.status)}
                                 </button>
-                              </div>
+                              </div> */}
                             </div>
                             <div className="careJobRequest-card-body">
                               <div className="careJobRequest-point-list">
@@ -375,16 +375,18 @@ const Details = () => {
 
                                 <div className="careJobRequest-point-item">
                                   <h3>Time</h3>
-                                  <p>
-                                    {ele.start_time} to {ele.end_time}
-                                  </p>
+                                  <p>{ele.start_time}</p>
                                 </div>
 
                                 <div className="careJobRequest-point-item">
-                                  <h3>Repeat Weekly</h3>
+                                  <h3>Frequency</h3>
                                   <p>
-                                    Every Week &nbsp;{" "}
-                                    {ele?.days?.length !== 0
+                                    {ele?.frequency === "O"
+                                      ? "One Time"
+                                      : ele?.frequency === "W"
+                                      ? "Repeat Weekly"
+                                      : "Repeat Monthly"}
+                                    {/* {ele?.days?.length !== 0
                                       ? ele?.days?.map((element, index) => {
                                           return (
                                             <label
@@ -395,7 +397,7 @@ const Details = () => {
                                             </label>
                                           );
                                         })
-                                      : null}
+                                      : null} */}
                                   </p>
                                 </div>
                               </div>

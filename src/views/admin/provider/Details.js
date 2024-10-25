@@ -300,7 +300,7 @@ const Details = () => {
                     <img src={ActiveJob} alt="" height="60px" />
                   </div>
                   <div className="card-overview-content">
-                    <h4>Active Jobs</h4>
+                    <h4>On Going Jobs</h4>
                     <h2>{provider?.activeJob ?? 0}</h2>
                   </div>
                 </div>
@@ -473,14 +473,14 @@ const Details = () => {
                                     <div className="careJobRequest-point-item">
                                       <h3>Time</h3>
                                       <p>
-                                        {ele.start_time} to {ele.end_time}
+                                        {ele.start_time}
                                       </p>
                                     </div>
                                     <div className="careJobRequest-point-item">
-                                      <h3>Repeat Weekly</h3>
+                                      <h3>Frequency</h3>
                                       <p>
-                                        Every Week &nbsp;{" "}
-                                        {ele?.days?.length !== 0
+                                      {ele?.frequency === "O" ? "One Time" : (ele?.frequency === "W" ? "Repeat Weekly" : "Repeat Monthly")}
+                                        {/* {ele?.days?.length !== 0
                                           ? ele?.days?.map((element, index) => {
                                               return (
                                                 <label
@@ -491,7 +491,7 @@ const Details = () => {
                                                 </label>
                                               );
                                             })
-                                          : null}
+                                          : null} */}
                                       </p>
                                     </div>
                                   </div>
@@ -528,10 +528,10 @@ const Details = () => {
                                                 <div className="care-user-name">
                                                   {element.fullname}
                                                 </div>
-                                                <div className="Confirmed-Provider">
+                                                {/* <div className="Confirmed-Provider">
                                                   <i className="mdi mdi-checkbox-multiple-marked-circle-outline"></i>{" "}
                                                   Job Confirmed
-                                                </div>
+                                                </div> */}
                                               </div>
                                             </div>
                                             <div className="care-action1">
@@ -540,12 +540,12 @@ const Details = () => {
                                                 className="btn-gr"
                                                 onClick={() =>
                                                   navigate(
-                                                    routes.careJobDetails +
-                                                      `/${encode(ele.id)}`
+                                                    routes.userManagementDetail +
+                                                      `/${encode(element.userid)}`
                                                   )
                                                 }
                                               >
-                                                View Job Detail
+                                                View User Detail
                                               </button>
                                             </div>
                                           </div>
@@ -665,7 +665,7 @@ const Details = () => {
               ) : (
                 <div className="cc-card-body">
                   <div className="new-user-info">
-                    <form className="px-3 row">
+                    <form className=" row">
                       {provider?.advertisements?.length !== 0 ? (
                         provider?.advertisements?.map((ele, indx) => {
                           return (
@@ -738,7 +738,7 @@ const Details = () => {
                                         "MM-DD-yyyy hh:mm A"
                                       )}
                                     </div>
-                                    <p>{ele.description ?? "NA"}</p>
+                                    <p className="mb-3">{ele.description ?? "NA"}</p>
                                   </div>
                                 </div>
                                 {/* <div className="care-card-foot">

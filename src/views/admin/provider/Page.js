@@ -217,7 +217,7 @@ const Page = () => {
                   })
                 ) : (
                   <tr className="text-center">
-                    <td colSpan="6">
+                    <td colSpan="7">
                       <div>
                         <p>No providers found</p>
                       </div>

@@ -493,7 +493,7 @@ const Page = () => {
                               "MM-DD-yyyy hh:mm A"
                             )}
                           </div>
-                          <p>{ele.description ?? "NA"}</p>
+                          <p className="mb-3">{ele.description ?? "NA"}</p>
                         </div>
                       </div>
                       <div className="care-card-foot">

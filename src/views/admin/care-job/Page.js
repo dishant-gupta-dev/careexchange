@@ -199,7 +199,7 @@ const Page = () => {
                   {/* <th> Care Provider Name </th>
                           <th> Care Provider Status </th>
                           <th> View Care Provider Profile </th> */}
-                  <th> View Job Detail </th>
+                  <th> Action </th>
                 </tr>
               </thead>
               <tbody>

@@ -139,8 +139,8 @@ const Page = () => {
                           <th> Status </th>
                           <th> Start Date </th>
                           <th> Time </th>
-                          <th> Repeat Weekly </th>
-                          <th> View Job Details </th>
+                          <th> Frequency </th>
+                          <th> View Details </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -160,11 +160,11 @@ const Page = () => {
                                   )}{" "}
                                 </td>
                                 <td>
-                                  {ele.start_time} -{ele.end_time}
+                                  {ele.start_time}
                                 </td>
                                 <td>
-                                  Every Week &nbsp;
-                                  {ele?.days?.length !== 0
+                                {ele.frequency === "O" ? "One Time" : (ele.frequency === "W" ? "Repeat Weekly" : "Repeat Monthly")}
+                                  {/* {ele?.days?.length !== 0
                                     ? ele?.days?.map((element, index) => {
                                         return (
                                           <label
@@ -175,7 +175,7 @@ const Page = () => {
                                           </label>
                                         );
                                       })
-                                    : null}
+                                    : null} */}
                                 </td>
                                 <td>
                                   <Link

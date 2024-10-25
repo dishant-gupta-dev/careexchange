@@ -222,7 +222,7 @@ const Details = () => {
                       </div>
                       <div className="form-group col-md-4 mb-0">
                         <label for="add1">Ad ID</label>
-                        <p>{encode(details?.id)}</p>
+                        <p>{details?.id}</p>
                       </div>
                       <div className="form-group col-md-12 mb-0">
                         <label for="add1">Tags</label>
@@ -283,7 +283,38 @@ const Details = () => {
             <div className="iq-card">
               <div className="iq-card-header d-flex justify-content-between">
                 <div className="iq-header-title">
-                  <h4 className="card-title">Lorem Ipsum Text</h4>
+                  <h4 className="card-title">Expires On</h4>
+                </div>
+                <div></div>
+              </div>
+              <div className="iq-card-body">
+                <div className="new-user-info">
+                  <form>
+                    <div className="row">
+                      <div className="form-group col-md-4 mb-0">
+                        <label for="add1">Date</label>
+                        <p>{moment(details?.end_date).format("MM-DD-yyyy")}</p>
+                      </div>
+                      <div className="form-group col-md-4 mb-0">
+                        <label for="add1">Time</label>
+                        <p>09:00 AM</p>
+                      </div>
+                      <div className="form-group col-md-4 mb-0">
+                        <label for="add1">Ads Total View</label>
+                        <p>{details?.adsTotalViews}</p>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-12">
+            <div className="iq-card">
+              <div className="iq-card-header d-flex justify-content-between">
+                <div className="iq-header-title">
+                  <h4 className="card-title">Payment Details</h4>
                 </div>
                 <div>
                   <button type="button" className="btn btn-view-active px-4">
@@ -305,7 +336,7 @@ const Details = () => {
                       </div>
                       <div className="form-group col-md-4 mb-0">
                         <label for="add1">Amount</label>
-                        <p>$ 10.00</p>
+                        <p>$10.00</p>
                       </div>
                       <div className="form-group col-md-4 mb-0">
                         <label for="add1">Date</label>
@@ -314,37 +345,6 @@ const Details = () => {
                       <div className="form-group col-md-4 mb-0">
                         <label for="add1">Time</label>
                         <p>05:00 PM</p>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-12">
-            <div className="iq-card">
-              <div className="iq-card-header d-flex justify-content-between">
-                <div className="iq-header-title">
-                  <h4 className="card-title">Expires On</h4>
-                </div>
-                <div></div>
-              </div>
-              <div className="iq-card-body">
-                <div className="new-user-info">
-                  <form>
-                    <div className="row">
-                      <div className="form-group col-md-4 mb-0">
-                        <label for="add1">Date</label>
-                        <p>{moment(details?.end_date).format("MM-DD-yyyy")}</p>
-                      </div>
-                      <div className="form-group col-md-4 mb-0">
-                        <label for="add1">Time</label>
-                        <p>09:00 AM</p>
-                      </div>
-                      <div className="form-group col-md-4 mb-0">
-                        <label for="add1">Ads Total View</label>
-                        <p>{details?.adsTotalViews}</p>
                       </div>
                     </div>
                   </form>

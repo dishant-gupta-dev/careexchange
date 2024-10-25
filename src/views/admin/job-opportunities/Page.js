@@ -90,7 +90,7 @@ const Page = () => {
                 </div>
               </div>
 
-              <div className="col-md-3">
+              <div className="col-md-4">
                 <div className="form-group dropdown-select">
                   <select
                     className="form-control"
@@ -111,7 +111,7 @@ const Page = () => {
                 </div>
               </div>
 
-              <div className="col-md-5">
+              <div className="col-md-4">
                 <div className="form-group search-form-group">
                   <input
                     type="text"
@@ -143,7 +143,7 @@ const Page = () => {
                   <th> Salary </th>
                   <th> Work Timing </th>
                   <th> Status</th>
-                  <th> View Job Details </th>
+                  <th> View Job </th>
                   <th> Address</th>
                   <th> Posted Date</th>
                   <th> Posted Time</th>

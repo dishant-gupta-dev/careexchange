@@ -55,7 +55,7 @@ const Details = () => {
             <div className="cc-care-card">
               <div className="cc-care-card-head">
                 <div className="cc-care-id">
-                  Job ID:<span>{details?.job_id ?? "NA"}</span>
+                  Job ID: <span>{details?.job_id ?? "NA"}</span>
                 </div>
 
                 <div className="cc-care-status">
@@ -80,31 +80,33 @@ const Details = () => {
                   <div className="cc-title-text">
                     {details?.first_name ?? "NA"}
                   </div>
-                  <div className="cc-date-text">
-                    <i className="mdi mdi-calendar-clock-outline"></i> Date &
-                    Time:{" "}
-                    <span>
-                      {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
-                      {details?.start_time} to {details?.end_time}
-                    </span>
-                  </div>
 
                   <div className="cc-tags-list">
                     <button
                       style={{ cursor: "default" }}
                       type="button"
-                      className="cc-tags-item mx-2"
+                      className="cc-tags-item"
                     >
                       {details?.gender == "M" ? "Male" : "Female"}
                     </button>
                     <button
                       style={{ cursor: "default" }}
                       type="button"
-                      className="cc-tags-item"
+                      className="cc-tags-item mx-2"
                     >
-                      Age : {details?.age ?? "NA"}
+                      Age: {details?.age ?? "NA"}
                     </button>
                   </div>
+
+                  <div className="cc-date-text">
+                    <i className="mdi mdi-calendar-clock-outline"></i> Date &
+                    Time:{" "}
+                    <span>
+                      {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
+                      {details?.start_time}
+                    </span>
+                  </div>
+                  
                 </div>
                 <div className="cc-care-day-Weekly-info">
                   <div className="cc-care-point-box">
@@ -112,7 +114,7 @@ const Details = () => {
                       <i className="mdi mdi-calendar-sync"></i>
                     </div>
                     <div className="cc-care-point-text">
-                      <h4>Frequency :</h4>
+                      <h4>Frequency:</h4>
                       <p>
                       {details?.frequency === "O" ? "One Time" : (details?.frequency === "W" ? "Repeat Weekly" : "Repeat Monthly")}
                         {details?.days?.length !== 0
@@ -181,7 +183,7 @@ const Details = () => {
                           <h5 className="">{ele.fullname ?? "NA"}</h5>
                           <p className="m-0">
                             <i className="mdi mdi-checkbox-multiple-marked-circle-outline"></i>{" "}
-                            Confirmed Care-Provider
+                            {ele.provider_status} Care-Provider
                           </p>
                         </div>
                       </div>
