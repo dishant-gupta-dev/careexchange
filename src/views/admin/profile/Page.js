@@ -63,6 +63,7 @@ const Page = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getUserDetails(api.profile);
   }, []);
   return (

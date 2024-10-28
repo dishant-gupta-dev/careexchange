@@ -57,6 +57,7 @@ const Page = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getJobList(api.postedJobList + `?page=${pageNum}&limit=${LIMIT}`);
     getCategoryList(api.categoryList);
     // eslint-disable-next-line react-hooks/exhaustive-deps

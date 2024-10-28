@@ -76,6 +76,7 @@ const Details = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getUserDetails(api.userDetail + `${decode(id)}?status=${jobStatus}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jobStatus]);

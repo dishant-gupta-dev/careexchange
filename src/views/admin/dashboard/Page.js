@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Circle from "../../../assets/admin/images/circle.svg";
 import Icuser from "../../../assets/admin/images/icuser.png";
 import ActiveJob from "../../../assets/admin/images/activejobs.png";
 import PendingRequest from "../../../assets/admin/images/pendingrequest.png";
@@ -50,6 +49,7 @@ const Page = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getDashboardData(api.dashboard);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -401,7 +401,7 @@ const Page = () => {
                             to={
                               routes.advertisementDetails + `/${encode(ele.id)}`
                             }
-                            className="viewmorebtn"
+                            className="viewmorebtn mb-3"
                           >
                             View More
                           </Link>

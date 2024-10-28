@@ -113,6 +113,7 @@ const Page = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getAssessmentList(api.assessmentList + `?page=${pageNum}&limit=${LIMIT}`);
     getCategoryList(api.categoryList);
     setSelectAll(false);

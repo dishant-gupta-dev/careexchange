@@ -134,6 +134,7 @@ const Page = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getPlanList(api.planList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

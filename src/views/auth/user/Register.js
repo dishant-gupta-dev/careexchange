@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import jpgImg from "../../../assets/user/images/1.jpg";
 import Logo from "../../../assets/user/images/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,12 +9,15 @@ import ApiService from "../../../core/services/ApiService";
 import { api } from "../../../utlis/user/api.utlis";
 import toast from "react-hot-toast";
 import Loader from "../../../layouts/loader/Loader";
+import OtpInput from "react-otp-input";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [multiScreen, setMultiScreen] = useState(0);
-  const [data, setData] = useState({email: null, name: null})
+  const [data, setData] = useState({ email: null, name: null });
+  const [formError, setFormError] = useState(false);
 
   const initialValues = {
     email: "",
@@ -22,25 +25,11 @@ const Register = () => {
     user_type: 1,
   };
 
-  const initialOtpValues = {
-    otp1: "",
-    otp2: "",
-    otp3: "",
-    otp4: "",
-  };
-
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Please enter valid email!")
       .required("Email address is required!"),
     username: Yup.string().required("Name is required!"),
-  });
-
-  const validationOtpSchema = Yup.object().shape({
-    otp1: Yup.string().min(0).max(9).required("Required"),
-    otp2: Yup.string().min(0).max(9).required("Required"),
-    otp3: Yup.string().min(0).max(9).required("Required"),
-    otp4: Yup.string().min(0).max(9).required("Required"),
   });
 
   const sendOtp = async (formValue) => {
@@ -51,17 +40,15 @@ const Register = () => {
     });
     const response = await ApiService.postAPI(api.registerSendOtp, form);
     if (response.data.status) {
-      toast(response.data.data?.otp,
-        {
-          style: {
-            borderRadius: '10px',
-            background: '#000',
-            color: '#fff',
-          },
-        }
-      );
+      toast(response.data.data?.otp, {
+        style: {
+          borderRadius: "10px",
+          background: "#000",
+          color: "#fff",
+        },
+      });
       toast.success(response.data.message);
-      setData({email: formValue.email, name: formValue.username});
+      setData({ email: formValue.email, name: formValue.username });
       setMultiScreen(1);
     } else {
       toast.error(response.data.message);
@@ -69,11 +56,15 @@ const Register = () => {
     setLoading(false);
   };
 
-  const verifyUser = async (formValue) => {
+  const verifyUser = async () => {
+    if (code.length !== 4) {
+      setFormError(true);
+      return;
+    } else setFormError(false);
     setLoading(true);
     let form = JSON.stringify({
       email: data.email,
-      otp: `${formValue.otp1}${formValue.otp2}${formValue.otp3}${formValue.otp4}`,
+      otp: code,
     });
     const response = await ApiService.postAPI(api.otpVerify, form);
     if (response.data.status) {
@@ -93,7 +84,9 @@ const Register = () => {
       toast.error(response.data.message);
     }
     setLoading(false);
-  }
+  };
+
+  const handleChange = (code) => setCode(code);
 
   return (
     <>
@@ -176,62 +169,51 @@ const Register = () => {
                       </div>
                       <h2>Verification Code</h2>
                       <p>
-                        We have sent you a verification code to
-                        ({data.email})
+                        We have sent you a verification code to ({data.email})
                       </p>
-                      <Formik
-                        initialValues={initialOtpValues}
-                        validateOnChange={true}
-                        validationSchema={validationOtpSchema}
-                        onSubmit={verifyUser}
-                      >
-                        <Form className="pt-4">
-                          <div className="form-group">
-                            <div className="otp-item-input">
-                              <div className="otp-item">
-                                <Field
-                                  type="number"
-                                  className="form-control"
-                                  name="otp1"
-                                  minLength="1"
-                                />
-                              </div>
-                              <div className="otp-item">
-                                <Field
-                                  type="number"
-                                  className="form-control"
-                                  name="otp2"
-                                />
-                              </div>
-                              <div className="otp-item">
-                                <Field
-                                  type="number"
-                                  className="form-control"
-                                  name="otp3"
-                                />
-                              </div>
-                              <div className="otp-item">
-                                <Field
-                                  type="number"
-                                  className="form-control"
-                                  name="otp4"
-                                />
-                              </div>
-                            </div>
+                      <form className="pt-4">
+                        <div className="form-group">
+                          <div className="otp-item-input">
+                            <OtpInput
+                              value={code}
+                              onChange={handleChange}
+                              numInputs={4}
+                              separator={<span style={{ width: "8px" }}></span>}
+                              isInputNum={true}
+                              shouldAutoFocus={true}
+                              renderInput={(props) => <input {...props} />}
+                              inputStyle={{
+                                border: "1px solid transparent",
+                                borderRadius: "8px",
+                                width: "54px",
+                                height: "54px",
+                                fontSize: "1rem",
+                                color: "#000",
+                                fontWeight: "400",
+                                caretColor: "blue",
+                                margin: "0 5px",
+                              }}
+                              focusStyle={{
+                                border: "1px solid #CFD3DB",
+                                outline: "none",
+                              }}
+                            />
                           </div>
-                          <div className="mb-1 forgotpsw-text">
-                            <a href="javascript:void(0);">Resend Verification </a>
-                          </div>
-                          <div className="form-group">
-                            <button
-                              type="submit"
-                              className="auth-form-btn"
-                            >
-                              Validate OTP
-                            </button>
-                          </div>
-                        </Form>
-                      </Formik>
+                        </div>
+                        <div className="mb-1 forgotpsw-text">
+                          <a href="javascript:void(0);">Resend Verification </a>
+                        </div>
+                        <div className="form-group">
+                          <button type="button" className="auth-form-btn" onClick={() => verifyUser()}>
+                            Validate OTP
+                          </button>
+                        </div>
+                      </form>
+                      {formError && (
+                        <div className="alert alert-danger">
+                          OTP is required
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

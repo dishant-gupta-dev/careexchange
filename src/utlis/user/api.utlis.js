@@ -5,4 +5,5 @@ exports.api = {
     otpVerify: `verify-otp`,
     register: `register`,
     logout: `logout`,
+    dashboard: `user/home`,
 }

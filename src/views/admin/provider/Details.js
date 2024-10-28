@@ -67,6 +67,7 @@ const Details = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getProviderDetails(
       api.providerDetail + `${decode(id)}?status=${jobStatus}`
     );
@@ -180,7 +181,7 @@ const Details = () => {
                     style={{ cursor: "default" }}
                     className="btn-gr"
                   >
-                    Care Provider
+                    {provider?.user_type == "3" ? "Individual" : "Business"}
                   </button>
                 </div>
               </div>
@@ -188,41 +189,48 @@ const Details = () => {
                 <div className="new-user-info">
                   <form>
                     <div className="row">
+                      {provider?.user_type == "2" ? (
+                        <>
+                          <div className="form-group col-md-4 mb-0">
+                            <label for="add1">Business Logo</label>
+                            <div className="cc-provider-profile-image">
+                              {provider?.logo === null ||
+                              provider?.logo === "" ||
+                              provider?.logo === undefined ? (
+                                <img src={NoImage} alt="" className="me-3" />
+                              ) : (
+                                <img
+                                  src={provider?.logo}
+                                  alt=""
+                                  className="me-3"
+                                />
+                              )}
+                            </div>
+                          </div>
+                          <div className="form-group col-md-4 mb-0">
+                            <label for="add1">Business Name</label>
+                            <p className="text-capitalize">
+                              {provider?.business_name ?? "NA"}
+                            </p>
+                          </div>
+                        </>
+                      ) : null}
                       <div className="form-group col-md-4 mb-0">
-                        <label for="add1">Business Logo</label>
-                        <div className="cc-provider-profile-image">
-                          {provider?.logo === null ||
-                          provider?.logo === "" ||
-                          provider?.logo === undefined ? (
-                            <img src={NoImage} alt="" className="me-3" />
-                          ) : (
-                            <img src={provider?.logo} alt="" className="me-3" />
-                          )}
-                        </div>
+                        <label for="lname">Email ID</label>
+                        <p>{provider?.email ?? "NA"}</p>
                       </div>
                       <div className="form-group col-md-4 mb-0">
-                        <label for="add1">Business Name</label>
-                        <p className="text-capitalize">
-                          {provider?.business_name ?? "NA"}
-                        </p>
+                        <label for="add1">Contact Number</label>
+                        <p>{provider?.mobile ?? "NA"}</p>
                       </div>
                       <div className="form-group col-md-4 mb-0">
-                        <label for="add1">Business Address</label>
+                        <label for="add1">{provider?.user_type == "2" ? "Business" : null } Address</label>
                         <p className="text-capitalize">
                           <i className="mdi mdi-map-outline"></i>{" "}
                           {provider?.business_address ?? "NA"}
                         </p>
                       </div>
-                      <div className="form-group col-md-4 mb-0">
-                        <label>Account Created Date</label>
-                        <p>
-                          {moment(provider?.created_date).format("MM-DD-yyyy")}
-                        </p>
-                      </div>
-                      <div className="form-group col-md-4 mb-0">
-                        <label for="lname">Email ID</label>
-                        <p>{provider?.email ?? "NA"}</p>
-                      </div>
+                      
                       <div className="form-group col-md-4 mb-0">
                         <label for="add1">Rating</label>
                         <p>
@@ -230,10 +238,7 @@ const Details = () => {
                           {provider?.avarageRating?.average_rating ?? "MNA"}
                         </p>
                       </div>
-                      <div className="form-group col-md-4 mb-0">
-                        <label for="add1">Contact Number</label>
-                        <p>{provider?.mobile ?? "NA"}</p>
-                      </div>
+                      
                       <div className="form-group col-md-4 mb-0">
                         <label for="add1">Experience</label>
                         <p>{provider?.experience ?? "NA"} Years</p>
@@ -242,7 +247,12 @@ const Details = () => {
                         <label for="add1">Fees</label>
                         <p>{provider?.fee ?? "NA"}</p>
                       </div>
-
+                      <div className="form-group col-md-4 mb-0">
+                        <label>Account Created Date</label>
+                        <p>
+                          {moment(provider?.created_date).format("MM-DD-yyyy")}
+                        </p>
+                      </div>
                       <div className="form-group col-md-12 mb-0 mt-4">
                         <label for="add1">Offering Services</label>
                         <div className="d-flex mt-2">

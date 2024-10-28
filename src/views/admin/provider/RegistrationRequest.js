@@ -55,6 +55,7 @@ const RegistrationRequest = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getRegistrationList(api.registrationList);
     getCategoryList(api.categoryList);
     // eslint-disable-next-line react-hooks/exhaustive-deps

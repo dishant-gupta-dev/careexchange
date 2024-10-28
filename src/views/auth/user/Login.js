@@ -12,25 +12,21 @@ import toast from "react-hot-toast";
 import Loader from "../../../layouts/loader/Loader";
 import { verifyOtp } from "../../../store/slices/Auth";
 import { clearMessage } from "../../../store/slices/Message";
+import OtpInput from "react-otp-input";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [multiScreen, setMultiScreen] = useState(0);
   const [data, setData] = useState({ email: null });
   const { isLoggedIn, redirect } = useSelector((state) => state.auth);
-  const { message } = useSelector((state) => state.message, shallowEqual);
+  const [formError, setFormError] = useState(false);
 
   const initialValues = {
     email: "",
     user_type: 1,
-  };
-
-  const initialOtpValues = {
-    otp1: "",
-    otp2: "",
-    otp3: "",
-    otp4: "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -38,15 +34,6 @@ const Login = () => {
       .email("Please enter valid email!")
       .required("Email address is required!"),
   });
-
-  const validationOtpSchema = Yup.object().shape({
-    otp1: Yup.string().min(0).max(9).required("Required"),
-    otp2: Yup.string().min(0).max(9).required("Required"),
-    otp3: Yup.string().min(0).max(9).required("Required"),
-    otp4: Yup.string().min(0).max(9).required("Required"),
-  });
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(clearMessage());
@@ -56,6 +43,7 @@ const Login = () => {
     setLoading(true);
     let form = JSON.stringify({
       email: formValue.email,
+      user_type: 1
     });
     const response = await ApiService.postAPI(api.sendOtp, form);
     if (response.data.status) {
@@ -75,8 +63,13 @@ const Login = () => {
     setLoading(false);
   };
 
-  const verifyUser = (formValue) => {
-    let otp = `${formValue.otp1}${formValue.otp2}${formValue.otp3}${formValue.otp4}`;
+  const verifyUser = () => {
+    if (code.length !== 4) {
+      setFormError(true);
+      return;
+    } else setFormError(false);
+    setLoading(true);
+    let otp = code;
     let email = data.email;
     let user_type = 1;
     dispatch(verifyOtp({ email, otp, user_type }))
@@ -86,6 +79,28 @@ const Login = () => {
         setLoading(false);
       });
   };
+
+  const resendOtp = async () => {
+    setLoading(true);
+    let form = JSON.stringify({
+      email: data.email,
+      user_type: 1
+    });
+    const response = await ApiService.postAPI(api.sendOtp, form);
+    if (response.data.status) {
+      toast(response.data.data?.otp, {
+        style: {
+          borderRadius: "10px",
+          background: "#000",
+          color: "#fff",
+        },
+      });
+      toast.success(response.data.message);
+    } else toast.error(response.data.message);
+    setLoading(false);
+  }
+
+  const handleChange = (code) => setCode(code);
 
   if (isLoggedIn) {
     return navigate(redirect);
@@ -158,58 +173,49 @@ const Login = () => {
                       <p>
                         We have sent you a verification code to ({data.email})
                       </p>
-                      <Formik
-                        initialValues={initialOtpValues}
-                        validateOnChange={true}
-                        validationSchema={validationOtpSchema}
-                        onSubmit={verifyUser}
-                      >
-                        <Form className="pt-4">
-                          <div className="form-group">
-                            <div className="otp-item-input">
-                              <div className="otp-item">
-                                <Field
-                                  type="number"
-                                  className="form-control"
-                                  name="otp1"
-                                  minLength="1"
-                                />
-                              </div>
-                              <div className="otp-item">
-                                <Field
-                                  type="number"
-                                  className="form-control"
-                                  name="otp2"
-                                />
-                              </div>
-                              <div className="otp-item">
-                                <Field
-                                  type="number"
-                                  className="form-control"
-                                  name="otp3"
-                                />
-                              </div>
-                              <div className="otp-item">
-                                <Field
-                                  type="number"
-                                  className="form-control"
-                                  name="otp4"
-                                />
-                              </div>
-                            </div>
+                      <form className="pt-4">
+                        <div className="form-group">
+                          <div className="otp-item-input">
+                            <OtpInput
+                              value={code}
+                              onChange={handleChange}
+                              numInputs={4}
+                              separator={<span style={{ width: "8px" }}></span>}
+                              isInputNum={true}
+                              shouldAutoFocus={true}
+                              renderInput={(props) => <input {...props} />}
+                              inputStyle={{
+                                border: "1px solid transparent",
+                                borderRadius: "8px",
+                                width: "54px",
+                                height: "54px",
+                                fontSize: "1rem",
+                                color: "#000",
+                                fontWeight: "400",
+                                caretColor: "blue",
+                                margin: "0 5px"
+                              }}
+                              focusStyle={{
+                                border: "1px solid #CFD3DB",
+                                outline: "none",
+                              }}
+                            />
                           </div>
-                          <div className="mb-1 forgotpsw-text">
-                            <a href="javascript:void(0);">
-                              Resend Verification{" "}
-                            </a>
-                          </div>
-                          <div className="form-group">
-                            <button type="submit" className="auth-form-btn">
-                              Validate OTP
-                            </button>
-                          </div>
-                        </Form>
-                      </Formik>
+                        </div>
+                        <div className="mb-1 forgotpsw-text">
+                          <Link to="" onClick={() => resendOtp()}> Resend Verification </Link>
+                        </div>
+                        <div className="form-group">
+                          <button type="button" className="auth-form-btn" onClick={() => verifyUser()}>
+                            Validate OTP
+                          </button>
+                        </div>
+                      </form>
+                      {formError && (
+                        <div className="alert alert-danger">
+                          OTP is required
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

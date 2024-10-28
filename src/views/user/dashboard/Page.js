@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../../assets/user/css/home.css";
 import Map from "../../../assets/user/images/Google_Map.svg";
 import Search from "../../../assets/user/images/search-normal.svg";
@@ -12,8 +12,43 @@ import UserImg from "../../../assets/user/images/user.png";
 import Ad1 from "../../../assets/user/images/ad1.jpg";
 import Ad2 from "../../../assets/user/images/ad2.jpg";
 import Ad3 from "../../../assets/user/images/ad3.jpg";
+import { api } from "../../../utlis/user/api.utlis";
+import ApiService from "../../../core/services/ApiService";
+import NoImage from "../../../assets/admin/images/no-image.jpg";
 
 const Page = () => {
+  const [dashboard, setDashboard] = useState({
+    category: [],
+    ProviderList: [],
+    advertisementList: [],
+  });
+  const [loading, setLoading] = useState(false);
+
+  const getDashboardData = async (api) => {
+    setLoading(true);
+    const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log("all dashboard => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setDashboard(response.data.data);
+    } else
+      setDashboard({
+        totalUserCount: 0,
+        totalCareProviderCount: 0,
+        totalCareStaffCount: 0,
+        totalCareJobRequests: [],
+        totalActiveJobsCount: 0,
+        totalPendingJobsCount: 0,
+        careNetwork: [],
+        AdvertisementList: [],
+      });
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    getDashboardData(api.dashboard);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <div className="container">
@@ -43,7 +78,7 @@ const Page = () => {
                       placeholder="Address Or Zip Code"
                     />
                     <span className="search-lo-icon">
-                      <img src={Map}/>
+                      <img src={Map} />
                     </span>
                   </div>
                   <div className="search-btn-info">
@@ -54,8 +89,6 @@ const Page = () => {
                 </div>
               </div>
             </div>
-
-            
           </div>
         </div>
 
@@ -103,49 +136,28 @@ const Page = () => {
             <div className="search-filter wd30"></div>
           </div>
           <div className="row">
-            <div className="col-md-2">
-              <div className="careservices-card">
-                <div className="careservices-icon">
-                  <img src={SsCare} />
-                </div>
-                <div className="careservices-text">
-                  <h2>Senior Care</h2>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-2">
-              <div className="careservices-card">
-                <div className="careservices-icon">
-                  <img src={ChCare} />
-                </div>
-                <div className="careservices-text">
-                  <h2>Child Care</h2>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-2">
-              <div className="careservices-card">
-                <div className="careservices-icon">
-                  <img src={PetCare} />
-                </div>
-                <div className="careservices-text">
-                  <h2>Pet Care</h2>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-2">
-              <div className="careservices-card">
-                <div className="careservices-icon">
-                  <img src={MdCare} />
-                </div>
-                <div className="careservices-text">
-                  <h2>Medical Care</h2>
-                </div>
-              </div>
-            </div>
+            {dashboard?.category.length !== 0
+              ? dashboard?.category.map((ele, indx) => {
+                  return (
+                    <div key={indx} className="col-md-2">
+                      <div className="careservices-card">
+                        <div className="careservices-icon">
+                          {ele.image === null ||
+                          ele.image === "" ||
+                          ele.image === undefined ? (
+                            <img src={NoImage} alt="" />
+                          ) : (
+                            <img src={ele.image} alt="" height={100} />
+                          )}
+                        </div>
+                        <div className="careservices-text">
+                          <h2>{ele.name ?? "NA"}</h2>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              : null}
           </div>
         </div>
 
@@ -155,104 +167,58 @@ const Page = () => {
             <div className="search-filter wd30"></div>
           </div>
           <div className="row">
-            <div className="col-md-4">
-              <div className="care-card">
-                <div className="care-card-head">
-                  <div className="care-user-info">
-                    <div className="care-user-image">
-                      <img src={UserImg} />
-                    </div>
-                    <div className="care-user-text">
-                      <div className="care-user-name">Joseph Phill</div>
-                      <div className="care-user-rating">
-                        <i className="fa-regular fa-star"></i> 4.2
+            {dashboard?.ProviderList.length !== 0
+              ? dashboard?.ProviderList.map((ele, indx) => {
+                  return (
+                    <div key={indx} className="col-md-4">
+                      <div className="care-card">
+                        <div className="care-card-head">
+                          <div className="care-user-info">
+                            <div className="care-user-image">
+                              {ele.profile_image === null ||
+                              ele.profile_image === "" ||
+                              ele.profile_image === undefined ? (
+                                <img src={NoImage} alt="" />
+                              ) : (
+                                <img src={ele.profile_image} alt="" />
+                              )}
+                            </div>
+                            <div className="care-user-text">
+                              <div className="care-user-name">
+                                {ele.fullname ?? "NA"}
+                              </div>
+                              <div className="care-user-rating">
+                                <i className="fa-regular fa-star"></i> NA
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="care-card-body">
+                          <div className="care-pricetag-content">
+                            <div className="care-price-text">
+                              <div className="pricehour-text">
+                                {ele.fee ?? "NA"}
+                              </div>
+                              <div className="exp-text">
+                                {ele.experience ?? 0} Years Exp
+                              </div>
+                            </div>
+                            <div className="care-tag-text">
+                              {ele.category ?? "NA"}
+                            </div>
+                          </div>
+                          <div className="care-location-box">
+                            <div className="care-location-text">
+                              <h4>Location</h4>
+                              <p>{ele.business_address ?? "NA"}</p>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div className="care-card-body">
-                  <div className="care-pricetag-content">
-                    <div className="care-price-text">
-                      <div className="pricehour-text">$20-30/Hr</div>
-                      <div className="exp-text">3+ Years Exp</div>
-                    </div>
-                    <div className="care-tag-text">Senior Care</div>
-                  </div>
-                  <div className="care-location-box">
-                    <div className="care-location-text">
-                      <h4>Location</h4>
-                      <p>Atlanta GA, 63993</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="care-card">
-                <div className="care-card-head">
-                  <div className="care-user-info">
-                    <div className="care-user-image">
-                      <img src={UserImg} />
-                    </div>
-                    <div className="care-user-text">
-                      <div className="care-user-name">Joseph Phill</div>
-                      <div className="care-user-rating">
-                        <i className="fa-regular fa-star"></i> 4.2
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="care-card-body">
-                  <div className="care-pricetag-content">
-                    <div className="care-price-text">
-                      <div className="pricehour-text">$20-30/Hr</div>
-                      <div className="exp-text">3+ Years Exp</div>
-                    </div>
-                    <div className="care-tag-text">Senior Care</div>
-                  </div>
-                  <div className="care-location-box">
-                    <div className="care-location-text">
-                      <h4>Location</h4>
-                      <p>Atlanta GA, 63993</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="care-card">
-                <div className="care-card-head">
-                  <div className="care-user-info">
-                    <div className="care-user-image">
-                      <img src={UserImg} />
-                    </div>
-                    <div className="care-user-text">
-                      <div className="care-user-name">Joseph Phill</div>
-                      <div className="care-user-rating">
-                        <i className="fa-regular fa-star"></i> 4.2
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="care-card-body">
-                  <div className="care-pricetag-content">
-                    <div className="care-price-text">
-                      <div className="pricehour-text">$20-30/Hr</div>
-                      <div className="exp-text">3+ Years Exp</div>
-                    </div>
-                    <div className="care-tag-text">Senior Care</div>
-                  </div>
-                  <div className="care-location-box">
-                    <div className="care-location-text">
-                      <h4>Location</h4>
-                      <p>Atlanta GA, 63993</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+                  );
+                })
+              : null}
           </div>
         </div>
 
@@ -262,47 +228,31 @@ const Page = () => {
             <div className="search-filter wd30"></div>
           </div>
           <div className="row">
-            <div className="col-md-4">
-              <div className="advertisement-card">
-                <div className="advertisement-user-image">
-                  <img src={Ad1} />
-                </div>
-                <div className="advertisement-content">
-                  <h4>Looking For Home Care For Seniors</h4>
-                  <a className="viewmorebtn" href="">
-                    View More
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="advertisement-card">
-                <div className="advertisement-user-image">
-                  <img src={Ad2} />
-                </div>
-                <div className="advertisement-content">
-                  <h4>Flat 60% Off On Pet Care</h4>
-                  <a className="viewmorebtn" href="">
-                    View More
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="advertisement-card">
-                <div className="advertisement-user-image">
-                  <img src={Ad3} />
-                </div>
-                <div className="advertisement-content">
-                  <h4>Smile Behind Your Grand-Parents Care..</h4>
-                  <a className="viewmorebtn" href="">
-                    View More
-                  </a>
-                </div>
-              </div>
-            </div>
+            {dashboard?.advertisementList.length !== 0
+              ? dashboard?.advertisementList.map((ele, indx) => {
+                  return (
+                    <div key={indx} className="col-md-4">
+                      <div className="advertisement-card">
+                        <div className="advertisement-user-image">
+                          {ele.image === null ||
+                          ele.image === "" ||
+                          ele.image === undefined ? (
+                            <img src={NoImage} alt="" />
+                          ) : (
+                            <img src={ele.image} alt="" height={100} />
+                          )}
+                        </div>
+                        <div className="advertisement-content">
+                          <h4>{ele.title ?? "NA"}</h4>
+                          <a className="viewmorebtn" href="">
+                            View More
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              : null}
           </div>
         </div>
       </div>

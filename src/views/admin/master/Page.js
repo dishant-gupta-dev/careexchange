@@ -226,6 +226,7 @@ const Page = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getCategoryList(api.categoryList);
   }, []);
   return (

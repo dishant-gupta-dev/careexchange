@@ -45,6 +45,7 @@ const Details = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getAdsDetails(api.advertisementDetail + `${decode(id)}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

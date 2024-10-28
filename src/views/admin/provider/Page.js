@@ -46,19 +46,22 @@ const Page = () => {
     let name = "";
     let status = "";
     let category = "";
+    let type = "";
     if (e.target.name === "name") name = e.target.value;
     if (e.target.name === "status") status = e.target.value;
     if (e.target.name === "category") category = e.target.value;
+    if (e.target.name === "type") type = e.target.value;
     if (date != null && date != undefined && date != "")
       date = moment(date).format("yyyy-MM-DD");
     else date = "";
     getProviderList(
       api.providerList +
-        `?page=${pageNum}&limit=${LIMIT}&search=${name}&status=${status}&categoryid=${category}&date=${date}`
+        `?page=${pageNum}&limit=${LIMIT}&search=${name}&status=${status}&categoryid=${category}&date=${date}&user_type=${type}`
     );
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getProviderList(api.providerList + `?page=${pageNum}&limit=${LIMIT}`);
     getCategoryList(api.categoryList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,7 +90,7 @@ const Page = () => {
         <div className="care-title-header">
           <div className="cc-search-filter wd100">
             <div className="row g-2">
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <div className="form-group">
                   <DatePicker
                     toggleCalendarOnIconClick
@@ -107,7 +110,7 @@ const Page = () => {
                 </div>
               </div>
 
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <div className="form-group">
                   <select
                     className="form-control"
@@ -128,7 +131,7 @@ const Page = () => {
                 </div>
               </div>
 
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <div className="form-group">
                   <select
                     className="form-control"
@@ -143,7 +146,21 @@ const Page = () => {
                 </div>
               </div>
 
-              <div className="col-md-3">
+              <div className="col-md-2">
+                <div className="form-group">
+                  <select
+                    className="form-control"
+                    name="type"
+                    onChange={(e) => handleFilter(e)}
+                  >
+                    <option value="">Select Type</option>
+                    <option value="3">Individual Provider</option>
+                    <option value="2">Business Provider</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="col-md-4">
                 <div className="form-group search-form-group">
                   <input
                     type="text"
@@ -168,7 +185,7 @@ const Page = () => {
               <thead>
                 <tr>
                   <th> Name </th>
-                  <th> Business Name </th>
+                  <th> Type </th>
                   <th> Contact Number </th>
                   <th> Email ID </th>
                   <th> Category </th>
@@ -183,10 +200,10 @@ const Page = () => {
                     return (
                       <tr key={indx}>
                         <td className="text-capitalize">
-                          {ele.profile_image === null ||
-                          ele.profile_image === "" ||
-                          ele.profile_image === undefined ? (
-                            <img src={NoImage} alt="" className="me-3" />
+                          {ele.logo !== null &&
+                          ele.logo !== "" &&
+                          ele.logo !== undefined ? (
+                            <img src={ele.logo} alt="" className="me-3" />
                           ) : (
                             <img
                               src={ele.profile_image}
@@ -194,9 +211,9 @@ const Page = () => {
                               className="me-3"
                             />
                           )}
-                          {ele.name ?? "NA"}
+                          {ele?.business_name ? ele?.business_name : ele?.name}
                         </td>
-                        <td className="text-capitalize">
+                        {/* <td className="text-capitalize">
                           {ele.logo === null ||
                           ele.logo === "" ||
                           ele.logo === undefined ? (
@@ -209,7 +226,8 @@ const Page = () => {
                             />
                           )}
                           {ele.business_name ?? "NA"}
-                        </td>
+                        </td> */}
+                        <td> {ele.user_type == 3 ? "Individual" : "Business"} </td>
                         <td> {ele.mobile ?? "NA"} </td>
                         <td className="text-lowercase">{ele.email ?? "NA"}</td>
                         <td> {ele.category ?? "NA"} </td>

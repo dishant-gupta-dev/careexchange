@@ -239,6 +239,7 @@ const Page = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getNewsletterList(api.newsletterList + `?page=${pageNum}&limit=${LIMIT}`);
     setSelectAll(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps

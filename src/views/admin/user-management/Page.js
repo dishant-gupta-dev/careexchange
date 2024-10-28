@@ -46,6 +46,7 @@ const Page = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getUserList(api.userList + `?page=${pageNum}&limit=${LIMIT}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNum]);

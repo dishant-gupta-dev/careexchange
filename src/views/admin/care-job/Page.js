@@ -73,6 +73,7 @@ const Page = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getJobList(api.careJobList + `?page=${pageNum}&limit=${LIMIT}`);
     getCategoryList(api.categoryList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,7 +89,7 @@ const Page = () => {
         <div className="care-title-header">
           <div className="cc-search-filter wd100">
             <div className="row g-2">
-              <div className="col-md-4">
+              <div className="col-md-3">
                 <div className="form-group search-form-group">
                   <input
                     type="text"
@@ -104,7 +105,7 @@ const Page = () => {
                   </span>
                 </div>
               </div>
-              <div className="col-md-2">
+              <div className="col-md-3">
                 <div className="form-group">
                   <select
                     className="form-control"
@@ -119,8 +120,7 @@ const Page = () => {
                   </select>
                 </div>
               </div>
-
-              <div className="col-md-2">
+              <div className="col-md-3">
                 <div className="form-group">
                   <select
                     className="form-control"
@@ -140,29 +140,7 @@ const Page = () => {
                   </select>
                 </div>
               </div>
-
-              <div className="col-md-2">
-                <div className="form-group">
-                  <select
-                    className="form-control"
-                    name="subcategory"
-                    onChange={(e) => handleFilter(e)}
-                  >
-                    <option value="">Select Sub Category</option>
-                    {subCategories.length !== 0
-                      ? subCategories.map((ele, indx) => {
-                          return (
-                            <option key={indx} value={ele.id}>
-                              {ele.name ?? "NA"}
-                            </option>
-                          );
-                        })
-                      : null}
-                  </select>
-                </div>
-              </div>
-
-              <div className="col-md-2">
+              <div className="col-md-3">
                 <div className="form-group">
                   <DatePicker
                     toggleCalendarOnIconClick
@@ -192,13 +170,14 @@ const Page = () => {
                 <tr>
                   <th> Name </th>
                   <th> Job ID </th>
-                  <th> Status </th>
+                  <th> Category </th>
                   <th> Start Date </th>
                   <th> Time</th>
                   <th> Frequency </th>
                   {/* <th> Care Provider Name </th>
                           <th> Care Provider Status </th>
                           <th> View Care Provider Profile </th> */}
+                  <th> Status </th>
                   <th> Action </th>
                 </tr>
               </thead>
@@ -211,7 +190,7 @@ const Page = () => {
                           {ele.first_name ?? "NA"}
                         </td>
                         <td>{ele.job_id ?? "NA"}</td>
-                        <td>{status(ele.status)}</td>
+                        <td>{ele.category ?? 'NA'}</td>
                         <td>{moment(ele.start_date).format("MM-DD-yyyy")}</td>
                         <td>
                           {ele.start_time}
@@ -219,6 +198,7 @@ const Page = () => {
                         <td>
                           {ele.frequency === "O" ? "One Time" : (ele.frequency === "W" ? "Repeat Weekly" : "Repeat Monthly")}
                         </td>
+                        <td>{status(ele.status)}</td>
                         {/* <td>Joseph Phill Will Take Care</td>
                                 <td>Confirmed Care Provider </td>
                                 <td>
@@ -243,7 +223,7 @@ const Page = () => {
                   })
                 ) : (
                   <tr className="text-center">
-                    <td colSpan="7">
+                    <td colSpan="8">
                       <div>
                         <p>No care jobs found</p>
                       </div>

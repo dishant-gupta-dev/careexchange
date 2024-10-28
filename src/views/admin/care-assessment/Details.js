@@ -27,6 +27,7 @@ const Details = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getJobDetails(api.careJobDetails + `${decode(id)}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

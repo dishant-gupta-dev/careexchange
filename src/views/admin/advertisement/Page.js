@@ -334,6 +334,7 @@ const Page = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getAdvertisementList(
       api.advertisement + `?page=${pageNum}&limit=${adsLIMIT}`
     );
