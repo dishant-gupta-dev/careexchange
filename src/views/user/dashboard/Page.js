@@ -4,17 +4,10 @@ import Map from "../../../assets/user/images/Google_Map.svg";
 import Search from "../../../assets/user/images/search-normal.svg";
 import Schedule from "../../../assets/user/images/schedule.svg";
 import Post from "../../../assets/user/images/post.svg";
-import SsCare from "../../../assets/user/images/ss-care.svg";
-import ChCare from "../../../assets/user/images/ch-care.svg";
-import MdCare from "../../../assets/user/images/md-care.svg";
-import PetCare from "../../../assets/user/images/pet-care.svg";
-import UserImg from "../../../assets/user/images/user.png";
-import Ad1 from "../../../assets/user/images/ad1.jpg";
-import Ad2 from "../../../assets/user/images/ad2.jpg";
-import Ad3 from "../../../assets/user/images/ad3.jpg";
 import { api } from "../../../utlis/user/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
+import Loader from "../../../layouts/loader/Loader";
 
 const Page = () => {
   const [dashboard, setDashboard] = useState({
@@ -51,6 +44,7 @@ const Page = () => {
   }, []);
   return (
     <>
+    {loading ? <Loader /> : null}
       <div className="container">
         <div className="find-location-section">
           <div className="find-location-tab">
@@ -188,7 +182,7 @@ const Page = () => {
                                 {ele.fullname ?? "NA"}
                               </div>
                               <div className="care-user-rating">
-                                <i className="fa-regular fa-star"></i> NA
+                                <i className="fa-regular fa-star"></i> {ele.average_rating ?? "0"}
                               </div>
                             </div>
                           </div>
