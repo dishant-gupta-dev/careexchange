@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import React from "react";
 import { BrowserRouter as Router, Routes as ReactRoutes, Route, Navigate, Outlet } from "react-router-dom";
 import AuthRoutes from "./AuthRoutes";
+import ProviderRoutes from "./ProviderRoutes";
 import AdminRoutes from "./AdminRoutes";
 import UserRoutes from "./UserRoutes";
 import { routes } from '../utlis/admin/routes.utlis';
@@ -32,6 +33,18 @@ const Routes = (props) => {
             <ReactRoutes>
 
                 {AuthRoutes.map((authRoute, index) => {
+                    return (
+                        <Route element={<authRoute.layout />} key={index}>
+                            <Route
+                                path={authRoute.path}
+                                exact={authRoute.exact}
+                                element={<authRoute.component />}
+                            />
+                        </Route>
+                    );
+                })}
+
+                {ProviderRoutes.map((authRoute, index) => {
                     return (
                         <Route element={<authRoute.layout />} key={index}>
                             <Route

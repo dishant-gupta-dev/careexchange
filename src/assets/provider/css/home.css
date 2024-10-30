@@ -1,0 +1,701 @@
+.care-title-header{display: flex;align-items: center;justify-content: space-between;margin-bottom: 10px;}
+.care-title-header-1{margin-bottom: 30px}
+.care-title-header-1 h6.heading-name-title{font-size: 16px; color: var(--black); margin-bottom: 10px; padding: 0;}
+.heading-title{font-size: 20px;font-weight: 600;margin: 0;padding: 0;color:var(--black);}
+.featured-section{margin-bottom: 1rem;}
+
+.care-card {background: var(--white); position: relative; border-radius: 10px; box-shadow: 0 8px 13px rgb(0 0 0 / 5%); }
+.care-card-head-1{position: relative;border-radius: 10px; background: var(--white); display: flex;justify-content: space-between; padding:10px 10px;}
+.care-card-head{position: relative;border-radius: 10px 10px  0 0; background: var(--white);box-shadow: 0 8px 13px rgb(0 0 0 / 5%); display: flex;justify-content: space-between; padding:5px 10px;}
+.care-user-info{display: flex; align-items: center; gap: 10px;}
+.care-user-image{position: relative; width: 40px; height: 40px;border-radius: 50%;overflow: hidden;}
+.care-user-image img{width: 100%; height: 100%; object-fit: cover;}
+.care-user-text{flex: 1;}
+.care-user-name {font-size: 14px; font-weight: 600; color: var(--black); }
+.care-user-rating {color: var(--green); }
+.care-card-body{padding: 10px;}
+
+.care-pricetag-content{display: flex;align-items: center; justify-content: space-between;}
+.pricehour-text {font-size: 18px; margin: 0 0 5px 0; padding: 0; color: var(--black); font-weight: 600; }
+.exp-text {font-size: 14px; margin: 0; padding: 5px 20px; color: var(--white); font-weight: 600; background: var(--blue); display: inline-block; border-radius: 5px; margin-bottom: 1rem; }
+.care-location-box {display: flex; gap: 10px; }
+.care-location-text h4 {font-size: 14px; margin: 0; padding: 0; color: var(--black); font-weight: 600; }
+.care-location-text p {font-size: 14px; margin: 0; padding: 0; color: var(--gray); }
+
+.care-tag-text {font-size: 14px; margin: 0; padding: 5px 20px; color: var(--white);box-shadow: 0 8px 13px rgb(0 0 0 / 5%); font-weight: 600; background: var(--green); display: inline-block; border-radius: 5px; margin-bottom: 1rem; }
+
+.careservices-section{margin-bottom: 1rem;}
+.careservices-card {background: var(--white);    overflow: hidden; position: relative; padding: 1rem; border-radius: 10px; box-shadow: 0 8px 13px rgb(0 0 0 / 5%); }
+.careservices-card:after {content: ''; position: absolute; background: url(../images/cline1.svg); right: -20px; top: 0; width: 60px; height: 90px; }
+.careservices-card:before {content: ''; position: absolute; background: url(../images/cline2.svg); left: 0; bottom:-20px; width: 123px; height: 37px; }
+.careservices-icon {position: relative; margin-bottom: 10px; }
+.careservices-text{position: relative;}
+.careservices-text h2{font-size: 14px; margin: 0; padding: 0; color: var(--blue); font-weight: 600; }
+.careservices-text h3{font-size: 18px; margin: 0; padding: 0; color: var(--blue); font-weight: 600;padding:8px; border-radius:6px; background:#eef8fe; z-index:1; }
+
+.advertisement-section{margin-bottom: 1rem;}
+
+.advertisement-card {background: var(--white); position: relative; border-radius: 10px; box-shadow: 0 8px 13px rgb(0 0 0 / 5%); }
+.advertisement-user-image{position: relative; width:100%; height: 200px; border-radius: 10px 10px 0 0}
+.advertisement-user-image img{width: 100%; height: 100%; object-fit: cover;border-radius: 10px 10px 0 0}
+.advertisement-content{position: relative;padding: 15px 0 0 15px;}
+.advertisement-content h4 {font-size: 16px; margin: 0 0 1rem 0; padding: 0; color: var(--black); font-weight: 600; }
+.advertisement-content p {font-size: 14px; margin: 0; padding: 0; color: var(--gray); }
+.advertisement-content .advertisement-heading h3{ font-size:14px; font-weight:600; color: var(--black); }
+.advertisement-content .advertisement-heading .advertisement-status p{    font-size: 14px; margin: 0; padding: 4px 12px; color: var(--white); box-shadow: 0 8px 13px rgb(0 0 0 / 5%); font-weight: 600; background: var(--green); display: inline-block; border-radius: 5px; margin-bottom: 1rem;}
+.advertisement-content .advertisement-tags p{margin-right: 10px; color: rgb(255, 255, 255); background: var(--blue); padding: 2px 12px; border-radius: 6px;}
+.advertisement-content .advertisement-date-time p{color: #2a3338; margin-bottom: 0}
+.advertisement-content .advertisement-date-time {background: #f3fbff; margin-bottom: 15px; border-radius: 6px; padding: 10px;}
+
+
+a.viewmorebtn {font-size: 14px; margin: 0; padding: 8px 20px; color: var(--white);box-shadow: 0 8px 13px rgb(0 0 0 / 5%); font-weight: 600; background: var(--green); display: inline-block; border-radius: 5px;  }
+
+.overview-section{margin-bottom: 1rem;}
+
+.schedule-card{background:var(--blue) url(../images/waveline.svg) no-repeat;background-size: contain; display: flex; align-items: center; justify-content: space-between; padding: 1rem; position: relative;border-radius: 10px; box-shadow: 0 8px 13px rgb(0 0 0 / 5%);}
+.schedule-card-1{background:var(--blue) url(../images/waveline.svg) no-repeat;background-size: contain; padding: 1rem; position: relative;border-radius: 10px; box-shadow: 0 8px 13px rgb(0 0 0 / 5%);}
+.schedule-card-1 .new-post-section .new-post-btn {
+    background: #fff;
+    display: inline-block;
+    padding: 13px 26px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #000;
+}
+
+
+.schedule-card-1 input {padding: 0.775rem .775rem .775rem .75rem !important;}
+/*.form-control {padding: 0.775rem .775rem .775rem .75rem !important;}*/
+
+.schedule-card-content {display: flex; gap: 20px; align-items:center; }
+.schedule-card-icon img{height: 84px;}
+.schedule-card-text {font-size: 16px; position: relative; margin: 0 0 5px 0; padding: 0; color: var(--white); font-weight: 600; }
+.schedule-card-text span {font-size: 16px; margin: 0; padding: 5px 10px; color: var(--white); font-weight: 600; background: var(--green); border-radius: 5px; }
+.schedule-card-action a {    white-space: nowrap;font-size: 14px; margin: 0; padding: 10px 20px; color: var(--blue); box-shadow: 0 8px 13px rgb(0 0 0 / 5%); font-weight: 600; background: var(--white); display: inline-block; border-radius: 5px; margin-bottom: 0; }
+
+
+.opportunity-card{background:var(--green) url(../images/waveline.svg) no-repeat; background-size: contain; display: flex; align-items: center; justify-content: space-between; padding: 1rem; position: relative;border-radius: 10px; box-shadow: 0 8px 13px rgb(0 0 0 / 5%);}
+.opportunity-card-content {display: flex; gap: 20px; align-items:center; }
+.opportunity-card-icon img{height: 84px;}
+.opportunity-card-text {font-size: 16px; position: relative; margin: 0 0 5px 0; padding: 0; color: var(--white); font-weight: 600; }
+.opportunity-card-text span {font-size: 16px; margin: 0; padding: 5px 10px; color: var(--white); font-weight: 600; background: var(--green); border-radius: 5px; }
+.opportunity-card-action a {    white-space: nowrap;font-size: 14px; margin: 0; padding: 10px 20px; color: var(--green); box-shadow: 0 8px 13px rgb(0 0 0 / 5%); font-weight: 600; background: var(--white); display: inline-block; border-radius: 5px; margin-bottom: 0; }
+
+.find-location-tab {margin-bottom: 0rem; }
+.find-location-tab ul{display: flex; position: relative; border:none;gap:5px }
+.find-location-tab ul li { }
+.find-location-tab ul  li a {font-weight: 700;font-size: 14px;text-align: center;padding: 10px 20px;color: var(--black);display: inline-block;width: 100%;border-bottom: none;border-radius: 5px 5px 0 0;background: #FFF;box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12);}
+.find-location-tab ul li a.active {color: var(--white);background: var(--green);box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12);}
+.find-location-tab ul li a i{font-size: 30px;vertical-align: middle;}
+
+
+
+.search-location-card-1 {
+    position: relative;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 10px 10px 10px 10px;
+    padding: 10px;
+    box-shadow: 0px 8px 13px rgb(0 0 0 / 5%);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    margin: 0 auto 2rem auto;    justify-content: space-between;
+    z-index: 9;
+}
+
+.search-location-card {
+    position: relative;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 0px 10px 10px 10px;
+    padding: 10px;
+    box-shadow: 0px 8px 13px rgb(0 0 0 / 5%);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    margin: 0 auto 2rem auto;    justify-content: space-between;
+    z-index: 9;
+}
+.search-input-info {
+    width: 90%;
+    margin-right: 20px;
+}
+
+.search-input-info input.form-control {
+    background: #fff;
+    border-radius: 5px;
+    font-size: 14px;
+    border: 1px solid #fff;
+    font-weight: 400;
+    height: auto;
+    padding: 15px 15px 15px 30px;
+    outline: 0;
+    width: 100%;
+    display: inline-block;
+    color: var(--black);
+}
+.search-input-info input.form-control:focus{outline: none;box-shadow: none;}
+.search-lo-icon {
+    position: absolute;
+    left: 15px;
+    top: 24px;
+}
+
+button.intake-btn-done-1 {
+  color: var(--white);
+    border-radius: 5px;
+    background: var(--green);
+    box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12);
+    border: none;
+    padding: 0px 8px;
+    display: inline-block;
+    position: relative;
+}
+button.intake-btn-done {
+    color: var(--white);
+    border-radius: 5px;
+    background: var(--green);
+    box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12);
+    border: none;
+    padding: 12px;
+    display: inline-block;
+    position: relative;
+}
+
+.dropdown-select .form-select{
+    padding: 0.775rem 2.25rem .775rem .75rem;
+}
+
+
+.create-care-exchange-content .form-control {
+    background: var(--white);
+    border-radius: 5px;
+    font-size: 13px;
+    border: 1px solid #ebebeb;
+    font-weight: 400;
+    height: auto;
+    padding: 0.94rem 0.94rem;
+    outline: 0;
+    width: 100%;
+    display: inline-block;
+    color: var(--gray);
+/*    box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05);*/
+}
+
+.search-input-info {
+    width: 90%;
+    margin-right: 20px;
+}
+
+.radiobtn-card {
+    display: flex;
+}
+
+.radiobtn-card .form-check {
+    background: #ffffff;
+    padding: 12px 16px 10px 36px;
+    margin-right: 10px;
+    border-radius: 8px;
+    border: 1px solid #ebebeb;
+    margin-top: 20px;
+}
+
+.create-care-exchange-content .Address-card {
+  padding: 10px 12px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  margin-top: 20px;
+  border:1px solid #ebebeb ;
+}
+
+.create-care-exchange-content .full-address-detail{
+  display: flex;
+  align-items: center;
+}
+
+.create-care-exchange-content .full-address-detail h6{
+  margin: 0;
+  padding: 0;
+}
+.create-care-exchange-content .full-address-detail img{
+    margin-right: 10px;
+    background: #e9e9e9;
+    padding: 10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 100px;
+}
+
+.create-care-exchange-content .divider {
+    height: 1px;
+    width: 100%;
+    margin: 20px 0px;
+    border: 1px dashed var(--green);
+}
+
+.search-input-info input.form-control {
+    background: #fff;
+    border-radius: 5px;
+    font-size: 14px;
+    border: 1px solid #fff;
+    font-weight: 400;
+    height: auto;
+    padding: 15px 15px 15px 30px;
+    outline: 0;
+    width: 100%;
+    display: inline-block;
+    color: var(--black);
+}
+
+.offering-services-section label {
+    margin-top: 6px;
+}
+
+.offering-services-section .panel-heading-img img {
+    margin-right: 10px;
+}
+
+.offering-services-section .card-input-element {
+    display: none;
+}
+
+.offering-services-section .card-input {
+    background: #ffffff;
+    padding: 12px 16px;
+    margin-right: 10px;
+    border-radius: 8px;
+    border: 1px solid #ebebeb;
+    /* margin-top: 4px; */
+    display: flex;
+}
+
+.senior-care-edit {
+    background: #ffffff;
+    padding: 10px 12px 10px 12px;
+    margin-right: 10px;
+    border-radius: 8px;
+    border: 1px solid #ebebeb;
+    margin-top: 20px;
+}
+
+.radiobtn-card .senior-care-edit button.intake-btn-done {
+    padding: 3px 6px;
+}
+
+a.auth-gr-btn {
+    outline: none;
+    margin-bottom: 5px;
+    width: 100%;
+    padding: 12px 40px;
+    display: inline-block;
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 5px;
+    border: none;
+    background: var(--green);
+    box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05);
+}
+
+.signup-popup-heading {
+    text-align: center;
+    padding: 20px;
+}
+
+.signup-popup-heading h6 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--black);
+    padding: 0;
+    margin: 10px 0 0 0;
+}
+
+.signup-popup-heading h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--black);
+    padding: 0;
+    margin:  0;
+}
+
+.offering-services-section .card-input-element:checked + .card-input {
+    box-shadow: 0 0 1px 1px #3d9e42;
+    color: #3d9e42;
+}
+
+.care-id {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 0;
+    color: var(--black);
+}
+
+.care-id span {
+    color: var(--green);
+}
+
+.date-text {
+    font-size: 14px;
+    margin: 0;
+    padding: 5px 20px;
+    color: var(--white);
+    font-weight: 500;
+    background: var(--blue);
+    display: inline-block;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.w-20{
+  width: 20% !important;
+}
+
+.active-ads-detail-popup p{margin:0px; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Datepicker */
+.datepicker.datepicker-dropdown,
+.datepicker.datepicker-inline {
+  padding: 0 25px;
+  width: 30%;
+  max-width: 500px;
+  min-width: 250px;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed thead tr th,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed thead tr th {
+  text-align: center;
+  padding: 0.5rem 0;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed thead tr th.prev,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed thead tr th.prev {
+  color: #434a54;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  text-align: center;
+  background: #ffffff;
+  font-size: 26px;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed thead tr th.datepicker-switch,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed thead tr th.datepicker-switch {
+  color: #434a54;
+  background: #ffffff;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed thead tr th.next,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed thead tr th.next {
+  color: grey;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  text-align: center;
+  background: #ffffff;
+  font-size: 26px;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed thead tr th.dow,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed thead tr th.dow {
+  font-family: "ubuntu-regular", sans-serif;
+  color: #434a54;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed thead tr th.dow:first-child,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed thead tr th.dow:first-child {
+  text-align: left;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed thead tr th.dow:last-child,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed thead tr th.dow:last-child {
+  text-align: right;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody {
+  position: relative;
+  top: 13px;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td {
+  text-align: center;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td.day,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td.day {
+  font-size: 0.9375rem;
+  padding: 0.5rem 0;
+  color: #434a54;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td.day:hover,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td.day:hover {
+  background: #ffffff;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td.day.active,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td.day.active {
+  color: #000000;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td.day.active:before,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td.day.active:before {
+  content: "";
+  width: 38px;
+  height: 38px;
+  background: #1bcfb4;
+  border-radius: 100%;
+  display: block;
+  margin: auto;
+  vertical-align: middle;
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  z-index: -1;
+  left: 0;
+  right: 0;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td.day.today,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td.day.today {
+  color: #fff;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td.day.today:before,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td.day.today:before {
+  content: "";
+  width: 38px;
+  height: 38px;
+  background: #198ae3;
+  border-radius: 100%;
+  display: block;
+  margin: auto;
+  vertical-align: middle;
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  z-index: -1;
+  left: 0;
+  right: 0;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td.old.day,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td.old.day {
+  color: #d9dde3;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td.range-start, .datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td.range-end,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td.range-start,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td.range-end {
+  background: transparent;
+  position: relative;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td.range-start::before, .datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td.range-end::before,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td.range-start::before,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td.range-end::before {
+  content: "";
+  width: 28px;
+  height: 28px;
+  background: rgba(27, 207, 180, 0.2);
+  border-radius: 4px;
+  display: block;
+  margin: auto;
+  vertical-align: middle;
+  position: absolute;
+  top: 6px;
+  z-index: -1;
+  left: 0;
+  right: 0;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td.range,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td.range {
+  position: relative;
+  background: transparent;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed tbody td.range::before,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed tbody td.range::before {
+  content: "";
+  width: 28px;
+  height: 28px;
+  background: #eee;
+  border-radius: 4px;
+  display: block;
+  margin: auto;
+  vertical-align: middle;
+  position: absolute;
+  top: 6px;
+  z-index: -1;
+  left: 0;
+  right: 0;
+}
+.datepicker.datepicker-dropdown .datepicker-days,
+.datepicker.datepicker-dropdown .datepicker-months,
+.datepicker.datepicker-dropdown .datepicker-years,
+.datepicker.datepicker-dropdown .datepicker-decades,
+.datepicker.datepicker-dropdown .datepicker-centuries,
+.datepicker.datepicker-inline .datepicker-days,
+.datepicker.datepicker-inline .datepicker-months,
+.datepicker.datepicker-inline .datepicker-years,
+.datepicker.datepicker-inline .datepicker-decades,
+.datepicker.datepicker-inline .datepicker-centuries {
+  padding: 0.8rem 0.7rem;
+}
+.datepicker.datepicker-dropdown .datepicker-days table.table-condensed,
+.datepicker.datepicker-dropdown .datepicker-months table.table-condensed,
+.datepicker.datepicker-dropdown .datepicker-years table.table-condensed,
+.datepicker.datepicker-dropdown .datepicker-decades table.table-condensed,
+.datepicker.datepicker-dropdown .datepicker-centuries table.table-condensed,
+.datepicker.datepicker-inline .datepicker-days table.table-condensed,
+.datepicker.datepicker-inline .datepicker-months table.table-condensed,
+.datepicker.datepicker-inline .datepicker-years table.table-condensed,
+.datepicker.datepicker-inline .datepicker-decades table.table-condensed,
+.datepicker.datepicker-inline .datepicker-centuries table.table-condensed {
+  width: 100%;
+}
+
+.datepicker.datepicker-inline {
+  width: 100%;
+  max-width: 100%;
+  min-width: 250px;
+}
+.datepicker.datepicker-inline thead tr th.prev {
+  color: grey;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+}
+.datepicker.datepicker-inline thead tr th.datepicker-switch {
+  color: #b66dff;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+}
+.datepicker.datepicker-inline thead tr th.next {
+  color: grey;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+}
+.datepicker > div {
+  display: initial;
+}
+
+.datepicker-custom {
+  width: 100%;
+  padding: 0;
+}
+.datepicker-custom .datepicker.datepicker-inline {
+  display: block;
+  padding: 0;
+  height: 100%;
+}
+.datepicker-custom .datepicker.datepicker-inline .datepicker-days {
+  display: block;
+}
+.datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td {
+  padding: 1rem;
+  text-align: center;
+}
+@media (max-width: 991px) {
+  .datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td {
+    padding: 1rem 0.5rem;
+  }
+}
+.datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td.day.today:before {
+  top: 13px;
+  bottom: 10px;
+}
+.datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td.day.active:before {
+  top: 13px;
+  bottom: 10px;
+}
+.datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td.day:first-child {
+  padding-left: 2.5rem;
+}
+@media (max-width: 991px) {
+  .datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td.day:first-child {
+    padding-left: 0.5rem;
+  }
+}
+.datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td.day:first-child.today:before, .datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td.day:first-child.active:before {
+  left: 1.5rem;
+}
+@media (max-width: 991px) {
+  .datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td.day:first-child.today:before, .datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td.day:first-child.active:before {
+    left: 0.25rem;
+  }
+}
+.datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td.day:last-child {
+  padding-right: 2.5rem;
+}
+@media (max-width: 991px) {
+  .datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td.day:last-child {
+    padding-right: 0.5rem;
+  }
+}
+.datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td.day:last-child.today:before, .datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed tbody tr td.day:last-child.active:before {
+  right: 1.5rem;
+}
+.datepicker-custom .datepicker.datepicker-inline .datepicker-days,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-months,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-years,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-decades,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-centuries {
+  height: 100%;
+  padding: 0 0 1rem 0;
+}
+.datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-months .table-condensed,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-years .table-condensed,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-decades .table-condensed,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-centuries .table-condensed {
+  height: 100%;
+}
+.datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed thead,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-months .table-condensed thead,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-years .table-condensed thead,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-decades .table-condensed thead,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-centuries .table-condensed thead {
+  background: linear-gradient(to right, #84d9d2, #07cdae);
+}
+.datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed thead tr th.next, .datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed thead tr th.prev, .datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed thead tr th.datepicker-switch, .datepicker-custom .datepicker.datepicker-inline .datepicker-days .table-condensed thead tr th.dow,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-months .table-condensed thead tr th.next,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-months .table-condensed thead tr th.prev,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-months .table-condensed thead tr th.datepicker-switch,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-months .table-condensed thead tr th.dow,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-years .table-condensed thead tr th.next,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-years .table-condensed thead tr th.prev,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-years .table-condensed thead tr th.datepicker-switch,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-years .table-condensed thead tr th.dow,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-decades .table-condensed thead tr th.next,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-decades .table-condensed thead tr th.prev,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-decades .table-condensed thead tr th.datepicker-switch,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-decades .table-condensed thead tr th.dow,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-centuries .table-condensed thead tr th.next,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-centuries .table-condensed thead tr th.prev,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-centuries .table-condensed thead tr th.datepicker-switch,
+.datepicker-custom .datepicker.datepicker-inline .datepicker-centuries .table-condensed thead tr th.dow {
+  background: transparent;
+  border-radius: 0;
+  color: #ffffff;
+  padding: 2rem 1rem;
+  font-family: "ubuntu-bold", sans-serif;
+}
+
+
+
+
+
+
+
+
+
+
+
+
