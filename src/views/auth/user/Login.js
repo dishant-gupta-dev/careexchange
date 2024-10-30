@@ -39,6 +39,12 @@ const Login = () => {
     dispatch(clearMessage());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      return navigate(redirect);
+    }
+  }, [])
+
   const sendOtp = async (formValue) => {
     setLoading(true);
     let form = JSON.stringify({
@@ -101,10 +107,6 @@ const Login = () => {
   }
 
   const handleChange = (code) => setCode(code);
-
-  if (isLoggedIn) {
-    return navigate(redirect);
-  }
 
   return (
     <>

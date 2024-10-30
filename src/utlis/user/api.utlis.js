@@ -7,5 +7,6 @@ exports.api = {
     logout: `logout`,
     dashboard: `user/home`,
     providerList: `provider/List`,
+    providerDetail: `provider/detail/`,
     myJobs: `service/request/myjob`,
 }

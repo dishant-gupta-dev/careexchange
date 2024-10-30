@@ -4,15 +4,24 @@ import ApiService from "../../../core/services/ApiService";
 import { serverTimestamp } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import moment from "moment/moment";
-import VerifyImg from "../../../assets/user/images/verify.svg";
+import AttachImg from "../../../assets/user/images/attachemnt.svg";
+import StarImg from "../../../assets/user/images/star.svg";
+import DollarImg from "../../../assets/user/images/dollar-circle.svg";
+import BreifImg from "../../../assets/user/images/briefcase.svg";
+import HouseImg from "../../../assets/user/images/house.svg";
+import HandImg from "../../../assets/user/images/Handshake.svg";
+import StarWhImg from "../../../assets/user/images/starwh.svg";
 import SearchImg from "../../../assets/user/images/search-normal.svg";
+import NoImage from "../../../assets/admin/images/no-image.jpg";
+import NoData from "../../../assets/admin/images/no-data-found.svg";
 import { api } from "../../../utlis/user/api.utlis";
 
 const Page = () => {
   let userId = JSON.parse(localStorage.getItem("careexchange")).userId;
   const [loading, setLoading] = useState(false);
-  const [providers, setProvider] = useState([]);
   const [status, setStatus] = useState(0);
+  const [providers, setProvider] = useState([]);
+  const [details, setDetails] = useState();
   const [sendInfo, setSenderData] = useState({
     senderId: null,
     name: "",
@@ -20,6 +29,7 @@ const Page = () => {
       "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp",
   });
   const [message, setMessage] = useState("");
+  const [search, setSearch] = useState("");
   const [messagesData, setMessagesData] = useState([]);
 
   const getProviders = async (api) => {
@@ -32,20 +42,95 @@ const Page = () => {
     setLoading(false);
   };
 
+  const createGroup = async (id, name, image, exist = false) => {
+    setSenderData({ senderId: id, name: name, image: image });
+    setMessagesData([]);
+    setStatus(0);
+    const response = await ApiService.getAPIWithAccessToken(
+      api.providerDetail + `${id}`
+    );
+    if (response.data.status && response.data.statusCode === 200) {
+      setDetails(response.data.data);
+    } else setDetails();
+  };
+
+  const convertTime = (time) => {
+    if (time && time.seconds && time.nanoseconds) {
+      const fireBaseTime = new Date(
+        time.seconds * 1000 + time.nanoseconds / 1000000
+      );
+      return fireBaseTime.toString();
+    } else return time;
+  };
+
+  const handleKey = (e) => {
+    e.code === "Enter" && sendMessage();
+  };
+
+  const sendMessage = async () => {
+    if (message == "") {
+    } else {
+      try {
+        const docid = userId + "-" + sendInfo.senderId;
+        const data = {
+          text: message,
+          image: "",
+          sendBy: userId,
+          sendto: sendInfo.senderId,
+          username: sendInfo.name,
+          userimage: sendInfo.image,
+          user: {
+            _id: userId,
+          },
+        };
+        db.collection("provider_chats")
+          .doc(docid)
+          .collection("messages")
+          .add({ ...data, createdAt: serverTimestamp() });
+        setMessage("");
+
+        const res = await db
+          .collection("provider_chats")
+          .doc(docid)
+          .collection("messages")
+          .get();
+      } catch (error) {
+        console.log("Error in send message function :- ", error);
+      }
+    }
+  };
+
   useEffect(() => {
-    window.scrollTo(0, 0);
     getProviders(api.providerList + `?user_type=2`);
+    if (sendInfo.senderId) {
+      const docid = userId + "-" + sendInfo.senderId;
+
+      const getMessage = db
+        .collection("provider_chats")
+        .doc(docid)
+        .collection("messages")
+        .orderBy("createdAt", "asc");
+
+      const allMessgae = getMessage.onSnapshot((ele) => {
+        setMessagesData(
+          ele.docs.map((doc) => ({
+            data: doc.data(),
+          }))
+        );
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [sendInfo, message]);
+
   return (
     <>
-      <div class="container">
-        <div class="messages-section">
-          <div class="row">
-            <div class="col-md-4">
-              <div class="chat-userlist-sidebar">
-                <div class="chat-userlist-sidebar-head">
-                  <div class="chat-panel-sidebar-icon">
+      <div className="container">
+        <div className="messages-section">
+          <div className="row">
+            <div className="col-md-4">
+              <div className="chat-userlist-sidebar">
+                <div className="chat-userlist-sidebar-head">
+                  <div className="chat-panel-sidebar-icon">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -81,24 +166,49 @@ const Page = () => {
                     New Messages <span>08 New</span>
                   </h2>
                 </div>
-                <div class="chat-userlist-sidebar-body">
-                  <div class="chat-userlist-filter">
+                <div className="chat-userlist-sidebar-body">
+                  <div className="chat-userlist-filter">
                     <input
                       type="text"
                       name=""
-                      class="form-control"
+                      className="form-control"
                       placeholder="Search by Name"
+                      onChange={(e) => setSearch(e.target.value)}
                     />
-                    <button class="search-btn">
+                    <button
+                      className="search-btn"
+                      type="button"
+                      onClick={() =>
+                        getProviders(
+                          api.providerList + `?user_type=2&search=${search}`
+                        )
+                      }
+                    >
                       <img src={SearchImg} />
                     </button>
                   </div>
-                  <div class="chat-userlist-info">
-                    {providers.length !== 0
-                      ? providers.map((ele, indx) => {
-                          return (
-                            <div key={indx} class="chat-userlist-item">
-                              <div class="chat-userlist-item-image">
+                  <div className="chat-userlist-info">
+                    {providers.length !== 0 ? (
+                      providers.map((ele, indx) => {
+                        return (
+                          <div key={indx} className="chat-userlist-item">
+                            <Link
+                              onClick={() =>
+                                createGroup(
+                                  ele.id,
+                                  ele?.business_name
+                                    ? ele?.business_name
+                                    : ele?.fullname,
+                                  ele.logo !== null &&
+                                    ele.logo !== "" &&
+                                    ele.logo !== undefined
+                                    ? ele.logo
+                                    : ele.profile_image
+                                )
+                              }
+                              to=""
+                            >
+                              <div className="chat-userlist-item-image">
                                 {ele.logo !== null &&
                                 ele.logo !== "" &&
                                 ele.logo !== undefined ? (
@@ -110,493 +220,512 @@ const Page = () => {
                                     className="me-3"
                                   />
                                 )}
-                                <span class="user-status"></span>
+                                <span className="user-status"></span>
                               </div>
-                              <div class="chat-userlist-item-content">
-                                <h4>
-                                  {ele?.business_name
-                                    ? ele?.business_name
-                                    : ele?.fullname}
-                                </h4>
-                                <p>{ele.email ?? "NA"}</p>
-                              </div>
-                              {/* <div class="chat-userlist-item-content">
-                                <div class="chat-userlist-time">02:50 PM</div>
-                                <div class="unread-message">
-                                  <span class="badge">02</span>
+                            </Link>
+                            <div className="chat-userlist-item-content">
+                              <h4>
+                                {ele?.business_name
+                                  ? ele?.business_name
+                                  : ele?.fullname}
+                              </h4>
+                              <p>{ele.email ?? "NA"}</p>
+                            </div>
+                            {/* <div className="chat-userlist-item-content">
+                                <div className="chat-userlist-time">02:50 PM</div>
+                                <div className="unread-message">
+                                  <span className="badge">02</span>
                                 </div>
                               </div> */}
-                            </div>
-                          );
-                        })
-                      : null}
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          margin: "5% 0",
+                        }}
+                      >
+                        <img width={300} src={NoData} alt="" />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-8">
+            <div className="col-md-8">
               {sendInfo.senderId && (
                 <>
-                  <div class="messages-tab">
-                    <ul class="nav nav-tabs">
+                  <div className="messages-tab">
+                    <ul className="nav nav-tabs">
                       <li>
-                        <a class="active" href="#Chat" data-bs-toggle="tab">
+                        <Link
+                          className={status === 0 ? "active" : ""}
+                          onClick={() => setStatus(0)}
+                          to=""
+                          data-bs-toggle="tab"
+                        >
                           Chat
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="#ProviderProfile" data-bs-toggle="tab">
+                        <Link
+                          className={status === 1 ? "active" : ""}
+                          onClick={() => setStatus(1)}
+                          to=""
+                          data-bs-toggle="tab"
+                        >
                           Provider Profile
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="#Booking" data-bs-toggle="tab">
+                        <Link
+                          className={status === 2 ? "active" : ""}
+                          onClick={() => setStatus(2)}
+                          to=""
+                          data-bs-toggle="tab"
+                        >
                           Booking
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
 
-                  <div class="messages-tabs-content-info tab-content">
-                    <div class="tab-pane active" id="Chat">
-                      <div class="chat-panel-section">
-                        <div class="chat-panel-chat-header">
-                          <div class="chat-panel-user-item">
-                            <div class="chat-panel-user-item-image">
-                              <img src="images/user-default.png" />
-                            </div>
-                            <div class="chat-panel-user-item-text">
-                              <h4>Patrick Hendricks</h4>
-                              <p>Emp Id: 210</p>
+                  <div className="messages-tabs-content-info tab-content">
+                    {status === 0 ? (
+                      <div className="tab-pane active" id="Chat">
+                        <div className="chat-panel-section">
+                          <div className="chat-panel-chat-header">
+                            <div className="chat-panel-user-item">
+                              <div className="chat-panel-user-item-image">
+                                <img src={sendInfo.image} />
+                              </div>
+                              <div className="chat-panel-user-item-text">
+                                <h4>{sendInfo.name ?? "NA"}</h4>
+                                <p>Emp Id: {sendInfo.senderId ?? "NA"}</p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div
-                          class="chat-panel-chat-body"
-                          tabindex="1"
-                          style={{ overflow: "auto", outline: "none" }}
-                        >
-                          <div class="chat-panel-chat-content">
-                            <div class="messages-list">
-                              <div class="message-item  outgoing-message">
-                                <div class="message-item-chat-card">
-                                  <div class="message-item-user">
-                                    <img src="images/user-default.png" />
+                          <div
+                            className="chat-panel-chat-body"
+                            tabindex="1"
+                            style={{ overflow: "auto", outline: "none" }}
+                          >
+                            <div className="chat-panel-chat-content">
+                              <div className="messages-list">
+                                {messagesData.length !== 0 ? (
+                                  messagesData.map(({ data }, i) => {
+                                    return (
+                                      <div
+                                        key={i}
+                                        className={
+                                          parseInt(data.sendBy) === userId
+                                            ? "message-item outgoing-message"
+                                            : "message-item"
+                                        }
+                                      >
+                                        <div className="message-item-chat-card">
+                                          <div className="message-item-user">
+                                            <img src={data.userimage} />
+                                          </div>
+                                          <div className="message-item-chat-content">
+                                            <div className="message-content">
+                                              {data.text}
+                                            </div>
+                                            <div className="time">
+                                              {moment(
+                                                convertTime(data.createdAt)
+                                              ).format("h:mm A | DD MMM YYYY")}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    );
+                                  })
+                                ) : (
+                                  <div className="d-flex justify-content-center align-items-center mt-5 w-100">
+                                    <h5 className="mt-5">No messages found</h5>
                                   </div>
-                                  <div class="message-item-chat-content">
-                                    <div class="message-content">
-                                      Did you make sure to clean the CEO's
-                                      Cabin? 😃
-                                    </div>
-                                    <div class="time">
-                                      2 Sep 2023, Sat: 12:03pm
-                                    </div>
-                                  </div>
-                                </div>
+                                )}
                               </div>
-
-                              <div class="message-item ">
-                                <div class="message-item-chat-card">
-                                  <div class="message-item-user">
-                                    <img src="images/user-default.png" />
-                                  </div>
-                                  <div class="message-item-chat-content">
-                                    <div class="message-content">
-                                      Yes Boss, I have taken care of that. I
-                                      have also informed to other employees
-                                    </div>
-                                    <div class="time">
-                                      2 Sep 2023, Sat: 12:05pm
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="message-item outgoing-message">
-                                <div class="message-item-chat-card">
-                                  <div class="message-item-user">
-                                    <img src="images/user-default.png" />
-                                  </div>
-                                  <div class="message-item-chat-content">
-                                    <div class="message-content">
-                                      Click on the add image option Below?
-                                    </div>
-                                    <div class="time">
-                                      2 Sep 2023, Sat: 12:03pm
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="message-item">
-                                <div class="message-item-chat-card">
-                                  <div class="message-item-user">
-                                    <img src="images/user-default.png" />
-                                  </div>
-                                  <div class="message-item-chat-content">
-                                    <div class="message-content">
-                                      Okay, Understood wait let me check!!!. I
-                                      have also informed to other employees
-                                    </div>
-                                    <div class="time">
-                                      2 Sep 2023, Sat: 12:08pm
-                                    </div>
+                            </div>
+                          </div>
+                          <div className="chat-panel-chat-footer">
+                            <div className="form">
+                              <div className="row">
+                                <div className="col-md-10">
+                                  <div className="form-group">
+                                    <input
+                                      type="text"
+                                      autoComplete="off"
+                                      value={message ?? ""}
+                                      className="form-control"
+                                      id="exampleFormControlInput2"
+                                      placeholder={`Message ${
+                                        sendInfo.name ?? ""
+                                      }`}
+                                      onKeyDown={handleKey}
+                                      onChange={(e) =>
+                                        setMessage(e.target.value)
+                                      }
+                                    />
+                                    <span className="form-attachemnt-icon">
+                                      <img src={AttachImg} />
+                                    </span>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="chat-panel-chat-footer">
-                          <form>
-                            <div class="row">
-                              <div class="col-md-10">
-                                <div class="form-group">
-                                  <input
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Write a message."
-                                  />
-                                  <span class="form-attachemnt-icon">
-                                    <img src="images/attachemnt.svg" />
-                                  </span>
-                                </div>
-                              </div>
-                              <div class="col-md-2">
-                                <button class="btn-send" title="" type="button">
-                                  Send
-                                </button>
-                              </div>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* <div class="tab-pane " id="ProviderProfile">
-                  <div class="providerProfile-section">
-                    <div class="user-table-item">
-                      <div class="row g-1 align-items-center">
-                        <div class="col-md-4">
-                          <div class="user-profile-item">
-                            <div class="user-profile-media">
-                              <img src="images/user.png" />
-                            </div>
-                            <div class="user-profile-text">
-                              <h2>Joseph Phill</h2>
-                              <div class="location-text">Atlanta GA, 63993</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-8">
-                          <div class="row g-1 align-items-center">
-                            <div class="col-md-4">
-                              <div class="user-contact-info">
-                                <div class="user-contact-info-icon">
-                                  <img src="images/star.svg" />
-                                </div>
-                                <div class="user-contact-info-content">
-                                  <h2>Rating</h2>
-                                  <p>4.2</p>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="col-md-4">
-                              <div class="user-contact-info">
-                                <div class="user-contact-info-icon">
-                                  <img src="images/dollar-circle.svg" />
-                                </div>
-                                <div class="user-contact-info-content">
-                                  <h2>Rate</h2>
-                                  <p>22.50 Per Hr</p>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-md-4">
-                              <div class="user-contact-info">
-                                <div class="user-contact-info-icon">
-                                  <img src="images/briefcase.svg" />
-                                </div>
-                                <div class="user-contact-info-content">
-                                  <h2>Experience</h2>
-                                  <p>+3 Years</p>
+                                <div className="col-md-2">
+                                  <button
+                                    className="btn-send"
+                                    title=""
+                                    type="button"
+                                    onClick={() => sendMessage()}
+                                  >
+                                    Send
+                                  </button>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
+                    ) : status === 1 ? (
+                      <div className="tab-pane" id="ProviderProfile">
+                        <div className="providerProfile-section">
+                          <div className="user-table-item">
+                            <div className="row g-1 align-items-center">
+                              <div className="col-md-4">
+                                <div className="user-profile-item">
+                                  <div className="user-profile-media">
+                                    {details?.logo !== null &&
+                                    details?.logo !== "" &&
+                                    details?.logo !== undefined ? (
+                                      <img
+                                        src={details?.logo}
+                                        alt=""
+                                      />
+                                    ) : (
+                                      <img
+                                        src={details?.profile_image}
+                                        alt=""
+                                      />
+                                    )}
+                                  </div>
+                                  <div className="user-profile-text">
+                                    <h2>
+                                      {details?.business_name
+                                        ? details?.business_name
+                                        : details?.fullname}
+                                    </h2>
+                                    <div className="location-text">
+                                      {details?.business_address ?? "NA"}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-md-8">
+                                <div className="row g-1 align-items-center">
+                                  <div className="col-md-4">
+                                    <div className="user-contact-info">
+                                      <div className="user-contact-info-icon">
+                                        <img src={StarImg} />
+                                      </div>
+                                      <div className="user-contact-info-content">
+                                        <h2>Rating</h2>
+                                        <p>
+                                          {details?.avarageRating
+                                            ?.average_rating ?? "0"}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
 
-                      <div class="providerProfile-point">
-                        <div class="providerprofile-point-item">
-                          <img src="images/house.svg" /> Cared 3 Families
-                        </div>
-                        <div class="providerprofile-point-item">
-                          <img src="images/Handshake.svg" /> Hired By 8 Families
-                          In Your Neighbourhood
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="providerprofile-overview">
-                      <div class="row">
-                        <div class="col-md-4">
-                          <div class="overview-card">
-                            <div class="overview-content">
-                              <h2>Repeat Clients</h2>
-                              <h4>02</h4>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-md-4">
-                          <div class="overview-card">
-                            <div class="overview-content">
-                              <h2>Response Rate</h2>
-                              <h4>90%</h4>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-md-4">
-                          <div class="overview-card">
-                            <div class="overview-content">
-                              <h2>Response Time</h2>
-                              <h4>01 Hr</h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="providerprofile-about">
-                      <h2>About Joseph</h2>
-                      <p>
-                        I Have Prior Experience Working With Children And Senior
-                        Person As A Nanny Sitter And As Father For Over 10
-                        Years, I Am A Preschool Teacher{" "}
-                      </p>
-                    </div>
-
-                    <div class="providerprofile-about">
-                      <h2>Offering Services</h2>
-                      <div class="providerprofile-tag-list">
-                        <div class="providerprofile-tag">Senior Care</div>
-                        <div class="providerprofile-tag">Home Care</div>
-                        <div class="providerprofile-tag">Assisted Living</div>
-                        <div class="providerprofile-tag">Pet Care</div>
-                        <div class="providerprofile-tag">Grooming</div>
-                      </div>
-                    </div>
-
-                    <div class="review-card">
-                      <div class="review-card-content">
-                        <div class="review-card-icon">
-                          <img src="images/starwh.svg" />
-                        </div>
-                        <div class="review-card-text">
-                          <h3>Rating & Review</h3>
-                          <p>4.7(400k +)</p>
-                        </div>
-                      </div>
-                      <div class="review-card-action">
-                        <a href="#">Write your Review</a>
-                      </div>
-                    </div>
-
-                    <div class="care-comment-list">
-                      <div class="care-comment-item">
-                        <div class="care-comment-profile">
-                          <img src="images/user.png" />
-                        </div>
-                        <div class="care-comment-content">
-                          <div class="care-comment-head">
-                            <div class="">
-                              <h2>Robert Fox</h2>
-                              <div class="care-comment-rating">
-                                <i class="fa-regular fa-star"></i> 4.2
+                                  <div className="col-md-4">
+                                    <div className="user-contact-info">
+                                      <div className="user-contact-info-icon">
+                                        <img src={DollarImg} />
+                                      </div>
+                                      <div className="user-contact-info-content">
+                                        <h2>Rate</h2>
+                                        <p>{details?.fee ?? "NA"}</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-md-4">
+                                    <div className="user-contact-info">
+                                      <div className="user-contact-info-icon">
+                                        <img src={BreifImg} />
+                                      </div>
+                                      <div className="user-contact-info-content">
+                                        <h2>Experience</h2>
+                                        <p>{details?.experience ?? 0} Years</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                            <div class="care-date">
-                              <i class="las la-calendar"></i>08 Jan, 2023,
-                              09:30PM
-                            </div>
-                          </div>
-                          <div class="care-comment-descr">
-                            Exellent course learnt so many things
-                          </div>
-                        </div>
-                      </div>
 
-                      <div class="care-comment-item">
-                        <div class="care-comment-profile">
-                          <img src="images/user.png" />
-                        </div>
-                        <div class="care-comment-content">
-                          <div class="care-comment-head">
-                            <div class="">
-                              <h2>Robert Fox</h2>
-                              <div class="care-comment-rating">
-                                <i class="fa-regular fa-star"></i> 4.2
+                            <div className="providerProfile-point">
+                              <div className="providerprofile-point-item">
+                                <img src={HouseImg} /> Cared{" "}
+                                {details?.caredFamilys ?? 0} Families
+                              </div>
+                              <div className="providerprofile-point-item">
+                                <img src={HandImg} /> Hired By{" "}
+                                {details?.caredFamilyNearBy ?? 0} Families In Your Neighbourhood
                               </div>
                             </div>
-                            <div class="care-date">
-                              <i class="las la-calendar"></i>08 Jan, 2023,
-                              09:30PM
-                            </div>
                           </div>
-                          <div class="care-comment-descr">
-                            Exellent course learnt so many things
-                          </div>
-                        </div>
-                      </div>
 
-                      <div class="care-comment-item">
-                        <div class="care-comment-profile">
-                          <img src="images/user.png" />
-                        </div>
-                        <div class="care-comment-content">
-                          <div class="care-comment-head">
-                            <div class="">
-                              <h2>Robert Fox</h2>
-                              <div class="care-comment-rating">
-                                <i class="fa-regular fa-star"></i> 4.2
+                          <div className="providerprofile-overview">
+                            <div className="row">
+                              <div className="col-md-4">
+                                <div className="overview-card">
+                                  <div className="overview-content">
+                                    <h2>Repeat Clients</h2>
+                                    <h4>{details?.repeatClient ?? "0"}</h4>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="col-md-4">
+                                <div className="overview-card">
+                                  <div className="overview-content">
+                                    <h2>Response Rate</h2>
+                                    <h4>{details?.responseRate ?? "NA"}</h4>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="col-md-4">
+                                <div className="overview-card">
+                                  <div className="overview-content">
+                                    <h2>Response Time</h2>
+                                    <h4>{details?.responseTime ?? "NA"}</h4>
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                            <div class="care-date">
-                              <i class="las la-calendar"></i>08 Jan, 2023,
-                              09:30PM
-                            </div>
                           </div>
-                          <div class="care-comment-descr">
-                            Exellent course learnt so many things
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
 
-                    {/* <div class="tab-pane " id="Booking">
-                  <div class="care-title-header">
-                    <h2 class="heading-title">Booking</h2>
-                    <div class="search-filter wd30">
-                      <div class="form-group">
-                        <div class="search-form-group">
-                          <input
-                            type="text"
-                            name=""
-                            class="form-control"
-                            placeholder="Search "
-                          />
-                          <span class="search-icon">
-                            <img src="images/search1.svg" />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="ProviderProfile-section">
-                    <div class="care-card">
-                      <div class="care-card-head">
-                        <div class="care-status">
-                          Status: <span>Confirmed</span>
-                        </div>
+                          <div className="providerprofile-about">
+                            <h2>About </h2>
+                            <p>{details?.description ?? "NA"}</p>
+                          </div>
 
-                        <div class="care-action">
-                          <a href="#">View Detail</a>
-                        </div>
-                      </div>
-                      <div class="care-card-body">
-                        <div class="care-content">
-                          <div class="title-text">Care For Marry Lane</div>
-                          <div class="date-text">
-                            <img src="images/whcalendar.svg" /> Next Mon, 25
-                            Jul, 09:00 Am- 05:00 PM
-                          </div>
-                        </div>
-                        <div class="care-day-Weekly-info">
-                          <div class="care-point-box">
-                            <div class="care-point-icon">
-                              <img src="images/Repeat.svg" />
-                            </div>
-                            <div class="care-point-text">
-                              <h4>Repeat Weekly:</h4>
-                              <p>Every</p>
+                          <div className="providerprofile-about">
+                            <h2>Offering Services</h2>
+                            <div className="providerprofile-tag-list">
+                              {details?.offeringService?.length !== 0
+                                ? details?.offeringService.map(
+                                    (element, index) => {
+                                      return (
+                                        <div
+                                          key={index}
+                                          className="providerprofile-tag"
+                                        >
+                                          {element.category ?? "NA"}
+                                        </div>
+                                      );
+                                    }
+                                  )
+                                : null}
                             </div>
                           </div>
-                          <div class="care-day-list">
-                            <div class="care-day-item">S</div>
-                            <div class="care-day-item">T</div>
-                            <div class="care-day-item">W</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="care-card-foot">
-                        <div class="care-user-info">
-                          <div class="care-user-image">
-                            <img src="images/user.png" />
-                          </div>
-                          <div class="care-user-text">
-                            <div class="care-user-name">
-                              Joseph Will Get Notified About Job Confirmation
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
 
-                    <div class="care-card">
-                      <div class="care-card-head">
-                        <div class="care-status">
-                          Status: <span>Confirmed</span>
-                        </div>
+                          <div className="review-card">
+                            <div className="review-card-content">
+                              <div className="review-card-icon">
+                                <img src={StarWhImg} />
+                              </div>
+                              <div className="review-card-text">
+                                <h3>Rating & Review</h3>
+                                <p>
+                                  {details?.avarageRating?.average_rating ??
+                                    "0"}{" "}
+                                  (
+                                  {details?.avarageRating?.total_reviews ?? "0"}
+                                  )
+                                </p>
+                              </div>
+                            </div>
+                            <div className="review-card-action">
+                              <a href="#">Write your Review</a>
+                            </div>
+                          </div>
 
-                        <div class="care-action">
-                          <a href="#">View Detail</a>
+                          <div className="care-comment-list">
+                            {details?.reviewsList?.length !== 0
+                              ? details?.reviewsList?.map((element, index) => {
+                                  return (
+                                    <div key={index} className="care-comment-item">
+                                      <div className="care-comment-profile">
+                                        {element.image === null ||
+                                        element.image === "" ||
+                                        element.image === undefined ? (
+                                          <img src={NoImage} alt="" />
+                                        ) : (
+                                          <img src={element.image} alt="" />
+                                        )}
+                                      </div>
+                                      <div className="care-comment-content">
+                                        <div className="care-comment-head">
+                                          <div className="">
+                                            <h2>{element.fullname ?? "NA"}</h2>
+                                            <div className="care-comment-rating">
+                                              <i className="fa-regular fa-star"></i>{" "}
+                                              {element.rating ?? 0}
+                                            </div>
+                                          </div>
+                                          <div className="care-date">
+                                            <i className="las la-calendar"></i>
+                                            {moment(
+                                              element.created_date
+                                            ).format("MM-DD-yyyy HH:MM")}
+                                          </div>
+                                        </div>
+                                        <div className="care-comment-descr">
+                                          {element.review ?? "NA"}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                })
+                              : null}
+                          </div>
                         </div>
                       </div>
-                      <div class="care-card-body">
-                        <div class="care-content">
-                          <div class="title-text">Care For Marry Lane</div>
-                          <div class="date-text">
-                            <img src="images/whcalendar.svg" /> Next Mon, 25
-                            Jul, 09:00 Am- 05:00 PM
+                    ) : (
+                      <div className="tab-pane" id="Booking">
+                        <div className="care-title-header">
+                          <h2 className="heading-title">Booking</h2>
+                          <div className="search-filter wd30">
+                            <div className="form-group">
+                              <div className="search-form-group">
+                                <input
+                                  type="text"
+                                  name=""
+                                  className="form-control"
+                                  placeholder="Search "
+                                />
+                                <span className="search-icon">
+                                  <img src="images/search1.svg" />
+                                </span>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div class="care-day-Weekly-info">
-                          <div class="care-point-box">
-                            <div class="care-point-icon">
-                              <img src="images/Repeat.svg" />
+                        <div className="ProviderProfile-section">
+                          <div className="care-card">
+                            <div className="care-card-head">
+                              <div className="care-status">
+                                Status: <span>Confirmed</span>
+                              </div>
+
+                              <div className="care-action">
+                                <a href="#">View Detail</a>
+                              </div>
                             </div>
-                            <div class="care-point-text">
-                              <h4>Repeat Weekly:</h4>
-                              <p>Every</p>
+                            <div className="care-card-body">
+                              <div className="care-content">
+                                <div className="title-text">
+                                  Care For Marry Lane
+                                </div>
+                                <div className="date-text">
+                                  <img src="images/whcalendar.svg" /> Next Mon,
+                                  25 Jul, 09:00 Am- 05:00 PM
+                                </div>
+                              </div>
+                              <div className="care-day-Weekly-info">
+                                <div className="care-point-box">
+                                  <div className="care-point-icon">
+                                    <img src="images/Repeat.svg" />
+                                  </div>
+                                  <div className="care-point-text">
+                                    <h4>Repeat Weekly:</h4>
+                                    <p>Every</p>
+                                  </div>
+                                </div>
+                                <div className="care-day-list">
+                                  <div className="care-day-item">S</div>
+                                  <div className="care-day-item">T</div>
+                                  <div className="care-day-item">W</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="care-card-foot">
+                              <div className="care-user-info">
+                                <div className="care-user-image">
+                                  <img src="images/user.png" />
+                                </div>
+                                <div className="care-user-text">
+                                  <div className="care-user-name">
+                                    Joseph Will Get Notified About Job
+                                    Confirmation
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          <div class="care-day-list">
-                            <div class="care-day-item">S</div>
-                            <div class="care-day-item">T</div>
-                            <div class="care-day-item">W</div>
+
+                          <div className="care-card">
+                            <div className="care-card-head">
+                              <div className="care-status">
+                                Status: <span>Confirmed</span>
+                              </div>
+
+                              <div className="care-action">
+                                <a href="#">View Detail</a>
+                              </div>
+                            </div>
+                            <div className="care-card-body">
+                              <div className="care-content">
+                                <div className="title-text">
+                                  Care For Marry Lane
+                                </div>
+                                <div className="date-text">
+                                  <img src="images/whcalendar.svg" /> Next Mon,
+                                  25 Jul, 09:00 Am- 05:00 PM
+                                </div>
+                              </div>
+                              <div className="care-day-Weekly-info">
+                                <div className="care-point-box">
+                                  <div className="care-point-icon">
+                                    <img src="images/Repeat.svg" />
+                                  </div>
+                                  <div className="care-point-text">
+                                    <h4>Repeat Weekly:</h4>
+                                    <p>Every</p>
+                                  </div>
+                                </div>
+                                <div className="care-day-list">
+                                  <div className="care-day-item">S</div>
+                                  <div className="care-day-item">T</div>
+                                  <div className="care-day-item">W</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="care-card-foot">
+                              <div className="care-user-info">
+                                <div className="care-user-image">
+                                  <img src="images/user.png" />
+                                </div>
+                                <div className="care-user-text">
+                                  <div className="care-user-name">
+                                    Joseph Will Get Notified About Job
+                                    Confirmation
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div class="care-card-foot">
-                        <div class="care-user-info">
-                          <div class="care-user-image">
-                            <img src="images/user.png" />
-                          </div>
-                          <div class="care-user-text">
-                            <div class="care-user-name">
-                              Joseph Will Get Notified About Job Confirmation
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
+                    )}
                   </div>
                 </>
               )}
