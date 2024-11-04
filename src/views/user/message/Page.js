@@ -4,6 +4,7 @@ import ApiService from "../../../core/services/ApiService";
 import { serverTimestamp } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import moment from "moment/moment";
+import Search from "../../../assets/user/images/search1.svg";
 import AttachImg from "../../../assets/user/images/attachemnt.svg";
 import StarImg from "../../../assets/user/images/star.svg";
 import DollarImg from "../../../assets/user/images/dollar-circle.svg";
@@ -15,6 +16,9 @@ import SearchImg from "../../../assets/user/images/search-normal.svg";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import { api } from "../../../utlis/user/api.utlis";
+import WhCalen from "../../../assets/user/images/whcalendar.svg";
+import RepeatImg from "../../../assets/user/images/Repeat.svg";
+import VerifyImg from "../../../assets/user/images/verify.svg";
 
 const Page = () => {
   let userId = JSON.parse(localStorage.getItem("careexchange")).userId;
@@ -22,6 +26,7 @@ const Page = () => {
   const [status, setStatus] = useState(0);
   const [providers, setProvider] = useState([]);
   const [details, setDetails] = useState();
+  const [list, setList] = useState([]);
   const [sendInfo, setSenderData] = useState({
     senderId: null,
     name: "",
@@ -52,6 +57,13 @@ const Page = () => {
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data);
     } else setDetails();
+
+    const res = await ApiService.getAPIWithAccessToken(
+      api.bookingList + `?providerid=${id}`
+    );
+    if (res.data.status && res.data.statusCode === 200) {
+      setList(res.data.data.bookingList);
+    } else setList();
   };
 
   const convertTime = (time) => {
@@ -101,7 +113,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    getProviders(api.providerList + `?user_type=2`);
+    getProviders(api.providerList);
     if (sendInfo.senderId) {
       const docid = userId + "-" + sendInfo.senderId;
 
@@ -180,7 +192,7 @@ const Page = () => {
                       type="button"
                       onClick={() =>
                         getProviders(
-                          api.providerList + `?user_type=2&search=${search}`
+                          api.providerList + `?search=${search}`
                         )
                       }
                     >
@@ -191,7 +203,7 @@ const Page = () => {
                     {providers.length !== 0 ? (
                       providers.map((ele, indx) => {
                         return (
-                          <div key={indx} className="chat-userlist-item">
+                          <div key={indx} className={sendInfo.senderId === ele.id ? "chat-userlist-item active" : "chat-userlist-item"} >
                             <Link
                               onClick={() =>
                                 createGroup(
@@ -403,10 +415,7 @@ const Page = () => {
                                     {details?.logo !== null &&
                                     details?.logo !== "" &&
                                     details?.logo !== undefined ? (
-                                      <img
-                                        src={details?.logo}
-                                        alt=""
-                                      />
+                                      <img src={details?.logo} alt="" />
                                     ) : (
                                       <img
                                         src={details?.profile_image}
@@ -476,7 +485,8 @@ const Page = () => {
                               </div>
                               <div className="providerprofile-point-item">
                                 <img src={HandImg} /> Hired By{" "}
-                                {details?.caredFamilyNearBy ?? 0} Families In Your Neighbourhood
+                                {details?.caredFamilyNearBy ?? 0} Families In
+                                Your Neighbourhood
                               </div>
                             </div>
                           </div>
@@ -562,7 +572,10 @@ const Page = () => {
                             {details?.reviewsList?.length !== 0
                               ? details?.reviewsList?.map((element, index) => {
                                   return (
-                                    <div key={index} className="care-comment-item">
+                                    <div
+                                      key={index}
+                                      className="care-comment-item"
+                                    >
                                       <div className="care-comment-profile">
                                         {element.image === null ||
                                         element.image === "" ||
@@ -613,116 +626,102 @@ const Page = () => {
                                   placeholder="Search "
                                 />
                                 <span className="search-icon">
-                                  <img src="images/search1.svg" />
+                                  <img src={Search} />
                                 </span>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div className="ProviderProfile-section">
-                          <div className="care-card">
-                            <div className="care-card-head">
-                              <div className="care-status">
-                                Status: <span>Confirmed</span>
-                              </div>
+                          {list.length !== 0
+                            ? list.map((ele, indx) => {
+                                return (
+                                  <div key={indx} className="care-card">
+                                    <div className="care-card-head">
+                                      <div className="care-status">
+                                        Status:{" "}
+                                        <span>
+                                          {ele.request_status_text ?? "NA"}
+                                        </span>
+                                      </div>
 
-                              <div className="care-action">
-                                <a href="#">View Detail</a>
-                              </div>
-                            </div>
-                            <div className="care-card-body">
-                              <div className="care-content">
-                                <div className="title-text">
-                                  Care For Marry Lane
-                                </div>
-                                <div className="date-text">
-                                  <img src="images/whcalendar.svg" /> Next Mon,
-                                  25 Jul, 09:00 Am- 05:00 PM
-                                </div>
-                              </div>
-                              <div className="care-day-Weekly-info">
-                                <div className="care-point-box">
-                                  <div className="care-point-icon">
-                                    <img src="images/Repeat.svg" />
+                                      <div className="care-action">
+                                        <Link to="">View Detail</Link>
+                                      </div>
+                                    </div>
+                                    <div className="care-card-body">
+                                      <div className="care-content">
+                                        <div className="title-text">
+                                          {ele.profile_image === null ||
+                                          ele.profile_image === "" ||
+                                          ele.profile_image === undefined ? (
+                                            <img
+                                              src={NoImage}
+                                              className="me-3"
+                                              alt=""
+                                              width={50}
+                                              height={50}
+                                              style={{borderRadius: "50%"}}
+                                            />
+                                          ) : (
+                                            <img
+                                              src={ele.profile_image}
+                                              className="me-3"
+                                              alt=""
+                                              width={50}
+                                              height={50}
+                                              style={{borderRadius: "50%"}}
+                                            />
+                                          )}
+                                          {ele.first_name ?? "NA"}
+                                        </div>
+                                        <div className="date-text">
+                                          <img src={WhCalen} />{" "}
+                                          {moment(ele?.created_date).format(
+                                            "MM-DD-yyyy hh:mm A"
+                                          )}{" "}
+                                        </div>
+                                      </div>
+                                      <div className="care-day-Weekly-info">
+                                        <div className="care-point-box">
+                                          <div className="care-point-icon">
+                                            <img src={RepeatImg} />
+                                          </div>
+                                          <div className="care-point-text">
+                                            <h4>Frequency:</h4>
+                                            <p>
+                                              {ele.frequency === "O"
+                                                ? "One Time"
+                                                : ele.frequency === "W"
+                                                ? "Repeat Weekly"
+                                                : "Repeat Monthly"}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div className="care-day-list">
+                                          {/* <div className="care-day-item">S</div>
+                                          <div className="care-day-item">T</div>
+                                          <div className="care-day-item">W</div> */}
+                                        </div>
+                                      </div>
+                                    </div>
+                                    {/* <div className="care-card-foot">
+                                      <div className="care-user-info">
+                                        <div className="care-user-image">
+                                          <img src="images/user.png" />
+                                        </div>
+                                        <div className="care-user-text">
+                                          <div className="care-user-name">
+                                            Joseph Will Get Notified About Job
+                                            Confirmation
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div> */}
                                   </div>
-                                  <div className="care-point-text">
-                                    <h4>Repeat Weekly:</h4>
-                                    <p>Every</p>
-                                  </div>
-                                </div>
-                                <div className="care-day-list">
-                                  <div className="care-day-item">S</div>
-                                  <div className="care-day-item">T</div>
-                                  <div className="care-day-item">W</div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="care-card-foot">
-                              <div className="care-user-info">
-                                <div className="care-user-image">
-                                  <img src="images/user.png" />
-                                </div>
-                                <div className="care-user-text">
-                                  <div className="care-user-name">
-                                    Joseph Will Get Notified About Job
-                                    Confirmation
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="care-card">
-                            <div className="care-card-head">
-                              <div className="care-status">
-                                Status: <span>Confirmed</span>
-                              </div>
-
-                              <div className="care-action">
-                                <a href="#">View Detail</a>
-                              </div>
-                            </div>
-                            <div className="care-card-body">
-                              <div className="care-content">
-                                <div className="title-text">
-                                  Care For Marry Lane
-                                </div>
-                                <div className="date-text">
-                                  <img src="images/whcalendar.svg" /> Next Mon,
-                                  25 Jul, 09:00 Am- 05:00 PM
-                                </div>
-                              </div>
-                              <div className="care-day-Weekly-info">
-                                <div className="care-point-box">
-                                  <div className="care-point-icon">
-                                    <img src="images/Repeat.svg" />
-                                  </div>
-                                  <div className="care-point-text">
-                                    <h4>Repeat Weekly:</h4>
-                                    <p>Every</p>
-                                  </div>
-                                </div>
-                                <div className="care-day-list">
-                                  <div className="care-day-item">S</div>
-                                  <div className="care-day-item">T</div>
-                                  <div className="care-day-item">W</div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="care-card-foot">
-                              <div className="care-user-info">
-                                <div className="care-user-image">
-                                  <img src="images/user.png" />
-                                </div>
-                                <div className="care-user-text">
-                                  <div className="care-user-name">
-                                    Joseph Will Get Notified About Job
-                                    Confirmation
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                                );
+                              })
+                            : null}
                         </div>
                       </div>
                     )}

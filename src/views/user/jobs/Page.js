@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Search from "../../../assets/user/images/search1.svg";
 import { api } from "../../../utlis/user/api.utlis";
+import { routes } from "../../../utlis/user/routes.utlis";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import WhCalen from "../../../assets/user/images/whcalendar.svg";
 import RepeatImg from "../../../assets/user/images/Repeat.svg";
@@ -9,6 +10,7 @@ import UserImg from "../../../assets/user/images/user.png";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import moment from "moment";
+import { encode } from "base-64";
 import { Link } from "react-router-dom";
 
 const Page = () => {
@@ -127,12 +129,14 @@ const Page = () => {
 
                                     <div className="care-status">
                                       {/* Status: <span>{ele.request_status ?? "NA"}</span> */}
-                                      <a
+                                      <Link
                                         className="btn-bl"
-                                        href="job-details.html"
+                                        to={`${routes.jobDetails}/${encode(
+                                          ele.id
+                                        )}`}
                                       >
                                         View Job Detail
-                                      </a>
+                                      </Link>
                                     </div>
                                   </div>
                                   <div className="care-card-body">
@@ -205,7 +209,9 @@ const Page = () => {
                                                 </div>
                                                 <div className="Confirmed-Provider text-capitalize">
                                                   <img src={VerifyImg} />{" "}
-                                                  {element.request_status ?? "NA"} Care-Provider
+                                                  {element.request_status ??
+                                                    "NA"}{" "}
+                                                  Care-Provider
                                                 </div>
                                               </div>
                                             </div>

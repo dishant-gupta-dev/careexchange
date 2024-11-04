@@ -1213,3 +1213,7 @@ span.btn-status {
   flex-wrap: wrap;
   gap: 20px;
 }
+
+.chat-userlist-info .chat-userlist-item.active{
+  border-left: 3px solid var(--blue);
+}

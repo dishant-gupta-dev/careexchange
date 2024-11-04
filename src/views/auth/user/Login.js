@@ -45,6 +45,10 @@ const Login = () => {
     }
   }, [])
 
+  if (isLoggedIn) {
+    return navigate(redirect);
+  }
+
   const sendOtp = async (formValue) => {
     setLoading(true);
     let form = JSON.stringify({

@@ -6,7 +6,9 @@ exports.api = {
     register: `register`,
     logout: `logout`,
     dashboard: `user/home`,
-    providerList: `provider/List`,
+    providerList: `service/chat/provider-list`,
     providerDetail: `provider/detail/`,
+    bookingList: `service/booking/list`,
     myJobs: `service/request/myjob`,
+    jobDetail: `service/request-details`,
 }

@@ -6,6 +6,7 @@ exports.routes = {
     dashboard: `/user/dashboard`,
     message: `/user/message`,
     myJobs: `/user/jobs`,
+    jobDetails: `/user/job/info`,
     careNetwork: `/user/care-network`,
     profile: `/user/profile`,
     calendar: `/user/calendar`,
