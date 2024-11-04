@@ -2,6 +2,7 @@ import { routes } from "../utlis/provider/routes.utlis";
 import { ProviderLayout } from "../layouts/provider/App.js";
 import Dashboard from "../views/provider/dashboard/Page.js";
 import Jobs from "../views/provider/jobs/Page.js";
+import JobDetails from "../views/provider/jobs/Details.js";
 import Message from "../views/provider/message/Page.js";
 import CareNetwork from "../views/provider/care-network/Page.js";
 import Calendar from "../views/provider/calendar/Page.js";
@@ -29,6 +30,12 @@ var ProviderRoutes = [
         exact: true,
         layout: ProviderLayout,
         component: Jobs
+    },
+    {
+        path: routes.jobDetails+"/:id",
+        exact: true,
+        layout: ProviderLayout,
+        component: JobDetails
     },
     {
         path: routes.careNetwork,

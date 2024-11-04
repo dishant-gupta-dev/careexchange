@@ -2,6 +2,7 @@ exports.routes = {
     dashboard: `/provider/dashboard`,
     message: `/provider/message`,
     myJobs: `/provider/jobs`,
+    jobDetails: `/provider/job/info`,
     careNetwork: `/provider/care-network`,
     advertisement: `/provider/advertisement`,
     networkDirectory: `/provider/network-directory`,
