@@ -14537,20 +14537,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1,
-.h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6 {
-}
-
 p {
   font-size: 0.875rem;
 }
@@ -14964,15 +14950,6 @@ code {
 
 .flex-grow {
   flex-grow: 1;
-}
-
-.font-weight-light {
-}
-
-.font-weight-bold {
-}
-
-.font-weight-normal {
 }
 
 .font-weight-medium {
