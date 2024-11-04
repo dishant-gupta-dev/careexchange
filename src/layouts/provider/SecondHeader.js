@@ -265,49 +265,27 @@ const SecondHeader = () => {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      {" "}
-                      <path
-                        d="M16.96 6.16998C18.96 7.55998 20.34 9.76998 20.62 12.32"
-                        stroke="#132A3A"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M3.48999 12.37C3.74999 9.82997 5.10999 7.61997 7.08999 6.21997"
-                        stroke="#132A3A"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M8.18994 20.94C9.34994 21.53 10.6699 21.86 12.0599 21.86C13.3999 21.86 14.6599 21.56 15.7899 21.01"
-                        stroke="#132A3A"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M12.06 7.70001C13.5954 7.70001 14.84 6.45537 14.84 4.92001C14.84 3.38466 13.5954 2.14001 12.06 2.14001C10.5247 2.14001 9.28003 3.38466 9.28003 4.92001C9.28003 6.45537 10.5247 7.70001 12.06 7.70001Z"
-                        stroke="#132A3A"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M4.83005 19.92C6.3654 19.92 7.61005 18.6753 7.61005 17.14C7.61005 15.6046 6.3654 14.36 4.83005 14.36C3.2947 14.36 2.05005 15.6046 2.05005 17.14C2.05005 18.6753 3.2947 19.92 4.83005 19.92Z"
-                        stroke="#132A3A"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M19.1699 19.92C20.7052 19.92 21.9499 18.6753 21.9499 17.14C21.9499 15.6046 20.7052 14.36 19.1699 14.36C17.6345 14.36 16.3899 15.6046 16.3899 17.14C16.3899 18.6753 17.6345 19.92 19.1699 19.92Z"
-                        stroke="#132A3A"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
+                      <g clip-path="url(#clip0_422_11709)">
+                        <path
+                          d="M10.75 7.4989V18.8117C10.7499 18.9351 10.7194 19.0565 10.6612 19.1652C10.603 19.274 10.5189 19.3667 10.4163 19.4352L9.385 20.1223C9.28497 20.189 9.17037 20.2307 9.05087 20.2438C8.93137 20.257 8.81046 20.2412 8.69833 20.1978C8.58621 20.1544 8.48616 20.0847 8.40661 19.9946C8.32706 19.9044 8.27035 19.7965 8.24125 19.6798L7 14.9989"
+                          stroke="#292D32"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M22 18.7489C22 18.8917 21.9591 19.0316 21.8823 19.152C21.8055 19.2724 21.696 19.3684 21.5665 19.4287C21.437 19.4889 21.293 19.511 21.1514 19.4922C21.0098 19.4734 20.8765 19.4146 20.7672 19.3226C15.8547 15.2014 10.75 14.9989 10.75 14.9989H7C6.00544 14.9989 5.05161 14.6038 4.34835 13.9005C3.64509 13.1973 3.25 12.2434 3.25 11.2489C3.25 10.2543 3.64509 9.3005 4.34835 8.59724C5.05161 7.89398 6.00544 7.49889 7 7.49889H10.75C10.75 7.49889 15.8547 7.29639 20.7672 3.17607C20.8764 3.08418 21.0096 3.02537 21.1511 3.00655C21.2926 2.98773 21.4366 3.00968 21.566 3.06984C21.6955 3.12999 21.8051 3.22584 21.882 3.34612C21.9588 3.46641 21.9998 3.60614 22 3.74889V18.7489Z"
+                          stroke="#292D32"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_422_11709">
+                          <rect width="24" height="24" fill="white" />
+                        </clipPath>
+                      </defs>
                     </svg>
                   </span>
                   <span class="wsmenutext">Advertisement</span>
@@ -331,49 +309,44 @@ const SecondHeader = () => {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      {" "}
                       <path
-                        d="M16.96 6.16998C18.96 7.55998 20.34 9.76998 20.62 12.32"
-                        stroke="#132A3A"
+                        d="M12 16V19"
+                        stroke="#292D32"
                         stroke-width="1.5"
+                        stroke-miterlimit="10"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                      />{" "}
+                      />
                       <path
-                        d="M3.48999 12.37C3.74999 9.82997 5.10999 7.61997 7.08999 6.21997"
-                        stroke="#132A3A"
+                        d="M12 23C13.1046 23 14 22.1046 14 21C14 19.8954 13.1046 19 12 19C10.8954 19 10 19.8954 10 21C10 22.1046 10.8954 23 12 23Z"
+                        stroke="#292D32"
                         stroke-width="1.5"
+                        stroke-miterlimit="10"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                      />{" "}
+                      />
                       <path
-                        d="M8.18994 20.94C9.34994 21.53 10.6699 21.86 12.0599 21.86C13.3999 21.86 14.6599 21.56 15.7899 21.01"
-                        stroke="#132A3A"
+                        d="M18 21H14"
+                        stroke="#292D32"
                         stroke-width="1.5"
+                        stroke-miterlimit="10"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                      />{" "}
+                      />
                       <path
-                        d="M12.06 7.70001C13.5954 7.70001 14.84 6.45537 14.84 4.92001C14.84 3.38466 13.5954 2.14001 12.06 2.14001C10.5247 2.14001 9.28003 3.38466 9.28003 4.92001C9.28003 6.45537 10.5247 7.70001 12.06 7.70001Z"
-                        stroke="#132A3A"
+                        d="M10 21H6"
+                        stroke="#292D32"
                         stroke-width="1.5"
+                        stroke-miterlimit="10"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                      />{" "}
+                      />
                       <path
-                        d="M4.83005 19.92C6.3654 19.92 7.61005 18.6753 7.61005 17.14C7.61005 15.6046 6.3654 14.36 4.83005 14.36C3.2947 14.36 2.05005 15.6046 2.05005 17.14C2.05005 18.6753 3.2947 19.92 4.83005 19.92Z"
-                        stroke="#132A3A"
+                        d="M19 8.30005V12.5C19 15.3 18.3 16 15.5 16H8.5C5.7 16 5 15.3 5 12.5V5.5C5 2.7 5.7 2 8.5 2H9.54999C10.6 2 10.83 2.30997 11.23 2.83997L12.28 4.23999C12.55 4.58999 12.7 4.80005 13.4 4.80005H15.5C18.3 4.80005 19 5.50005 19 8.30005Z"
+                        stroke="#292D32"
                         stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M19.1699 19.92C20.7052 19.92 21.9499 18.6753 21.9499 17.14C21.9499 15.6046 20.7052 14.36 19.1699 14.36C17.6345 14.36 16.3899 15.6046 16.3899 17.14C16.3899 18.6753 17.6345 19.92 19.1699 19.92Z"
-                        stroke="#132A3A"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
+                        stroke-miterlimit="10"
+                      />
                     </svg>
                   </span>
                   <span class="wsmenutext">Network Directory</span>
@@ -422,104 +395,6 @@ const SecondHeader = () => {
                     </svg>
                   </span>
                   <span className="wsmenutext"> Profile</span>
-                </Link>
-              </li>
-
-              <li aria-haspopup="true">
-                <Link
-                  to={routes.calendar}
-                  className={
-                    [routes.calendar].includes(location.pathname)
-                      ? "wshomelink active"
-                      : "wshomelink"
-                  }
-                >
-                  <span className="wsmenuicon">
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      {" "}
-                      <path
-                        d="M8 2V5"
-                        stroke="#132A3A"
-                        stroke-width="1.5"
-                        stroke-miterlimit="10"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M16 2V5"
-                        stroke="#132A3A"
-                        stroke-width="1.5"
-                        stroke-miterlimit="10"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M3.5 9.08997H20.5"
-                        stroke="#132A3A"
-                        stroke-width="1.5"
-                        stroke-miterlimit="10"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z"
-                        stroke="#132A3A"
-                        stroke-width="1.5"
-                        stroke-miterlimit="10"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M15.6947 13.7H15.7037"
-                        stroke="#132A3A"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M15.6947 16.7H15.7037"
-                        stroke="#132A3A"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M11.9955 13.7H12.0045"
-                        stroke="#132A3A"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M11.9955 16.7H12.0045"
-                        stroke="#132A3A"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M8.29431 13.7H8.30329"
-                        stroke="#132A3A"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                      <path
-                        d="M8.29431 16.7H8.30329"
-                        stroke="#132A3A"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />{" "}
-                    </svg>
-                  </span>
-                  <span className="wsmenutext"> Calendar</span>
                 </Link>
               </li>
 
@@ -669,6 +544,18 @@ const SecondHeader = () => {
                   <i className="fas fa-angle-down"></i>
                 </a>
                 <ul className="sub-menu">
+                  <li aria-haspopup="true">
+                    <Link
+                      to={routes.calendar}
+                      className={
+                        [routes.calendar].includes(location.pathname)
+                          ? "wshomelink active"
+                          : "wshomelink"
+                      }
+                    >
+                      Calendar
+                    </Link>
+                  </li>
                   <li aria-haspopup="true">
                     <a href="#">About US</a>
                   </li>
