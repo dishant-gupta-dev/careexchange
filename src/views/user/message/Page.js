@@ -18,7 +18,7 @@ import NoData from "../../../assets/admin/images/no-data-found.svg";
 import { api } from "../../../utlis/user/api.utlis";
 import WhCalen from "../../../assets/user/images/whcalendar.svg";
 import RepeatImg from "../../../assets/user/images/Repeat.svg";
-import VerifyImg from "../../../assets/user/images/verify.svg";
+import Loader from "../../../layouts/loader/Loader";
 
 const Page = () => {
   let userId = JSON.parse(localStorage.getItem("careexchange")).userId;
@@ -136,6 +136,7 @@ const Page = () => {
 
   return (
     <>
+    {loading ? <Loader /> : null}
       <div className="container">
         <div className="messages-section">
           <div className="row">

@@ -49,7 +49,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getDashboardData(api.dashboard);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -140,7 +140,7 @@ const Page = () => {
                           <th> Start Date </th>
                           <th> Time </th>
                           <th> Frequency </th>
-                          <th> View Details </th>
+                          <th> Action </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -159,11 +159,13 @@ const Page = () => {
                                     "MM-DD-yyyy"
                                   )}{" "}
                                 </td>
+                                <td>{ele.start_time}</td>
                                 <td>
-                                  {ele.start_time}
-                                </td>
-                                <td>
-                                {ele.frequency === "O" ? "One Time" : (ele.frequency === "W" ? "Repeat Weekly" : "Repeat Monthly")}
+                                  {ele.frequency === "O"
+                                    ? "One Time"
+                                    : ele.frequency === "W"
+                                    ? "Repeat Weekly"
+                                    : "Repeat Monthly"}
                                   {/* {ele?.days?.length !== 0
                                     ? ele?.days?.map((element, index) => {
                                         return (
@@ -179,6 +181,7 @@ const Page = () => {
                                 </td>
                                 <td>
                                   <Link
+                                    title="View Detail"
                                     to={`${routes.careJobDetails}/${encode(
                                       ele.id
                                     )}`}
@@ -302,7 +305,7 @@ const Page = () => {
                     <th> Job ID </th>
                     <th> Salary </th>
                     <th> Work Experience </th>
-                    <th> View Details </th>
+                    <th> Action </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -316,6 +319,7 @@ const Page = () => {
                           <td>{ele.working_expirence ?? "NA"}</td>
                           <td>
                             <Link
+                              title="View Detail"
                               to={`${routes.jobOpportunityDetail}/${encode(
                                 ele.id
                               )}`}

@@ -11,4 +11,6 @@ exports.api = {
     bookingList: `service/booking/list`,
     myJobs: `service/request/myjob`,
     jobDetail: `service/request-details`,
+    profile: `user/profile`,
+    updateProfile: `user/update/`,
 }

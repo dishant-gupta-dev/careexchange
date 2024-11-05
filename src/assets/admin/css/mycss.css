@@ -1217,3 +1217,7 @@ span.btn-status {
 .chat-userlist-info .chat-userlist-item.active{
   border-left: 3px solid var(--blue);
 }
+
+.calendar-card .react-calendar {
+  width: 100%;
+}

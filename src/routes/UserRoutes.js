@@ -5,6 +5,10 @@ import Jobs from "../views/user/jobs/Page.js";
 import JobDetails from "../views/user/jobs/Details.js";
 import Message from "../views/user/message/Page.js";
 import CareNetwork from "../views/user/care-network/Page.js";
+import Profile from "../views/user/profile/Page.js";
+import Calendar from "../views/user/calendar/Page.js";
+import SubscriptionPlan from "../views/user/subscription-plan/Page.js";
+import Newsletter from "../views/user/newsletter/Page.js";
 
 var UserRoutes = [
     {
@@ -31,6 +35,26 @@ var UserRoutes = [
         path: routes.careNetwork,
         layout: UserLayout,
         component: CareNetwork
+    },
+    {
+        path: routes.profile,
+        layout: UserLayout,
+        component: Profile
+    },
+    {
+        path: routes.calendar,
+        layout: UserLayout,
+        component: Calendar
+    },
+    {
+        path: routes.subscriptionPlan,
+        layout: UserLayout,
+        component: SubscriptionPlan
+    },
+    {
+        path: routes.newsletter,
+        layout: UserLayout,
+        component: Newsletter
     },
 ];
 
