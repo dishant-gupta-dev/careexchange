@@ -1221,3 +1221,5 @@ span.btn-status {
 .calendar-card .react-calendar {
   width: 100%;
 }
+
+.p-image { position: absolute; top: auto; right: 2px; bottom: 2px; transition: all .3s cubic-bezier(.175, .885, .32, 1.275); background: var(--blue); color: #fff; border-radius: 50%; height: 25px; width: 25px; line-height: 28px; text-align: center; font-size: 12px; cursor: pointer; }

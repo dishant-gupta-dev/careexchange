@@ -22,6 +22,7 @@ const Login = () => {
   const [multiScreen, setMultiScreen] = useState(0);
   const [data, setData] = useState({ email: null });
   const { isLoggedIn, redirect } = useSelector((state) => state.auth);
+  const { message } = useSelector((state) => state.message, shallowEqual);
   const [formError, setFormError] = useState(false);
 
   const initialValues = {
@@ -216,10 +217,22 @@ const Login = () => {
                             Validate OTP
                           </button>
                         </div>
+                        <div className="form-group">
+                          <Link onClick={() => {setData({ email: null }); setMultiScreen(0); setCode(""); }}>
+                            Back
+                          </Link>
+                        </div>
                       </form>
                       {formError && (
                         <div className="alert alert-danger">
                           OTP is required
+                        </div>
+                      )}
+                      {message && (
+                        <div className="form-group text-center mt-4 mb-0" style={{fontSize: "0.9rem"}}>
+                          <div className="alert alert-danger" role="alert">
+                            {message}
+                          </div>
                         </div>
                       )}
                     </div>

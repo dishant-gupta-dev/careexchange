@@ -6,7 +6,6 @@ import NoData from "../../../assets/admin/images/no-data-found.svg";
 import WhCalen from "../../../assets/user/images/whcalendar.svg";
 import RepeatImg from "../../../assets/user/images/Repeat.svg";
 import VerifyImg from "../../../assets/user/images/verify.svg";
-import UserImg from "../../../assets/user/images/user.png";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import moment from "moment";

@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import FirstHeader from "./FirstHeader";
 import SecondHeader from "./SecondHeader";
+import '../../../node_modules/font-awesome/css/font-awesome.min.css'; 
 import "../../assets/user/css/webslidemenu.css";
 import "../../assets/user/css/header-footer.css";
 import "../../assets/user/css/advertisement.css";

@@ -5,6 +5,7 @@ import Jobs from "../views/user/jobs/Page.js";
 import JobDetails from "../views/user/jobs/Details.js";
 import Message from "../views/user/message/Page.js";
 import CareNetwork from "../views/user/care-network/Page.js";
+import CareNetworkDetails from "../views/user/care-network/Details.js";
 import Profile from "../views/user/profile/Page.js";
 import Calendar from "../views/user/calendar/Page.js";
 import SubscriptionPlan from "../views/user/subscription-plan/Page.js";
@@ -35,6 +36,11 @@ var UserRoutes = [
         path: routes.careNetwork,
         layout: UserLayout,
         component: CareNetwork
+    },
+    {
+        path: routes.careNetworkDetails+"/:id",
+        layout: UserLayout,
+        component: CareNetworkDetails
     },
     {
         path: routes.profile,

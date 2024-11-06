@@ -8,6 +8,7 @@ exports.routes = {
     myJobs: `/user/jobs`,
     jobDetails: `/user/job/info`,
     careNetwork: `/user/care-network`,
+    careNetworkDetails: `/user/care-network/info`,
     profile: `/user/profile`,
     calendar: `/user/calendar`,
     subscriptionPlan: `/user/subscription-plan`,

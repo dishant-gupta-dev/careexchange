@@ -13,4 +13,8 @@ exports.api = {
     jobDetail: `service/request-details`,
     profile: `user/profile`,
     updateProfile: `user/update/`,
+    updateProfileImage: `user/profile-image`,
+    deleteAccount: `delete`,
+    careNetworkList: `admin/posted/job-list`,
+    planList: `admin/plan`,
 }

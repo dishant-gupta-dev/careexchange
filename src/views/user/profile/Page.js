@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { api } from "../../../utlis/user/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
@@ -8,16 +8,19 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userLogout } from "../../../store/slices/Auth";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState();
   const [file, setFile] = useState();
   const [edit, setEdit] = useState({ status: false, id: null });
+  const [editImg, setEditImg] = useState(false);
+  const [deleteAcc, setDeleteAcc] = useState(false);
 
   const initialValues = {
     username: details?.fullname ?? "",
-    image: "",
     mobile: details?.mobile ?? "",
     email: details?.email ?? "",
   };
@@ -27,30 +30,71 @@ const Page = () => {
     mobile: Yup.string().required("Mobile is required!"),
   });
 
+  const initialValuesImg = {
+    image: "",
+  };
+
+  const dispatch = useDispatch();
+  const signOut = useCallback(() => {
+    dispatch(userLogout());
+  }, [dispatch]);
+
   const updateProfile = async (formvalue) => {
     setLoading(true);
     // let form = new FormData();
     // form.append("username", formvalue.username);
     // form.append("mobile", formvalue.mobile);
     // form.append("email", formvalue.email);
-    // form.append("image", file);
     const form = JSON.stringify({
-        username: formvalue.username,
-        mobile: formvalue.mobile,
-        email: formvalue.email,
-      });
-    const response = await ApiService.putAPIWithAccessTokenMultiPart(
+      username: formvalue.username,
+      mobile: formvalue.mobile,
+      email: formvalue.email,
+    });
+    const response = await ApiService.putAPIWithAccessToken(
       api.updateProfile + edit.id,
       form
     );
     setEdit({
       status: false,
-      id: null
+      id: null,
     });
+    if (response.data.status) {
+      toast.success(response.data.message);
+      getMyProfile(api.profile);
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
+  };
+
+  const updateProfileImg = async (formvalue) => {
+    setLoading(true);
+    let form = new FormData();
+    form.append("image", file);
+    const response = await ApiService.postAPIWithAccessTokenMultiPart(
+      api.updateProfileImage,
+      form
+    );
+    setEditImg(false);
     setFile("");
     if (response.data.status) {
       toast.success(response.data.message);
       getMyProfile(api.profile);
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
+  };
+
+  const deleteAccount = async () => {
+    setLoading(true);
+    const response = await ApiService.deleteAPIWithAccessToken(
+      api.deleteAccount
+    );
+    setDeleteAcc(false);
+    if (response.data.status) {
+      toast.success(response.data.message);
+      signOut();
     } else {
       toast.error(response.data.message);
     }
@@ -87,14 +131,17 @@ const Page = () => {
                   <div className="row g-1 align-items-center">
                     <div className="col-md-4">
                       <div className="user-profile-item">
-                        <div className="user-profile-media">
+                        <div className="user-profile-media" style={{ position: "relative", width: "100px", height: "100px", borderRadius: "0", border: "none"}}>
                           {details?.image === null ||
                           details?.image === "" ||
                           details?.image === undefined ? (
-                            <img src={NoImage} alt="" className="me-3" />
+                            <img src={NoImage} alt="" className="me-3" style={{borderRadius: "50%"}} />
                           ) : (
-                            <img src={details?.image} alt="" className="me-3" />
+                            <img src={details?.image} alt="" className="me-3" style={{borderRadius: "50%"}} />
                           )}
+                          <div class="p-image" onClick={() => setEditImg(true)}>
+                            <i class="fa fa-pencil"></i>
+                          </div>
                         </div>
                         <div className="user-profile-text">
                           <h2>{details?.fullname ?? "NA"}</h2>
@@ -108,11 +155,17 @@ const Page = () => {
                       <div className="user-profile-action">
                         <Link
                           className="btn-gr mx-2"
-                          onClick={() => setEdit({ status: true, id: details?.userid })}
+                          onClick={() =>
+                            setEdit({ status: true, id: details?.userid })
+                          }
                         >
                           Edit Profile
                         </Link>
-                        <Link className="btn-re" to="">
+                        <Link
+                          className="btn-re"
+                          to=""
+                          onClick={() => setDeleteAcc(true)}
+                        >
                           Delete Account
                         </Link>
                       </div>
@@ -165,7 +218,8 @@ const Page = () => {
         show={edit.status}
         onHide={() => {
           setEdit({
-            status: false, id: null
+            status: false,
+            id: null,
           });
         }}
         className=""
@@ -218,21 +272,13 @@ const Page = () => {
                       className="alert alert-danger"
                     />
                   </div>
-                  <div className="form-group">
-                    <input
-                      type="file"
-                      name="image"
-                      accept="image/*"
-                      onChange={handleImgChange}
-                      className="form-control todo-list-input"
-                    />
-                  </div>
                   <div className="form-group text-end">
                     <button
                       type="button"
                       onClick={() => {
                         setEdit({
-                          status: false, id: null
+                          status: false,
+                          id: null,
                         });
                       }}
                       className="btn btn-gradient-danger me-2"
@@ -250,6 +296,95 @@ const Page = () => {
                   </div>
                 </Form>
               </Formik>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
+
+      <Modal
+        show={editImg}
+        onHide={() => {
+          setEditImg(false);
+        }}
+        className=""
+      >
+        <div className="modal-content">
+          <ModalHeader>
+            <h5 className="mb-0">Edit Profile Image</h5>
+          </ModalHeader>
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <Formik
+                initialValues={initialValuesImg}
+                validateOnChange={true}
+                onSubmit={updateProfileImg}
+              >
+                <Form>
+                  <div className="form-group">
+                    <input
+                      type="file"
+                      name="image"
+                      accept="image/*"
+                      onChange={handleImgChange}
+                      className="form-control todo-list-input"
+                    />
+                  </div>
+                  <div className="form-group text-end">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditImg(false);
+                      }}
+                      className="btn btn-gradient-danger me-2"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="btn btn-gradient-primary me-2"
+                      data-bs-dismiss="modal"
+                    >
+                      Update
+                    </button>
+                  </div>
+                </Form>
+              </Formik>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
+
+      <Modal
+        show={deleteAcc}
+        onHide={() => {
+          setDeleteAcc(false);
+        }}
+        className="cc-modal-form"
+      >
+        <div className="modal-content">
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <h5 className="text-center pb-0">Are you sure</h5>
+              <p className="text-center">You want to delete your account?</p>
+              <div className="form-group text-center mb-2">
+                <button
+                  type="button"
+                  onClick={() => setDeleteAcc(false)}
+                  className="btn-re me-2"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-gr"
+                  data-bs-dismiss="modal"
+                  onClick={() => deleteAccount()}
+                >
+                  Yes! Delete
+                </button>
+              </div>
             </div>
           </ModalBody>
         </div>
