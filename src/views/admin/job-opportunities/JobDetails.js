@@ -215,7 +215,7 @@ const JobDetails = () => {
                     className="btn-bl"
                     style={{ cursor: "default" }}
                   >
-                    23+ Applicant Applied for this Job
+                    {job?.applicantListCount ?? 0} Applicant Applied for this Job
                   </button>
                 </div>
               </div>

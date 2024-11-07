@@ -13,12 +13,30 @@ import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import { encode } from "base-64";
 import { Link } from "react-router-dom";
+import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import toast from "react-hot-toast";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
   const [careNetwork, setCareNetwork] = useState([]);
   const [startDate, setStartDate] = useState("");
-  const [status, setStatus] = useState(0);
+  const [file, setFile] = useState();
+  const [imgError, setImgError] = useState(false);
+  const [apply, setApply] = useState({ status: false, id: null });
+
+  const initialValues = {
+    full_name: "",
+    mobile: "",
+    email: "",
+  };
+
+  const validationSchema = Yup.object().shape({
+    full_name: Yup.string().required("Name is required!"),
+    mobile: Yup.string().required("Mobile is required!"),
+    email: Yup.string().email().required("Email is required!"),
+  });
 
   const getCareNetwork = async (api) => {
     setLoading(true);
@@ -40,6 +58,39 @@ const Page = () => {
     getCareNetwork(api.careNetworkList + `?search=${name}&date=${date}`);
   };
 
+  const applyJob = async (formValue) => {
+    if (file === "" || file === null || !file) {
+      setImgError(true);
+      return;
+    } else setImgError(false);
+    setLoading(true);
+    let form = new FormData();
+    form.append("full_name", formValue.full_name);
+    form.append("email", formValue.email);
+    form.append("mobile", formValue.mobile);
+    form.append("job_id", apply.id);
+    form.append("resume", file);
+    const response = await ApiService.postAPIWithAccessTokenMultiPart(
+      api.applyJob,
+      form
+    );
+    setApply({
+      status: false,
+      id: null,
+    });
+    if (response.data.status) {
+      toast.success(response.data.message);
+      getCareNetwork(api.careNetworkList);
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
+  };
+
+  const handleResumeChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
     getCareNetwork(api.careNetworkList);
@@ -53,31 +104,34 @@ const Page = () => {
         <div class="carenetwork-section">
           <div class="care-title-header">
             <h2 class="heading-title">Care Network</h2>
+            <Link class="bottom-buttons" to={routes.addPost} title="Add Post">
+                <i className="fa fa-plus"></i>
+            </Link>
             <div class="search-filter wd82">
               <div class="row g-2">
                 <div class="col-md-7">
                   <div class="carenetwork-tab">
                     <ul class="carenetwork-btn-action">
                       <li>
-                        <a class="btn-bl" href="#">
+                        <Link class="btn-bl" to="">
                           Find A Job
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="jobs-request.html" class="btn-gr">
+                        <Link to={routes.jobRequest} class="btn-gr">
                           Job Requests
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="view-applied-jobs.html" class="btn-wh">
+                        <Link to={routes.appliedJob} class="btn-wh">
                           {" "}
                           Applied Jobs
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="#" class="btn-wh">
-                          Sort By Filter
-                        </a>
+                        <Link to={routes.postedJob} class="btn-wh">
+                          Posted Job
+                        </Link>
                       </li>
                     </ul>
                   </div>
@@ -175,13 +229,14 @@ const Page = () => {
                         </div>
                         <div class="care-card-foot">
                           <div class="care-action">
-                            <a
+                            <Link
                               class="btn-gr"
-                              data-bs-toggle="modal"
-                              data-bs-target="#Applyjob"
+                              onClick={() =>
+                                setApply({ status: true, id: ele.id })
+                              }
                             >
                               Apply
-                            </a>
+                            </Link>
                             <Link
                               class="btn-bl"
                               to={`${routes.careNetworkDetails}/${encode(
@@ -212,6 +267,105 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={apply.status}
+        onHide={() => {
+          setApply({ status: false, id: null });
+        }}
+        className=""
+      >
+        <div className="modal-content">
+          <ModalHeader>
+            <h5 className="mb-0">Apply Jobs</h5>
+          </ModalHeader>
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <Formik
+                initialValues={initialValues}
+                validateOnChange={true}
+                validationSchema={validationSchema}
+                onSubmit={applyJob}
+              >
+                <Form>
+                  <div className="form-group">
+                    <Field
+                      type="text"
+                      className="form-control"
+                      name="full_name"
+                      placeholder="Enter Name"
+                    />
+                    <ErrorMessage
+                      name="full_name"
+                      component="div"
+                      className="alert alert-danger"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Field
+                      type="email"
+                      className="form-control"
+                      name="email"
+                      placeholder="Enter Email"
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="alert alert-danger"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <Field
+                      type="number"
+                      className="form-control todo-list-input"
+                      name="mobile"
+                      placeholder="Enter Mobile"
+                    />
+                    <ErrorMessage
+                      name="mobile"
+                      component="div"
+                      className="alert alert-danger"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <input
+                      type="file"
+                      className="form-control"
+                      name="file"
+                      accept="application/*"
+                      onChange={handleResumeChange}
+                    />
+                    {imgError && (
+                      <div className="alert alert-danger">
+                        Image is required!
+                      </div>
+                    )}
+                  </div>
+                  <div className="form-group text-end">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setApply({ status: false, id: null });
+                      }}
+                      className="btn btn-gradient-danger me-2"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="btn btn-gradient-primary me-2"
+                      data-bs-dismiss="modal"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </Form>
+              </Formik>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
     </>
   );
 };

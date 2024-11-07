@@ -9,7 +9,10 @@ const Page = () => {
   const [plans, setPlan] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const renderHTML = (rawHTML: string) => React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
+  const renderHTML = (rawHTML: string) =>
+    React.createElement("div", {
+      dangerouslySetInnerHTML: { __html: rawHTML },
+    });
 
   const getPlanList = async (api) => {
     setLoading(true);
@@ -21,7 +24,13 @@ const Page = () => {
     } else setPlan([]);
     setLoading(false);
   };
-  console.log(plans);
+
+  const handleFilter = (e, date = null) => {
+    e.persist();
+    let name = "";
+    if (e.target.name === "name") name = e.target.value;
+    getPlanList(api.planList + `?search=${name}`);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -41,9 +50,12 @@ const Page = () => {
                 <div className="search-form-group">
                   <input
                     type="text"
-                    name=""
                     className="form-control"
-                    placeholder="Search "
+                    placeholder="Search by Name"
+                    aria-label="Username"
+                    aria-describedby="basic-addon1"
+                    onChange={(e) => handleFilter(e)}
+                    name="name"
                   />
                   <span className="search-icon">
                     <img src={SearchImg} />
@@ -57,14 +69,16 @@ const Page = () => {
             {plans.length !== 0 ? (
               plans.map((ele, indx) => {
                 return (
-                  <div key={indx} className="col-md-4">
+                  <div key={indx} className="col-md-4 mb-2">
                     <div className="subscription-card">
                       <div className="subscription-info">
                         <div className="planname-text">{ele.name ?? "NA"}</div>
                         <p>Care Referrals Monthly Plan</p>
                       </div>
                       <div className="subscription-price-info">
-                        <div className="plan-price-text">${ele.cost ?? "NA"}</div>
+                        <div className="plan-price-text">
+                          ${ele.cost ?? "NA"}
+                        </div>
                         <div className="plan-persave-content">
                           <div className="plan-per-text">Per Month</div>
                           <div className="plan-save-text">Save 33%</div>

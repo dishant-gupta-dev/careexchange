@@ -146,7 +146,7 @@ h1, h2, h3, h4, h5, h6 {padding: 5px 0 15px 0;font-weight: normal;-webkit-font-s
 a.btn-gr {color: var(--white); white-space: nowrap; background: var(--green); box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12); display: inline-block; text-align: center; border-radius: 5px; font-size: 14px; font-weight: 600; padding: 10px 20px; }
 a.btn-bl {color: var(--white);  white-space: nowrap; background: var(--blue); box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12); display: inline-block; text-align: center; border-radius: 5px; font-size: 14px; font-weight: 600; padding: 10px 20px; }
 a.btn-wh {color: var(--black);  white-space: nowrap; background: var(--white); box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12); display: inline-block; text-align: center; border-radius: 5px; font-size: 14px; font-weight: 600; padding: 10px 20px; }
-a.btn-gra {color: var(--black);  white-space: nowrap; background: var(--gray); box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12); display: inline-block; text-align: center; border-radius: 5px; font-size: 14px; font-weight: 600; padding: 10px 20px; }
+a.btn-gra {color: var(--black) !important;  white-space: nowrap; background: var(--gray) !important; box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12); display: inline-block; text-align: center; border-radius: 5px; font-size: 14px; font-weight: 600; padding: 10px 20px; }
 a.btn-re{color: var(--white);  white-space: nowrap; background: var(--red); box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12); display: inline-block; text-align: center; border-radius: 5px; font-size: 14px; font-weight: 600; padding: 10px 20px; }
 
 
@@ -155,7 +155,7 @@ button.btn-gr {color: var(--white); border: none; white-space: nowrap; backgroun
 
 button.btn-bl {color: var(--white);border: none;  white-space: nowrap; background: var(--blue); box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12); display: inline-block; text-align: center; border-radius: 5px; font-size: 14px; font-weight: 600; padding: 10px 20px; }
 button.btn-wh {color: var(--black); border: none; white-space: nowrap; background: var(--white); box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12); display: inline-block; text-align: center; border-radius: 5px; font-size: 14px; font-weight: 600; padding: 10px 20px; }
-button.btn-gra {color: var(--black); border: none; white-space: nowrap; background: var(--gray); box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12); display: inline-block; text-align: center; border-radius: 5px; font-size: 14px; font-weight: 600; padding: 10px 20px; }
+button.btn-gra {color: var(--black) !important; border: none; white-space: nowrap; background: var(--gray) !important; box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12); display: inline-block; text-align: center; border-radius: 5px; font-size: 14px; font-weight: 600; padding: 10px 20px; }
 button.btn-re{color: var(--white);border: none;  white-space: nowrap; background: var(--red); box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12); display: inline-block; text-align: center; border-radius: 5px; font-size: 14px; font-weight: 600; padding: 10px 20px; }
 
 
