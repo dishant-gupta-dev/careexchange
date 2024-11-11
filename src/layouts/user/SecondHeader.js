@@ -293,7 +293,7 @@ const SecondHeader = () => {
                 </Link>
               </li>
 
-              <li aria-haspopup="true">
+              {/* <li aria-haspopup="true">
                 <Link
                   to={routes.calendar}
                   className={
@@ -389,7 +389,7 @@ const SecondHeader = () => {
                   </span>
                   <span className="wsmenutext"> Calendar</span>
                 </Link>
-              </li>
+              </li> */}
 
               <li aria-haspopup="true">
                 <Link

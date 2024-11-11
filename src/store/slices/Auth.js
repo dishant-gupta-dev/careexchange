@@ -27,6 +27,7 @@ export const login = createAsyncThunk(
             token: body.data.token,
             userId: body.data.adminUser.userid,
             email: body.data.adminUser.email,
+            fullname: body.data.user.fullname,
             role_id: body.data.adminUser.user_type,
           };
 
@@ -72,6 +73,8 @@ export const verifyOtp = createAsyncThunk(
             token: body.data.token,
             userId: body.data.user.userid,
             email: body.data.user.email,
+            fullname: body.data.user.fullname,
+            mobile: body.data.user.mobile,
             role_id: body.data.user.user_type,
           };
 

@@ -70,23 +70,40 @@ const PostedJob = () => {
     <>
       {loading ? <Loader /> : null}
       <div class="container">
+        <div className="messages-tab">
+          <ul className="nav nav-tabs">
+            <li>
+              <Link class="btn-wh" to={routes.careNetwork}>
+                Find A Job
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.jobRequest} className="btn-bl">
+                Job Requests
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.appliedJob} class="btn-wh">
+                {" "}
+                Applied Jobs
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.postedJob} class="btn-wh active">
+                Posted Job
+              </Link>
+            </li>
+          </ul>
+        </div>
         <div class="carenetwork-section">
           <div class="care-title-header">
             <h2 class="heading-title">Posted Jobs</h2>
+            <Link class="bottom-buttons" to={routes.addPost} title="Add Post">
+              <i className="fa fa-plus"></i>
+            </Link>
             <div class="search-filter wd50">
               <div class="row g-2">
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <Link
-                      class="btn-bl wd100"
-                      to=""
-                      onClick={() => navigate(-1)}
-                    >
-                      Back
-                    </Link>
-                  </div>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                   <div class="form-group">
                     <DatePicker
                       toggleCalendarOnIconClick
@@ -107,7 +124,7 @@ const PostedJob = () => {
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-7">
                   <div class="form-group">
                     <div class="search-form-group">
                       <input
@@ -189,9 +206,7 @@ const PostedJob = () => {
                             </Link>
                             <Link
                               class="btn-gra"
-                              to={`${routes.jobRequest}/${encode(
-                                ele.id
-                              )}`}
+                              to={`${routes.jobRequest}/${encode(ele.id)}`}
                             >
                               View All Applicants
                             </Link>

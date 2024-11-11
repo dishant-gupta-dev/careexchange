@@ -25,4 +25,5 @@ exports.api = {
     postedJob: `user/posted/job`,
     addNewsletter: `newsletter/add`,
     planList: `admin/plan`,
+    categoryList: `category/list`,
 }

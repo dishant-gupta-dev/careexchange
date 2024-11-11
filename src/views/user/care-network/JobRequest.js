@@ -49,23 +49,40 @@ const JobRequest = () => {
     <>
       {loading ? <Loader /> : null}
       <div class="container">
+        <div className="messages-tab">
+          <ul className="nav nav-tabs">
+            <li>
+              <Link class="btn-wh" to={routes.careNetwork}>
+                Find A Job
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.jobRequest} className="btn-bl active">
+                Job Requests
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.appliedJob} class="btn-wh">
+                {" "}
+                Applied Jobs
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.postedJob} class="btn-wh">
+                Posted Job
+              </Link>
+            </li>
+          </ul>
+        </div>
         <div class="carenetwork-section">
           <div class="care-title-header">
-            <h2 class="heading-title">Job Request</h2>
+            <h2 class="heading-title">Job Requests</h2>
+            <Link class="bottom-buttons" to={routes.addPost} title="Add Post">
+              <i className="fa fa-plus"></i>
+            </Link>
             <div class="search-filter wd50">
               <div class="row g-2">
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <Link
-                      class="btn-bl wd100"
-                      to=""
-                      onClick={() => navigate(-1)}
-                    >
-                      Back
-                    </Link>
-                  </div>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                   <div class="form-group">
                     <DatePicker
                       toggleCalendarOnIconClick
@@ -86,7 +103,7 @@ const JobRequest = () => {
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-7">
                   <div class="form-group">
                     <div class="search-form-group">
                       <input
@@ -160,7 +177,11 @@ const JobRequest = () => {
                             {ele.resume !== null &&
                             ele.resume !== undefined &&
                             ele.resume !== "" ? (
-                              <Link class="btn-bl" target="_blank"  to={ele.resume}>
+                              <Link
+                                class="btn-bl"
+                                target="_blank"
+                                to={ele.resume}
+                              >
                                 Download CV
                               </Link>
                             ) : null}

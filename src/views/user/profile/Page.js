@@ -281,14 +281,14 @@ const Page = () => {
                           id: null,
                         });
                       }}
-                      className="btn btn-gradient-danger me-2"
+                      className="btn btn-re me-2"
                       data-bs-dismiss="modal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-gradient-primary me-2"
+                      className="btn btn-gr me-2"
                       data-bs-dismiss="modal"
                     >
                       Update

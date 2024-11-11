@@ -8,6 +8,8 @@ import SuitCase from "../../../assets/user/images/jobs-suitcase.svg";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
+import GmapImg from "../../../assets/user/images/Google_Maps_icon.svg";
+import LocImg from "../../../assets/user/images/location.svg";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
@@ -23,6 +25,7 @@ const Page = () => {
   const [careNetwork, setCareNetwork] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [file, setFile] = useState();
+  const [filter, setFilter] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [apply, setApply] = useState({ status: false, id: null });
 
@@ -101,43 +104,51 @@ const Page = () => {
     <>
       {loading ? <Loader /> : null}
       <div class="container">
+        <div className="messages-tab">
+          <ul className="nav nav-tabs">
+            <li>
+              <Link class="btn-wh active" to={routes.careNetwork}>
+                Find A Job
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.jobRequest} class="btn-wh">
+                Job Requests
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.appliedJob} class="btn-wh">
+                {" "}
+                Applied Jobs
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.postedJob} class="btn-wh">
+                Posted Job
+              </Link>
+            </li>
+          </ul>
+        </div>
         <div class="carenetwork-section">
           <div class="care-title-header">
             <h2 class="heading-title">Care Network</h2>
             <Link class="bottom-buttons" to={routes.addPost} title="Add Post">
-                <i className="fa fa-plus"></i>
+              <i className="fa fa-plus"></i>
             </Link>
-            <div class="search-filter wd82">
+            <div class="search-filter wd60">
               <div class="row g-2">
-                <div class="col-md-7">
-                  <div class="carenetwork-tab">
-                    <ul class="carenetwork-btn-action">
-                      <li>
-                        <Link class="btn-bl" to="">
-                          Find A Job
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to={routes.jobRequest} class="btn-gr">
-                          Job Requests
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to={routes.appliedJob} class="btn-wh">
-                          {" "}
-                          Applied Jobs
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to={routes.postedJob} class="btn-wh">
-                          Posted Job
-                        </Link>
-                      </li>
-                    </ul>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <Link
+                      class="btn-bl wd100"
+                      to=""
+                      onClick={() => setFilter(true)}
+                    >
+                      Sort By Filter
+                    </Link>
                   </div>
                 </div>
-
-                <div class="col-md-2">
+                <div class="col-md-4">
                   <div class="form-group">
                     <DatePicker
                       toggleCalendarOnIconClick
@@ -158,7 +169,7 @@ const Page = () => {
                   </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <div class="form-group">
                     <div class="search-form-group">
                       <input
@@ -267,6 +278,167 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={filter}
+        onHide={() => {
+          setFilter(false);
+        }}
+        className="modal-xl"
+      >
+        <div className="modal-content">
+          <ModalHeader className="text-center">
+            <h5 className="mb-0">Filter</h5>
+          </ModalHeader>
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <Formik
+                initialValues={initialValues}
+                validateOnChange={true}
+                validationSchema={validationSchema}
+                onSubmit={applyJob}
+              >
+                <Form>
+                  <div class="findcare-content">
+                    <div class="step-content tab-content">
+                      <div class="tab-pane fade active show" id="tab1">
+                        <div class="findcare-form">
+                          <div class="findcare-card">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="form-group search-form-group">
+                                  <h4>Job Location</h4>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    name=""
+                                    value="Atlanta GA, 55394"
+                                    placeholder="Job Title"
+                                  />
+                                  <span class="form-group-icon">
+                                    <img src={GmapImg} />
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <h4>Search By Miles Away</h4>
+                                  <div class="choosemiles-list">
+                                    <ul>
+                                      <li>
+                                        <div class="ceradio1">
+                                          <input
+                                            type="radio"
+                                            id="10_Miles"
+                                            name="radius"
+                                          />
+                                          <label for="10_Miles">
+                                            <span class="checkbox-text">
+                                              <img src={LocImg} /> 10 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+                                      <li>
+                                        <div class="ceradio1">
+                                          <input
+                                            type="radio"
+                                            id="20_Miles"
+                                            name="radius"
+                                          />
+                                          <label for="20_Miles">
+                                            <span class="checkbox-text">
+                                              <img src={LocImg} /> 20 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+
+                                      <li>
+                                        <div class="ceradio1">
+                                          <input
+                                            type="radio"
+                                            id="30_Miles"
+                                            name="radius"
+                                          />
+                                          <label for="30_Miles">
+                                            <span class="checkbox-text">
+                                              <img src={LocImg} /> 30 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+
+                                      <li>
+                                        <div class="ceradio1">
+                                          <input
+                                            type="radio"
+                                            id="40_Miles"
+                                            name="radius"
+                                          />
+                                          <label for="40_Miles">
+                                            <span class="checkbox-text">
+                                              <img src={LocImg} /> 40 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+
+                                      <li>
+                                        <div class="ceradio1">
+                                          <input
+                                            type="radio"
+                                            id="50_Miles"
+                                            name="radius"
+                                          />
+                                          <label for="50_Miles">
+                                            <span class="checkbox-text">
+                                              <img src={LocImg} /> 50 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-md-12">
+                                <div class="form-group">
+                                  <h4>Care Services You Are Looking For?</h4>
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <select class="form-control">
+                                        <option>Senior Care</option>
+                                      </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <select class="form-control">
+                                        <option>Home Care</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-md-12">
+                                <div class="form-group text-end">
+                                  <button class="btn-gr">Apply Filter</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </Form>
+              </Formik>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
 
       <Modal
         show={apply.status}
