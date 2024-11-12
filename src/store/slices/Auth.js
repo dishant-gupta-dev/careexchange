@@ -27,7 +27,6 @@ export const login = createAsyncThunk(
             token: body.data.token,
             userId: body.data.adminUser.userid,
             email: body.data.adminUser.email,
-            fullname: body.data.user.fullname,
             role_id: body.data.adminUser.user_type,
           };
 

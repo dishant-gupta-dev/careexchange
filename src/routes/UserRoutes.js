@@ -37,7 +37,7 @@ var UserRoutes = [
         component: JobDetails
     },
     {
-        path: routes.careNetwork,
+        path: routes.careNetwork+"/:address?/:lat?/:lng?",
         layout: UserLayout,
         component: CareNetwork
     },

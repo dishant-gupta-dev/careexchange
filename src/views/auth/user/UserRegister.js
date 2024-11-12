@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import Loader from "../../../layouts/loader/Loader";
 import OtpInput from "react-otp-input";
 
-const Register = () => {
+const UserRegister = () => {
   const navigate = useNavigate();
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
@@ -226,4 +226,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default UserRegister;

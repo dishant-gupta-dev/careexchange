@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../../../assets/user/css/home.css";
 import Map from "../../../assets/user/images/Google_Map.svg";
 import Search from "../../../assets/user/images/search-normal.svg";
@@ -8,12 +8,22 @@ import { api } from "../../../utlis/user/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import Loader from "../../../layouts/loader/Loader";
+import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../../utlis/user/routes.utlis";
 
 const Page = () => {
+  const navigate = useNavigate();
+  const inputRef = useRef(null);
   const [dashboard, setDashboard] = useState({
     category: [],
     ProviderList: [],
     advertisementList: [],
+  });
+  const [location, setLocation] = useState({
+    lat: null,
+    lng: null,
+    address: null,
   });
   const [loading, setLoading] = useState(false);
 
@@ -37,26 +47,41 @@ const Page = () => {
     setLoading(false);
   };
 
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyBxVrpIiwVIHIwBEWULPzlaIxyd0vSSadc",
+    libraries: ["places"],
+  });
+
+  const handlePlaceChange = () => {
+    let [address] = inputRef.current.getPlaces();
+    setLocation({
+      lat: address.geometry.location.lat(),
+      lng: address.geometry.location.lng(),
+      address: address.formatted_address,
+    });
+  };
+
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getDashboardData(api.dashboard);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
-    {loading ? <Loader /> : null}
+      {loading ? <Loader /> : null}
       <div className="container">
         <div className="find-location-section">
           <div className="find-location-tab">
             <ul className="nav nav-tabs">
               <li>
-                <a className="active" href="#findcare" data-bs-toggle="tab">
-                  Find Care
+                <a href="#findajob" className="active" data-bs-toggle="tab">
+                  Find A Job
                 </a>
               </li>
               <li>
-                <a href="#findajob" data-bs-toggle="tab">
-                  Find A Job
+                <a className="" href="#findcare" data-bs-toggle="tab">
+                  Find Care
                 </a>
               </li>
             </ul>
@@ -66,17 +91,26 @@ const Page = () => {
               <div className="search-section">
                 <div className="search-location-card">
                   <div className="search-input-info">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Address Or Zip Code"
-                    />
+                    {isLoaded && (
+                      <StandaloneSearchBox
+                        onLoad={(ref) => (inputRef.current = ref)}
+                        onPlacesChanged={handlePlaceChange}
+                      >
+                        <input
+                          className="form-control"
+                          placeholder="Where are you going?"
+                          defaultValue={location.address}
+                        />
+                      </StandaloneSearchBox>
+                    )}
                     <span className="search-lo-icon">
                       <img src={Map} />
                     </span>
                   </div>
                   <div className="search-btn-info">
-                    <button className="intake-btn-done">
+                    <button className="intake-btn-done" onClick={() => {
+                      navigate(`${routes.careNetwork}/${location.address}/${location.lat}/${location.lng}`)
+                    }}>
                       <img src={Search} />
                     </button>
                   </div>
@@ -182,7 +216,8 @@ const Page = () => {
                                 {ele.fullname ?? "NA"}
                               </div>
                               <div className="care-user-rating">
-                                <i className="fa-regular fa-star"></i> {ele.average_rating ?? "0"}
+                                <i className="fa-regular fa-star"></i>{" "}
+                                {ele.average_rating ?? "0"}
                               </div>
                             </div>
                           </div>

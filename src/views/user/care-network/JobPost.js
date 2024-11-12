@@ -8,6 +8,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
+import { routes } from "../../../utlis/user/routes.utlis";
 
 const JobPost = () => {
   const inputRef = useRef(null);
@@ -128,6 +129,7 @@ const JobPost = () => {
       toast.success(response.data.message);
       getCategoryList(api.categoryList);
       document.getElementById("add-post-form").reset();
+      navigate(routes.postedJob);
     } else {
       toast.error(response.data.message);
     }

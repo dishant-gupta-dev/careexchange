@@ -162,7 +162,7 @@ const Login = () => {
                           </div>
 
                           <div className="mt-1 forgotpsw-text">
-                            <Link to={routes.register}>
+                            <Link to={routes.userRegister}>
                               Don’t Have An Account? <b>Signup</b>
                             </Link>
                           </div>

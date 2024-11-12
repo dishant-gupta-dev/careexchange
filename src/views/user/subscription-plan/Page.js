@@ -73,16 +73,16 @@ const Page = () => {
                     <div className="subscription-card">
                       <div className="subscription-info">
                         <div className="planname-text">{ele.name ?? "NA"}</div>
-                        <p>Care Referrals Monthly Plan</p>
+                        {/* <p>Care Referrals Monthly Plan</p> */}
                       </div>
                       <div className="subscription-price-info">
                         <div className="plan-price-text">
                           ${ele.cost ?? "NA"}
                         </div>
-                        <div className="plan-persave-content">
+                        {/* <div className="plan-persave-content">
                           <div className="plan-per-text">Per Month</div>
                           <div className="plan-save-text">Save 33%</div>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="subscription-point-info">
                         <div className="plan-point-list">
@@ -91,7 +91,7 @@ const Page = () => {
                         <div className="plan-action">
                           <a href="">Buy Now</a>
                         </div>
-                        <p>No credit card required</p>
+                        {/* <p>No credit card required</p> */}
                       </div>
                     </div>
                   </div>

@@ -214,7 +214,7 @@ const Page = () => {
                           ${ele.cost ?? "NA"}
                         </div>
                         <div className="cc-plan-persave-content">
-                          <div className="cc-plan-per-text">Per Month</div>
+                          {/* <div className="cc-plan-per-text">Per Month</div> */}
                           {/* <div className="cc-plan-save-text">
                             {" "}
                             {ele.name ?? "NA"}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Search from "../../../assets/user/images/search1.svg";
 import { api } from "../../../utlis/user/api.utlis";
 import { routes } from "../../../utlis/user/routes.utlis";
@@ -14,25 +14,44 @@ import moment from "moment";
 import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import { encode } from "base-64";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
+import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 
 const Page = () => {
+  const inputRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [total, setTotal] = useState(0);
   const [careNetwork, setCareNetwork] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [file, setFile] = useState();
   const [filter, setFilter] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [apply, setApply] = useState({ status: false, id: null });
+  const [selectRadius, setSelectRadius] = useState("");
+  const [selectCategories, setSelectCategory] = useState("");
+  const [selectSubCategories, setSelectSubCategory] = useState("");
+  const [categories, setCategory] = useState([]);
+  const [subCategories, setSubCategory] = useState([]);
+  const [location, setLocation] = useState({
+    lat: null,
+    lng: null,
+    address: null,
+  });
+  const { address, lat, lng } = useParams();
 
   const initialValues = {
     full_name: "",
     mobile: "",
     email: "",
+  };
+
+  const initialValuesFilter = {
+    radius: selectRadius ?? "",
+    sub_category: selectSubCategories ?? "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -41,12 +60,31 @@ const Page = () => {
     email: Yup.string().email().required("Email is required!"),
   });
 
+  const getCategoryList = async (api) => {
+    const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log("category list => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setCategory(response.data.data.categories);
+    } else setCategory([]);
+  };
+
+  const getSubCategoryList = async (id) => {
+    const response = await ApiService.getAPIWithAccessToken(
+      api.categoryList + `?categoryid=${id}`
+    );
+    // console.log("sub category list => ", response.data);
+    if (response?.data?.status && response?.data?.statusCode === 200) {
+      setSubCategory(response?.data?.data?.categories);
+    } else setSubCategory([]);
+  };
+
   const getCareNetwork = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
     // console.log("all care network => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setCareNetwork(response.data.data.postedJob);
+      setTotal(response.data.data.total);
     } else setCareNetwork([]);
     setLoading(false);
   };
@@ -90,57 +128,119 @@ const Page = () => {
     setLoading(false);
   };
 
+  const applyFilter = (formValue) => {
+    setSelectRadius(formValue.radius);
+    setSelectSubCategory(formValue.sub_category);
+    setFilter(false);
+    getCareNetwork(
+      api.careNetworkList +
+        `?latitude=${location.lat}&longitude=${location.lng}&categoryid=${selectCategories}&subcategoryid=${formValue.sub_category}&radieous=${formValue.radius}`
+    );
+  };
+
   const handleResumeChange = (e) => {
     setFile(e.target.files[0]);
   };
 
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyBxVrpIiwVIHIwBEWULPzlaIxyd0vSSadc",
+    libraries: ["places"],
+  });
+
+  const handlePlaceChange = () => {
+    let [address] = inputRef.current.getPlaces();
+    setLocation({
+      lat: address.geometry.location.lat(),
+      lng: address.geometry.location.lng(),
+      address: address.formatted_address,
+    });
+  };
+
+  const getCurrentAddress = () => {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const crd = pos.coords;
+        // console.log("Your current position is:");
+        // console.log(`Latitude : ${crd.latitude}`);
+        // console.log(`Longitude: ${crd.longitude}`);
+        // console.log(`More or less ${JSON.stringify(crd)} meters.`);
+        setLocation({
+          lat: lat ?? crd.latitude,
+          lng: lng ?? crd.longitude,
+          address: address ?? "",
+        });
+        getCareNetwork(
+          api.careNetworkList +
+            `?latitude=${lat ?? crd.latitude}&longitude=${
+             lng ?? crd.longitude
+            }&radieous=${10000}`
+        );
+      },
+      function errorCallback(error) {
+        // console.log("Error => ", error);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0,
+      }
+    );
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    getCareNetwork(api.careNetworkList);
+    getCurrentAddress();
+    // getCareNetwork(api.careNetworkList);
+    getCategoryList(api.categoryList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       {loading ? <Loader /> : null}
-      <div class="container">
+      <div className="container">
         <div className="messages-tab">
           <ul className="nav nav-tabs">
             <li>
-              <Link class="btn-wh active" to={routes.careNetwork}>
+              <Link className="btn-wh active" to={routes.careNetwork}>
                 Find A Job
               </Link>
             </li>
             <li>
-              <Link to={routes.jobRequest} class="btn-wh">
+              <Link to={routes.jobRequest} className="btn-wh">
                 Job Requests
               </Link>
             </li>
             <li>
-              <Link to={routes.appliedJob} class="btn-wh">
+              <Link to={routes.appliedJob} className="btn-wh">
                 {" "}
                 Applied Jobs
               </Link>
             </li>
             <li>
-              <Link to={routes.postedJob} class="btn-wh">
+              <Link to={routes.postedJob} className="btn-wh">
                 Posted Job
               </Link>
             </li>
           </ul>
         </div>
-        <div class="carenetwork-section">
-          <div class="care-title-header">
-            <h2 class="heading-title">Care Network</h2>
-            <Link class="bottom-buttons" to={routes.addPost} title="Add Post">
+        <div className="carenetwork-section">
+          <div className="care-title-header">
+            <h2 className="heading-title">Care Network</h2>
+            <Link
+              className="bottom-buttons"
+              to={routes.addPost}
+              title="Add Post"
+            >
               <i className="fa fa-plus"></i>
             </Link>
-            <div class="search-filter wd60">
-              <div class="row g-2">
-                <div class="col-md-2">
-                  <div class="form-group">
+            <div className="search-filter wd60">
+              <div className="row g-2">
+                <div className="col-md-2">
+                  <div className="form-group">
                     <Link
-                      class="btn-bl wd100"
+                      className="btn-bl wd100"
                       to=""
                       onClick={() => setFilter(true)}
                     >
@@ -148,8 +248,8 @@ const Page = () => {
                     </Link>
                   </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="form-group">
+                <div className="col-md-4">
+                  <div className="form-group">
                     <DatePicker
                       toggleCalendarOnIconClick
                       showIcon
@@ -169,9 +269,9 @@ const Page = () => {
                   </div>
                 </div>
 
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <div class="search-form-group">
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <div className="search-form-group">
                       <input
                         type="text"
                         className="form-control"
@@ -181,7 +281,7 @@ const Page = () => {
                         onChange={(e) => handleFilter(e)}
                         name="name"
                       />
-                      <span class="search-icon">
+                      <span className="search-icon">
                         <img src={Search} />
                       </span>
                     </div>
@@ -190,19 +290,25 @@ const Page = () => {
               </div>
             </div>
           </div>
-          <div class="carenetwork-content">
-            <div class="row">
+          <p>
+            {total ?? 0} Job Opportunity Posted Near{" "}
+            {location.address == "" || location.address == null
+              ? "10000 Miles"
+              : `"${location.address}"`}
+          </p>
+          <div className="carenetwork-content">
+            <div className="row">
               {careNetwork.length !== 0 ? (
                 careNetwork.map((ele, indx) => {
                   return (
-                    <div key={indx} class="col-md-6">
-                      <div class="care-card">
-                        <div class="care-card-head">
-                          <div class="care-id">
+                    <div key={indx} className="col-md-6">
+                      <div className="care-card">
+                        <div className="care-card-head">
+                          <div className="care-id">
                             Job ID: <span>{ele.job_id ?? "NA"}</span>
                           </div>
 
-                          <div class="care-date">
+                          <div className="care-date">
                             Posted On:{" "}
                             <span>
                               {moment(ele.posted_date).format(
@@ -211,25 +317,27 @@ const Page = () => {
                             </span>
                           </div>
                         </div>
-                        <div class="care-card-body">
-                          <div class="care-content">
-                            <div class="title-text">{ele.title ?? "NA"}</div>
-                            <div class="tags-list">
-                              <div class="tags-item">
+                        <div className="care-card-body">
+                          <div className="care-content">
+                            <div className="title-text">
+                              {ele.title ?? "NA"}
+                            </div>
+                            <div className="tags-list">
+                              <div className="tags-item">
                                 {ele.category ?? "NA"}
                               </div>
                             </div>
 
-                            <div class="jobs-point">
-                              <div class="jobs-point-item">
+                            <div className="jobs-point">
+                              <div className="jobs-point-item">
                                 <img src={Clock} /> Work Timing:
                                 <span>{ele.working_time_value ?? "NA"}</span>
                               </div>
-                              <div class="jobs-point-item">
+                              <div className="jobs-point-item">
                                 <img src={Dollar} /> Salary:
                                 <span>{ele.pay_range ?? "$0"}/Annually</span>
                               </div>
-                              <div class="jobs-point-item">
+                              <div className="jobs-point-item">
                                 <img src={SuitCase} /> Work Exp:
                                 <span>
                                   {ele.working_expirence ?? "NA"} Experience{" "}
@@ -238,10 +346,10 @@ const Page = () => {
                             </div>
                           </div>
                         </div>
-                        <div class="care-card-foot">
-                          <div class="care-action">
+                        <div className="care-card-foot">
+                          <div className="care-action">
                             <Link
-                              class="btn-gr"
+                              className="btn-gr"
                               onClick={() =>
                                 setApply({ status: true, id: ele.id })
                               }
@@ -249,7 +357,7 @@ const Page = () => {
                               Apply
                             </Link>
                             <Link
-                              class="btn-bl"
+                              className="btn-bl"
                               to={`${routes.careNetworkDetails}/${encode(
                                 ele.id
                               )}`}
@@ -293,61 +401,66 @@ const Page = () => {
           <ModalBody className="">
             <div className="add-items d-flex row">
               <Formik
-                initialValues={initialValues}
-                validateOnChange={true}
-                validationSchema={validationSchema}
-                onSubmit={applyJob}
+                initialValues={initialValuesFilter}
+                onSubmit={applyFilter}
               >
-                <Form>
-                  <div class="findcare-content">
-                    <div class="step-content tab-content">
-                      <div class="tab-pane fade active show" id="tab1">
-                        <div class="findcare-form">
-                          <div class="findcare-card">
-                            <div class="row">
-                              <div class="col-md-12">
-                                <div class="form-group search-form-group">
+                <Form id="filter-form">
+                  <div className="findcare-content">
+                    <div className="step-content tab-content">
+                      <div className="tab-pane fade active show" id="tab1">
+                        <div className="findcare-form">
+                          <div className="findcare-card">
+                            <div className="row">
+                              <div className="col-md-12">
+                                <div className="form-group search-form-group">
                                   <h4>Job Location</h4>
-                                  <input
-                                    type="text"
-                                    class="form-control"
-                                    name=""
-                                    value="Atlanta GA, 55394"
-                                    placeholder="Job Title"
-                                  />
-                                  <span class="form-group-icon">
+                                  {isLoaded && (
+                                    <StandaloneSearchBox
+                                      onLoad={(ref) => (inputRef.current = ref)}
+                                      onPlacesChanged={handlePlaceChange}
+                                    >
+                                      <input
+                                        className="form-control"
+                                        placeholder="Where are you going?"
+                                        defaultValue={location.address}
+                                      />
+                                    </StandaloneSearchBox>
+                                  )}
+                                  <span className="form-group-icon">
                                     <img src={GmapImg} />
                                   </span>
                                 </div>
                               </div>
-                              <div class="col-md-12">
-                                <div class="form-group">
+                              <div className="col-md-12">
+                                <div className="form-group">
                                   <h4>Search By Miles Away</h4>
-                                  <div class="choosemiles-list">
+                                  <div className="choosemiles-list">
                                     <ul>
                                       <li>
-                                        <div class="ceradio1">
-                                          <input
+                                        <div className="ceradio1">
+                                          <Field
                                             type="radio"
-                                            id="10_Miles"
                                             name="radius"
+                                            id="10miles"
+                                            value="10"
                                           />
-                                          <label for="10_Miles">
-                                            <span class="checkbox-text">
+                                          <label for="10miles">
+                                            <span className="checkbox-text">
                                               <img src={LocImg} /> 10 Miles{" "}
                                             </span>
                                           </label>
                                         </div>
                                       </li>
                                       <li>
-                                        <div class="ceradio1">
-                                          <input
+                                        <div className="ceradio1">
+                                          <Field
                                             type="radio"
-                                            id="20_Miles"
                                             name="radius"
+                                            id="20miles"
+                                            value="20"
                                           />
-                                          <label for="20_Miles">
-                                            <span class="checkbox-text">
+                                          <label for="20miles">
+                                            <span className="checkbox-text">
                                               <img src={LocImg} /> 20 Miles{" "}
                                             </span>
                                           </label>
@@ -355,14 +468,15 @@ const Page = () => {
                                       </li>
 
                                       <li>
-                                        <div class="ceradio1">
-                                          <input
+                                        <div className="ceradio1">
+                                          <Field
                                             type="radio"
-                                            id="30_Miles"
                                             name="radius"
+                                            id="30miles"
+                                            value="30"
                                           />
-                                          <label for="30_Miles">
-                                            <span class="checkbox-text">
+                                          <label for="30miles">
+                                            <span className="checkbox-text">
                                               <img src={LocImg} /> 30 Miles{" "}
                                             </span>
                                           </label>
@@ -370,30 +484,80 @@ const Page = () => {
                                       </li>
 
                                       <li>
-                                        <div class="ceradio1">
-                                          <input
+                                        <div className="ceradio1">
+                                          <Field
                                             type="radio"
-                                            id="40_Miles"
                                             name="radius"
+                                            id="50miles"
+                                            value="50"
                                           />
-                                          <label for="40_Miles">
-                                            <span class="checkbox-text">
-                                              <img src={LocImg} /> 40 Miles{" "}
+                                          <label for="50miles">
+                                            <span className="checkbox-text">
+                                              <img src={LocImg} /> 50 Miles{" "}
                                             </span>
                                           </label>
                                         </div>
                                       </li>
 
                                       <li>
-                                        <div class="ceradio1">
-                                          <input
+                                        <div className="ceradio1">
+                                          <Field
                                             type="radio"
-                                            id="50_Miles"
                                             name="radius"
+                                            id="100miles"
+                                            value="100"
                                           />
-                                          <label for="50_Miles">
-                                            <span class="checkbox-text">
-                                              <img src={LocImg} /> 50 Miles{" "}
+                                          <label for="100miles">
+                                            <span className="checkbox-text">
+                                              <img src={LocImg} /> 100 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+
+                                      <li>
+                                        <div className="ceradio1">
+                                          <Field
+                                            type="radio"
+                                            name="radius"
+                                            id="200miles"
+                                            value="200"
+                                          />
+                                          <label for="200miles">
+                                            <span className="checkbox-text">
+                                              <img src={LocImg} /> 200 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+
+                                      <li>
+                                        <div className="ceradio1">
+                                          <Field
+                                            type="radio"
+                                            name="radius"
+                                            id="300miles"
+                                            value="300"
+                                          />
+                                          <label for="300miles">
+                                            <span className="checkbox-text">
+                                              <img src={LocImg} /> 300 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+
+                                      <li>
+                                        <div className="ceradio1">
+                                          <Field
+                                            type="radio"
+                                            name="radius"
+                                            id="1000miles"
+                                            value="1000"
+                                          />
+                                          <label for="1000miles">
+                                            <span className="checkbox-text">
+                                              <img src={LocImg} /> 1000 Miles{" "}
                                             </span>
                                           </label>
                                         </div>
@@ -403,27 +567,95 @@ const Page = () => {
                                 </div>
                               </div>
 
-                              <div class="col-md-12">
-                                <div class="form-group">
+                              <div className="col-md-12">
+                                <div className="form-group">
                                   <h4>Care Services You Are Looking For?</h4>
-                                  <div class="row">
-                                    <div class="col-md-6">
-                                      <select class="form-control">
-                                        <option>Senior Care</option>
+                                  <div className="row">
+                                    <div className="col-md-6">
+                                      <select
+                                        className="form-control"
+                                        name="category"
+                                        defaultValue={selectCategories}
+                                        onChange={(e) => {
+                                          getSubCategoryList(e.target.value);
+                                          setSelectCategory(e.target.value);
+                                        }}
+                                      >
+                                        <option value="">
+                                          Select Category
+                                        </option>
+                                        {categories.length !== 0
+                                          ? categories.map((ele, indx) => {
+                                              return (
+                                                <option
+                                                  key={indx}
+                                                  value={ele.id}
+                                                >
+                                                  {ele.name ?? "NA"}
+                                                </option>
+                                              );
+                                            })
+                                          : null}
                                       </select>
                                     </div>
-                                    <div class="col-md-6">
-                                      <select class="form-control">
-                                        <option>Home Care</option>
-                                      </select>
+                                    <div className="col-md-6">
+                                      <Field
+                                        as="select"
+                                        type="text"
+                                        className="form-control todo-list-input"
+                                        name="sub_category"
+                                      >
+                                        <option value="">
+                                          Select Sub Category
+                                        </option>
+                                        {subCategories.length !== 0
+                                          ? subCategories.map((ele, indx) => {
+                                              return (
+                                                <option
+                                                  key={indx}
+                                                  value={ele.id}
+                                                >
+                                                  {ele.name ?? "NA"}
+                                                </option>
+                                              );
+                                            })
+                                          : null}
+                                      </Field>
                                     </div>
                                   </div>
                                 </div>
                               </div>
 
-                              <div class="col-md-12">
-                                <div class="form-group text-end">
-                                  <button class="btn-gr">Apply Filter</button>
+                              <div className="col-md-12">
+                                <div className="form-group text-end">
+                                  <button
+                                    type="button"
+                                    className="btn-re mx-2"
+                                    onClick={() => {
+                                      {
+                                        setFilter(false);
+                                        document
+                                          .getElementById("filter-form")
+                                          .reset();
+                                        setSelectCategory("");
+                                        setSelectSubCategory("");
+                                        setSubCategory([]);
+                                        setSelectRadius("");
+                                        setLocation({
+                                          lat: null,
+                                          lng: null,
+                                          address: null,
+                                        });
+                                        
+                                        getCurrentAddress();
+                                      }
+                                    }}
+                                  >
+                                    Clear All
+                                  </button>
+                                  <button type="submit" className="btn-gr">
+                                    Apply Filter
+                                  </button>
                                 </div>
                               </div>
                             </div>
@@ -432,7 +664,6 @@ const Page = () => {
                       </div>
                     </div>
                   </div>
-
                 </Form>
               </Formik>
             </div>
@@ -486,7 +717,7 @@ const Page = () => {
                       className="alert alert-danger"
                     />
                   </div>
-                  <div class="form-group">
+                  <div className="form-group">
                     <Field
                       type="number"
                       className="form-control todo-list-input"
