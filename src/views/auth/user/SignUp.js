@@ -1,6 +1,9 @@
 import React from "react";
 import jpgImg from "../../../assets/user/images/1.jpg";
 import Logo from "../../../assets/user/images/logo.svg";
+import CareBusiness from "../../../assets/user/images/carebusiness.svg";
+import CareIndividual from "../../../assets/user/images/careIndividual.svg";
+import CareUsers from "../../../assets/user/images/careuser.svg";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../../utlis/user/routes.utlis";
 
@@ -14,10 +17,90 @@ const SignUp = () => {
         </div>
         <div className="auth-content-card">
           <div className="container">
-            <div className="auth-card">
+            <div className="authsign-card">
               <div className="row">
-                <div className="col-md-12" style={{}}>
-                  
+                <div className="col-md-6">
+                  <div className="user-auth-content1"></div>
+                </div>
+                <div className="col-md-6 authsign-form-info">
+                  <div className="authsign-form">
+                    <div className="brand-logo mb-3">
+                      <img src={Logo} alt="logo" />
+                    </div>
+                    <h2>Sign In</h2>
+                    <p>Choose From Care Provider Account Type</p>
+                    <div className="form-group">
+                      <div className="row g-2">
+                        <div className="col-md-4">
+                          <div className="PBCheckbox">
+                            <input
+                              type="radio"
+                              name="accounttype"
+                              id="Users"
+                              value="Users"
+                            />
+                            <label for="Users">
+                              <span className="checkbox-circle-mark"></span>
+                              <div className="account-option-media">
+                                <img src={CareUsers} />
+                              </div>
+                              <div className="account-option-text">
+                                <h4>Care</h4>
+                                <h3>Users</h3>
+                              </div>
+                            </label>
+                          </div>
+                        </div>
+
+                        <div className="col-md-4">
+                          <div className="PBCheckbox">
+                            <input
+                              type="radio"
+                              name="accounttype"
+                              id="Individual"
+                              value="Individual"
+                            />
+                            <label for="Individual">
+                              <span className="checkbox-circle-mark"></span>
+                              <div className="account-option-media">
+                                <img src={CareIndividual} />
+                              </div>
+                              <div className="account-option-text">
+                                <h4>Care-Staff</h4>
+                                <h3>Individual</h3>
+                              </div>
+                            </label>
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="PBCheckbox">
+                            <input
+                              type="radio"
+                              name="accounttype"
+                              id="Business"
+                              value="Business"
+                            />
+                            <label for="Business">
+                              <span className="checkbox-circle-mark"></span>
+                              <div className="account-option-media">
+                                <img src={CareBusiness} />
+                              </div>
+                              <div className="account-option-text">
+                                <h4>Care Provider</h4>
+                                <h3>Business</h3>
+                              </div>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <button type="submit" className="auth-form-btn">
+                        Next
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
