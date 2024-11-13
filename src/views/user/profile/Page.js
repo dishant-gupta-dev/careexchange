@@ -145,8 +145,11 @@ const Page = () => {
                         </div>
                         <div className="user-profile-text">
                           <h2>{details?.fullname ?? "NA"}</h2>
-                          <div className="email-text">
+                          <div className="email-text m-0">
                             {details?.email ?? "NA"}
+                          </div>
+                          <div className="email-text">
+                            {details?.mobile ?? "NA"}
                           </div>
                         </div>
                       </div>
@@ -335,14 +338,14 @@ const Page = () => {
                       onClick={() => {
                         setEditImg(false);
                       }}
-                      className="btn btn-gradient-danger me-2"
+                      className="btn btn-re me-2"
                       data-bs-dismiss="modal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-gradient-primary me-2"
+                      className="btn btn-gr me-2"
                       data-bs-dismiss="modal"
                     >
                       Update

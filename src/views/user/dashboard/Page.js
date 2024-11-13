@@ -9,12 +9,14 @@ import ApiService from "../../../core/services/ApiService";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import Loader from "../../../layouts/loader/Loader";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { routes } from "../../../utlis/user/routes.utlis";
+import { GeolocationApiKey } from "../../../utlis/common.utlis";
 
 const Page = () => {
   const navigate = useNavigate();
   const inputRef = useRef(null);
+  const [tab, setTab] = useState(0);
   const [dashboard, setDashboard] = useState({
     category: [],
     ProviderList: [],
@@ -49,7 +51,7 @@ const Page = () => {
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyBxVrpIiwVIHIwBEWULPzlaIxyd0vSSadc",
+    googleMapsApiKey: GeolocationApiKey,
     libraries: ["places"],
   });
 
@@ -75,14 +77,22 @@ const Page = () => {
           <div className="find-location-tab">
             <ul className="nav nav-tabs">
               <li>
-                <a href="#findajob" className="active" data-bs-toggle="tab">
-                  Find A Job
-                </a>
+                <Link
+                  className={tab == 0 ? "active" : ""}
+                  to=""
+                  onClick={() => setTab(0)}
+                >
+                  Find Care
+                </Link>
               </li>
               <li>
-                <a className="" href="#findcare" data-bs-toggle="tab">
-                  Find Care
-                </a>
+                <Link
+                  to=""
+                  className={tab == 1 ? "active" : ""}
+                  onClick={() => setTab(1)}
+                >
+                  Find A Job
+                </Link>
               </li>
             </ul>
           </div>
@@ -108,11 +118,29 @@ const Page = () => {
                     </span>
                   </div>
                   <div className="search-btn-info">
-                    <button className="intake-btn-done" onClick={() => {
-                      navigate(`${routes.careNetwork}/${location.address}/${location.lat}/${location.lng}`)
-                    }}>
-                      <img src={Search} />
-                    </button>
+                    {tab == 0 ? (
+                      <button
+                        className="intake-btn-done"
+                        onClick={() => {
+                          navigate(
+                            `${routes.findCare}/${location.address}/${location.lat}/${location.lng}`
+                          );
+                        }}
+                      >
+                        <img src={Search} />
+                      </button>
+                    ) : (
+                      <button
+                        className="intake-btn-done"
+                        onClick={() => {
+                          navigate(
+                            `${routes.careNetwork}/${location.address}/${location.lat}/${location.lng}`
+                          );
+                        }}
+                      >
+                        <img src={Search} />
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -129,11 +157,12 @@ const Page = () => {
                     <img src={Schedule} />
                   </div>
                   <div className="schedule-card-text">
-                    Schedule A <span>Free !</span> In-Home Care Assessment
+                    Schedule A <span>Free!</span>
+                    <p className="pb-0 mb-0">In-Home Care Assessment</p>
                   </div>
                 </div>
                 <div className="schedule-card-action">
-                  <a href="#">Book Now</a>
+                  <Link to={routes.findCare} >Book Now</Link>
                 </div>
               </div>
             </div>
@@ -149,7 +178,7 @@ const Page = () => {
                   </div>
                 </div>
                 <div className="opportunity-card-action">
-                  <a href="#">GO</a>
+                  <Link to={routes.careNetwork}>GO</Link>
                 </div>
               </div>
             </div>

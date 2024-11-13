@@ -20,6 +20,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
+import { CommonMiles, GeolocationApiKey } from "../../../utlis/common.utlis";
 
 const Page = () => {
   const inputRef = useRef(null);
@@ -36,12 +37,12 @@ const Page = () => {
   const [selectSubCategories, setSelectSubCategory] = useState("");
   const [categories, setCategory] = useState([]);
   const [subCategories, setSubCategory] = useState([]);
-  const [location, setLocation] = useState({
-    lat: null,
-    lng: null,
-    address: null,
-  });
   const { address, lat, lng } = useParams();
+  const [location, setLocation] = useState({
+    lat: lat ?? null,
+    lng: lng ?? null,
+    address: address ?? null,
+  });
 
   const initialValues = {
     full_name: "",
@@ -144,7 +145,7 @@ const Page = () => {
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyBxVrpIiwVIHIwBEWULPzlaIxyd0vSSadc",
+    googleMapsApiKey: GeolocationApiKey,
     libraries: ["places"],
   });
 
@@ -174,7 +175,7 @@ const Page = () => {
           api.careNetworkList +
             `?latitude=${lat ?? crd.latitude}&longitude=${
              lng ?? crd.longitude
-            }&radieous=${10000}`
+            }&radieous=${CommonMiles}`
         );
       },
       function errorCallback(error) {
@@ -633,6 +634,11 @@ const Page = () => {
                                     className="btn-re mx-2"
                                     onClick={() => {
                                       {
+                                        setLocation({
+                                          lat: null,
+                                          lng: null,
+                                          address: null,
+                                        });
                                         setFilter(false);
                                         document
                                           .getElementById("filter-form")
@@ -641,12 +647,6 @@ const Page = () => {
                                         setSelectSubCategory("");
                                         setSubCategory([]);
                                         setSelectRadius("");
-                                        setLocation({
-                                          lat: null,
-                                          lng: null,
-                                          address: null,
-                                        });
-                                        
                                         getCurrentAddress();
                                       }
                                     }}
@@ -750,14 +750,14 @@ const Page = () => {
                       onClick={() => {
                         setApply({ status: false, id: null });
                       }}
-                      className="btn btn-gradient-danger me-2"
+                      className="btn btn-re me-2"
                       data-bs-dismiss="modal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-gradient-primary me-2"
+                      className="btn btn-gr me-2"
                       data-bs-dismiss="modal"
                     >
                       Apply

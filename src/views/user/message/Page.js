@@ -113,7 +113,10 @@ const Page = () => {
   };
 
   useEffect(() => {
-    getProviders(api.providerList);
+    getProviders(api.providerChatList);
+  }, []);
+
+  useEffect(() => {
     if (sendInfo.senderId) {
       const docid = userId + "-" + sendInfo.senderId;
 
@@ -176,7 +179,8 @@ const Page = () => {
                     </svg>
                   </div>
                   <h2>
-                    New Messages <span>08 New</span>
+                    New Messages 
+                    {/* <span>08 New</span> */}
                   </h2>
                 </div>
                 <div className="chat-userlist-sidebar-body">

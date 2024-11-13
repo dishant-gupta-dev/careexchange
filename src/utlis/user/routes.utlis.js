@@ -5,6 +5,7 @@ exports.routes = {
     userRegister: `/user/sign-up`,
     otp: `/user/verification-otp`,
     dashboard: `/user/dashboard`,
+    findCare: `/user/find-care`,
     message: `/user/message`,
     myJobs: `/user/jobs`,
     jobDetails: `/user/job/info`,

@@ -10,8 +10,11 @@ import {
   DropdownToggle,
   Nav,
 } from "reactstrap";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../utlis/user/routes.utlis";
 
 const FirstHeader = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const signOut = useCallback(() => {
     dispatch(userLogout());
@@ -105,7 +108,7 @@ const FirstHeader = () => {
                         </DropdownToggle>
 
                         <DropdownMenu end className="dropdown-menu">
-                          <DropdownItem href="#" className="dropdown-item">
+                          <DropdownItem onClick={() => navigate(routes.profile)} className="dropdown-item">
                             <i className="las la-user"></i> Profile
                           </DropdownItem>
                           <DropdownItem

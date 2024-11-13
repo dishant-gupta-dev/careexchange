@@ -9,6 +9,8 @@ export const status = (Id) => {
 
 export const LIMIT = 10;
 export const adsLIMIT = 5;
+export const CommonMiles = 10000;
+export const GeolocationApiKey = "AIzaSyBxVrpIiwVIHIwBEWULPzlaIxyd0vSSadc";
 
 export const totalPageCalculator = (total, limit) => {
     const pages = [];

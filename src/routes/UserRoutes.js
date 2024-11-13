@@ -14,12 +14,18 @@ import JobRequest from "../views/user/care-network/JobRequest.js";
 import AppliedJob from "../views/user/care-network/AppliedJob.js";
 import JobPost from "../views/user/care-network/JobPost.js";
 import PostedJob from "../views/user/care-network/PostedJob.js";
+import FindCare from "../views/user/jobs/FindCare.js";
 
 var UserRoutes = [
     {
         path: routes.dashboard,
         layout: UserLayout,
         component: Dashboard
+    },
+    {
+        path: routes.findCare+"/:address?/:lat?/:lng?",
+        layout: UserLayout,
+        component: FindCare
     },
     {
         path: routes.message,
