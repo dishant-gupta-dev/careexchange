@@ -5,6 +5,7 @@ import { setMessage } from "./Message";
 import ApiService from "../../core/services/ApiService";
 import { routes } from "../../utlis/admin/routes.utlis";
 import { routes as userRoutes } from "../../utlis/user/routes.utlis";
+import { routes as providerRoutes } from "../../utlis/provider/routes.utlis";
 const careexchange = JSON.parse(localStorage.getItem("careexchange"));
 
 export const login = createAsyncThunk(
@@ -108,13 +109,30 @@ export const userLogout = createAsyncThunk(userApi.logout, async () => {
   localStorage.removeItem("careexchange");
 });
 
-const initialState = careexchange
-  ? careexchange.role_id == 4
-    ? { isLoggedIn: true, careexchange, redirect: routes.dashboard }
-    : careexchange.role_id == 1
-    ? { isLoggedIn: true, careexchange, redirect: userRoutes.dashboard }
-    : { isLoggedIn: false, careexchange: null, redirect: null }
-  : { isLoggedIn: false, careexchange: null, redirect: null };
+// const initialState = careexchange
+//   ? careexchange.role_id == 4
+//     ? { isLoggedIn: true, careexchange, redirect: routes.dashboard }
+//     : careexchange.role_id == 1
+//     ? { isLoggedIn: true, careexchange, redirect: userRoutes.dashboard }
+//     : { isLoggedIn: false, careexchange: null, redirect: null }
+//   : { isLoggedIn: false, careexchange: null, redirect: null };
+
+const initialState = careexchange ? (
+  careexchange.role_id == 4 ? (
+    { isLoggedIn: true, careexchange, redirect: routes.dashboard }
+  ) :
+  (
+    careexchange.role_id == 1 ? (
+      { isLoggedIn: true, careexchange, redirect: userRoutes.dashboard }
+    ) : (
+      careexchange.role_id == 2 ? (
+        { isLoggedIn: true, careexchange, redirect: providerRoutes.dashboard }
+      ) :
+      ({ isLoggedIn: false, careexchange: null, redirect: null })
+    )
+  )
+) :
+({ isLoggedIn: false, careexchange: null, redirect: null });
 
 const authSlice = createSlice({
   name: "auth",
@@ -122,8 +140,10 @@ const authSlice = createSlice({
   extraReducers: {
     [verifyOtp.fulfilled]: (state, action) => {
       state.isLoggedIn = true;
-      state.redirect = userRoutes.dashboard;
+      state.redirect = (action.payload.careexchange.data.user.user_type == 1) ? userRoutes.dashboard : providerRoutes.dashboard;
       state.careexchange = action.payload.careexchange;
+      console.log(action.payload.careexchange.data.user.user_type);
+      
     },
     [verifyOtp.rejected]: (state, action) => {
       state.isLoggedIn = false;

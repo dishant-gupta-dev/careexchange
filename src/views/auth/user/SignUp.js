@@ -4,7 +4,7 @@ import Logo from "../../../assets/user/images/logo.svg";
 import CareBusiness from "../../../assets/user/images/carebusiness.svg";
 import CareIndividual from "../../../assets/user/images/careIndividual.svg";
 import CareUsers from "../../../assets/user/images/careuser.svg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { routes } from "../../../utlis/user/routes.utlis";
 import { routes as providerRoutes } from "../../../utlis/provider/routes.utlis";
 
@@ -13,14 +13,14 @@ const SignUp = () => {
   const [tab, setTab] = useState(1);
 
   const registerPage = () => {
-    if(tab==1) {
+    if (tab == 1) {
       navigate(routes.userRegister);
-    } else if(tab==2) {
+    } else if (tab == 2) {
       return;
-    } else if(tab==3) {
+    } else if (tab == 3) {
       navigate(providerRoutes.providerRegister);
     }
-  }
+  };
   return (
     <>
       <div className="auth-section auth-height">
@@ -50,7 +50,7 @@ const SignUp = () => {
                               name="accounttype"
                               id="Users"
                               value="Users"
-                              defaultChecked={tab==1 ? true : false}
+                              defaultChecked={tab == 1 ? true : false}
                               onChange={() => setTab(1)}
                             />
                             <label for="Users">
@@ -73,7 +73,7 @@ const SignUp = () => {
                               name="accounttype"
                               id="Individual"
                               value="Individual"
-                              defaultChecked={tab==2 ? true : false}
+                              defaultChecked={tab == 2 ? true : false}
                               onChange={() => setTab(2)}
                             />
                             <label for="Individual">
@@ -95,7 +95,7 @@ const SignUp = () => {
                               name="accounttype"
                               id="Business"
                               value="Business"
-                              defaultChecked={tab==3 ? true : false}
+                              defaultChecked={tab == 3 ? true : false}
                               onChange={() => setTab(3)}
                             />
                             <label for="Business">
@@ -114,9 +114,18 @@ const SignUp = () => {
                     </div>
 
                     <div className="form-group">
-                      <button type="submit" className="auth-form-btn" onClick={() => registerPage()}>
+                      <button
+                        type="submit"
+                        className="auth-form-btn"
+                        onClick={() => registerPage()}
+                      >
                         Next
                       </button>
+                    </div>
+                    <div className="forgotpsw-text text-center">
+                      <Link to={routes.login}>
+                        Already Have An Account? <b>Login</b>
+                      </Link>
                     </div>
                   </div>
                 </div>
