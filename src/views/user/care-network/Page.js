@@ -44,10 +44,12 @@ const Page = () => {
     address: address ?? null,
   });
 
+  let userData = JSON.parse(localStorage.getItem("careexchange"));
+
   const initialValues = {
-    full_name: "",
-    mobile: "",
-    email: "",
+    full_name: userData.fullname ?? "",
+    mobile: userData.mobile ?? "",
+    email: userData.email ?? "",
   };
 
   const initialValuesFilter = {
@@ -84,7 +86,7 @@ const Page = () => {
     const response = await ApiService.getAPIWithAccessToken(api);
     // console.log("all care network => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
-      setCareNetwork(response.data.data.postedJob);
+      setCareNetwork(response.data.data.jobList);
       setTotal(response.data.data.total);
     } else setCareNetwork([]);
     setLoading(false);
@@ -135,7 +137,7 @@ const Page = () => {
     setFilter(false);
     getCareNetwork(
       api.careNetworkList +
-        `?latitude=${location.lat}&longitude=${location.lng}&categoryid=${selectCategories}&subcategoryid=${formValue.sub_category}&radieous=${formValue.radius}`
+        `?latitude=${location.lat}&longitude=${location.lng}&categoryid=${selectCategories}&subcategoryid=${formValue.sub_category}&radius=${formValue.radius}`
     );
   };
 
@@ -174,8 +176,8 @@ const Page = () => {
         getCareNetwork(
           api.careNetworkList +
             `?latitude=${lat ?? crd.latitude}&longitude=${
-             lng ?? crd.longitude
-            }&radieous=${CommonMiles}`
+              lng ?? crd.longitude
+            }&radius=${CommonMiles}`
         );
       },
       function errorCallback(error) {
@@ -341,31 +343,40 @@ const Page = () => {
                               <div className="jobs-point-item">
                                 <img src={SuitCase} /> Work Experience:
                                 <span>
-                                  {ele.working_expirence ?? "NA"} Year Experience{" "}
+                                  {ele.working_expirence ?? "NA"} Year
+                                  Experience{" "}
                                 </span>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div className="care-card-foot">
-                          <div className="care-action">
-                            <Link
-                              className="btn-gr"
-                              onClick={() =>
-                                setApply({ status: true, id: ele.id })
-                              }
-                            >
-                              Apply
-                            </Link>
-                            <Link
-                              className="btn-bl"
-                              to={`${routes.careNetworkDetails}/${encode(
-                                ele.id
-                              )}`}
-                            >
-                              View Details
-                            </Link>
-                          </div>
+                          {ele.applied_status ? (
+                            <div class="care-action">
+                              <a class="btn-gra" href="#">
+                                Applied
+                              </a>
+                            </div>
+                          ) : (
+                            <div className="care-action">
+                              <Link
+                                className="btn-gr"
+                                onClick={() =>
+                                  setApply({ status: true, id: ele.id })
+                                }
+                              >
+                                Apply
+                              </Link>
+                              <Link
+                                className="btn-bl"
+                                to={`${routes.careNetworkDetails}/${encode(
+                                  ele.id
+                                )}`}
+                              >
+                                View Details
+                              </Link>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>

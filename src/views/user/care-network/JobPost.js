@@ -54,9 +54,10 @@ const JobPost = () => {
     qualification: "",
     benefit: "",
     pay_range: "",
-    name: userData.fullname ?? "NA",
-    email: userData.email ?? "NA",
-    phone: userData.mobile ?? "NA",
+    pay_range_type: "",
+    name: userData.fullname ?? "",
+    email: userData.email ?? "",
+    phone: userData.mobile ?? "",
     experience: "",
     sub_category: "",
   };
@@ -67,6 +68,7 @@ const JobPost = () => {
     qualification: Yup.string().required("Job qualification is required!"),
     benefit: Yup.string().required("Benefits is required!"),
     pay_range: Yup.string().required("Job Pay Range is required!"),
+    pay_range_type: Yup.string().required("Job Pay Range Type is required!"),
     name: Yup.string().required("Name is required!"),
     email: Yup.string().required("Email is required!"),
     phone: Yup.string().required("Phone is required!"),
@@ -108,6 +110,7 @@ const JobPost = () => {
       service_type: formValue.sub_category,
       qulification_required: formValue.qualification,
       pay_range: formValue.pay_range,
+      pay_range_type: formValue.pay_range_type,
       employee_benifits: formValue.benefit,
       contact_person_name: formValue.name,
       contact_person_email: formValue.email,
@@ -423,6 +426,88 @@ const JobPost = () => {
                   <div class="post-job-card">
                     <h3>Pay Range Offered</h3>
                     <div class="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <h4>Pay Range Type</h4>
+                          <div className="choosemiles-list">
+                            <ul>
+                              <li>
+                                <div className="ceradio">
+                                  <Field
+                                    type="radio"
+                                    name="pay_range_type"
+                                    id="Hour"
+                                    value="hour"
+                                  />
+                                  <label for="Hour">
+                                    <span className="checkbox-text"> Hour</span>
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="ceradio">
+                                  <Field
+                                    type="radio"
+                                    name="pay_range_type"
+                                    id="Daily"
+                                    value="daily"
+                                  />
+                                  <label for="Daily">
+                                    <span className="checkbox-text"> Daily</span>
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="ceradio">
+                                  <Field
+                                    type="radio"
+                                    name="pay_range_type"
+                                    id="Week"
+                                    value="week"
+                                  />
+                                  <label for="Week">
+                                    <span className="checkbox-text"> Week</span>
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="ceradio">
+                                  <Field
+                                    type="radio"
+                                    name="pay_range_type"
+                                    id="Monthly"
+                                    value="month"
+                                  />
+                                  <label for="Monthly">
+                                    <span className="checkbox-text"> Month</span>
+                                  </label>
+                                </div>
+                              </li>
+                              <li>
+                                <div className="ceradio">
+                                  <Field
+                                    type="radio"
+                                    name="pay_range_type"
+                                    id="Year"
+                                    value="year"
+                                  />
+                                  <label for="Year">
+                                    <span className="checkbox-text"> Year</span>
+                                  </label>
+                                </div>
+                              </li>
+
+
+                            </ul>
+                            <ErrorMessage
+                              name="pay_range_type"
+                              component="div"
+                              className="alert alert-danger"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
                       <div class="col-md-6">
                         <div class="form-group search-form-group-r">
                           <h4>Pay Range</h4>
@@ -437,7 +522,6 @@ const JobPost = () => {
                             component="div"
                             className="alert alert-danger"
                           />
-                          <span class="Rangedays-text">Annually</span>
                         </div>
                       </div>
                     </div>

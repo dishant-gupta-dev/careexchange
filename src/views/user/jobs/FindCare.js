@@ -33,8 +33,6 @@ const FindCare = () => {
   const [serviceId, setServiceId] = useState();
   const [startDate, setStartDate] = useState("");
   const [startError, setStartError] = useState(false);
-  const [file, setFile] = useState();
-  const [imgError, setImgError] = useState(false);
   const { address, lat, lng } = useParams();
   const [location, setLocation] = useState({
     lat: lat ?? null,
@@ -136,10 +134,6 @@ const FindCare = () => {
       setStartError(true);
       return;
     } else setStartError(false);
-    if (file === "" || file === null || !file) {
-      setImgError(true);
-      return;
-    } else setImgError(false);
     setLoading(true);
     let form = new FormData();
     form.append("service_type", selectSubCategories);
@@ -159,7 +153,6 @@ const FindCare = () => {
     form.append("address", location.address);
     form.append("latitude", location.lat);
     form.append("longitude", location.lng);
-    form.append("image", file);
     form.append("start_date", moment(startDate).format("MM/DD/yyyy"));
     form.append("start_time", formValue.start_time);
     const response = await ApiService.postAPIWithAccessTokenMultiPart(
@@ -243,13 +236,6 @@ const FindCare = () => {
       checked: false,
     }));
     setProvider(updatedItems);
-  };
-
-  const handleImgChange = (e) => {
-    if (!e.target.files[0]) {
-      setImgError(true);
-    } else setImgError(false);
-    setFile(e.target.files[0]);
   };
 
   useEffect(() => {
@@ -1138,7 +1124,7 @@ const FindCare = () => {
                               </div>
                             </div>
 
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                               <div className="form-group">
                                 <h4>Preferred Date</h4>
                                 <DatePicker
@@ -1163,7 +1149,7 @@ const FindCare = () => {
                               </div>
                             </div>
 
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                               <div className="form-group">
                                 <h4>Preferred Time</h4>
                                 <Field
@@ -1176,24 +1162,6 @@ const FindCare = () => {
                                   component="div"
                                   className="alert alert-danger"
                                 />
-                              </div>
-                            </div>
-
-                            <div className="col-md-4">
-                              <div className="form-group">
-                                <h4>Upload File</h4>
-                                <input
-                                  type="file"
-                                  name="image"
-                                  accept="image/*"
-                                  onChange={handleImgChange}
-                                  className="form-control todo-list-input"
-                                />
-                                {imgError && (
-                                  <div className="alert alert-danger">
-                                    Image is required!
-                                  </div>
-                                )}
                               </div>
                             </div>
 
@@ -1221,7 +1189,6 @@ const FindCare = () => {
                                     document
                                       .getElementById("second-step-form")
                                       .reset();
-                                    setFile();
                                     setStartDate("");
                                   }} >
                                   Clear All
@@ -1301,23 +1268,16 @@ const FindCare = () => {
                                                 </div>
                                               </div>
                                             </div>
-                                            <div style={{ color:"green" }}>
-                                              {ele.user_type == 2 ? "Business" : "Individual"}
-                                            </div>
                                           </div>
                                           <div className="findcare-card-body">
                                             <div className="findcare-pricetag-content">
                                               <div className="findcare-price-text">
-                                                <div className="pricehour-text">
-                                                  {ele.fee ?? "$0"}
-                                                </div>
                                                 <div className="exp-text">
                                                   {ele.experience ?? 0} Year Exp
                                                 </div>
                                               </div>
                                               <div className="cared-text">
-                                                <img src={HouseImg} /> Cared 3
-                                                Families
+                                                <img src={HouseImg} /> {ele.user_type == 2 ? "Business" : "Individual"}
                                               </div>
                                             </div>
                                             <div className="findcare-location-box">

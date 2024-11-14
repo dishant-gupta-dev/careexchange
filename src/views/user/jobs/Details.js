@@ -155,10 +155,13 @@ const Details = () => {
                                             : ele?.fullname}
                                         </div>
                                         <div class="care-user-rating">
-                                          <i class="fa-regular fa-star"></i>{" "}
+                                          <i class="fa fa-star"></i>{" "}
                                           {ele.avarageRating ?? "0"}
                                         </div>
                                       </div>
+                                    </div>
+                                    <div>
+                                      {ele.user_type == 2 ? "Business" : "Individual"}
                                     </div>
                                   </div>
                                   <div class="care-card-body">
@@ -198,7 +201,7 @@ const Details = () => {
 
                   <div class="col-md-6">
                     <div class="jobs-details-info-card">
-                      <div class="jobs-details-phone">{details?.mobile ?? "NA"}</div>
+                      <div class="jobs-details-phone">{details?.phone ?? "NA"}</div>
 
                       <div class="jobs-details-point">
                         <div class="jobs-details-point-item">

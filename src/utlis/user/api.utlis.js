@@ -18,7 +18,7 @@ exports.api = {
     updateProfile: `user/update/`,
     updateProfileImage: `user/profile-image`,
     deleteAccount: `delete`,
-    careNetworkList: `admin/posted/job-list`,
+    careNetworkList: `job/list`,
     applyJob: `job/apply`,
     careNetworkDetail: `provider/posted/job/detail/`,
     jobRequest: `user/job/requested`,
