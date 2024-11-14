@@ -1301,6 +1301,9 @@ const FindCare = () => {
                                                 </div>
                                               </div>
                                             </div>
+                                            <div style={{ color:"green" }}>
+                                              {ele.user_type == 2 ? "Business" : "Individual"}
+                                            </div>
                                           </div>
                                           <div className="findcare-card-body">
                                             <div className="findcare-pricetag-content">

@@ -86,6 +86,26 @@ const UserRegister = () => {
     setLoading(false);
   };
 
+  const resendOtp = async () => {
+    setLoading(true);
+    let form = JSON.stringify({
+      email: data.email,
+      user_type: 1
+    });
+    const response = await ApiService.postAPI(api.sendOtp, form);
+    if (response.data.status) {
+      toast(response.data.data?.otp, {
+        style: {
+          borderRadius: "10px",
+          background: "#000",
+          color: "#fff",
+        },
+      });
+      toast.success(response.data.message);
+    } else toast.error(response.data.message);
+    setLoading(false);
+  }
+
   const handleChange = (code) => setCode(code);
 
   return (
@@ -201,7 +221,7 @@ const UserRegister = () => {
                           </div>
                         </div>
                         <div className="mb-1 forgotpsw-text">
-                          <a href="javascript:void(0);">Resend Verification </a>
+                          <Link to="" onClick={() => resendOtp()}> Resend Verification </Link>
                         </div>
                         <div className="form-group">
                           <button type="button" className="auth-form-btn" onClick={() => verifyUser()}>

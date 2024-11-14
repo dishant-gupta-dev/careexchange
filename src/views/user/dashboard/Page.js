@@ -162,7 +162,7 @@ const Page = () => {
                   </div>
                 </div>
                 <div className="schedule-card-action">
-                  <Link to={routes.findCare} >Book Now</Link>
+                  <Link to={routes.findCare}>Book Now</Link>
                 </div>
               </div>
             </div>
@@ -232,23 +232,30 @@ const Page = () => {
                         <div className="care-card-head">
                           <div className="care-user-info">
                             <div className="care-user-image">
-                              {ele.profile_image === null ||
-                              ele.profile_image === "" ||
-                              ele.profile_image === undefined ? (
-                                <img src={NoImage} alt="" />
+                              {ele.logo !== null &&
+                              ele.logo !== "" &&
+                              ele.logo !== undefined ? (
+                                <img src={ele.logo} alt="" className="me-3" />
                               ) : (
-                                <img src={ele.profile_image} alt="" />
+                                <img
+                                  src={ele.profile_image}
+                                  alt=""
+                                  className="me-3"
+                                />
                               )}
                             </div>
                             <div className="care-user-text">
                               <div className="care-user-name">
-                                {ele.fullname ?? "NA"}
+                              {ele?.business_name ? ele?.business_name : ele?.fullname}
                               </div>
                               <div className="care-user-rating">
                                 <i className="fa-regular fa-star"></i>{" "}
                                 {ele.average_rating ?? "0"}
                               </div>
                             </div>
+                          </div>
+                          <div style={{ color:"green" }}>
+                            {ele.user_type == 2 ? "Business" : "Individual"}
                           </div>
                         </div>
                         <div className="care-card-body">
