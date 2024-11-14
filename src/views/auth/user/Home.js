@@ -36,7 +36,7 @@ const Home = () => {
                       <Link className="auth-gr-btn" to={routes.login}>
                         Login
                       </Link>
-                      <Link className="auth-bl-btn" to={routes.userRegister}>
+                      <Link className="auth-bl-btn" to={routes.signup}>
                         Sign Up
                       </Link>
                     </div>

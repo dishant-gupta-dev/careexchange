@@ -32,6 +32,16 @@ class ApiService {
     });
   }
 
+  /*Post API with multipart/form-data */
+  postAPIMultiPart(urlSegment, formdata) {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    return axios.post(API_BASE_URL + urlSegment, formdata, {
+      headers: headers,
+    });
+  }
+
   /*Post API With Authentication header */
   postAPIWithAccessToken(urlSegment, formdata) {
     let token = JSON.parse(localStorage.getItem("careexchange"));

@@ -1,3 +1,6 @@
 exports.api = {
-    dashboard: `user/home`,
+    register: `register`,
+    categoryList: `category/list`,
+    registerSendOtp: `send-otp`,
+    otpVerify: `verify-otp`,
 }

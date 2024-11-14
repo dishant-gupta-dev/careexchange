@@ -20,7 +20,7 @@ import { routes } from "../../../utlis/user/routes.utlis";
 
 const FindCare = () => {
   const navigate = useNavigate();
-  const [tab, setTab] = useState(3);
+  const [tab, setTab] = useState(1);
   const [total, setTotal] = useState(0);
   const inputRef = useRef(null);
   const [loading, setLoading] = useState(false);

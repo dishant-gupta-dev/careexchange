@@ -7,6 +7,7 @@ import AdminRoutes from "./AdminRoutes";
 import UserRoutes from "./UserRoutes";
 import { routes } from '../utlis/admin/routes.utlis';
 import { routes as userRoutes } from '../utlis/user/routes.utlis';
+import { routes as providerRoutes } from '../utlis/provider/routes.utlis';
 
 
 const AdminRoute = ({ redirectPath = routes.login }) => {
@@ -18,6 +19,14 @@ const AdminRoute = ({ redirectPath = routes.login }) => {
 };
 
 const UserRoute = ({ redirectPath = userRoutes.login }) => {
+    const { careexchange: currentUser } = useSelector((state) => state.auth);
+    if (!currentUser) {
+        return <Navigate to={redirectPath} replace />;
+    }
+    return <Outlet />;
+};
+
+const ProviderRoute = ({ redirectPath = providerRoutes.login }) => {
     const { careexchange: currentUser } = useSelector((state) => state.auth);
     if (!currentUser) {
         return <Navigate to={redirectPath} replace />;
@@ -44,18 +53,6 @@ const Routes = (props) => {
                     );
                 })}
 
-                {ProviderRoutes.map((authRoute, index) => {
-                    return (
-                        <Route element={<authRoute.layout />} key={index}>
-                            <Route
-                                path={authRoute.path}
-                                exact={authRoute.exact}
-                                element={<authRoute.component />}
-                            />
-                        </Route>
-                    );
-                })}
-
                 <Route element={<AdminRoute isAllowed={(currentUser?.data?.adminUser?.user_type==4 ? true : false)} />}>
                     {AdminRoutes.map((admiRoute, index) => {
                         return (
@@ -71,6 +68,16 @@ const Routes = (props) => {
                         return (
                             <Route element={<userRoute.layout />} key={index}>
                                 <Route path={userRoute.path} exact={userRoute.exact} element={<userRoute.component />} />
+                            </Route>
+                        );
+                    })}
+                </Route>
+
+                <Route element={<ProviderRoute isAllowed={(currentUser?.data?.user?.user_type==2 ? true : false)} />}>
+                    {ProviderRoutes.map((providerRoute, index) => {
+                        return (
+                            <Route element={<providerRoute.layout />} key={index}>
+                                <Route path={providerRoute.path} exact={providerRoute.exact} element={<providerRoute.component />} />
                             </Route>
                         );
                     })}

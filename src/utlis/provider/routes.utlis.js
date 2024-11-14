@@ -1,4 +1,7 @@
 exports.routes = {
+    login: `/sign-in`,
+    signup: `/sign-up`,
+    providerRegister: `/provider/sign-up`,
     dashboard: `/provider/dashboard`,
     message: `/provider/message`,
     myJobs: `/provider/jobs`,

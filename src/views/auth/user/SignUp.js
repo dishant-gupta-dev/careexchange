@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import jpgImg from "../../../assets/user/images/1.jpg";
 import Logo from "../../../assets/user/images/logo.svg";
 import CareBusiness from "../../../assets/user/images/carebusiness.svg";
@@ -6,9 +6,21 @@ import CareIndividual from "../../../assets/user/images/careIndividual.svg";
 import CareUsers from "../../../assets/user/images/careuser.svg";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../../utlis/user/routes.utlis";
+import { routes as providerRoutes } from "../../../utlis/provider/routes.utlis";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const [tab, setTab] = useState(1);
+
+  const registerPage = () => {
+    if(tab==1) {
+      navigate(routes.userRegister);
+    } else if(tab==2) {
+      return;
+    } else if(tab==3) {
+      navigate(providerRoutes.providerRegister);
+    }
+  }
   return (
     <>
       <div className="auth-section auth-height">
@@ -38,6 +50,8 @@ const SignUp = () => {
                               name="accounttype"
                               id="Users"
                               value="Users"
+                              defaultChecked={tab==1 ? true : false}
+                              onChange={() => setTab(1)}
                             />
                             <label for="Users">
                               <span className="checkbox-circle-mark"></span>
@@ -59,6 +73,8 @@ const SignUp = () => {
                               name="accounttype"
                               id="Individual"
                               value="Individual"
+                              defaultChecked={tab==2 ? true : false}
+                              onChange={() => setTab(2)}
                             />
                             <label for="Individual">
                               <span className="checkbox-circle-mark"></span>
@@ -79,6 +95,8 @@ const SignUp = () => {
                               name="accounttype"
                               id="Business"
                               value="Business"
+                              defaultChecked={tab==3 ? true : false}
+                              onChange={() => setTab(3)}
                             />
                             <label for="Business">
                               <span className="checkbox-circle-mark"></span>
@@ -96,7 +114,7 @@ const SignUp = () => {
                     </div>
 
                     <div className="form-group">
-                      <button type="submit" className="auth-form-btn">
+                      <button type="submit" className="auth-form-btn" onClick={() => registerPage()}>
                         Next
                       </button>
                     </div>

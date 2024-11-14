@@ -339,9 +339,9 @@ const Page = () => {
                                 <span>{ele.pay_range ?? "$0"}/Annually</span>
                               </div>
                               <div className="jobs-point-item">
-                                <img src={SuitCase} /> Work Exp:
+                                <img src={SuitCase} /> Work Experience:
                                 <span>
-                                  {ele.working_expirence ?? "NA"} Experience{" "}
+                                  {ele.working_expirence ?? "NA"} Year Experience{" "}
                                 </span>
                               </div>
                             </div>
