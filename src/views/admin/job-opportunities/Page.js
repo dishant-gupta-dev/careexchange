@@ -117,7 +117,7 @@ const Page = () => {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Search by Name"
+                    placeholder="Search"
                     aria-label="Username"
                     aria-describedby="basic-addon1"
                     onChange={(e) => handleFilter(e)}
@@ -139,15 +139,14 @@ const Page = () => {
                 <tr>
                   <th> Title </th>
                   <th> Job ID</th>
-                  <th> Job Details</th>
-                  <th> Work Experience </th>
+                  {/* <th> Job Details</th> */}
+                  <th> Work Exp. </th>
                   <th> Salary </th>
                   <th> Work Timing </th>
                   <th> Status</th>
                   <th> View Job </th>
                   <th> Address</th>
-                  <th> Posted Date</th>
-                  <th> Posted Time</th>
+                  <th> Posted DateTime</th>
                   <th> View Profile</th>
                 </tr>
               </thead>
@@ -158,9 +157,9 @@ const Page = () => {
                       <tr key={indx}>
                         <td>{ele.title ?? "NA"}</td>
                         <td> {ele.job_id ?? "NA"} </td>
-                        <td>{ele.description ?? "NA"}</td>
-                        <td>{ele.working_expirence ?? "NA"}</td>
-                        <td>{ele.pay_range ?? "$0"}/Annually</td>
+                        {/* <td>{ele.description ?? "NA"}</td> */}
+                        <td>{ele.working_expirence +' year(s)' ?? "NA"}</td>
+                        <td>{ele.pay_range ?? "$0"}</td>
                         <td>{ele.working_time_value ?? "NA"}</td>
                         <td>{status(ele.status)}</td>
                         <td>
@@ -178,8 +177,7 @@ const Page = () => {
                           </Link>
                         </td>
                         <td>{ele.address ?? "NA"}</td>
-                        <td>{moment(ele.posted_date).format("MM-DD-yyyy")}</td>
-                        <td>{moment(ele.posted_date).format("hh:mm A")}</td>
+                        <td>{moment(ele.posted_date).format("MM-DD-yyyy hh:mm A")}</td>
                         <td>
                           <Link
                             to={`${routes.providerDetails}/${encode(

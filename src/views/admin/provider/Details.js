@@ -98,7 +98,7 @@ const Details = () => {
             {provider?.status == 0 ? (
               <div>
                 <button
-                  className="btn btn-gradient-primary me-2"
+                  className="btn btn-bl me-2"
                   onClick={(e) =>
                     setStat({ status: true, value: 1, name: "Approve" })
                   }
@@ -106,7 +106,7 @@ const Details = () => {
                   Approve
                 </button>
                 <button
-                  className="btn btn-gradient-danger"
+                  className="btn btn-re"
                   onClick={(e) =>
                     setStat({ status: true, value: 3, name: "Reject" })
                   }
@@ -179,7 +179,7 @@ const Details = () => {
                   <button
                     type="button"
                     style={{ cursor: "default" }}
-                    className="btn-gr"
+                    className="badge badge-success"
                   >
                     {provider?.user_type == "3" ? "Individual" : "Business"}
                   </button>
@@ -241,11 +241,19 @@ const Details = () => {
                       
                       <div className="form-group col-md-4 mb-0">
                         <label for="add1">Experience</label>
-                        <p>{provider?.experience ?? "NA"} Years</p>
+                        <p>{provider?.experience ?? "NA"} Year(s)</p>
                       </div>
                       <div className="form-group col-md-4 mb-0">
-                        <label for="add1">Fees</label>
+                        <label for="add1">Fee</label>
                         <p>{provider?.fee ?? "NA"}</p>
+                      </div>
+                      <div className="form-group col-md-4 mb-0">
+                        <label>Category</label>
+                        <p>{provider?.category ?? "NA"}</p>
+                      </div>
+                      <div className="form-group col-md-4 mb-0">
+                        <label>Sub-Category</label>
+                        <p>{provider?.subcategory ?? "NA"}</p>
                       </div>
                       <div className="form-group col-md-4 mb-0">
                         <label>Account Created Date</label>
@@ -253,7 +261,7 @@ const Details = () => {
                           {moment(provider?.created_date).format("MM-DD-yyyy")}
                         </p>
                       </div>
-                      <div className="form-group col-md-12 mb-0 mt-4">
+                      {/* <div className="form-group col-md-12 mb-0 mt-4">
                         <label for="add1">Offering Services</label>
                         <div className="d-flex mt-2">
                           {provider?.offeringService?.length !== 0
@@ -272,7 +280,7 @@ const Details = () => {
                               })
                             : null}
                         </div>
-                      </div>
+                      </div> */}
 
                       <div className="form-group col-md-12 mt-4 mb-0">
                         <label>Business Info</label>

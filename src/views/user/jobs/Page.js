@@ -148,7 +148,7 @@ const Page = () => {
                                         {moment(ele.start_date).format(
                                           "MM-DD-yyyy"
                                         )}{" "}
-                                        {ele.start_time}
+                                        {/* {ele.start_time} */}
                                       </div>
                                     </div>
                                     <div className="care-day-Weekly-info">

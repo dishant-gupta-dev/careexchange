@@ -152,7 +152,7 @@ const RegistrationRequest = () => {
                   <th> Contact Number </th>
                   <th> Category </th>
                   <th> Account Created on </th>
-                  <th> View Detail </th>
+                  <th> Action </th>
                 </tr>
               </thead>
               <tbody>

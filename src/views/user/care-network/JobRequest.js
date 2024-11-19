@@ -109,7 +109,7 @@ const JobRequest = () => {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Search by Name"
+                        placeholder="Search"
                         aria-label="Username"
                         aria-describedby="basic-addon1"
                         onChange={(e) => handleFilter(e)}
@@ -140,7 +140,7 @@ const JobRequest = () => {
                             Applied On:{" "}
                             <span>
                               {moment(ele.apply_date).format(
-                                "MM-DD-yyyy hh:mm A"
+                                "MM-DD-yyyy"
                               )}
                             </span>
                           </div>

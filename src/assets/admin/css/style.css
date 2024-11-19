@@ -17914,14 +17914,18 @@ button.auth-form-btn {
   color: var(--blue);
   font-size: 14px;
 }
+.main-panel a.btn-back{
+  margin-right: 10px;
+}
 
-.spr .btn-back i {
+/*.spr .btn-back i {
   background: var(--darkblue);
   border-radius: 20px;
   padding: 5px 6px;
   color: #fff;
   margin-right: 6px;
 }
+  */
 
 .spr .profile-name-card-details label {
   color: #fff;

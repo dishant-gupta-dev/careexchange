@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import Logo from "../../assets/user/images/logo.svg";
 import User from "../../assets/user/images/user.png";
 import {
@@ -9,7 +9,15 @@ import {
   Nav,
 } from "reactstrap";
 
+import { useDispatch } from "react-redux";
+import { userLogout } from "../../store/slices/Auth";
+
 const FirstHeader = () => {
+  const dispatch = useDispatch();
+  const signOut = useCallback(() => {
+    dispatch(userLogout());
+  }, [dispatch]);
+
   return (
     <>
       <div className="top-header">
@@ -103,6 +111,7 @@ const FirstHeader = () => {
                             <i className="las la-user"></i> Profile
                           </DropdownItem>
                           <DropdownItem
+                            onClick={signOut}
                             className="dropdown-item"
                           >
                             <i className="las la-sign-out-alt"></i> Logout

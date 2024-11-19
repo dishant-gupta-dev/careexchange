@@ -65,7 +65,7 @@ h1, h2, h3, h4, h5, h6 {padding: 5px 0 15px 0;font-weight: normal;-webkit-font-s
 .top-header .user-profile-nav .dropdown-menu .dropdown-item.active, 
 .top-header .user-profile-nav .dropdown-menu .dropdown-item:active, 
 .top-header .user-profile-nav .dropdown-menu .dropdown-item:focus, 
-.top-header .user-profile-nav .dropdown-menu .dropdown-item:hover {color: #ffffff;text-decoration: none;background-color: #f28520;}
+.top-header .user-profile-nav .dropdown-menu .dropdown-item:hover {color: #ffffff;text-decoration: none;background-color: #75c8fa; border-radius: 0; border-bottom: solid 1px #ffffff;}
 
 .top-header-rightnav ul.navbar-nav {flex-direction: row; }
 .top-header-rightnav ul.navbar-nav .nav-item {display: flex; justify-content: center; position: relative; height: 45px; }

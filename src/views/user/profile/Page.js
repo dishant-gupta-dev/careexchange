@@ -208,7 +208,7 @@ const Page = () => {
                 </div>
 
                 <div className="providerprofile-about">
-                  <h2>About Joseph</h2>
+                  <h2>About</h2>
                   <p>NA</p>
                 </div>
               </div>

@@ -19,6 +19,7 @@ const Page = () => {
   const [total, setTotal] = useState(0);
   const [pageNum, setPageNum] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [totalPending, setTotalPending] = useState(0);
 
   const navigate = useNavigate();
 
@@ -29,6 +30,7 @@ const Page = () => {
     if (response.data.status && response.data.statusCode === 200) {
       setProvider(response.data.data.providers);
       setTotal(response.data.data.total);
+      setTotalPending(response.data.data.totalPendingRequest);
     } else setProvider([]);
     setLoading(false);
   };
@@ -83,7 +85,7 @@ const Page = () => {
                 navigate(routes.providerRegistration);
               }}
             >
-              Registration Request
+            <i className="fa fa-eye"></i> &nbsp; Pending Approval Request &nbsp; <span class="badge badge-light">{totalPending}</span>
             </button>
           </div>
         </div>
@@ -186,10 +188,10 @@ const Page = () => {
                 <tr>
                   <th> Name </th>
                   <th> Type </th>
-                  <th> Contact Number </th>
+                  <th> Contact no. </th>
                   <th> Email ID </th>
                   <th> Category </th>
-                  <th> Registered On </th>
+                  <th> Registered on </th>
                   <th> Status </th>
                   <th> Action </th>
                 </tr>

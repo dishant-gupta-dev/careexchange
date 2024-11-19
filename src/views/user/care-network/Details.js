@@ -118,7 +118,7 @@ const Details = () => {
                     <div className="details-care-date">
                       Posted On:{" "}
                       <span>
-                        {moment(job?.posted_date).format("MM-DD-yyyy hh:mm A")}
+                        {moment(job?.posted_date).format("MM-DD-yyyy")}
                       </span>
                     </div>
                   </div>
