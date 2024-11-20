@@ -181,7 +181,7 @@ const Details = () => {
                     style={{ cursor: "default" }}
                     className="badge badge-success"
                   >
-                    {provider?.user_type == "3" ? "Individual" : "Business"}
+                    {provider?.user_type == "3" ? "Staff" : "Provider"}
                   </button>
                 </div>
               </div>
@@ -224,7 +224,7 @@ const Details = () => {
                         <p>{provider?.mobile ?? "NA"}</p>
                       </div>
                       <div className="form-group col-md-4 mb-0">
-                        <label for="add1">{provider?.user_type == "2" ? "Business" : null } Address</label>
+                        <label for="add1">{provider?.user_type == "2" ? "Provider" : null } Address</label>
                         <p className="text-capitalize">
                           <i className="mdi mdi-map-outline"></i>{" "}
                           {provider?.business_address ?? "NA"}
@@ -888,14 +888,14 @@ const Details = () => {
                       name: null,
                     })
                   }
-                  className="btn btn-gradient-danger me-2"
+                  className="btn btn-re me-2"
                   data-bs-dismiss="modal"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn btn-gradient-primary me-2"
+                  className="btn btn-gr me-2"
                   data-bs-dismiss="modal"
                   onClick={() => changeStatus(stat.value)}
                 >

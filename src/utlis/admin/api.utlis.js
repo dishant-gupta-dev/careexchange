@@ -7,6 +7,7 @@ exports.api = {
     userList: `admin/user-list`,
     userDetail: `user/detail/`,
     userChangeStatus: `admin/user-status/`,
+    stateList: `state/list`,
     providerList: `admin/provider-list`,
     providerDetail: `provider/detail/`,
     providerChangeStatus: `admin/provider/status/`,

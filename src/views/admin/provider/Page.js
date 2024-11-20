@@ -15,6 +15,7 @@ import { totalPageCalculator, LIMIT } from "../../../utlis/common.utlis";
 const Page = () => {
   const [providers, setProvider] = useState([]);
   const [categories, setCategory] = useState([]);
+  const [states, setState] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [total, setTotal] = useState(0);
   const [pageNum, setPageNum] = useState(1);
@@ -35,6 +36,14 @@ const Page = () => {
     setLoading(false);
   };
 
+  const getStateList = async (api) => {
+    const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log("category list => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setState(response.data.data.states);
+    } else setState([]);
+  };
+
   const getCategoryList = async (api) => {
     const response = await ApiService.getAPIWithAccessToken(api);
     // console.log("category list => ", response.data);
@@ -49,16 +58,18 @@ const Page = () => {
     let status = "";
     let category = "";
     let type = "";
+    let state_id = "";
     if (e.target.name === "name") name = e.target.value;
     if (e.target.name === "status") status = e.target.value;
     if (e.target.name === "category") category = e.target.value;
     if (e.target.name === "type") type = e.target.value;
+    if (e.target.name === "state_id") state_id = e.target.value;
     if (date != null && date != undefined && date != "")
       date = moment(date).format("yyyy-MM-DD");
     else date = "";
     getProviderList(
       api.providerList +
-        `?page=${pageNum}&limit=${LIMIT}&search=${name}&status=${status}&categoryid=${category}&date=${date}&user_type=${type}`
+        `?page=${pageNum}&limit=${LIMIT}&search=${name}&status=${status}&categoryid=${category}&date=${date}&user_type=${type}&state_id=${state_id}`
     );
   };
 
@@ -66,6 +77,7 @@ const Page = () => {
     window.scrollTo(0, 0)
     getProviderList(api.providerList + `?page=${pageNum}&limit=${LIMIT}`);
     getCategoryList(api.categoryList);
+    getStateList(api.stateList + `?country_id=231`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNum]);
 
@@ -141,9 +153,9 @@ const Page = () => {
                     onChange={(e) => handleFilter(e)}
                   >
                     <option value="">Select Status</option>
-                    <option value="0">Pending Provider</option>
-                    <option value="1">Active Provider</option>
-                    <option value="2">Inactive Provider</option>
+                    <option value="0">Pending </option>
+                    <option value="1">Active </option>
+                    <option value="2">Inactive </option>
                   </select>
                 </div>
               </div>
@@ -156,13 +168,34 @@ const Page = () => {
                     onChange={(e) => handleFilter(e)}
                   >
                     <option value="">Select Type</option>
-                    <option value="3">Individual Provider</option>
-                    <option value="2">Business Provider</option>
+                    <option value="3">Care Staff</option>
+                    <option value="2">Provider</option>
                   </select>
                 </div>
               </div>
 
-              <div className="col-md-4">
+              <div className="col-md-2">
+                <div className="form-group text-capitalize">
+                  <select
+                    className="form-control text-capitalize"
+                    name="state_id"
+                    onChange={(e) => handleFilter(e)}
+                  >
+                    <option value="">Select State</option>
+                    {states.length !== 0
+                      ? states.map((ele, indx) => {
+                          return (
+                            <option key={indx} value={ele.id}>
+                              {ele.name ?? "NA"}
+                            </option>
+                          );
+                        })
+                      : null}
+                  </select>
+                </div>
+              </div>
+
+              <div className="col-md-2">
                 <div className="form-group search-form-group">
                   <input
                     type="text"
@@ -229,7 +262,7 @@ const Page = () => {
                           )}
                           {ele.business_name ?? "NA"}
                         </td> */}
-                        <td> {ele.user_type == 3 ? "Individual" : "Business"} </td>
+                        <td> {ele.user_type == 3 ? "Staff" : "Provider"} </td>
                         <td> {ele.mobile ?? "NA"} </td>
                         <td className="text-lowercase">{ele.email ?? "NA"}</td>
                         <td> {ele.category ?? "NA"} </td>

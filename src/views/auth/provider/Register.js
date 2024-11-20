@@ -169,8 +169,19 @@ const Register = () => {
     libraries: ["places"],
   });
 
+  function findStateCity(type, arr) {
+    for (let i in arr) {
+      if ((arr[i].types).includes(type)) {
+        return arr[i].long_name;
+      }
+    }
+    return null;
+  }
+
   const handlePlaceChange = () => {
     let [address] = inputRef.current.getPlaces();
+    // console.log(findStateCity('administrative_area_level_1', address.address_components));
+    // console.log(findStateCity('locality', address.address_components));
     setLocation({
       lat: address.geometry.location.lat(),
       lng: address.geometry.location.lng(),

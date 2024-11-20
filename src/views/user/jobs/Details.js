@@ -161,7 +161,7 @@ const Details = () => {
                                       </div>
                                     </div>
                                     <div>
-                                      {ele.user_type == 2 ? "Business" : "Individual"}
+                                      {ele.user_type == 2 ? "Provider" : "Staff"}
                                     </div>
                                   </div>
                                   <div class="care-card-body">

@@ -255,7 +255,7 @@ const Page = () => {
                             </div>
                           </div>
                           <div style={{ color:"green" }}>
-                            {ele.user_type == 2 ? "Business" : "Individual"}
+                            {ele.user_type == 2 ? "Provider" : "Staff"}
                           </div>
                         </div>
                         <div className="care-card-body">

@@ -1277,7 +1277,7 @@ const FindCare = () => {
                                                 </div>
                                               </div>
                                               <div className="cared-text">
-                                                <img src={HouseImg} /> {ele.user_type == 2 ? "Business" : "Individual"}
+                                                <img src={HouseImg} /> {ele.user_type == 2 ? "Provider" : "Staff"}
                                               </div>
                                             </div>
                                             <div className="findcare-location-box">

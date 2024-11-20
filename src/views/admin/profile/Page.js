@@ -95,7 +95,7 @@ const Page = () => {
                       <div>
                         <button
                           type="button"
-                          className="btn btn-view-profile px-4"
+                          className="btn btn-bl px-4"
                           onClick={() => setEdit({ status: true })}
                         >
                           Edit Profile
@@ -116,11 +116,11 @@ const Page = () => {
                     <div className="row">
                       <div className="form-group col-md-4 mb-0">
                         <label>Email ID</label>
-                        <p className="mb-0">{user?.email}</p>
+                        <p className="mb-0">{user?.email ?? "NA"}</p>
                       </div>
                       <div className="form-group col-md-4 mb-0">
                         <label>Phone No.</label>
-                        <p className="mb-0">{user?.mobile}</p>
+                        <p className="mb-0">{user?.mobile ?? "NA"}</p>
                       </div>
                       <div className="form-group col-md-4 mb-0">
                         <label for="lname">Created On</label>
@@ -205,14 +205,14 @@ const Page = () => {
                           status: false,
                         });
                       }}
-                      className="btn btn-gradient-danger me-2"
+                      className="btn btn-re me-2"
                       data-bs-dismiss="modal"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="btn btn-gradient-primary me-2"
+                      className="btn btn-gr me-2"
                       data-bs-dismiss="modal"
                     >
                       Update
