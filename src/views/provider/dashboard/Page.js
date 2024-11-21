@@ -1,15 +1,67 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import careuserprofile from "../../../assets/provider/images/user.png";
 import googlemap from "../../../assets/provider/images/Google_Map.svg";
 import Searchicon from "../../../assets/provider/images/search-normal.svg";
 import Arrowicon from "../../../assets/provider/images/arrow-right.svg";
 import careservicesicon1 from "../../../assets/provider/images/ss-care.svg";
 import careservicesicon2 from "../../../assets/provider/images/ch-care.svg";
-import { Link } from "react-router-dom";
+import { api } from "../../../utlis/provider/api.utlis";
+import ApiService from "../../../core/services/ApiService";
+import Loader from "../../../layouts/loader/Loader";
+import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
+import { Link, useNavigate } from "react-router-dom";
+import { routes } from "../../../utlis/provider/routes.utlis";
+import { GeolocationApiKey } from "../../../utlis/common.utlis";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 const Page = () => {
+  const [dashboard, setDashboard] = useState();
+  const [loading, setLoading] = useState(false);
+  const [dateVal, setDate] = useState("");
+  const inputRef = useRef(null);
+  const [location, setLocation] = useState({
+    lat: null,
+    lng: null,
+    address: null,
+  });
+
+  const getDashboardData = async (api) => {
+    setLoading(true);
+    const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log("all dashboard => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setDashboard(response.data.data);
+    } else setDashboard();
+    setLoading(false);
+  };
+
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: GeolocationApiKey,
+    libraries: ["places"],
+  });
+
+  const handlePlaceChange = () => {
+    let [address] = inputRef.current.getPlaces();
+    // console.log(findStateCity('administrative_area_level_1', address.address_components));
+    // console.log(findStateCity('locality', address.address_components));
+    setLocation({
+      lat: address.geometry.location.lat(),
+      lng: address.geometry.location.lng(),
+      address: address.formatted_address,
+    });
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getDashboardData(api.dashboard);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  
   return (
     <>
+      {loading ? <Loader /> : null}
       <div className="container">
         <div className="row g-2">
           <div className="col-md-6">
@@ -17,17 +69,32 @@ const Page = () => {
               <div className="care-card-head-1">
                 <div className="care-user-info">
                   <div className="care-user-image">
-                    <img src={careuserprofile} alt="" />
+                    {dashboard?.ProviderDetail?.logo !== null &&
+                    dashboard?.ProviderDetail?.logo !== "" &&
+                    dashboard?.ProviderDetail?.logo !== undefined ? (
+                      <img src={dashboard?.ProviderDetail?.logo} alt="" />
+                    ) : (
+                      <img
+                        src={dashboard?.ProviderDetail?.profile_image}
+                        alt=""
+                      />
+                    )}
                   </div>
                   <div className="care-user-text">
-                    <div className="care-user-name">Hello, Joseph Phill</div>
+                    <div className="care-user-name">
+                      Hello,{" "}
+                      {dashboard?.ProviderDetail?.business_name
+                        ? dashboard?.ProviderDetail?.business_name
+                        : dashboard?.ProviderDetail?.fullname}
+                    </div>
                     <div className="care-user-rating">
-                      <i className="mdi mdi-star"></i> 4.2
+                      <i className="mdi mdi-star"></i>{" "}
+                      {dashboard?.avarageRating?.average_rating ?? "0.0"}
                     </div>
                   </div>
                 </div>
                 <div className="care-tag-text mb-0 align-items-center d-flex">
-                  <p className="m-0"> Care Staff</p>
+                  <p className="m-0"> Provider</p>
                 </div>
               </div>
             </div>
@@ -40,7 +107,18 @@ const Page = () => {
                     <span className="ms-2">
                       <img src={googlemap} alt="" />
                     </span>
-                    <p className="m-0 mx-3">Find a Job In Your Area</p>
+                    {isLoaded && (
+                      <StandaloneSearchBox
+                        onLoad={(ref) => (inputRef.current = ref)}
+                        onPlacesChanged={handlePlaceChange}
+                      >
+                        <input
+                          className="form-control"
+                          placeholder="Where are you going?"
+                          style={{width: "220%"}}
+                        />
+                      </StandaloneSearchBox>
+                    )}
                   </div>
                   <div className="search-btn-info">
                     <button className="intake-btn-done">
@@ -88,7 +166,7 @@ const Page = () => {
                             Active Jobs{" "}
                             <i className="mdi mdi-arrow-right ms-2"></i>
                           </h2>
-                          <h3>02</h3>
+                          <h3>{dashboard?.activeJobCount ?? 0}</h3>
                         </Link>
                       </div>
                     </div>
@@ -109,7 +187,7 @@ const Page = () => {
                             Locked Jobs Request{" "}
                             <i className="mdi mdi-arrow-right ms-2"></i>
                           </h2>
-                          <h3>18</h3>
+                          <h3>{dashboard?.lockedJobCount ?? 0}</h3>
                         </Link>
                       </div>
                     </div>
@@ -119,12 +197,13 @@ const Page = () => {
             </div>
           </div>
 
-          <div class="col-md-5">
-            <div class="calender-card">
-              <div
-                id="inline-datepicker"
-                class="datepicker datepicker-custom"
-              ></div>
+          <div className="col-md-5">
+            <div className="calender-card">
+              <Calendar
+                onChange={(e) => setDate(e)}
+                defaultView="month"
+                value={dateVal}
+              />
             </div>
           </div>
         </div>

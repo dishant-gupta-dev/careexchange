@@ -85,7 +85,7 @@ const Page = () => {
                         </div> */}
                       </div>
                       <div className="subscription-point-info">
-                        <div className="plan-point-list">
+                        <div className="cc-plan-point-list">
                           {renderHTML(ele.description)}
                         </div>
                         <div className="plan-action">

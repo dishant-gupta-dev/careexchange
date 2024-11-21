@@ -94,6 +94,15 @@ const Page = () => {
                   Find A Job
                 </Link>
               </li>
+              <li>
+                <Link
+                  to=""
+                  className={tab == 2 ? "active" : ""}
+                  onClick={() => setTab(2)}
+                >
+                  Post A Job
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="find-location-content-info tab-content">
@@ -150,7 +159,8 @@ const Page = () => {
 
         <div className="overview-section">
           <div className="row">
-            <div className="col-md-6">
+            {
+              (tab == 0 || tab == 2) ? (<div className="col-md-6">
               <div className="schedule-card">
                 <div className="schedule-card-content">
                   <div className="schedule-card-icon">
@@ -165,7 +175,9 @@ const Page = () => {
                   <Link to={routes.findCare}>Book Now</Link>
                 </div>
               </div>
-            </div>
+            </div>) : null
+            }
+            
 
             <div className="col-md-6">
               <div className="opportunity-card">

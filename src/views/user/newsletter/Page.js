@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MailImg from "../../../assets/user/images/mail-sent-pana.svg";
 import { api } from "../../../utlis/user/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
-import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
@@ -45,6 +44,7 @@ const Page = () => {
 
   return (
     <>
+      {loading ? <Loader /> : null}
       <div class="container">
         <div class="newsletter-section">
           <div class="row">
@@ -109,7 +109,9 @@ const Page = () => {
                                 />
                               </div>
                               <div class="form-group">
-                                <button type="submit" class="auth-form-btn">Submit</button>
+                                <button type="submit" class="auth-form-btn">
+                                  Submit
+                                </button>
                               </div>
                             </Form>
                           </Formik>

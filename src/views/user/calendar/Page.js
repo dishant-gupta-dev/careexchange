@@ -6,8 +6,6 @@ import WhcalenImg from "../../../assets/user/images/whcalendar.svg";
 import SearchImg from "../../../assets/user/images/search1.svg";
 import RepeatImg from "../../../assets/user/images/Repeat.svg";
 import UserImg from "../../../assets/user/images/user.png";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 
 const Page = () => {
   const [dateVal, setDate] = useState("");
@@ -38,7 +36,6 @@ const Page = () => {
           <div className="row">
             <div className="col-md-4">
               <div className="calendar-card">
-                <Calendar onChange={(e) => setDate(e)} defaultView="month" value={dateVal} />
               </div>
             </div>
 

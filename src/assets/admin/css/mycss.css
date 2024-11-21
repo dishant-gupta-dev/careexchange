@@ -1195,8 +1195,15 @@ span.btn-status {
   border-left: 3px solid var(--blue);
 }
 
-.calendar-card .react-calendar {
-  width: 100%;
+.react-calendar {
+  width: 516px !important;
+  height: 290px !important;
+  max-width: 100% !important;
+  background: white !important;
+  border: 1px solid #ebebeb !important;
+  border-radius: 10px !important;
+  box-shadow: 0px 8px 13px rgb(0 0 0 / 5%) !important;
+  line-height: 1.135em !important;
 }
 
 img {
@@ -1267,4 +1274,16 @@ img {
 .badge-light {
   color: #212529;
   background-color: #f8f9fa;
+}
+.find-location-tab ul li a.active{
+  background: var(--blue) !important;
+}
+.care-location-text p{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  letter-spacing: 0.25px;
+  padding: 0;
+  margin: 0;
 }
