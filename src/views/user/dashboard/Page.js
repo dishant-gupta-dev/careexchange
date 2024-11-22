@@ -64,8 +64,51 @@ const Page = () => {
     });
   };
 
+  function findAddress(type, arr) {
+    for (let i in arr) {
+      if (arr[i].types.includes(type)) {
+        return arr[i].formatted_address;
+      }
+    }
+    return "";
+  }
+
+  const getCurrentAddress = () => {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const crd = pos.coords;
+        // console.log("Your current position is:");
+        // console.log(`Latitude : ${crd.latitude}`);
+        // console.log(`Longitude: ${crd.longitude}`);
+        console.log(`More or less ${JSON.stringify(crd)} meters.`);
+        fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${crd.latitude},${crd.longitude}&key=${GeolocationApiKey}`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            // console.log(data.results);
+            setLocation({
+              lat: crd.latitude,
+              lng: crd.longitude,
+              address: findAddress("street_address", data.results),
+            });
+          })
+          .catch((error) => console.log(error));
+      },
+      function errorCallback(error) {
+        // console.log("Error => ", error);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0,
+      }
+    );
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    getCurrentAddress();
     getDashboardData(api.dashboard);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -138,7 +181,8 @@ const Page = () => {
                       >
                         <img src={Search} />
                       </button>
-                    ) : (
+                    ) : null}
+                    {tab == 1 ? (
                       <button
                         className="intake-btn-done"
                         onClick={() => {
@@ -149,7 +193,19 @@ const Page = () => {
                       >
                         <img src={Search} />
                       </button>
-                    )}
+                    ) : null}
+                    {tab == 2 ? (
+                      <button
+                        className="intake-btn-done"
+                        onClick={() => {
+                          navigate(
+                            `${routes.addPost}/${location.address}/${location.lat}/${location.lng}`
+                          );
+                        }}
+                      >
+                        <img src={Search} />
+                      </button>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -159,25 +215,24 @@ const Page = () => {
 
         <div className="overview-section">
           <div className="row">
-            {
-              (tab == 0 || tab == 2) ? (<div className="col-md-6">
-              <div className="schedule-card">
-                <div className="schedule-card-content">
-                  <div className="schedule-card-icon">
-                    <img src={Schedule} />
+            {tab == 0 || tab == 2 ? (
+              <div className="col-md-6">
+                <div className="schedule-card">
+                  <div className="schedule-card-content">
+                    <div className="schedule-card-icon">
+                      <img src={Schedule} />
+                    </div>
+                    <div className="schedule-card-text">
+                      Schedule A <span>Free!</span>
+                      <p className="pb-0 mb-0">In-Home Care Assessment</p>
+                    </div>
                   </div>
-                  <div className="schedule-card-text">
-                    Schedule A <span>Free!</span>
-                    <p className="pb-0 mb-0">In-Home Care Assessment</p>
+                  <div className="schedule-card-action">
+                    <Link to={routes.findCare}>Book Now</Link>
                   </div>
-                </div>
-                <div className="schedule-card-action">
-                  <Link to={routes.findCare}>Book Now</Link>
                 </div>
               </div>
-            </div>) : null
-            }
-            
+            ) : null}
 
             <div className="col-md-6">
               <div className="opportunity-card">
@@ -258,7 +313,9 @@ const Page = () => {
                             </div>
                             <div className="care-user-text">
                               <div className="care-user-name">
-                              {ele?.business_name ? ele?.business_name : ele?.fullname}
+                                {ele?.business_name
+                                  ? ele?.business_name
+                                  : ele?.fullname}
                               </div>
                               <div className="care-user-rating">
                                 <i className="fa-regular fa-star"></i>{" "}
@@ -266,7 +323,7 @@ const Page = () => {
                               </div>
                             </div>
                           </div>
-                          <div style={{ color:"green" }}>
+                          <div style={{ color: "green" }}>
                             {ele.user_type == 2 ? "Provider" : "Staff"}
                           </div>
                         </div>

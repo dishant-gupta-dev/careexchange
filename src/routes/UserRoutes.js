@@ -63,7 +63,7 @@ var UserRoutes = [
         component: AppliedJob
     },
     {
-        path: routes.addPost,
+        path: routes.addPost+"/:address?/:lat?/:lng?",
         layout: UserLayout,
         component: JobPost
     },

@@ -327,7 +327,10 @@ const Page = () => {
                             </div>
                             <div className="tags-list">
                               <div className="tags-item">
-                                {ele.category ?? "NA"}
+                                {ele.categoryname ?? "NA"}
+                              </div>
+                              <div className="tags-item-sub">
+                                {ele.subcategoryname ?? "NA"}
                               </div>
                             </div>
 

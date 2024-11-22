@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import MapImg from "../../../assets/user/images/Google_Maps_icon.svg";
 import { api } from "../../../utlis/user/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
@@ -21,10 +21,11 @@ const JobPost = () => {
   const [jobType, setJobType] = useState("");
   const [jobTypeErr, setJobTypeErr] = useState(false);
   const [locError, setLocError] = useState(false);
+  const { address, lat, lng } = useParams();
   const [location, setLocation] = useState({
-    lat: null,
-    lng: null,
-    address: null,
+    lat: lat ?? null,
+    lng: lng ?? null,
+    address: address ?? null,
   });
   let userData = JSON.parse(localStorage.getItem("careexchange"));
   const [categories, setCategory] = useState([]);
@@ -105,6 +106,7 @@ const JobPost = () => {
       title: formValue.title,
       description: formValue.description,
       address: location.address,
+      state: location.state,
       latitude: location.lat,
       longitude: location.lng,
       service_type: formValue.sub_category,
@@ -124,6 +126,7 @@ const JobPost = () => {
       lat: null,
       lng: null,
       address: null,
+      state: null,
     });
     setStartTime("09:00");
     setEndTime("21:00");
@@ -145,12 +148,22 @@ const JobPost = () => {
     libraries: ["places"],
   });
 
+  function findStateCity(type, arr) {
+    for (let i in arr) {
+      if ((arr[i].types).includes(type)) {
+        return arr[i].long_name;
+      }
+    }
+    return null;
+  }
+
   const handlePlaceChange = () => {
     let [address] = inputRef.current.getPlaces();
     setLocation({
       lat: address.geometry.location.lat(),
       lng: address.geometry.location.lng(),
       address: address.formatted_address,
+      state: findStateCity('administrative_area_level_1', address.address_components)
     });
   };
 
@@ -217,11 +230,11 @@ const JobPost = () => {
                             <StandaloneSearchBox
                               onLoad={(ref) => (inputRef.current = ref)}
                               onPlacesChanged={handlePlaceChange}
-                              value={location.address}
                             >
                               <input
                                 className="form-control"
                                 placeholder="Where are you going?"
+                                defaultValue={location.address}
                               />
                             </StandaloneSearchBox>
                           )}
@@ -593,6 +606,7 @@ const JobPost = () => {
                                 lat: null,
                                 lng: null,
                                 address: null,
+                                state: null,
                               });
                               setStartTime("09:00");
                               setEndTime("21:00");

@@ -311,7 +311,6 @@ const Page = () => {
   };
 
   const handleTag = (arr) => {
-    console.log("My array => ", arr);
     const deleteTags = editTags.filter(
       ({ value: id1 }) => !arr.some(({ value: id2 }) => id2 === id1)
     );

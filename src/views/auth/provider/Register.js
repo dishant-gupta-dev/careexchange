@@ -19,13 +19,22 @@ import moment from "moment";
 import { routes } from "../../../utlis/provider/routes.utlis";
 import jpgImg from "../../../assets/provider/images/1.jpg";
 import OtpInput from "react-otp-input";
+import Select from "react-select";
 
 const Register = () => {
+  const options = [];
+  const cityOptions = [];
   const navigate = useNavigate();
   const [tab, setTab] = useState(1);
   const [total, setTotal] = useState(0);
   const inputRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [state, setState] = useState([]);
+  const [selectedState, setSelectedState] = useState([]);
+  const [stateError, setStateError] = useState(false);
+  const [city, setCity] = useState([]);
+  const [selectedCity, setSelectedCity] = useState([]);
+  const [cityError, setCityError] = useState(false);
   const [categories, setCategory] = useState([]);
   const [subCategories, setSubCategory] = useState([]);
   const [providers, setProvider] = useState([]);
@@ -57,7 +66,9 @@ const Register = () => {
     email: "",
     phone: "",
     free_in_home_assessment: "",
-    fee: "",
+    fee_per_week: "",
+    fee_per_month: "",
+    fee_per_hour: "",
     business_name: "",
     slogan: "",
     license_number: "",
@@ -75,7 +86,9 @@ const Register = () => {
     free_in_home_assessment: Yup.string().required(
       "In-Home assessment is required!"
     ),
-    fee: Yup.string().required("Fees is required!"),
+    fee_per_hour: Yup.string().required("Fees per hour is required!"),
+    fee_per_week: Yup.string().required("Fees per week is required!"),
+    fee_per_month: Yup.string().required("Fees per month is required!"),
     business_name: Yup.string().required("Business name is required!"),
     slogan: Yup.string().required("Slogan is required!"),
     license_number: Yup.string().required("License number is required!"),
@@ -102,7 +115,41 @@ const Register = () => {
     } else setSubCategory([]);
   };
 
+  const getStateList = async (api) => {
+    const response = await ApiService.getAPI(api);
+    // console.log("state list => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      response.data.data.states.forEach((element) => {
+        options.push({ value: element.id, label: element.name });
+      });
+      setState(options);
+    } else setState([]);
+  };
+
+  const getCitiesList = async () => {
+    let form = new FormData();
+    selectedState.forEach((ele) => {
+      form.append("state_ids[]", ele.value);
+    });
+    const response = await ApiService.postAPI(api.cityList, form);
+    // console.log("cities list => ", response.data);
+    if (response?.data?.status && response?.data?.statusCode === 200) {
+      response.data.data.cities.forEach((element) => {
+        cityOptions.push({ value: element.id, label: element.name });
+      });
+      setCity(cityOptions);
+    } else setCity([]);
+  };
+
   const firstStep = async (formValue) => {
+    if (selectedState.length === 0) {
+      setStateError(true);
+      return;
+    } else setStateError(false);
+    if (selectedCity.length === 0) {
+      setCityError(true);
+      return;
+    } else setCityError(false);
     if (file === "" || file === null || !file) {
       setImgError(true);
       return;
@@ -118,7 +165,9 @@ const Register = () => {
     form.append("email", formValue.email);
     form.append("phone", formValue.phone);
     form.append("description", formValue.description);
-    form.append("fee", formValue.fee);
+    form.append("fee_per_hour", formValue.fee_per_hour);
+    form.append("fee_per_month", formValue.fee_per_month);
+    form.append("fee_per_week", formValue.fee_per_week);
     form.append("experience", formValue.experience);
     form.append("business_name", formValue.business_name);
     form.append("slogan", formValue.slogan);
@@ -133,6 +182,12 @@ const Register = () => {
     form.append("file", file);
     multiFile.forEach((image) => {
       form.append("license_image", image);
+    });
+    selectedState.forEach((ele) => {
+      form.append("state_ids[]", ele.value);
+    });
+    selectedCity.forEach((ele) => {
+      form.append("city_ids[]", ele.value);
     });
     const response = await ApiService.postAPIMultiPart(api.register, form);
     // console.log("Add service request => ", response.data);
@@ -171,7 +226,7 @@ const Register = () => {
 
   function findStateCity(type, arr) {
     for (let i in arr) {
-      if ((arr[i].types).includes(type)) {
+      if (arr[i].types.includes(type)) {
         return arr[i].long_name;
       }
     }
@@ -213,7 +268,7 @@ const Register = () => {
     setLoading(true);
     let form = JSON.stringify({
       email: data.email,
-      user_type: 1
+      user_type: 1,
     });
     const response = await ApiService.postAPI(api.sendOtp, form);
     if (response.data.status) {
@@ -227,7 +282,7 @@ const Register = () => {
       toast.success(response.data.message);
     } else toast.error(response.data.message);
     setLoading(false);
-  }
+  };
 
   const handleChange = (code) => setCode(code);
 
@@ -246,8 +301,14 @@ const Register = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     getCategoryList(api.categoryList);
+    getStateList(api.stateList + `?country_id=231`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    getCitiesList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedState]);
 
   return (
     <>
@@ -301,7 +362,7 @@ const Register = () => {
                   {tab == 1 ? (
                     <div className="tab-pane fade active show" id="tab1">
                       <div className="findcare-form">
-                        <h2>What kind of care do you need?</h2>
+                        <h2>Sign Up</h2>
                         <div className="findcare-card">
                           <Formik
                             initialValues={initialFirstValues}
@@ -313,7 +374,7 @@ const Register = () => {
                               <div className="row">
                                 <div className="col-md-12">
                                   <div className="form-group search-form-group">
-                                    <h4>Job Location</h4>
+                                    <h4>Business Address</h4>
                                     {isLoaded && (
                                       <StandaloneSearchBox
                                         onLoad={(ref) =>
@@ -471,6 +532,49 @@ const Register = () => {
                                         component="div"
                                         className="alert alert-danger"
                                       />
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="col-md-12">
+                                  <div className="form-group">
+                                    <div className="row">
+                                      <div className="col-md-6">
+                                        <h4>Select States</h4>
+                                        <Select
+                                          name="state_ids"
+                                          className="form-control text-capitalize todo-list-input"
+                                          placeholder="Select states"
+                                          isMulti={true}
+                                          options={state}
+                                          onChange={(ans) => {
+                                            setSelectedState(ans);
+                                          }}
+                                        />
+                                        {stateError && (
+                                          <div className="alert alert-danger">
+                                            State is required!
+                                          </div>
+                                        )}
+                                      </div>
+                                      <div className="col-md-6">
+                                        <h4>Select Cities</h4>
+                                        <Select
+                                          name="city_ids"
+                                          className="form-control text-capitalize todo-list-input"
+                                          placeholder="Select cities"
+                                          isMulti={true}
+                                          options={city}
+                                          onChange={(ans) => {
+                                            setSelectedCity(ans);
+                                          }}
+                                        />
+                                        {cityError && (
+                                          <div className="alert alert-danger">
+                                            City is required!
+                                          </div>
+                                        )}
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -687,24 +791,6 @@ const Register = () => {
                                   </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                  <div class="form-group search-form-group-r">
-                                    <h4>Fees</h4>
-                                    <Field
-                                      type="number"
-                                      className="form-control"
-                                      name="fee"
-                                      placeholder="Fees"
-                                    />
-                                    <ErrorMessage
-                                      name="fee"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                    <span class="Rangedays-text">Hour</span>
-                                  </div>
-                                </div>
-
                                 <div className="col-md-6">
                                   <div className="form-group">
                                     <h4>License Number</h4>
@@ -735,6 +821,26 @@ const Register = () => {
                                     {imgError && (
                                       <div className="alert alert-danger">
                                         Image is required!
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+
+                                <div className="col-md-6">
+                                  <div className="form-group">
+                                    <h4>Upload License</h4>
+                                    <input
+                                      type="file"
+                                      name="license_image"
+                                      accept="image/*"
+                                      data-multiple-caption="{count} files selected"
+                                      multiple="5"
+                                      onChange={(e) => handleMultiImgChange(e)}
+                                      className="form-control todo-list-input"
+                                    />
+                                    {imgMultiError && (
+                                      <div className="alert alert-danger">
+                                        License Image is required!
                                       </div>
                                     )}
                                   </div>
@@ -833,24 +939,58 @@ const Register = () => {
                                     </div>
                                   </div>
                                 </div>
-
-                                <div className="col-md-12">
-                                  <div className="form-group">
-                                    <h4>Upload License</h4>
-                                    <input
-                                      type="file"
-                                      name="license_image"
-                                      accept="image/*"
-                                      data-multiple-caption="{count} files selected"
-                                      multiple="5"
-                                      onChange={(e) => handleMultiImgChange(e)}
-                                      className="form-control todo-list-input"
+                                
+                                <div class="col-md-4">
+                                  <div class="form-group search-form-group-r">
+                                    <h4>Fees Per Hour</h4>
+                                    <Field
+                                      type="number"
+                                      className="form-control"
+                                      name="fee_per_hour"
+                                      placeholder="Fees Per Hour"
                                     />
-                                    {imgMultiError && (
-                                      <div className="alert alert-danger">
-                                        License Image is required!
-                                      </div>
-                                    )}
+                                    <ErrorMessage
+                                      name="fee_per_hour"
+                                      component="div"
+                                      className="alert alert-danger"
+                                    />
+                                    <span class="Rangedays-text">Hour</span>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                  <div class="form-group search-form-group-r">
+                                    <h4>Fees Per Week</h4>
+                                    <Field
+                                      type="number"
+                                      className="form-control"
+                                      name="fee_per_week"
+                                      placeholder="Fees Per Week"
+                                    />
+                                    <ErrorMessage
+                                      name="fee_per_week"
+                                      component="div"
+                                      className="alert alert-danger"
+                                    />
+                                    <span class="Rangedays-text">Week</span>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                  <div class="form-group search-form-group-r">
+                                    <h4>Fees Per Month</h4>
+                                    <Field
+                                      type="number"
+                                      className="form-control"
+                                      name="fee_per_month"
+                                      placeholder="Fees Per Month"
+                                    />
+                                    <ErrorMessage
+                                      name="fee_per_month"
+                                      component="div"
+                                      className="alert alert-danger"
+                                    />
+                                    <span class="Rangedays-text">Month</span>
                                   </div>
                                 </div>
 

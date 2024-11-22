@@ -178,38 +178,48 @@ const Page = () => {
 
                 <div className="providerprofile-overview">
                   <div className="row">
-                    <div className="col-md-4">
+
+                    <div className="col-md-5">
                       <div className="overview-card">
-                        <div className="overview-content">
-                          <h2>Requested Jobs</h2>
-                          <h4>NA</h4>
+                        <div className="overview-content text-center mb-3">
+                          <h4>Care Network</h4>
+                        </div>
+                        <div className="d-flex justify-content-around">
+                          <div className="overview-content text-center">
+                            <h2>Posted Jobs</h2>
+                            <h4>{details?.postedJobCount ?? 0}</h4>
+                          </div>
+                          <div className="overview-content text-center">
+                            <h2>Applied Jobs</h2>
+                            <h4>{details?.appliedJobCount ?? 0}</h4>
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="col-md-4">
+                    <div className="col-md-7">
                       <div className="overview-card">
-                        <div className="overview-content">
-                          <h2>Active Jobs</h2>
-                          <h4>NA</h4>
+                        <div className="overview-content text-center mb-3">
+                          <h4>Care Job</h4>
+                        </div>
+                        <div className="d-flex justify-content-around">
+                          <div className="overview-content text-center">
+                            <h2>Pending Jobs</h2>
+                            <h4>{details?.carePendingCount ?? 0}</h4>
+                          </div>
+                          <div className="overview-content text-center">
+                            <h2>Ongoing Jobs</h2>
+                            <h4>{details?.careOngoingCount ?? 0}</h4>
+                          </div>
+                          <div className="overview-content text-center">
+                            <h2>Completed Jobs</h2>
+                            <h4>{details?.careCompleteCount ?? 0}</h4>
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className="col-md-4">
-                      <div className="overview-card">
-                        <div className="overview-content">
-                          <h2>Pending Request</h2>
-                          <h4>NA</h4>
-                        </div>
-                      </div>
-                    </div>
                   </div>
-                </div>
-
-                <div className="providerprofile-about">
-                  <h2>About</h2>
-                  <p>NA</p>
                 </div>
               </div>
             </div>

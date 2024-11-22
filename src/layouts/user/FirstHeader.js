@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import Logo from "../../assets/user/images/logo.svg";
 import User from "../../assets/user/images/user.png";
 import { useDispatch } from "react-redux";
@@ -10,24 +10,41 @@ import {
   DropdownToggle,
   Nav,
 } from "reactstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { routes } from "../../utlis/user/routes.utlis";
+import { api } from "../../utlis/user/api.utlis";
+import ApiService from "../../core/services/ApiService";
+import NoImage from "../../assets/admin/images/no-image.jpg";
 
 const FirstHeader = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState();
+
   const dispatch = useDispatch();
   const signOut = useCallback(() => {
     dispatch(userLogout());
   }, [dispatch]);
+
+  const getUserDetails = async (api) => {
+    const response = await ApiService.getAPIWithAccessToken(api);
+    if (response.data.status && response.data.statusCode === 200) {
+      setUser(response.data.data);
+    } else setUser();
+  };
+
+  useEffect(() => {
+    getUserDetails(api.profile);
+  }, []);
+
   return (
     <>
       <div className="top-header">
         <div className="container-fliud">
           <div className="top-header-content">
             <div className="logo">
-              <a href="#">
+              <Link>
                 <img src={Logo} />
-              </a>
+              </Link>
             </div>
             <div className="top-header-rightnav text-right">
               <ul className="navbar-nav d-flex align-items-center justify-content-center mb-0">
@@ -103,12 +120,21 @@ const FirstHeader = () => {
                           aria-expanded="true"
                         >
                           <div className="profile-pic">
-                            <img src={User} alt="user" />
+                            {user?.image === null ||
+                            user?.image === "" ||
+                            user?.image === undefined ? (
+                              <img src={NoImage} alt="" />
+                            ) : (
+                              <img src={user?.image} alt="" />
+                            )}
                           </div>
                         </DropdownToggle>
 
                         <DropdownMenu end className="dropdown-menu">
-                          <DropdownItem onClick={() => navigate(routes.profile)} className="dropdown-item">
+                          <DropdownItem
+                            onClick={() => navigate(routes.profile)}
+                            className="dropdown-item"
+                          >
                             <i className="las la-user"></i> Profile
                           </DropdownItem>
                           <DropdownItem

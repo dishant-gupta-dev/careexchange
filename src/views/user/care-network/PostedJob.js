@@ -173,6 +173,9 @@ const PostedJob = () => {
                               <div class="tags-item">
                                 {ele.category ?? "NA"}
                               </div>
+                              <div class="tags-item-sub">
+                                {ele.subcategory ?? "NA"}
+                              </div>
                             </div>
 
                             <div class="jobs-point">
