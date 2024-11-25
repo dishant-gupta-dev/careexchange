@@ -23,7 +23,7 @@ var UserRoutes = [
         component: Dashboard
     },
     {
-        path: routes.findCare+"/:address?/:lat?/:lng?",
+        path: routes.findCare+"/:address?/:lat?/:lng?/:cat?",
         layout: UserLayout,
         component: FindCare
     },
@@ -43,7 +43,7 @@ var UserRoutes = [
         component: JobDetails
     },
     {
-        path: routes.careNetwork+"/:address?/:lat?/:lng?",
+        path: routes.careNetwork+"/:address?/:lat?/:lng?/:cat?",
         layout: UserLayout,
         component: CareNetwork
     },
@@ -63,7 +63,7 @@ var UserRoutes = [
         component: AppliedJob
     },
     {
-        path: routes.addPost+"/:address?/:lat?/:lng?",
+        path: routes.addPost+"/:address?/:lat?/:lng?/:state?/:cat?",
         layout: UserLayout,
         component: JobPost
     },

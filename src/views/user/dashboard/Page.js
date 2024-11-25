@@ -26,6 +26,7 @@ const Page = () => {
     lat: null,
     lng: null,
     address: null,
+    state: null,
   });
   const [loading, setLoading] = useState(false);
 
@@ -55,15 +56,6 @@ const Page = () => {
     libraries: ["places"],
   });
 
-  const handlePlaceChange = () => {
-    let [address] = inputRef.current.getPlaces();
-    setLocation({
-      lat: address.geometry.location.lat(),
-      lng: address.geometry.location.lng(),
-      address: address.formatted_address,
-    });
-  };
-
   function findAddress(type, arr) {
     for (let i in arr) {
       if (arr[i].types.includes(type)) {
@@ -73,6 +65,38 @@ const Page = () => {
     return "";
   }
 
+  function findState(type, arr) {
+    for (let i in arr) {
+      if ((arr[i].types).includes(type)) {
+        return arr[i].long_name;
+      }
+    }
+    return null;
+  }
+
+  function findState2(type, arr) {
+    for (let i in arr) {
+      if ((arr[i].types).includes(type)) {
+        for (let j in arr[i].address_components) {
+          if ((arr[i].address_components[j].types).includes(type)) {
+            return arr[i].address_components[j].long_name;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  const handlePlaceChange = () => {
+    let [address] = inputRef.current.getPlaces();
+    setLocation({
+      lat: address.geometry.location.lat(),
+      lng: address.geometry.location.lng(),
+      address: address.formatted_address,
+      state: findState('administrative_area_level_1', address.address_components)
+    });
+  };
+
   const getCurrentAddress = () => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -80,7 +104,7 @@ const Page = () => {
         // console.log("Your current position is:");
         // console.log(`Latitude : ${crd.latitude}`);
         // console.log(`Longitude: ${crd.longitude}`);
-        console.log(`More or less ${JSON.stringify(crd)} meters.`);
+        // console.log(`More or less ${JSON.stringify(crd)} meters.`);
         fetch(
           `https://maps.googleapis.com/maps/api/geocode/json?latlng=${crd.latitude},${crd.longitude}&key=${GeolocationApiKey}`
         )
@@ -91,6 +115,7 @@ const Page = () => {
               lat: crd.latitude,
               lng: crd.longitude,
               address: findAddress("street_address", data.results),
+              state: findState2('administrative_area_level_1', data.results)
             });
           })
           .catch((error) => console.log(error));
@@ -199,7 +224,7 @@ const Page = () => {
                         className="intake-btn-done"
                         onClick={() => {
                           navigate(
-                            `${routes.addPost}/${location.address}/${location.lat}/${location.lng}`
+                            `${routes.addPost}/${location.address}/${location.lat}/${location.lng}/${location.state}`
                           );
                         }}
                       >
@@ -228,7 +253,7 @@ const Page = () => {
                     </div>
                   </div>
                   <div className="schedule-card-action">
-                    <Link to={routes.findCare}>Book Now</Link>
+                    <Link to={`${routes.findCare}/${location.address}/${location.lat}/${location.lng}`}>Book Now</Link>
                   </div>
                 </div>
               </div>
@@ -245,7 +270,7 @@ const Page = () => {
                   </div>
                 </div>
                 <div className="opportunity-card-action">
-                  <Link to={routes.careNetwork}>GO</Link>
+                  <Link to={`${routes.careNetwork}/${location.address}/${location.lat}/${location.lng}`}>GO</Link>
                 </div>
               </div>
             </div>
@@ -264,20 +289,22 @@ const Page = () => {
               ? dashboard?.category.map((ele, indx) => {
                   return (
                     <div key={indx} className="col-md-2">
-                      <div className="careservices-card">
-                        <div className="careservices-icon">
-                          {ele.image === null ||
-                          ele.image === "" ||
-                          ele.image === undefined ? (
-                            <img src={NoImage} alt="" />
-                          ) : (
-                            <img src={ele.image} alt="" height={100} />
-                          )}
+                      <Link to={`${routes.findCare}/${location.address}/${location.lat}/${location.lng}/${ele.id}`}>
+                        <div className="careservices-card">
+                          <div className="careservices-icon">
+                            {ele.image === null ||
+                            ele.image === "" ||
+                            ele.image === undefined ? (
+                              <img src={NoImage} alt="" />
+                            ) : (
+                              <img src={ele.image} alt="" height={100} />
+                            )}
+                          </div>
+                          <div className="careservices-text">
+                            <h2>{ele.name ?? "NA"}</h2>
+                          </div>
                         </div>
-                        <div className="careservices-text">
-                          <h2>{ele.name ?? "NA"}</h2>
-                        </div>
-                      </div>
+                      </Link>
                     </div>
                   );
                 })
@@ -318,7 +345,7 @@ const Page = () => {
                                   : ele?.fullname}
                               </div>
                               <div className="care-user-rating">
-                                <i className="fa-regular fa-star"></i>{" "}
+                                <i className="fa fa-star"></i>{" "}
                                 {ele.average_rating ?? "0"}
                               </div>
                             </div>

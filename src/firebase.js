@@ -4,14 +4,13 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBhyJSZJErkiePpCXwtuQaltdcJPWnUPKA",
-  authDomain: "kiningo-8df4e.firebaseapp.com",
-  databaseURL: "https://kiningo-8df4e-default-rtdb.firebaseio.com",
-  projectId: "kiningo-8df4e",
-  storageBucket: "kiningo-8df4e.appspot.com",
-  messagingSenderId: "984454687422",
-  appId: "1:984454687422:web:b81e879925bd6ed67e8cef",
-  measurementId: "G-EBRKCVK065"
+  apiKey: "AIzaSyAzoBeAmJcinemKvbS5QbkTe0z7eY4d6g8",
+  authDomain: "care-exchange.firebaseapp.com",
+  projectId: "care-exchange",
+  storageBucket: "care-exchange.appspot.com",
+  messagingSenderId: "421355965445",
+  appId: "1:421355965445:web:fdc83793e480c0d9e3206c",
+  measurementId: "G-P1K83S8NYP"
 };
 
 // const firebaseConfig = {

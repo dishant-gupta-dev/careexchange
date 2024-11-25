@@ -20,6 +20,7 @@ import { routes } from "../../../utlis/user/routes.utlis";
 
 const FindCare = () => {
   const navigate = useNavigate();
+  const { address, lat, lng, cat } = useParams();
   const [tab, setTab] = useState(1);
   const [total, setTotal] = useState(0);
   const inputRef = useRef(null);
@@ -28,17 +29,17 @@ const FindCare = () => {
   const [subCategories, setSubCategory] = useState([]);
   const [providers, setProvider] = useState([]);
   const [selectRadius, setSelectRadius] = useState("");
-  const [selectCategories, setSelectCategory] = useState("");
+  const [selectCategories, setSelectCategory] = useState(cat ?? "");
   const [selectSubCategories, setSelectSubCategory] = useState("");
   const [serviceId, setServiceId] = useState();
   const [startDate, setStartDate] = useState("");
   const [startError, setStartError] = useState(false);
-  const { address, lat, lng } = useParams();
   const [location, setLocation] = useState({
     lat: lat ?? null,
     lng: lng ?? null,
     address: address ?? null,
   });
+console.log(selectCategories);
 
   const initialFirstValues = {
     radius: selectRadius ?? "",
@@ -112,6 +113,7 @@ const FindCare = () => {
   };
 
   const getSubCategoryList = async (id) => {
+    if(id == "" || id == null || id == undefined) return;
     const response = await ApiService.getAPIWithAccessToken(
       api.categoryList + `?categoryid=${id}`
     );
@@ -242,6 +244,7 @@ const FindCare = () => {
     window.scrollTo(0, 0);
     getCategoryList(api.categoryList);
     getProviders(api.providerList + `?user_type=2`);
+    getSubCategoryList(cat ?? "");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -485,7 +488,7 @@ const FindCare = () => {
                                     <select
                                       className="form-control"
                                       name="category"
-                                      defaultValue={selectCategories}
+                                      value={selectCategories}
                                       onChange={(e) => {
                                         getSubCategoryList(e.target.value);
                                         setSelectCategory(e.target.value);

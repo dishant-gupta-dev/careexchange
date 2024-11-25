@@ -1287,7 +1287,6 @@ img {
   padding: 0;
   margin: 0;
 }
-
 .tags-item-sub {
   color: var(--white);
   white-space: nowrap;
@@ -1301,7 +1300,6 @@ img {
   padding: 5px 20px;
   margin-bottom: 5px;
 }
-
 .css-b62m3t-container{
   padding: 0px !important;
 }
@@ -1318,4 +1316,15 @@ img {
   width: 100% !important;
   background: #FFF !important;
   box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05) !important;
+}
+.react-calendar__tile--active{
+  background: var(--blue) !important;
+  border-radius: 5px;
+}
+.react-calendar__tile--now{
+  border-radius: 5px;
+}
+button.search-btn{
+  background: var(--blue) !important;
+  border: none !important;
 }

@@ -104,6 +104,8 @@ const Page = () => {
   const getMyProfile = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
+    console.log(response.data.data);
+    
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data);
     } else setDetails();

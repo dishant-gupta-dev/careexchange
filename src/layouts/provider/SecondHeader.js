@@ -541,7 +541,7 @@ const SecondHeader = () => {
                     </svg>
                   </span>
                   <span className="wsmenutext"> More</span>
-                  <i className="fas fa-angle-down"></i>
+                  <i className="fa fa-angle-down"></i>
                 </a>
                 <ul className="sub-menu">
                   <li aria-haspopup="true">

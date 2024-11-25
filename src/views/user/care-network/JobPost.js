@@ -21,11 +21,12 @@ const JobPost = () => {
   const [jobType, setJobType] = useState("");
   const [jobTypeErr, setJobTypeErr] = useState(false);
   const [locError, setLocError] = useState(false);
-  const { address, lat, lng } = useParams();
+  const { address, lat, lng, state } = useParams();
   const [location, setLocation] = useState({
     lat: lat ?? null,
     lng: lng ?? null,
     address: address ?? null,
+    state: state ?? null,
   });
   let userData = JSON.parse(localStorage.getItem("careexchange"));
   const [categories, setCategory] = useState([]);

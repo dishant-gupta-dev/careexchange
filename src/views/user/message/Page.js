@@ -40,7 +40,7 @@ const Page = () => {
   const getProviders = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    // console.log("all providers list => ", response.data);
+    console.log("all providers list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setProvider(response.data.data.ProviderList);
     } else setProvider([]);
@@ -72,7 +72,7 @@ const Page = () => {
         time.seconds * 1000 + time.nanoseconds / 1000000
       );
       return fireBaseTime.toString();
-    } else return time;
+    } else return new Date();
   };
 
   const handleKey = (e) => {
@@ -100,12 +100,6 @@ const Page = () => {
           .collection("messages")
           .add({ ...data, createdAt: serverTimestamp() });
         setMessage("");
-
-        const res = await db
-          .collection("provider_chats")
-          .doc(docid)
-          .collection("messages")
-          .get();
       } catch (error) {
         console.log("Error in send message function :- ", error);
       }
@@ -139,7 +133,7 @@ const Page = () => {
 
   return (
     <>
-    {loading ? <Loader /> : null}
+      {loading ? <Loader /> : null}
       <div className="container">
         <div className="messages-section">
           <div className="row">
@@ -179,7 +173,7 @@ const Page = () => {
                     </svg>
                   </div>
                   <h2>
-                    New Messages 
+                    New Messages
                     {/* <span>08 New</span> */}
                   </h2>
                 </div>
@@ -196,9 +190,7 @@ const Page = () => {
                       className="search-btn"
                       type="button"
                       onClick={() =>
-                        getProviders(
-                          api.providerList + `?search=${search}`
-                        )
+                        getProviders(api.providerList + `?search=${search}`)
                       }
                     >
                       <img src={SearchImg} />
@@ -208,11 +200,18 @@ const Page = () => {
                     {providers.length !== 0 ? (
                       providers.map((ele, indx) => {
                         return (
-                          <div key={indx} className={sendInfo.senderId === ele.id ? "chat-userlist-item active" : "chat-userlist-item"} >
+                          <div
+                            key={indx}
+                            className={
+                              sendInfo.senderId === ele.userid
+                                ? "chat-userlist-item active"
+                                : "chat-userlist-item"
+                            }
+                          >
                             <Link
                               onClick={() =>
                                 createGroup(
-                                  ele.id,
+                                  ele.userid,
                                   ele?.business_name
                                     ? ele?.business_name
                                     : ele?.fullname,
@@ -666,7 +665,7 @@ const Page = () => {
                                               alt=""
                                               width={50}
                                               height={50}
-                                              style={{borderRadius: "50%"}}
+                                              style={{ borderRadius: "50%" }}
                                             />
                                           ) : (
                                             <img
@@ -675,7 +674,7 @@ const Page = () => {
                                               alt=""
                                               width={50}
                                               height={50}
-                                              style={{borderRadius: "50%"}}
+                                              style={{ borderRadius: "50%" }}
                                             />
                                           )}
                                           {ele.first_name ?? "NA"}
