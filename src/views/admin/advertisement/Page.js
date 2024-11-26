@@ -7,7 +7,6 @@ import ApiService from "../../../core/services/ApiService";
 import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../layouts/loader/Loader";
-import { convert } from "html-to-text";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";

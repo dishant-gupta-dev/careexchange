@@ -11,4 +11,12 @@ exports.api = {
     planList: `admin/plan`,
     profile: `user/profile`,
     deleteAccount: `delete`,
+    advertisement: `advertisement/list`,
+    deleteAdvertisement: `advertisement/delete/`,
+    updateAdvertisement: `advertisement/update/`,
+    addAdvertisement: `advertisement/add`,
+    advertisementDetail: `advertisement/details/`,
+    advertisementChangeStatus: `admin/advertisement/status/`,
+    tagsList: `tag/list`,
+    networkDirectory: `provider/List`,
 }
