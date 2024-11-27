@@ -1,13 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Searchicon from "../../../assets/provider/images/search1.svg";
 import SuitcaseIcon from "../../../assets/provider/images/jobs-suitcase.svg";
 import DollarIcon from "../../../assets/provider/images/dollar.svg";
 import ClockIcon from "../../../assets/provider/images/clock.svg";
+import { api } from "../../../utlis/provider/api.utlis";
+import ApiService from "../../../core/services/ApiService";
+import Loader from "../../../layouts/loader/Loader";
 
 const Page = () => {
+  const [loading, setLoading] = useState(false);
+  const [list, setList] = useState([]);
+
+  const getCareNetworkList = async (api) => {
+    setLoading(true);
+    const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log("all care network list => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setList(response.data.data.postedJob);
+    } else setList([]);
+    setLoading(false);
+  };
+
+  const handleFilter = (e, date = null) => {
+    e.persist();
+    let name = "";
+    if (e.target.name === "name") name = e.target.value;
+    getCareNetworkList(api.careNetwork + `?search=${name}`);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getCareNetworkList(api.careNetwork);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
+      {loading ? <Loader /> : null}
       <div className="container">
         <div className="carenetwork-section">
           <div className="care-title-header">

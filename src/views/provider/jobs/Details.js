@@ -1,18 +1,55 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import locationImage from "../../../assets/admin/images/Google_Map.svg";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
+import { api } from "../../../utlis/provider/api.utlis";
+import { decode, encode } from "base-64";
+import { routes } from "../../../utlis/provider/routes.utlis";
+import Loader from "../../../layouts/loader/Loader";
+import ApiService from "../../../core/services/ApiService";
+import { status } from "../../../utlis/common.utlis";
+import moment from "moment";
 
 const Details = () => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [details, setDetails] = useState();
+
+  const getJobDetails = async (api) => {
+    setLoading(true);
+    const response = await ApiService.getAPIWithAccessToken(api);
+    console.log(response.data);
+
+    if (response.data.status && response.data.statusCode === 200) {
+      setDetails(response.data.data);
+    } else setDetails();
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getJobDetails(api.jobDetails + `${decode(id)}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
+      {loading ? <Loader /> : null}
       <div className="container">
         <div className="page-header">
           <h3 className="page-title">
-            <Link className="btn-back" to="">
+            <Link
+              className="btn-back"
+              to=""
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(-1);
+              }}
+            >
               <i className="mdi mdi-arrow-left-thin"></i>
             </Link>
-            Care Job Details
+            &nbsp;Care Job Details
           </h3>
         </div>
         <div className="row">
@@ -20,27 +57,48 @@ const Details = () => {
             <div className="cc-care-card">
               <div className="cc-care-card-head">
                 <div className="cc-care-id">
-                  Job ID: <span>#2000000</span>
+                  Job ID: <span>{details?.job_id ?? "NA"}</span>
                 </div>
 
-                <div className="cc-care-status">Status:Active</div>
+                <div className="cc-care-status">
+                  Status:{" "}
+                  <span
+                    style={{ cursor: "default" }}
+                    type="button"
+                    className={
+                      details?.status == 1 || details?.status == 4
+                        ? "btn-status btn-view-active px-4"
+                        : details?.status == 0
+                        ? "btn-status btn-view-pending px-4"
+                        : "btn-status btn-view-inactive px-4"
+                    }
+                  >
+                    {status(details?.status)}
+                  </span>
+                </div>
               </div>
               <div className="cc-care-card-body">
                 <div className="cc-care-content">
-                  <div className="cc-title-text">Care For Marry Lane</div>
+                  <div className="cc-title-text">
+                    {details?.first_name ?? "NA"}
+                  </div>
 
                   <div className="cc-tags-list">
                     <button type="button" className="cc-tags-item">
-                      Male
+                      {details?.gender == "M" ? "Male" : "Female"}
                     </button>
                     <button type="button" className="cc-tags-item mx-2">
-                      Age: 40
+                      Age: {details?.age ?? "NA"}
                     </button>
                   </div>
 
                   <div className="cc-date-text">
                     <i className="mdi mdi-calendar-clock-outline"></i> Date &
-                    Time: <span>Next Mon, 25 Jul, 09:00 Am- 05:00 PM</span>
+                    Time:{" "}
+                    <span>
+                      {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
+                      {details?.start_time}
+                    </span>
                   </div>
                 </div>
                 <div className="cc-care-day-Weekly-info">
@@ -50,14 +108,20 @@ const Details = () => {
                     </div>
                     <div className="cc-care-point-text">
                       <h4>Frequency:</h4>
-                      <p>Repeat Monthly</p>
+                      <p>
+                        {details?.frequency === "O"
+                          ? "One Time"
+                          : details?.frequency === "W"
+                          ? "Repeat Weekly"
+                          : "Repeat Monthly"}
+                      </p>
                     </div>
                   </div>
-                  <div className="care-day-list">
+                  {/* <div className="care-day-list">
                     <div className="care-day-item">S</div>
                     <div className="care-day-item">T</div>
                     <div className="care-day-item">W</div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -65,16 +129,16 @@ const Details = () => {
 
           <div className="col-lg-12">
             <div className="jobs-details-info-card">
-              <div className="jobs-details-phone">(817) 237-7205</div>
+              <div className="jobs-details-phone">{details?.phone ?? "NA"}</div>
 
               <div className="jobs-details-point">
                 <div className="jobs-details-point-item">
                   <h4>Best Time to Call: </h4>
-                  <p>Anytime</p>
+                  <p>{details?.best_time_to_call ?? "NA"}</p>
                 </div>
                 <div className="jobs-details-point-item">
                   <h4>Relationship: </h4>
-                  <p> Parent, Grandparent</p>
+                  <p>{details?.relationship ?? "NA"}</p>
                 </div>
               </div>
 
@@ -84,45 +148,49 @@ const Details = () => {
                 </div>
                 <div className="jobsdetails-location-item-text">
                   <h4>Location:</h4>
-                  <p>4233 Benson Park Drive, YOUNG Atlanta, 55394</p>
+                  <p>{details?.address ?? "NA"}</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="col-md-12">
-            <div className="care-bob-user-card">
-              <div className="care-bob-user-card-box">
-                <div className="care-bob-user-card-image">
-                  <img src={NoImage} className="me-3" alt="" />
-                </div>
-                <div className="care-bob-user-card-content">
-                  <h5 className="">Kristiana Requested Care Job For…</h5>
-                  <p className="m-0">
-                    <i className="mdi mdi-checkbox-multiple-marked-circle-outline"></i>
-                    Care-Provider
-                  </p>
-                </div>
-              </div>
-              <div className="care-bob-user-card-box">
-                <button type="button" className="btn-gr">
-                  View Care-Provider Profile
-                </button>
-              </div>
-            </div>
-          </div>
+          {details?.providers?.length !== 0
+            ? details?.providers?.map((ele, indx) => {
+                return (
+                  <div className="col-md-12" key={indx}>
+                    <div className="care-bob-user-card">
+                      <div className="care-bob-user-card-box">
+                        <div className="care-bob-user-card-image">
+                          {ele.logo !== null &&
+                          ele.logo !== "" &&
+                          ele.logo !== undefined ? (
+                            <img src={ele.logo} alt="" className="me-3" />
+                          ) : (
+                            <img
+                              src={ele.profile_image}
+                              alt=""
+                              className="me-3"
+                            />
+                          )}
+                        </div>
+                        <div className="care-bob-user-card-content">
+                          <h5 className="">{ele.fullname ?? "NA"}</h5>
+                          <p className="m-0">
+                            <i className="mdi mdi-checkbox-multiple-marked-circle-outline"></i>{" "}
+                            {ele.provider_status} Care-Provider
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            : null}
 
           <div className="col-md-12">
             <div className="jobs-details-desc-card">
               <h3>Description</h3>
-              <p>
-                Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit.
-                Phasellus Nibh Velit, Consequat Et Magna Ut, Convallis Commodo
-                Odio. Donec Feugiat Viverra Metus Non Tristique.
-              </p>
-              <div className="jobs-details-desc-image">
-                <img src={NoImage} />
-              </div>
+              <p>{details?.description ?? "NA"}</p>
             </div>
           </div>
         </div>

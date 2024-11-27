@@ -42,23 +42,22 @@ const Page = () => {
     setLoading(false);
   };
 
+  const bookingList = async (api) => {
+    const res = await ApiService.getAPIWithAccessToken(api);
+    if (
+      res.data.status &&
+      res.data.statusCode === 200 &&
+      res.data?.data?.bookingList
+    ) {
+      setList(res.data?.data?.bookingList);
+    } else setList([]);
+  };
+
   const createGroup = async (id, name, image, exist = false) => {
     setSenderData({ senderId: id, name: name, image: image });
     setMessagesData([]);
     setStatus(1);
-    // const response = await ApiService.getAPIWithAccessToken(
-    //   api.providerDetail + `${id}`
-    // );
-    // if (response.data.status && response.data.statusCode === 200) {
-    //   setDetails(response.data.data);
-    // } else setDetails();
-
-    // const res = await ApiService.getAPIWithAccessToken(
-    //   api.bookingList + `?providerid=${id}`
-    // );
-    // if (res.data.status && res.data.statusCode === 200) {
-    //   setList(res.data.data.bookingList);
-    // } else setList();
+    bookingList(api.userBookingList + `?userId=${id}`);
   };
 
   const convertTime = (time) => {
@@ -105,6 +104,15 @@ const Page = () => {
         console.log("Error in send message function :- ", error);
       }
     }
+  };
+
+  const handleFilter = (e) => {
+    e.persist();
+    let name = "";
+    if (e.target.name === "name") name = e.target.value;
+    bookingList(
+      api.userBookingList + `?userId=${sendInfo.senderId}&search=${name}`
+    );
   };
 
   useEffect(() => {
@@ -182,9 +190,7 @@ const Page = () => {
                               onClick={() =>
                                 createGroup(
                                   ele.userid,
-                                  ele?.fullname
-                                    ? ele?.fullname
-                                    : "NA",
+                                  ele?.fullname ? ele?.fullname : "NA",
                                   ele.image !== null &&
                                     ele.image !== "" &&
                                     ele.image !== undefined
@@ -198,21 +204,19 @@ const Page = () => {
                                 {ele.image !== null &&
                                 ele.image !== "" &&
                                 ele.image !== undefined ? (
-                                  <img src={ele.image} alt="" className="me-3" />
-                                ) : (
                                   <img
-                                    src={NoImage}
+                                    src={ele.image}
                                     alt=""
                                     className="me-3"
                                   />
+                                ) : (
+                                  <img src={NoImage} alt="" className="me-3" />
                                 )}
                                 <span className="user-status"></span>
                               </div>
                             </Link>
                             <div className="chat-userlist-item-content">
-                              <h4>
-                                {ele?.fullname ?? ""}
-                              </h4>
+                              <h4>{ele?.fullname ?? ""}</h4>
                               <p>{ele.email ?? "NA"}</p>
                             </div>
                             {/* <div className="chat-userlist-item-content">
@@ -248,7 +252,7 @@ const Page = () => {
                       <li>
                         <Link
                           className={status === 1 ? "active" : ""}
-                          onClick={() => setStatus(1)}
+                          onClick={() => {setStatus(1); bookingList(api.userBookingList + `?userId=${sendInfo.senderId}`);}}
                           to=""
                           data-bs-toggle="tab"
                         >
@@ -258,7 +262,7 @@ const Page = () => {
                       <li>
                         <Link
                           className={status === 2 ? "active" : ""}
-                          onClick={() => setStatus(2)}
+                          onClick={() => {setStatus(2); bookingList(api.userBookingList + `?userId=${sendInfo.senderId}`);}}
                           to=""
                           data-bs-toggle="tab"
                         >
@@ -375,9 +379,10 @@ const Page = () => {
                               <div className="search-form-group">
                                 <input
                                   type="text"
-                                  name=""
+                                  name="name"
                                   className="form-control"
                                   placeholder="Search "
+                                  onChange={(e) => handleFilter(e)}
                                 />
                                 <span className="search-icon">
                                   <img src={Search} />
@@ -387,79 +392,79 @@ const Page = () => {
                           </div>
                         </div>
                         <div className="ProviderProfile-section">
-                          {list.length !== 0
-                            ? list.map((ele, indx) => {
-                                return (
-                                  <div key={indx} className="care-card">
-                                    <div className="care-card-head">
-                                      <div className="care-status">
-                                        Status:{" "}
-                                        <span>
-                                          {ele.request_status_text ?? "NA"}
-                                        </span>
-                                      </div>
+                          {list.length !== 0 ? (
+                            list.map((ele, indx) => {
+                              return (
+                                <div key={indx} className="care-card">
+                                  <div className="care-card-head">
+                                    <div className="care-status">
+                                      Status:{" "}
+                                      <span>
+                                        {ele.request_status_text ?? "NA"}
+                                      </span>
+                                    </div>
 
-                                      <div className="care-action">
-                                        <Link to="">View Detail</Link>
+                                    <div className="care-action">
+                                      <Link to="">View Detail</Link>
+                                    </div>
+                                  </div>
+                                  <div className="care-card-body">
+                                    <div className="care-content">
+                                      <div className="title-text">
+                                        {ele.profile_image === null ||
+                                        ele.profile_image === "" ||
+                                        ele.profile_image === undefined ? (
+                                          <img
+                                            src={NoImage}
+                                            className="me-3"
+                                            alt=""
+                                            width={50}
+                                            height={50}
+                                            style={{ borderRadius: "50%" }}
+                                          />
+                                        ) : (
+                                          <img
+                                            src={ele.profile_image}
+                                            className="me-3"
+                                            alt=""
+                                            width={50}
+                                            height={50}
+                                            style={{ borderRadius: "50%" }}
+                                          />
+                                        )}
+                                        {ele.first_name ?? "NA"}
+                                      </div>
+                                      <div className="date-text">
+                                        <img src={WhCalen} />{" "}
+                                        {moment(ele?.created_date).format(
+                                          "MM-DD-yyyy hh:mm A"
+                                        )}{" "}
                                       </div>
                                     </div>
-                                    <div className="care-card-body">
-                                      <div className="care-content">
-                                        <div className="title-text">
-                                          {ele.profile_image === null ||
-                                          ele.profile_image === "" ||
-                                          ele.profile_image === undefined ? (
-                                            <img
-                                              src={NoImage}
-                                              className="me-3"
-                                              alt=""
-                                              width={50}
-                                              height={50}
-                                              style={{ borderRadius: "50%" }}
-                                            />
-                                          ) : (
-                                            <img
-                                              src={ele.profile_image}
-                                              className="me-3"
-                                              alt=""
-                                              width={50}
-                                              height={50}
-                                              style={{ borderRadius: "50%" }}
-                                            />
-                                          )}
-                                          {ele.first_name ?? "NA"}
+                                    <div className="care-day-Weekly-info">
+                                      <div className="care-point-box">
+                                        <div className="care-point-icon">
+                                          <img src={RepeatImg} />
                                         </div>
-                                        <div className="date-text">
-                                          <img src={WhCalen} />{" "}
-                                          {moment(ele?.created_date).format(
-                                            "MM-DD-yyyy hh:mm A"
-                                          )}{" "}
+                                        <div className="care-point-text">
+                                          <h4>Frequency:</h4>
+                                          <p>
+                                            {ele.frequency === "O"
+                                              ? "One Time"
+                                              : ele.frequency === "W"
+                                              ? "Repeat Weekly"
+                                              : "Repeat Monthly"}
+                                          </p>
                                         </div>
                                       </div>
-                                      <div className="care-day-Weekly-info">
-                                        <div className="care-point-box">
-                                          <div className="care-point-icon">
-                                            <img src={RepeatImg} />
-                                          </div>
-                                          <div className="care-point-text">
-                                            <h4>Frequency:</h4>
-                                            <p>
-                                              {ele.frequency === "O"
-                                                ? "One Time"
-                                                : ele.frequency === "W"
-                                                ? "Repeat Weekly"
-                                                : "Repeat Monthly"}
-                                            </p>
-                                          </div>
-                                        </div>
-                                        <div className="care-day-list">
-                                          {/* <div className="care-day-item">S</div>
+                                      <div className="care-day-list">
+                                        {/* <div className="care-day-item">S</div>
                                           <div className="care-day-item">T</div>
                                           <div className="care-day-item">W</div> */}
-                                        </div>
                                       </div>
                                     </div>
-                                    {/* <div className="care-card-foot">
+                                  </div>
+                                  {/* <div className="care-card-foot">
                                       <div className="care-user-info">
                                         <div className="care-user-image">
                                           <img src="images/user.png" />
@@ -472,10 +477,21 @@ const Page = () => {
                                         </div>
                                       </div>
                                     </div> */}
-                                  </div>
-                                );
-                              })
-                            : null}
+                                </div>
+                              );
+                            })
+                          ) : (
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                margin: "5% 0",
+                              }}
+                            >
+                              <img width={300} src={NoData} alt="" />
+                            </div>
+                          )}
                         </div>
                       </div>
                     )}

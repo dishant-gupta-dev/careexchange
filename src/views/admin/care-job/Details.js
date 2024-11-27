@@ -27,7 +27,7 @@ const Details = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getJobDetails(api.careJobDetails + `${decode(id)}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -107,7 +107,6 @@ const Details = () => {
                       {details?.start_time}
                     </span>
                   </div>
-                  
                 </div>
                 <div className="cc-care-day-Weekly-info">
                   <div className="cc-care-point-box">
@@ -117,8 +116,12 @@ const Details = () => {
                     <div className="cc-care-point-text">
                       <h4>Frequency:</h4>
                       <p>
-                      {details?.frequency === "O" ? "One Time" : (details?.frequency === "W" ? "Repeat Weekly" : "Repeat Monthly")}
-                        {details?.days?.length !== 0
+                        {details?.frequency === "O"
+                          ? "One Time"
+                          : details?.frequency === "W"
+                          ? "Repeat Weekly"
+                          : "Repeat Monthly"}
+                        {/* {details?.days?.length !== 0
                           ? details?.days?.map((element, index) => {
                               return (
                                 <label
@@ -129,7 +132,7 @@ const Details = () => {
                                 </label>
                               );
                             })
-                          : null}
+                          : null} */}
                       </p>
                     </div>
                   </div>

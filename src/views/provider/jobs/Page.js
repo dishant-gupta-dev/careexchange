@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Searchicon from "../../../assets/provider/images/search1.svg";
 import careuserprofile from "../../../assets/provider/images/user.png";
 import whcalendar from "../../../assets/provider/images/whcalendar.svg";
@@ -6,10 +6,43 @@ import Repeat from "../../../assets/provider/images/Repeat.svg";
 import Verify from "../../../assets/provider/images/verify.svg";
 import { Link } from "react-router-dom";
 import { routes } from "../../../utlis/provider/routes.utlis";
+import { api } from "../../../utlis/provider/api.utlis";
+import ApiService from "../../../core/services/ApiService";
+import Loader from "../../../layouts/loader/Loader";
+import NoData from "../../../assets/admin/images/no-data-found.svg";
+import { encode } from "base-64";
 
 const Page = () => {
+  const [loading, setLoading] = useState(false);
+  const [tab, setTab] = useState(1);
+  const [list, setList] = useState([]);
+
+  const getJobList = async (api) => {
+    setLoading(true);
+    const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log("all jobs list => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setList(response.data.data.myjobList);
+    } else setList([]);
+    setLoading(false);
+  };
+
+  const handleFilter = (e, date = null) => {
+    e.persist();
+    let name = "";
+    if (e.target.name === "name") name = e.target.value;
+    getJobList(api.myJobs + `?status=${tab}&search=${name}`);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getJobList(api.myJobs + `?status=${tab}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab]);
+
   return (
     <>
+      {loading ? <Loader /> : null}
       <div className="container">
         <div className="messages-section">
           <div className="row">
@@ -17,25 +50,40 @@ const Page = () => {
               <div className="messages-tab">
                 <ul className="nav nav-tabs">
                   <li>
-                    <a className="active" href="#Active" data-bs-toggle="tab">
-                      Active
-                    </a>
+                    <Link
+                      className={tab == 1 ? "active" : ""}
+                      onClick={() => setTab(1)}
+                      data-bs-toggle="tab"
+                    >
+                      Ongoing
+                    </Link>
                   </li>
                   <li>
-                    <a href="#Pending" data-bs-toggle="tab">
+                    <Link
+                      className={tab == 0 ? "active" : ""}
+                      onClick={() => setTab(0)}
+                      data-bs-toggle="tab"
+                    >
                       Pending
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#Cancelled" data-bs-toggle="tab">
+                    <Link
+                      className={tab == 3 ? "active" : ""}
+                      onClick={() => setTab(3)}
+                      data-bs-toggle="tab"
+                    >
                       Cancelled
-                    </a>
+                    </Link>
                   </li>
-
                   <li>
-                    <a href="#Completed" data-bs-toggle="tab">
+                    <Link
+                      className={tab == 4 ? "active" : ""}
+                      onClick={() => setTab(4)}
+                      data-bs-toggle="tab"
+                    >
                       Completed
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -43,15 +91,16 @@ const Page = () => {
               <div className="messages-tabs-content-info tab-content">
                 <div className="tab-pane active" id="Active">
                   <div className="care-title-header">
-                    <h2 className="heading-title">Active Care Job Requests</h2>
+                    <h2 className="heading-title">Care Job Requests</h2>
                     <div className="search-filter wd30">
                       <div className="form-group">
                         <div className="search-form-group">
                           <input
                             type="text"
-                            name=""
+                            name="name"
                             className="form-control"
-                            placeholder="Search "
+                            placeholder="Search"
+                            onChange={(e) => handleFilter(e)}
                           />
                           <span className="search-icon">
                             <img src={Searchicon} alt="" />
@@ -63,69 +112,126 @@ const Page = () => {
 
                   <div className="ProviderProfile-section">
                     <div className="row">
-                      <div className="col-md-12">
-                        <div className="care-card">
-                          <div className="care-card-head">
-                            <div className="care-id">
-                              Job ID:<span>7983489</span>
-                            </div>
+                      {list.length !== 0 ? (
+                        list.map((ele, indx) => {
+                          return (
+                            <div key={indx} className="col-md-12">
+                              <div className="care-card">
+                                <div className="care-card-head">
+                                  <div className="care-id">
+                                    Job ID: <span>{ele.job_id ?? "NA"}</span>
+                                  </div>
 
-                            <div className="care-status">
-                              Status: <span>Active</span>
-                            </div>
-                          </div>
-                          <div className="care-card-body">
-                            <div className="care-content">
-                              <div className="title-text">
-                                Care For Marry Lane
-                              </div>
-                              <div className="date-text">
-                                <img src={whcalendar} alt="" /> Next Mon, 25
-                                Jul, 09:00 Am- 05:00 PM
-                              </div>
-                            </div>
-                            <div className="care-day-Weekly-info">
-                              <div className="care-point-box">
-                                <div className="care-point-icon">
-                                  <img src={Repeat} alt="" />
+                                  <div className="care-status">
+                                    {/* Status: <span>Active</span> */}
+                                  </div>
                                 </div>
-                                <div className="care-point-text">
-                                  <h4>Repeat Weekly:</h4>
-                                  <p>Every</p>
+                                <div className="care-card-body">
+                                  <div className="care-content">
+                                    <div className="title-text">
+                                      {ele.first_name ?? "NA"}
+                                    </div>
+                                    <div className="date-text">
+                                      <img src={whcalendar} alt="" />{" "}
+                                      {ele.start_date} {ele.start_time}
+                                    </div>
+                                  </div>
+                                  <div className="care-day-Weekly-info">
+                                    <div className="care-point-box">
+                                      <div className="care-point-icon">
+                                        <img src={Repeat} alt="" />
+                                      </div>
+                                      <div className="care-point-text">
+                                        <h4>Frequency:</h4>
+                                        <p>
+                                          {ele.frequency === "O"
+                                            ? "One Time"
+                                            : ele.frequency === "W"
+                                            ? "Repeat Weekly"
+                                            : "Repeat Monthly"}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    {/* <div className="care-day-list">
+                                      <div className="care-day-item">S</div>
+                                      <div className="care-day-item">T</div>
+                                      <div className="care-day-item">W</div>
+                                    </div> */}
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="care-day-list">
-                                <div className="care-day-item">S</div>
-                                <div className="care-day-item">T</div>
-                                <div className="care-day-item">W</div>
+
+                                {ele?.providers?.length !== 0
+                                  ? ele?.providers?.map((element, index) => {
+                                      return (
+                                        <div
+                                          key={index}
+                                          className="care-card-foot"
+                                        >
+                                          <div className="care-user-info">
+                                            <div className="care-user-image">
+                                              {element?.logo !== null &&
+                                              element?.logo !== "" &&
+                                              element?.logo !== undefined ? (
+                                                <img
+                                                  src={element?.logo}
+                                                  alt=""
+                                                  className="me-3"
+                                                />
+                                              ) : (
+                                                <img
+                                                  src={element?.profile_image}
+                                                  alt=""
+                                                  className="me-3"
+                                                />
+                                              )}
+                                            </div>
+                                            <div className="care-user-text">
+                                              <div className="care-user-name">
+                                                {element?.business_name
+                                                  ? element?.business_name
+                                                  : element?.fullname}
+                                              </div>
+                                              <div className="Confirmed-Provider">
+                                                <img src={Verify} alt="" />{" "}
+                                                {element?.request_status ??
+                                                  "NA"}{" "}
+                                                Care-Provider
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="care-action1">
+                                            <Link
+                                              className="btn-bl"
+                                              to={`${
+                                                routes.jobDetails
+                                              }/${encode(ele.id)}`}
+                                            >
+                                              View Job Detail
+                                            </Link>
+                                          </div>
+                                        </div>
+                                      );
+                                    })
+                                  : null}
                               </div>
                             </div>
-                          </div>
-                          <div className="care-card-foot">
-                            <div className="care-user-info">
-                              <div className="care-user-image">
-                                <img src={careuserprofile} alt="" />
-                              </div>
-                              <div className="care-user-text">
-                                <div className="care-user-name">
-                                  Joseph Phill Will Take Care
-                                </div>
-                                <div className="Confirmed-Provider">
-                                  <img src={Verify} alt="" /> Confirmed
-                                  Care-Provider
-                                </div>
-                              </div>
-                            </div>
-                            <div className="care-action1">
-                              <Link className="btn-bl" to={routes.jobDetails+"/1"}>View Job Detail</Link>
-                            </div>
-                          </div>
+                          );
+                        })
+                      ) : (
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            margin: "5% 0",
+                          }}
+                        >
+                          <img width={300} src={NoData} alt="" />
                         </div>
-                      </div>
+                      )}
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>

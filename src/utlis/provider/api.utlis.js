@@ -7,6 +7,7 @@ exports.api = {
     otpVerify: `verify-otp`,
     dashboard: `provider/home`,
     userChatList: `provider/chat/user-list`,
+    userBookingList: `provider/booking/list`,
     addNewsletter: `newsletter/add`,
     planList: `admin/plan`,
     profile: `user/profile`,
@@ -18,5 +19,8 @@ exports.api = {
     advertisementDetail: `advertisement/details/`,
     advertisementChangeStatus: `admin/advertisement/status/`,
     tagsList: `tag/list`,
+    myJobs: `provider/request/myjob`,
+    jobDetails: `admin/care/job-detail/`,
+    careNetwork: `user/posted/job`,
     networkDirectory: `provider/List`,
 }

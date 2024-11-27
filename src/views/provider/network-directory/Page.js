@@ -19,7 +19,7 @@ const Page = () => {
   const getDirectoryList = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log("all network directory list => ", response.data);
+    // console.log("all network directory list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setList(response.data.data.ProviderList);
     } else setList([]);
@@ -39,7 +39,9 @@ const Page = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getDirectoryList(api.networkDirectory + `?user_type=${tab}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab]);
   return (
     <>
@@ -90,11 +92,11 @@ const Page = () => {
             </div>
           </div>
           <div className="netdirect-content">
-            <div class="netdirect-tab">
-              <ul class="nav nav-tabs">
+            <div className="netdirect-tab">
+              <ul className="nav nav-tabs">
                 <li>
                   <Link
-                    class={tab == "" ? "active" : ""}
+                    className={tab == "" ? "active" : ""}
                     onClick={() => setTab("")}
                     data-bs-toggle="tab"
                   >
@@ -103,7 +105,7 @@ const Page = () => {
                 </li>
                 <li>
                   <Link
-                    class={tab == 3 ? "active" : ""}
+                    className={tab == 3 ? "active" : ""}
                     data-bs-toggle="tab"
                     onClick={() => setTab(3)}
                   >
@@ -112,7 +114,7 @@ const Page = () => {
                 </li>
                 <li>
                   <Link
-                    class={tab == 2 ? "active" : ""}
+                    className={tab == 2 ? "active" : ""}
                     data-bs-toggle="tab"
                     onClick={() => setTab(2)}
                   >
