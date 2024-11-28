@@ -27,7 +27,7 @@ const Page = () => {
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Name is required!"),
-    mobile: Yup.string().required("Mobile is required!"),
+    mobile: Yup.string().min(10).required("Mobile is required!"),
   });
 
   const initialValuesImg = {
@@ -105,7 +105,7 @@ const Page = () => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
     console.log(response.data.data);
-    
+
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data);
     } else setDetails();
@@ -133,13 +133,32 @@ const Page = () => {
                   <div className="row g-1 align-items-center">
                     <div className="col-md-4">
                       <div className="user-profile-item">
-                        <div className="user-profile-media" style={{ position: "relative", width: "100px", height: "100px", borderRadius: "0", border: "none"}}>
+                        <div
+                          className="user-profile-media"
+                          style={{
+                            position: "relative",
+                            width: "100px",
+                            height: "100px",
+                            borderRadius: "0",
+                            border: "none",
+                          }}
+                        >
                           {details?.image === null ||
                           details?.image === "" ||
                           details?.image === undefined ? (
-                            <img src={NoImage} alt="" className="me-3" style={{borderRadius: "50%"}} />
+                            <img
+                              src={NoImage}
+                              alt=""
+                              className="me-3"
+                              style={{ borderRadius: "50%" }}
+                            />
                           ) : (
-                            <img src={details?.image} alt="" className="me-3" style={{borderRadius: "50%"}} />
+                            <img
+                              src={details?.image}
+                              alt=""
+                              className="me-3"
+                              style={{ borderRadius: "50%" }}
+                            />
                           )}
                           <div class="p-image" onClick={() => setEditImg(true)}>
                             <i class="fa fa-pencil"></i>
@@ -180,7 +199,6 @@ const Page = () => {
 
                 <div className="providerprofile-overview">
                   <div className="row">
-
                     <div className="col-md-5">
                       <div className="overview-card">
                         <div className="overview-content text-center mb-3">
@@ -220,7 +238,6 @@ const Page = () => {
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -250,66 +267,74 @@ const Page = () => {
                 validateOnChange={true}
                 validationSchema={validationSchema}
                 onSubmit={updateProfile}
+                enableReinitialize
               >
-                <Form>
-                  <div className="form-group">
-                    <Field
-                      type="text"
-                      className="form-control todo-list-input"
-                      name="username"
-                      placeholder="Enter Name"
-                    />
-                    <ErrorMessage
-                      name="username"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      className="form-control todo-list-input"
-                      name="email"
-                      value={details?.email}
-                      disabled
-                    />
-                  </div>
-                  <div className="form-group">
-                    <Field
-                      type="number"
-                      className="form-control todo-list-input"
-                      name="mobile"
-                      placeholder="Enter Mobile"
-                    />
-                    <ErrorMessage
-                      name="mobile"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-                  <div className="form-group text-end">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEdit({
-                          status: false,
-                          id: null,
-                        });
-                      }}
-                      className="btn btn-re me-2"
-                      data-bs-dismiss="modal"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="btn btn-gr me-2"
-                      data-bs-dismiss="modal"
-                    >
-                      Update
-                    </button>
-                  </div>
-                </Form>
+                {({ values, setFieldValue }) => (
+                  <Form>
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        className="form-control todo-list-input"
+                        name="username"
+                        placeholder="Enter Name"
+                      />
+                      <ErrorMessage
+                        name="username"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        className="form-control todo-list-input"
+                        name="email"
+                        value={details?.email}
+                        disabled
+                      />
+                    </div>
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        className="form-control"
+                        name="mobile"
+                        placeholder="Enter Phone"
+                        maxlength={10}
+                        value={values.mobile.replace(
+                          /(\d{3})(\d{3})(\d{4})/,
+                          "($1) $2-$3"
+                        )}
+                      />
+                      <ErrorMessage
+                        name="mobile"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div className="form-group text-end">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEdit({
+                            status: false,
+                            id: null,
+                          });
+                        }}
+                        className="btn btn-re me-2"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="btn btn-gr me-2"
+                        data-bs-dismiss="modal"
+                      >
+                        Update
+                      </button>
+                    </div>
+                  </Form>
+                )}
               </Formik>
             </div>
           </ModalBody>

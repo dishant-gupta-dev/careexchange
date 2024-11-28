@@ -82,7 +82,7 @@ const Register = () => {
     sub_category: Yup.string().required("Sub Category is required!"),
     name: Yup.string().required("Name is required!"),
     email: Yup.string().required("Email is required!"),
-    phone: Yup.string().required("Phone is required!"),
+    phone: Yup.string().min(10).required("Phone is required!"),
     free_in_home_assessment: Yup.string().required(
       "In-Home assessment is required!"
     ),
@@ -369,680 +369,697 @@ const Register = () => {
                             validateOnChange={true}
                             validationSchema={validationFirstSchema}
                             onSubmit={firstStep}
+                            enableReinitialize
                           >
-                            <Form id="first-step-form">
-                              <div className="row">
-                                <div className="col-md-12">
-                                  <div className="form-group search-form-group">
-                                    <h4>Business Address</h4>
-                                    {isLoaded && (
-                                      <StandaloneSearchBox
-                                        onLoad={(ref) =>
-                                          (inputRef.current = ref)
-                                        }
-                                        onPlacesChanged={handlePlaceChange}
-                                      >
-                                        <input
-                                          className="form-control"
-                                          placeholder="Where are you going?"
-                                          defaultValue={location.address}
-                                        />
-                                      </StandaloneSearchBox>
-                                    )}
-                                    <span className="form-group-icon">
-                                      <img src={GmapImg} />
-                                    </span>
-                                  </div>
-                                </div>
-
-                                <div className="col-md-12">
-                                  <div className="form-group">
-                                    <h4>Search By Miles Away</h4>
-                                    <div className="choosemiles-list">
-                                      <ul>
-                                        <li>
-                                          <div className="ceradio1">
-                                            <Field
-                                              type="radio"
-                                              name="radius"
-                                              id="10miles"
-                                              value="10"
-                                            />
-                                            <label for="10miles">
-                                              <span className="checkbox-text">
-                                                <img src={LocImg} /> 10 Miles{" "}
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <div className="ceradio1">
-                                            <Field
-                                              type="radio"
-                                              name="radius"
-                                              id="20miles"
-                                              value="20"
-                                            />
-                                            <label for="20miles">
-                                              <span className="checkbox-text">
-                                                <img src={LocImg} /> 20 Miles{" "}
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-
-                                        <li>
-                                          <div className="ceradio1">
-                                            <Field
-                                              type="radio"
-                                              name="radius"
-                                              id="30miles"
-                                              value="30"
-                                            />
-                                            <label for="30miles">
-                                              <span className="checkbox-text">
-                                                <img src={LocImg} /> 30 Miles{" "}
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-
-                                        <li>
-                                          <div className="ceradio1">
-                                            <Field
-                                              type="radio"
-                                              name="radius"
-                                              id="50miles"
-                                              value="50"
-                                            />
-                                            <label for="50miles">
-                                              <span className="checkbox-text">
-                                                <img src={LocImg} /> 50 Miles{" "}
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-
-                                        <li>
-                                          <div className="ceradio1">
-                                            <Field
-                                              type="radio"
-                                              name="radius"
-                                              id="100miles"
-                                              value="100"
-                                            />
-                                            <label for="100miles">
-                                              <span className="checkbox-text">
-                                                <img src={LocImg} /> 100 Miles{" "}
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-
-                                        <li>
-                                          <div className="ceradio1">
-                                            <Field
-                                              type="radio"
-                                              name="radius"
-                                              id="200miles"
-                                              value="200"
-                                            />
-                                            <label for="200miles">
-                                              <span className="checkbox-text">
-                                                <img src={LocImg} /> 200 Miles{" "}
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-
-                                        <li>
-                                          <div className="ceradio1">
-                                            <Field
-                                              type="radio"
-                                              name="radius"
-                                              id="300miles"
-                                              value="300"
-                                            />
-                                            <label for="300miles">
-                                              <span className="checkbox-text">
-                                                <img src={LocImg} /> 300 Miles{" "}
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-
-                                        <li>
-                                          <div className="ceradio1">
-                                            <Field
-                                              type="radio"
-                                              name="radius"
-                                              id="1000miles"
-                                              value="1000"
-                                            />
-                                            <label for="1000miles">
-                                              <span className="checkbox-text">
-                                                <img src={LocImg} /> 1000 Miles{" "}
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-                                      </ul>
-                                      <ErrorMessage
-                                        name="radius"
-                                        component="div"
-                                        className="alert alert-danger"
-                                      />
+                            {({ values, setFieldValue }) => (
+                              <Form id="first-step-form">
+                                <div className="row">
+                                  <div className="col-md-12">
+                                    <div className="form-group search-form-group">
+                                      <h4>Business Address</h4>
+                                      {isLoaded && (
+                                        <StandaloneSearchBox
+                                          onLoad={(ref) =>
+                                            (inputRef.current = ref)
+                                          }
+                                          onPlacesChanged={handlePlaceChange}
+                                        >
+                                          <input
+                                            className="form-control"
+                                            placeholder="Where are you going?"
+                                            defaultValue={location.address}
+                                          />
+                                        </StandaloneSearchBox>
+                                      )}
+                                      <span className="form-group-icon">
+                                        <img src={GmapImg} />
+                                      </span>
                                     </div>
                                   </div>
-                                </div>
 
-                                <div className="col-md-12">
-                                  <div className="form-group">
-                                    <div className="row">
-                                      <div className="col-md-6">
-                                        <h4>Select States</h4>
-                                        <Select
-                                          name="state_ids"
-                                          className="form-control text-capitalize todo-list-input"
-                                          placeholder="Select states"
-                                          isMulti={true}
-                                          options={state}
-                                          onChange={(ans) => {
-                                            setSelectedState(ans);
-                                          }}
-                                        />
-                                        {stateError && (
-                                          <div className="alert alert-danger">
-                                            State is required!
-                                          </div>
-                                        )}
-                                      </div>
-                                      <div className="col-md-6">
-                                        <h4>Select Cities</h4>
-                                        <Select
-                                          name="city_ids"
-                                          className="form-control text-capitalize todo-list-input"
-                                          placeholder="Select cities"
-                                          isMulti={true}
-                                          options={city}
-                                          onChange={(ans) => {
-                                            setSelectedCity(ans);
-                                          }}
-                                        />
-                                        {cityError && (
-                                          <div className="alert alert-danger">
-                                            City is required!
-                                          </div>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                                  <div className="col-md-12">
+                                    <div className="form-group">
+                                      <h4>Search By Miles Away</h4>
+                                      <div className="choosemiles-list">
+                                        <ul>
+                                          <li>
+                                            <div className="ceradio1">
+                                              <Field
+                                                type="radio"
+                                                name="radius"
+                                                id="10miles"
+                                                value="10"
+                                              />
+                                              <label for="10miles">
+                                                <span className="checkbox-text">
+                                                  <img src={LocImg} /> 10 Miles{" "}
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div className="ceradio1">
+                                              <Field
+                                                type="radio"
+                                                name="radius"
+                                                id="20miles"
+                                                value="20"
+                                              />
+                                              <label for="20miles">
+                                                <span className="checkbox-text">
+                                                  <img src={LocImg} /> 20 Miles{" "}
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
 
-                                <div className="col-md-12">
-                                  <div className="form-group">
-                                    <h4>Care Services You Are Looking For?</h4>
-                                    <div className="row">
-                                      <div className="col-md-6">
-                                        <select
-                                          className="form-control"
-                                          name="category"
-                                          defaultValue={selectCategories}
-                                          onChange={(e) => {
-                                            getSubCategoryList(e.target.value);
-                                            setSelectCategory(e.target.value);
-                                          }}
-                                        >
-                                          <option value="">
-                                            Select Category
-                                          </option>
-                                          {categories.length !== 0
-                                            ? categories.map((ele, indx) => {
-                                                return (
-                                                  <option
-                                                    key={indx}
-                                                    value={ele.id}
-                                                  >
-                                                    {ele.name ?? "NA"}
-                                                  </option>
-                                                );
-                                              })
-                                            : null}
-                                        </select>
-                                      </div>
-                                      <div className="col-md-6">
-                                        <Field
-                                          as="select"
-                                          type="text"
-                                          className="form-control"
-                                          name="sub_category"
-                                        >
-                                          <option value="">
-                                            Select Sub Category
-                                          </option>
-                                          {subCategories.length !== 0
-                                            ? subCategories.map((ele, indx) => {
-                                                return (
-                                                  <option
-                                                    key={indx}
-                                                    value={ele.id}
-                                                  >
-                                                    {ele.name ?? "NA"}
-                                                  </option>
-                                                );
-                                              })
-                                            : null}
-                                        </Field>
+                                          <li>
+                                            <div className="ceradio1">
+                                              <Field
+                                                type="radio"
+                                                name="radius"
+                                                id="30miles"
+                                                value="30"
+                                              />
+                                              <label for="30miles">
+                                                <span className="checkbox-text">
+                                                  <img src={LocImg} /> 30 Miles{" "}
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+
+                                          <li>
+                                            <div className="ceradio1">
+                                              <Field
+                                                type="radio"
+                                                name="radius"
+                                                id="50miles"
+                                                value="50"
+                                              />
+                                              <label for="50miles">
+                                                <span className="checkbox-text">
+                                                  <img src={LocImg} /> 50 Miles{" "}
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+
+                                          <li>
+                                            <div className="ceradio1">
+                                              <Field
+                                                type="radio"
+                                                name="radius"
+                                                id="100miles"
+                                                value="100"
+                                              />
+                                              <label for="100miles">
+                                                <span className="checkbox-text">
+                                                  <img src={LocImg} /> 100 Miles{" "}
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+
+                                          <li>
+                                            <div className="ceradio1">
+                                              <Field
+                                                type="radio"
+                                                name="radius"
+                                                id="200miles"
+                                                value="200"
+                                              />
+                                              <label for="200miles">
+                                                <span className="checkbox-text">
+                                                  <img src={LocImg} /> 200 Miles{" "}
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+
+                                          <li>
+                                            <div className="ceradio1">
+                                              <Field
+                                                type="radio"
+                                                name="radius"
+                                                id="300miles"
+                                                value="300"
+                                              />
+                                              <label for="300miles">
+                                                <span className="checkbox-text">
+                                                  <img src={LocImg} /> 300 Miles{" "}
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+
+                                          <li>
+                                            <div className="ceradio1">
+                                              <Field
+                                                type="radio"
+                                                name="radius"
+                                                id="1000miles"
+                                                value="1000"
+                                              />
+                                              <label for="1000miles">
+                                                <span className="checkbox-text">
+                                                  <img src={LocImg} /> 1000
+                                                  Miles{" "}
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+                                        </ul>
                                         <ErrorMessage
-                                          name="sub_category"
+                                          name="radius"
                                           component="div"
                                           className="alert alert-danger"
                                         />
                                       </div>
                                     </div>
                                   </div>
-                                </div>
 
-                                <div className="col-md-6">
-                                  <div className="form-group">
-                                    <h4>Name</h4>
-                                    <Field
-                                      type="text"
-                                      className="form-control"
-                                      name="name"
-                                      placeholder="Name"
-                                    />
-                                    <ErrorMessage
-                                      name="name"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
+                                  <div className="col-md-12">
+                                    <div className="form-group">
+                                      <div className="row">
+                                        <div className="col-md-6">
+                                          <h4>Select States</h4>
+                                          <Select
+                                            name="state_ids"
+                                            className="form-control text-capitalize todo-list-input"
+                                            placeholder="Select states"
+                                            isMulti={true}
+                                            options={state}
+                                            onChange={(ans) => {
+                                              setSelectedState(ans);
+                                            }}
+                                          />
+                                          {stateError && (
+                                            <div className="alert alert-danger">
+                                              State is required!
+                                            </div>
+                                          )}
+                                        </div>
+                                        <div className="col-md-6">
+                                          <h4>Select Cities</h4>
+                                          <Select
+                                            name="city_ids"
+                                            className="form-control text-capitalize todo-list-input"
+                                            placeholder="Select cities"
+                                            isMulti={true}
+                                            options={city}
+                                            onChange={(ans) => {
+                                              setSelectedCity(ans);
+                                            }}
+                                          />
+                                          {cityError && (
+                                            <div className="alert alert-danger">
+                                              City is required!
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
 
-                                <div className="col-md-6">
-                                  <div className="form-group">
-                                    <h4>Email Id</h4>
-                                    <Field
-                                      type="email"
-                                      className="form-control"
-                                      name="email"
-                                      placeholder="Email Address"
-                                    />
-                                    <ErrorMessage
-                                      name="email"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
+                                  <div className="col-md-12">
+                                    <div className="form-group">
+                                      <h4>
+                                        Care Services You Are Looking For?
+                                      </h4>
+                                      <div className="row">
+                                        <div className="col-md-6">
+                                          <select
+                                            className="form-control"
+                                            name="category"
+                                            defaultValue={selectCategories}
+                                            onChange={(e) => {
+                                              getSubCategoryList(
+                                                e.target.value
+                                              );
+                                              setSelectCategory(e.target.value);
+                                            }}
+                                          >
+                                            <option value="">
+                                              Select Category
+                                            </option>
+                                            {categories.length !== 0
+                                              ? categories.map((ele, indx) => {
+                                                  return (
+                                                    <option
+                                                      key={indx}
+                                                      value={ele.id}
+                                                    >
+                                                      {ele.name ?? "NA"}
+                                                    </option>
+                                                  );
+                                                })
+                                              : null}
+                                          </select>
+                                        </div>
+                                        <div className="col-md-6">
+                                          <Field
+                                            as="select"
+                                            type="text"
+                                            className="form-control"
+                                            name="sub_category"
+                                          >
+                                            <option value="">
+                                              Select Sub Category
+                                            </option>
+                                            {subCategories.length !== 0
+                                              ? subCategories.map(
+                                                  (ele, indx) => {
+                                                    return (
+                                                      <option
+                                                        key={indx}
+                                                        value={ele.id}
+                                                      >
+                                                        {ele.name ?? "NA"}
+                                                      </option>
+                                                    );
+                                                  }
+                                                )
+                                              : null}
+                                          </Field>
+                                          <ErrorMessage
+                                            name="sub_category"
+                                            component="div"
+                                            className="alert alert-danger"
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
 
-                                <div className="col-md-6">
-                                  <div className="form-group">
-                                    <h4>Phone</h4>
-                                    <Field
-                                      type="number"
-                                      className="form-control"
-                                      name="phone"
-                                      placeholder="Phone Number"
-                                    />
-                                    <ErrorMessage
-                                      name="phone"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className="col-md-6">
-                                  <div className="form-group">
-                                    <h4>Free In-Home Assessment Offered?</h4>
-                                    <div className="choosemiles-list">
-                                      <ul>
-                                        <li>
-                                          <div className="ceradio">
-                                            <Field
-                                              type="radio"
-                                              name="free_in_home_assessment"
-                                              id="Yes"
-                                              value="yes"
-                                            />
-                                            <label for="Yes">
-                                              <span className="checkbox-text">
-                                                {" "}
-                                                Yes
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <div className="ceradio">
-                                            <Field
-                                              type="radio"
-                                              name="free_in_home_assessment"
-                                              id="No"
-                                              value="no"
-                                            />
-                                            <label for="No">
-                                              <span className="checkbox-text">
-                                                No
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-                                      </ul>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>Name</h4>
+                                      <Field
+                                        type="text"
+                                        className="form-control"
+                                        name="name"
+                                        placeholder="Name"
+                                      />
                                       <ErrorMessage
-                                        name="free_in_home_assessment"
+                                        name="name"
                                         component="div"
                                         className="alert alert-danger"
                                       />
                                     </div>
                                   </div>
-                                </div>
 
-                                <div className="col-md-6">
-                                  <div className="form-group">
-                                    <h4>Business Name</h4>
-                                    <Field
-                                      type="text"
-                                      className="form-control"
-                                      name="business_name"
-                                      placeholder="Business Name"
-                                    />
-                                    <ErrorMessage
-                                      name="business_name"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className="col-md-6">
-                                  <div className="form-group">
-                                    <h4>Experience</h4>
-                                    <Field
-                                      type="text"
-                                      className="form-control"
-                                      name="experience"
-                                      placeholder="Experience"
-                                    />
-                                    <ErrorMessage
-                                      name="experience"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className="col-md-6">
-                                  <div className="form-group">
-                                    <h4>Slogan</h4>
-                                    <Field
-                                      type="text"
-                                      className="form-control"
-                                      name="slogan"
-                                      placeholder="Slogan"
-                                    />
-                                    <ErrorMessage
-                                      name="slogan"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className="col-md-6">
-                                  <div className="form-group">
-                                    <h4>License Number</h4>
-                                    <Field
-                                      type="number"
-                                      className="form-control"
-                                      name="license_number"
-                                      placeholder="License Number"
-                                    />
-                                    <ErrorMessage
-                                      name="license_number"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                  </div>
-                                </div>
-
-                                <div className="col-md-6">
-                                  <div className="form-group">
-                                    <h4>Upload File</h4>
-                                    <input
-                                      type="file"
-                                      name="file"
-                                      accept="image/*"
-                                      onChange={handleImgChange}
-                                      className="form-control todo-list-input"
-                                    />
-                                    {imgError && (
-                                      <div className="alert alert-danger">
-                                        Image is required!
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-
-                                <div className="col-md-6">
-                                  <div className="form-group">
-                                    <h4>Upload License</h4>
-                                    <input
-                                      type="file"
-                                      name="license_image"
-                                      accept="image/*"
-                                      data-multiple-caption="{count} files selected"
-                                      multiple="5"
-                                      onChange={(e) => handleMultiImgChange(e)}
-                                      className="form-control todo-list-input"
-                                    />
-                                    {imgMultiError && (
-                                      <div className="alert alert-danger">
-                                        License Image is required!
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-
-                                <div className="col-md-12">
-                                  <div className="form-group">
-                                    <h4>What is your Payment Method?</h4>
-                                    <div className="choosemiles-list">
-                                      <ul>
-                                        <li>
-                                          <div className="ceradio1">
-                                            <Field
-                                              type="radio"
-                                              name="payment_accepted_type"
-                                              id="FirstPay"
-                                              value="Private Pay"
-                                            />
-                                            <label for="FirstPay">
-                                              <span className="checkbox-text">
-                                                {" "}
-                                                Private Pay
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-                                        <li>
-                                          <div className="ceradio1">
-                                            <Field
-                                              type="radio"
-                                              name="payment_accepted_type"
-                                              id="SecondPay"
-                                              value="Debit Card"
-                                            />
-                                            <label for="SecondPay">
-                                              <span className="checkbox-text">
-                                                Debit Card
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-
-                                        <li>
-                                          <div className="ceradio1">
-                                            <Field
-                                              type="radio"
-                                              name="payment_accepted_type"
-                                              id="ThirdPay"
-                                              value="Insurance"
-                                            />
-                                            <label for="ThirdPay">
-                                              <span className="checkbox-text">
-                                                Insurance
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-
-                                        <li>
-                                          <div className="ceradio1">
-                                            <Field
-                                              type="radio"
-                                              name="payment_accepted_type"
-                                              id="FourthPay"
-                                              value="Stripe"
-                                            />
-                                            <label for="FourthPay">
-                                              <span className="checkbox-text">
-                                                Stripe
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-
-                                        <li>
-                                          <div className="ceradio1">
-                                            <Field
-                                              type="radio"
-                                              name="payment_accepted_type"
-                                              id="FifthPay"
-                                              value="Medicaid"
-                                            />
-                                            <label for="FifthPay">
-                                              <span className="checkbox-text">
-                                                Medicaid
-                                              </span>
-                                            </label>
-                                          </div>
-                                        </li>
-                                      </ul>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>Email Id</h4>
+                                      <Field
+                                        type="email"
+                                        className="form-control"
+                                        name="email"
+                                        placeholder="Email Address"
+                                      />
                                       <ErrorMessage
-                                        name="payment_accepted_type"
+                                        name="email"
                                         component="div"
                                         className="alert alert-danger"
                                       />
                                     </div>
                                   </div>
-                                </div>
-                                
-                                <div class="col-md-4">
-                                  <div class="form-group search-form-group-r">
-                                    <h4>Fees Per Hour</h4>
-                                    <Field
-                                      type="number"
-                                      className="form-control"
-                                      name="fee_per_hour"
-                                      placeholder="Fees Per Hour"
-                                    />
-                                    <ErrorMessage
-                                      name="fee_per_hour"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                    <span class="Rangedays-text">Hour</span>
-                                  </div>
-                                </div>
 
-                                <div class="col-md-4">
-                                  <div class="form-group search-form-group-r">
-                                    <h4>Fees Per Week</h4>
-                                    <Field
-                                      type="number"
-                                      className="form-control"
-                                      name="fee_per_week"
-                                      placeholder="Fees Per Week"
-                                    />
-                                    <ErrorMessage
-                                      name="fee_per_week"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                    <span class="Rangedays-text">Week</span>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>Phone</h4>
+                                      <Field
+                                        type="text"
+                                        className="form-control"
+                                        name="phone"
+                                        placeholder="Enter Phone"
+                                        maxlength={10}
+                                        value={values.phone.replace(
+                                          /(\d{3})(\d{3})(\d{4})/,
+                                          "($1) $2-$3"
+                                        )}
+                                      />
+                                      <ErrorMessage
+                                        name="phone"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
                                   </div>
-                                </div>
 
-                                <div class="col-md-4">
-                                  <div class="form-group search-form-group-r">
-                                    <h4>Fees Per Month</h4>
-                                    <Field
-                                      type="number"
-                                      className="form-control"
-                                      name="fee_per_month"
-                                      placeholder="Fees Per Month"
-                                    />
-                                    <ErrorMessage
-                                      name="fee_per_month"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                    <span class="Rangedays-text">Month</span>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>Free In-Home Assessment Offered?</h4>
+                                      <div className="choosemiles-list">
+                                        <ul>
+                                          <li>
+                                            <div className="ceradio">
+                                              <Field
+                                                type="radio"
+                                                name="free_in_home_assessment"
+                                                id="Yes"
+                                                value="yes"
+                                              />
+                                              <label for="Yes">
+                                                <span className="checkbox-text">
+                                                  {" "}
+                                                  Yes
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div className="ceradio">
+                                              <Field
+                                                type="radio"
+                                                name="free_in_home_assessment"
+                                                id="No"
+                                                value="no"
+                                              />
+                                              <label for="No">
+                                                <span className="checkbox-text">
+                                                  No
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+                                        </ul>
+                                        <ErrorMessage
+                                          name="free_in_home_assessment"
+                                          component="div"
+                                          className="alert alert-danger"
+                                        />
+                                      </div>
+                                    </div>
                                   </div>
-                                </div>
 
-                                <div className="col-md-12">
-                                  <div className="form-group">
-                                    <h4>Description</h4>
-                                    <Field
-                                      type="text"
-                                      as="textarea"
-                                      className="form-control"
-                                      name="description"
-                                      placeholder="Other Info/About your Business"
-                                    />
-                                    <ErrorMessage
-                                      name="description"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>Business Name</h4>
+                                      <Field
+                                        type="text"
+                                        className="form-control"
+                                        name="business_name"
+                                        placeholder="Business Name"
+                                      />
+                                      <ErrorMessage
+                                        name="business_name"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
                                   </div>
-                                </div>
 
-                                <div className="col-md-12">
-                                  <div className="form-group float-end">
-                                    <button
-                                      className="btn-bl mx-2"
-                                      type="button"
-                                      onClick={() => {
-                                        document
-                                          .getElementById("first-step-form")
-                                          .reset();
-                                        setLocation({
-                                          lat: null,
-                                          lng: null,
-                                          address: null,
-                                        });
-                                        setSelectCategory("");
-                                        setSelectSubCategory("");
-                                        setSubCategory([]);
-                                        setSelectRadius("");
-                                        setFile();
-                                        setStartDate("");
-                                      }}
-                                    >
-                                      Clear All
-                                    </button>
-                                    <button className="btn-gr" type="submit">
-                                      Next
-                                    </button>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>Experience</h4>
+                                      <Field
+                                        type="text"
+                                        className="form-control"
+                                        name="experience"
+                                        placeholder="Experience"
+                                      />
+                                      <ErrorMessage
+                                        name="experience"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>Slogan</h4>
+                                      <Field
+                                        type="text"
+                                        className="form-control"
+                                        name="slogan"
+                                        placeholder="Slogan"
+                                      />
+                                      <ErrorMessage
+                                        name="slogan"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>License Number</h4>
+                                      <Field
+                                        type="number"
+                                        className="form-control"
+                                        name="license_number"
+                                        placeholder="License Number"
+                                      />
+                                      <ErrorMessage
+                                        name="license_number"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>Upload File</h4>
+                                      <input
+                                        type="file"
+                                        name="file"
+                                        accept="image/*"
+                                        onChange={handleImgChange}
+                                        className="form-control todo-list-input"
+                                      />
+                                      {imgError && (
+                                        <div className="alert alert-danger">
+                                          Image is required!
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>Upload License</h4>
+                                      <input
+                                        type="file"
+                                        name="license_image"
+                                        accept="image/*"
+                                        data-multiple-caption="{count} files selected"
+                                        multiple="5"
+                                        onChange={(e) =>
+                                          handleMultiImgChange(e)
+                                        }
+                                        className="form-control todo-list-input"
+                                      />
+                                      {imgMultiError && (
+                                        <div className="alert alert-danger">
+                                          License Image is required!
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-12">
+                                    <div className="form-group">
+                                      <h4>What is your Payment Method?</h4>
+                                      <div className="choosemiles-list">
+                                        <ul>
+                                          <li>
+                                            <div className="ceradio1">
+                                              <Field
+                                                type="radio"
+                                                name="payment_accepted_type"
+                                                id="FirstPay"
+                                                value="Private Pay"
+                                              />
+                                              <label for="FirstPay">
+                                                <span className="checkbox-text">
+                                                  {" "}
+                                                  Private Pay
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div className="ceradio1">
+                                              <Field
+                                                type="radio"
+                                                name="payment_accepted_type"
+                                                id="SecondPay"
+                                                value="Debit Card"
+                                              />
+                                              <label for="SecondPay">
+                                                <span className="checkbox-text">
+                                                  Debit Card
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+
+                                          <li>
+                                            <div className="ceradio1">
+                                              <Field
+                                                type="radio"
+                                                name="payment_accepted_type"
+                                                id="ThirdPay"
+                                                value="Insurance"
+                                              />
+                                              <label for="ThirdPay">
+                                                <span className="checkbox-text">
+                                                  Insurance
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+
+                                          <li>
+                                            <div className="ceradio1">
+                                              <Field
+                                                type="radio"
+                                                name="payment_accepted_type"
+                                                id="FourthPay"
+                                                value="Stripe"
+                                              />
+                                              <label for="FourthPay">
+                                                <span className="checkbox-text">
+                                                  Stripe
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+
+                                          <li>
+                                            <div className="ceradio1">
+                                              <Field
+                                                type="radio"
+                                                name="payment_accepted_type"
+                                                id="FifthPay"
+                                                value="Medicaid"
+                                              />
+                                              <label for="FifthPay">
+                                                <span className="checkbox-text">
+                                                  Medicaid
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+                                        </ul>
+                                        <ErrorMessage
+                                          name="payment_accepted_type"
+                                          component="div"
+                                          className="alert alert-danger"
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-4">
+                                    <div class="form-group search-form-group-r">
+                                      <h4>Fees Per Hour</h4>
+                                      <Field
+                                        type="number"
+                                        className="form-control"
+                                        name="fee_per_hour"
+                                        placeholder="Fees Per Hour"
+                                      />
+                                      <ErrorMessage
+                                        name="fee_per_hour"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                      <span class="Rangedays-text">Hour</span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-4">
+                                    <div class="form-group search-form-group-r">
+                                      <h4>Fees Per Week</h4>
+                                      <Field
+                                        type="number"
+                                        className="form-control"
+                                        name="fee_per_week"
+                                        placeholder="Fees Per Week"
+                                      />
+                                      <ErrorMessage
+                                        name="fee_per_week"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                      <span class="Rangedays-text">Week</span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-4">
+                                    <div class="form-group search-form-group-r">
+                                      <h4>Fees Per Month</h4>
+                                      <Field
+                                        type="number"
+                                        className="form-control"
+                                        name="fee_per_month"
+                                        placeholder="Fees Per Month"
+                                      />
+                                      <ErrorMessage
+                                        name="fee_per_month"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                      <span class="Rangedays-text">Month</span>
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-12">
+                                    <div className="form-group">
+                                      <h4>Description</h4>
+                                      <Field
+                                        type="text"
+                                        as="textarea"
+                                        className="form-control"
+                                        name="description"
+                                        placeholder="Other Info/About your Business"
+                                      />
+                                      <ErrorMessage
+                                        name="description"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-12">
+                                    <div className="form-group float-end">
+                                      <button
+                                        className="btn-bl mx-2"
+                                        type="button"
+                                        onClick={() => {
+                                          document
+                                            .getElementById("first-step-form")
+                                            .reset();
+                                          setLocation({
+                                            lat: null,
+                                            lng: null,
+                                            address: null,
+                                          });
+                                          setSelectCategory("");
+                                          setSelectSubCategory("");
+                                          setSubCategory([]);
+                                          setSelectRadius("");
+                                          setFile();
+                                          setStartDate("");
+                                        }}
+                                      >
+                                        Clear All
+                                      </button>
+                                      <button className="btn-gr" type="submit">
+                                        Next
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </Form>
+                              </Form>
+                            )}
                           </Formik>
                         </div>
                       </div>

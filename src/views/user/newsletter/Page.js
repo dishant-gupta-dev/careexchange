@@ -18,7 +18,7 @@ const Page = () => {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required!"),
-    phone: Yup.string().required("Mobile is required!"),
+    phone: Yup.string().min(10).required("Mobile is required!"),
     email_address: Yup.string().email().required("Email address is required!"),
   });
 
@@ -67,53 +67,61 @@ const Page = () => {
                             validateOnChange={true}
                             validationSchema={validationSchema}
                             onSubmit={addNewsLetter}
+                            enableReinitialize
                           >
-                            <Form class="pt-4" id="newsletter-form">
-                              <div class="form-group">
-                                <Field
-                                  type="text"
-                                  className="form-control todo-list-input"
-                                  name="name"
-                                  placeholder="Enter Name"
-                                />
-                                <ErrorMessage
-                                  name="name"
-                                  component="div"
-                                  className="alert alert-danger"
-                                />
-                              </div>
-                              <div class="form-group">
-                                <Field
-                                  type="email_address"
-                                  className="form-control"
-                                  name="email_address"
-                                  placeholder="Enter Email"
-                                />
-                                <ErrorMessage
-                                  name="email_address"
-                                  component="div"
-                                  className="alert alert-danger"
-                                />
-                              </div>
-                              <div class="form-group">
-                                <Field
-                                  type="number"
-                                  className="form-control todo-list-input"
-                                  name="phone"
-                                  placeholder="Enter Mobile"
-                                />
-                                <ErrorMessage
-                                  name="phone"
-                                  component="div"
-                                  className="alert alert-danger"
-                                />
-                              </div>
-                              <div class="form-group">
-                                <button type="submit" class="auth-form-btn">
-                                  Submit
-                                </button>
-                              </div>
-                            </Form>
+                            {({ values, setFieldValue }) => (
+                              <Form class="pt-4" id="newsletter-form">
+                                <div class="form-group">
+                                  <Field
+                                    type="text"
+                                    className="form-control todo-list-input"
+                                    name="name"
+                                    placeholder="Enter Name"
+                                  />
+                                  <ErrorMessage
+                                    name="name"
+                                    component="div"
+                                    className="alert alert-danger"
+                                  />
+                                </div>
+                                <div class="form-group">
+                                  <Field
+                                    type="email_address"
+                                    className="form-control"
+                                    name="email_address"
+                                    placeholder="Enter Email"
+                                  />
+                                  <ErrorMessage
+                                    name="email_address"
+                                    component="div"
+                                    className="alert alert-danger"
+                                  />
+                                </div>
+                                <div class="form-group">
+                                  <Field
+                                    type="text"
+                                    className="form-control"
+                                    name="phone"
+                                    placeholder="Enter Phone"
+                                    maxlength={10}
+                                    value={values.phone.replace(
+                                      /(\d{3})(\d{3})(\d{4})/,
+                                      "($1) $2-$3"
+                                    )}
+                                  />
+                                  <ErrorMessage
+                                    name="phone"
+                                    component="div"
+                                    className="alert alert-danger"
+                                  />
+                                </div>
+                                <div class="form-group">
+                                  <button type="submit" class="auth-form-btn">
+                                    Submit
+                                  </button>
+                                </div>
+                              </Form>
+                            )}
                           </Formik>
                         </div>
                       </div>

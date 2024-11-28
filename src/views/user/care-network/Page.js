@@ -59,7 +59,7 @@ const Page = () => {
 
   const validationSchema = Yup.object().shape({
     full_name: Yup.string().required("Name is required!"),
-    mobile: Yup.string().required("Mobile is required!"),
+    mobile: Yup.string().min(10).required("Mobile is required!"),
     email: Yup.string().email().required("Email is required!"),
   });
 
@@ -240,7 +240,7 @@ const Page = () => {
             </Link>
             <div className="search-filter wd60">
               <div className="row g-2">
-                <div className="col-md-2">
+                <div className="col-md-3">
                   <div className="form-group">
                     <Link
                       className="btn-bl wd100"
@@ -251,7 +251,7 @@ const Page = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-3">
                   <div className="form-group">
                     <DatePicker
                       toggleCalendarOnIconClick
@@ -314,9 +314,7 @@ const Page = () => {
                           <div className="care-date">
                             Posted On:{" "}
                             <span>
-                              {moment(ele.posted_date).format(
-                                "MM-DD-yyyy"
-                              )}
+                              {moment(ele.posted_date).format("MM-DD-yyyy")}
                             </span>
                           </div>
                         </div>
@@ -703,81 +701,89 @@ const Page = () => {
                 validateOnChange={true}
                 validationSchema={validationSchema}
                 onSubmit={applyJob}
+                enableReinitialize
               >
-                <Form>
-                  <div className="form-group">
-                    <Field
-                      type="text"
-                      className="form-control"
-                      name="full_name"
-                      placeholder="Enter Name"
-                    />
-                    <ErrorMessage
-                      name="full_name"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <Field
-                      type="email"
-                      className="form-control"
-                      name="email"
-                      placeholder="Enter Email"
-                    />
-                    <ErrorMessage
-                      name="email"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <Field
-                      type="number"
-                      className="form-control todo-list-input"
-                      name="mobile"
-                      placeholder="Enter Mobile"
-                    />
-                    <ErrorMessage
-                      name="mobile"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="file"
-                      className="form-control"
-                      name="file"
-                      accept="application/*"
-                      onChange={handleResumeChange}
-                    />
-                    {imgError && (
-                      <div className="alert alert-danger">
-                        Image is required!
-                      </div>
-                    )}
-                  </div>
-                  <div className="form-group text-end">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setApply({ status: false, id: null });
-                      }}
-                      className="btn btn-re me-2"
-                      data-bs-dismiss="modal"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="btn btn-gr me-2"
-                      data-bs-dismiss="modal"
-                    >
-                      Apply
-                    </button>
-                  </div>
-                </Form>
+                {({ values, setFieldValue }) => (
+                  <Form>
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        className="form-control"
+                        name="full_name"
+                        placeholder="Enter Name"
+                      />
+                      <ErrorMessage
+                        name="full_name"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <Field
+                        type="email"
+                        className="form-control"
+                        name="email"
+                        placeholder="Enter Email"
+                      />
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        className="form-control"
+                        name="mobile"
+                        placeholder="Enter Phone"
+                        maxlength={10}
+                        value={values.mobile.replace(
+                          /(\d{3})(\d{3})(\d{4})/,
+                          "($1) $2-$3"
+                        )}
+                      />
+                      <ErrorMessage
+                        name="mobile"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="file"
+                        className="form-control"
+                        name="file"
+                        accept="application/*"
+                        onChange={handleResumeChange}
+                      />
+                      {imgError && (
+                        <div className="alert alert-danger">
+                          Image is required!
+                        </div>
+                      )}
+                    </div>
+                    <div className="form-group text-end">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setApply({ status: false, id: null });
+                        }}
+                        className="btn btn-re me-2"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="btn btn-gr me-2"
+                        data-bs-dismiss="modal"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </Form>
+                )}
               </Formik>
             </div>
           </ModalBody>
