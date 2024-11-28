@@ -5,6 +5,7 @@ import Jobs from "../views/provider/jobs/Page.js";
 import JobDetails from "../views/provider/jobs/Details.js";
 import Message from "../views/provider/message/Page.js";
 import CareNetwork from "../views/provider/care-network/Page.js";
+import CareNetworkDetails from "../views/provider/care-network/Details.js";
 import Calendar from "../views/provider/calendar/Page.js";
 import Newsletter from "../views/provider/newsletter/Page.js";
 import Advertisement from "../views/provider/advertisement/Page.js";
@@ -42,6 +43,12 @@ var ProviderRoutes = [
         exact: true,
         layout: ProviderLayout,
         component: CareNetwork
+    },
+    {
+        path: routes.careNetworkDetails+"/:id",
+        exact: true,
+        layout: ProviderLayout,
+        component: CareNetworkDetails
     },
     {
         path: routes.advertisement,

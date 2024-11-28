@@ -21,6 +21,8 @@ exports.api = {
     tagsList: `tag/list`,
     myJobs: `provider/request/myjob`,
     jobDetails: `admin/care/job-detail/`,
+    paymentUnlockRequest: `payment/unlock-request`,
     careNetwork: `user/posted/job`,
+    careNetworkDetail: `provider/posted/job/detail/`,
     networkDirectory: `provider/List`,
 }

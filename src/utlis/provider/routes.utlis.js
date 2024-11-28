@@ -7,6 +7,7 @@ exports.routes = {
     myJobs: `/provider/jobs`,
     jobDetails: `/provider/job/info`,
     careNetwork: `/provider/care-network`,
+    careNetworkDetails: `/provider/care-network/info`,
     advertisement: `/provider/advertisement`,
     networkDirectory: `/provider/network-directory`,
     profile: `/provider/profile`,

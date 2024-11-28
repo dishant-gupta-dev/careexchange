@@ -20,10 +20,24 @@ const Details = () => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
     console.log(response.data);
-
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data);
     } else setDetails();
+    setLoading(false);
+  };
+
+  const makePayment = async (id, amount) => {
+    setLoading(true);
+    let form = JSON.stringify({
+      "request_id": id,
+      "amount": amount
+    });
+    const response = await ApiService.postAPIWithAccessToken(api.paymentUnlockRequest, form);
+    console.log(response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      // navigate(response.data.data.approvalUrl);
+      window.open(response.data.data.approvalUrl, '_blank').focus();
+    }
     setLoading(false);
   };
 
@@ -193,6 +207,14 @@ const Details = () => {
               <p>{details?.description ?? "NA"}</p>
             </div>
           </div>
+
+          {details?.status == 0 ? (
+            <div className="col-md-12 text-center mt-2">
+              <button onClick={() => makePayment(details?.id, 10)} className="btn btn-gr w-50">
+                Make Payment $10
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
     </>

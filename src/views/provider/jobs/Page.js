@@ -14,7 +14,7 @@ import { encode } from "base-64";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState(1);
+  const [tab, setTab] = useState(2);
   const [list, setList] = useState([]);
 
   const getJobList = async (api) => {
@@ -51,8 +51,8 @@ const Page = () => {
                 <ul className="nav nav-tabs">
                   <li>
                     <Link
-                      className={tab == 1 ? "active" : ""}
-                      onClick={() => setTab(1)}
+                      className={tab == 2 ? "active" : ""}
+                      onClick={() => setTab(2)}
                       data-bs-toggle="tab"
                     >
                       Ongoing
@@ -60,8 +60,8 @@ const Page = () => {
                   </li>
                   <li>
                     <Link
-                      className={tab == 0 ? "active" : ""}
-                      onClick={() => setTab(0)}
+                      className={tab == 1 ? "active" : ""}
+                      onClick={() => setTab(1)}
                       data-bs-toggle="tab"
                     >
                       Pending
@@ -123,7 +123,14 @@ const Page = () => {
                                   </div>
 
                                   <div className="care-status">
-                                    {/* Status: <span>Active</span> */}
+                                    <Link
+                                      className="btn-bl"
+                                      to={`${routes.jobDetails}/${encode(
+                                        ele.id
+                                      )}`}
+                                    >
+                                      View Job Detail
+                                    </Link>
                                   </div>
                                 </div>
                                 <div className="care-card-body">
@@ -160,7 +167,7 @@ const Page = () => {
                                   </div>
                                 </div>
 
-                                {ele?.providers?.length !== 0
+                                {/* {ele?.providers?.length !== 0
                                   ? ele?.providers?.map((element, index) => {
                                       return (
                                         <div
@@ -199,20 +206,10 @@ const Page = () => {
                                               </div>
                                             </div>
                                           </div>
-                                          <div className="care-action1">
-                                            <Link
-                                              className="btn-bl"
-                                              to={`${
-                                                routes.jobDetails
-                                              }/${encode(ele.id)}`}
-                                            >
-                                              View Job Detail
-                                            </Link>
-                                          </div>
                                         </div>
                                       );
                                     })
-                                  : null}
+                                  : null} */}
                               </div>
                             </div>
                           );
