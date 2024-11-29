@@ -28,7 +28,7 @@ const FindCare = () => {
   const [categories, setCategory] = useState([]);
   const [subCategories, setSubCategory] = useState([]);
   const [providers, setProvider] = useState([]);
-  const [selectRadius, setSelectRadius] = useState("");
+  const [selectRadius, setSelectRadius] = useState(cat ? "200" : "");
   const [selectCategories, setSelectCategory] = useState(cat ?? "");
   const [selectSubCategories, setSelectSubCategory] = useState("");
   const [serviceId, setServiceId] = useState();
@@ -39,7 +39,7 @@ const FindCare = () => {
     lng: lng ?? null,
     address: address ?? null,
   });
-  console.log(selectCategories);
+console.log(selectRadius);
 
   const initialFirstValues = {
     radius: selectRadius ?? "",
@@ -62,8 +62,6 @@ const FindCare = () => {
     start_time: "",
     description: "",
   };
-
-  const initialThirdValues = {};
 
   const validationFirstSchema = Yup.object().shape({
     radius: Yup.string().required("Radius is required!"),
@@ -165,7 +163,7 @@ const FindCare = () => {
     if (response.data.status) {
       toast.success(response.data.message);
       setServiceId(response?.data?.data?.requestDetails?.id);
-      setTab(3);
+      navigate(routes.myJobs);
     } else {
       toast.error(response.data.message);
     }
@@ -276,29 +274,24 @@ const FindCare = () => {
             <ul id="progressbar" className="nav steps nav-tabs">
               <li
                 className={
-                  tab == 1 || tab == 2 || tab == 3
+                  tab == 1 || tab == 2
                     ? "active nav-item"
                     : "nav-item"
                 }
               >
                 <Link
-                  className={tab == 1 || tab == 2 || tab == 3 ? "active" : ""}
+                  className={tab == 1 || tab == 2 ? "active" : ""}
                 >
                   <span className="number">1</span>
                 </Link>
               </li>
               <li
                 className={
-                  tab == 2 || tab == 3 ? "active nav-item" : "nav-item"
+                  tab == 2 ? "active nav-item" : "nav-item"
                 }
               >
                 <Link className={tab == 1 || tab == 2 ? "active" : ""}>
                   <span className="number">2</span>
-                </Link>
-              </li>
-              <li className={tab == 3 ? "active nav-item" : "nav-item"}>
-                <Link className={tab == 1 ? "active" : ""}>
-                  <span className="number">3</span>
                 </Link>
               </li>
             </ul>
@@ -1217,133 +1210,6 @@ const FindCare = () => {
                             </div>
                           </Form>
                         )}
-                      </Formik>
-                    </div>
-                  </div>
-                </div>
-              ) : null}
-
-              {tab == 3 ? (
-                <div className="tab-pane fade" id="tab3">
-                  <div className="findcare-form">
-                    <h2>Choose from {total ?? 0} Care Provider</h2>
-                    <div className="findcare-card">
-                      <Formik
-                        initialValues={initialThirdValues}
-                        enableReinitialize
-                        onSubmit={thirdStep}
-                      >
-                        <Form>
-                          <div className="row">
-                            {providers.length !== 0 ? (
-                              providers.map((ele, indx) => {
-                                return (
-                                  <div key={indx} className="col-md-4">
-                                    <div className="findcarecheckbox">
-                                      <input
-                                        type="checkbox"
-                                        name="user_id"
-                                        checked={ele.checked}
-                                        onChange={() => handleCheck(ele.userid)}
-                                        id={`${ele.userid}proImg`}
-                                        value={ele.userid}
-                                      />
-                                      <label htmlFor={`${ele.userid}proImg`}>
-                                        <span className="checkbox-circle-mark"></span>
-                                        <div className="findcare-card">
-                                          <div className="findcare-card-head">
-                                            <div className="findcare-user-info">
-                                              <div className="findcare-user-image">
-                                                {ele.logo !== null &&
-                                                ele.logo !== "" &&
-                                                ele.logo !== undefined ? (
-                                                  <img
-                                                    src={ele.logo}
-                                                    alt=""
-                                                    className="me-3"
-                                                  />
-                                                ) : (
-                                                  <img
-                                                    src={ele.profile_image}
-                                                    alt=""
-                                                    className="me-3"
-                                                  />
-                                                )}
-                                              </div>
-                                              <div className="findcare-user-text">
-                                                <div className="findcare-user-name">
-                                                  {ele?.business_name
-                                                    ? ele?.business_name
-                                                    : ele?.fullname}
-                                                </div>
-                                                <div className="d-flex">
-                                                  <div className="findcare-user-rating">
-                                                    <i className="fa fa-star"></i>{" "}
-                                                    {ele.average_rating ??
-                                                      "0.0"}
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="findcare-card-body">
-                                            <div className="findcare-pricetag-content">
-                                              <div className="findcare-price-text">
-                                                <div className="exp-text">
-                                                  {ele.experience ?? 0} Year Exp
-                                                </div>
-                                              </div>
-                                              <div className="cared-text">
-                                                <img src={HouseImg} />{" "}
-                                                {ele.user_type == 2
-                                                  ? "Provider"
-                                                  : "Staff"}
-                                              </div>
-                                            </div>
-                                            <div className="findcare-location-box">
-                                              <div className="findcare-location-text">
-                                                <h4>Location</h4>
-                                                <p>
-                                                  {ele.business_address ?? "NA"}
-                                                </p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </label>
-                                    </div>
-                                  </div>
-                                );
-                              })
-                            ) : (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  margin: "5% 0",
-                                }}
-                              >
-                                <img width={300} src={NoData} alt="" />
-                              </div>
-                            )}
-
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <button
-                                  type="button"
-                                  className="btn-bl mx-2"
-                                  onClick={() => handleUncheck()}
-                                >
-                                  Clear All
-                                </button>
-                                <button className="btn-gr" type="submit">
-                                  Submit Service Request
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </Form>
                       </Formik>
                     </div>
                   </div>

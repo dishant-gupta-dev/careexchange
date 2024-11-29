@@ -185,7 +185,7 @@ const Page = () => {
                       >
                         <input
                           className="form-control"
-                          placeholder="Where are you going?"
+                          placeholder="Where are you finding care"
                           defaultValue={location.address}
                         />
                       </StandaloneSearchBox>
@@ -357,9 +357,9 @@ const Page = () => {
                         <div className="care-card-body">
                           <div className="care-pricetag-content">
                             <div className="care-price-text">
-                              <div className="pricehour-text">
+                              {/* <div className="pricehour-text">
                                 {ele.fee ?? "NA"}
-                              </div>
+                              </div> */}
                               <div className="exp-text">
                                 {ele.experience ?? 0} Years Exp
                               </div>
@@ -392,7 +392,7 @@ const Page = () => {
             {dashboard?.advertisementList.length !== 0
               ? dashboard?.advertisementList.map((ele, indx) => {
                   return (
-                    <div key={indx} className="col-md-4">
+                    <div key={indx} className="col-md-4 mt-2">
                       <div className="advertisement-card">
                         <div className="advertisement-user-image">
                           {ele.image === null ||
@@ -405,9 +405,9 @@ const Page = () => {
                         </div>
                         <div className="advertisement-content">
                           <h4>{ele.title ?? "NA"}</h4>
-                          <a className="viewmorebtn" href="">
+                          {/* <a className="viewmorebtn" href="">
                             View More
-                          </a>
+                          </a> */}
                         </div>
                       </div>
                     </div>

@@ -28,6 +28,7 @@ const Page = () => {
   const [details, setDetails] = useState();
   const [list, setList] = useState([]);
   const [sendInfo, setSenderData] = useState({
+    userId: null,
     senderId: null,
     name: "",
     image:
@@ -58,13 +59,16 @@ const Page = () => {
     } else setList([]);
   };
 
-  const createGroup = async (id, name, image, exist = false) => {
-    setSenderData({ senderId: id, name: name, image: image });
+  const createGroup = async (userid, id, name, image, exist = false) => {
+    setSenderData({ userId: userid, senderId: id, name: name, image: image });
+    console.log(sendInfo);
+    
     setMessagesData([]);
     setStatus(0);
     const response = await ApiService.getAPIWithAccessToken(
       api.providerDetail + `${id}`
     );
+    console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data);
     } else setDetails();
@@ -226,6 +230,7 @@ const Page = () => {
                               onClick={() =>
                                 createGroup(
                                   ele.userid,
+                                  ele.id,
                                   ele?.business_name
                                     ? ele?.business_name
                                     : ele?.fullname,
@@ -335,7 +340,7 @@ const Page = () => {
                               </div>
                               <div className="chat-panel-user-item-text">
                                 <h4>{sendInfo.name ?? "NA"}</h4>
-                                <p>Emp Id: {sendInfo.senderId ?? "NA"}</p>
+                                <p>Emp Id: {sendInfo.userId ?? "NA"}</p>
                               </div>
                             </div>
                           </div>
@@ -427,7 +432,7 @@ const Page = () => {
                         <div className="providerProfile-section">
                           <div className="user-table-item">
                             <div className="row g-1 align-items-center">
-                              <div className="col-md-4">
+                              <div className="col-md-5">
                                 <div className="user-profile-item">
                                   <div className="user-profile-media">
                                     {details?.logo !== null &&
@@ -453,7 +458,7 @@ const Page = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="col-md-8">
+                              <div className="col-md-7">
                                 <div className="row g-1 align-items-center">
                                   <div className="col-md-4">
                                     <div className="user-contact-info">
