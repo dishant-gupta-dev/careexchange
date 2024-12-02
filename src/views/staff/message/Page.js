@@ -6,13 +6,12 @@ import { Link } from "react-router-dom";
 import moment from "moment/moment";
 import Search from "../../../assets/provider/images/search1.svg";
 import Searchicon from "../../../assets/provider/images/search-normal.svg";
-import careuserprofile from "../../../assets/provider/images/user.png";
 import AttachImg from "../../../assets/provider/images/attachemnt.svg";
 import WhCalen from "../../../assets/provider/images/whcalendar.svg";
 import RepeatImg from "../../../assets/provider/images/Repeat.svg";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
-import { api } from "../../../utlis/provider/api.utlis";
+import { api } from "../../../utlis/staff/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 
 const Page = () => {

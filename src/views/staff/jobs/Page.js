@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Searchicon from "../../../assets/provider/images/search1.svg";
-import careuserprofile from "../../../assets/provider/images/user.png";
 import whcalendar from "../../../assets/provider/images/whcalendar.svg";
 import Repeat from "../../../assets/provider/images/Repeat.svg";
-import Verify from "../../../assets/provider/images/verify.svg";
 import { Link } from "react-router-dom";
-import { routes } from "../../../utlis/provider/routes.utlis";
-import { api } from "../../../utlis/provider/api.utlis";
+import { routes } from "../../../utlis/staff/routes.utlis";
+import { api } from "../../../utlis/staff/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
 import NoData from "../../../assets/admin/images/no-data-found.svg";

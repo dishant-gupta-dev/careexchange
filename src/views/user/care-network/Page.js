@@ -357,6 +357,14 @@ const Page = () => {
                               <a class="btn-gra" href="#">
                                 Applied
                               </a>
+                              <Link
+                                className="btn-bl"
+                                to={`${routes.careNetworkDetails}/${encode(
+                                  ele.id
+                                )}`}
+                              >
+                                View Details
+                              </Link>
                             </div>
                           ) : (
                             <div className="care-action">
@@ -754,7 +762,7 @@ const Page = () => {
                         type="file"
                         className="form-control"
                         name="file"
-                        accept="application/*"
+                        accept="application/pdf"
                         onChange={handleResumeChange}
                       />
                       {imgError && (

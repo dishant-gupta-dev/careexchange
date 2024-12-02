@@ -6,11 +6,11 @@ import SuitcaseIcon from "../../../assets/provider/images/jobs-suitcase.svg";
 import GmapImg from "../../../assets/user/images/Google_Maps_icon.svg";
 import DollarIcon from "../../../assets/provider/images/dollar.svg";
 import ClockIcon from "../../../assets/provider/images/clock.svg";
-import { api } from "../../../utlis/provider/api.utlis";
+import { api } from "../../../utlis/staff/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
-import { routes } from "../../../utlis/provider/routes.utlis";
+import { routes } from "../../../utlis/staff/routes.utlis";
 import { encode } from "base-64";
 import moment from "moment";
 import DatePicker from "react-datepicker";
@@ -19,6 +19,7 @@ import { Modal, ModalBody, ModalHeader } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { CommonMiles, GeolocationApiKey } from "../../../utlis/common.utlis";
+import toast from "react-hot-toast";
 import * as Yup from "yup";
 
 const Page = () => {
@@ -26,6 +27,7 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [list, setList] = useState([]);
+  const [file, setFile] = useState();
   const [filter, setFilter] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [apply, setApply] = useState({ status: false, id: null });
@@ -41,15 +43,29 @@ const Page = () => {
     address: address ?? null,
   });
 
+  let userData = JSON.parse(localStorage.getItem("careexchange"));
+
+  const initialValues = {
+    full_name: userData.fullname ?? "",
+    mobile: userData.mobile ?? "",
+    email: userData.email ?? "",
+  };
+
   const initialValuesFilter = {
     radius: selectRadius ?? "",
     sub_category: selectSubCategories ?? "",
   };
 
+  const validationSchema = Yup.object().shape({
+    full_name: Yup.string().required("Name is required!"),
+    mobile: Yup.string().min(10).required("Mobile is required!"),
+    email: Yup.string().email().required("Email is required!"),
+  });
+
   const getCareNetworkList = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    // console.log("all care network list => ", response.data);
+    console.log("all care network list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setList(response.data.data.postedJob);
     } else setList([]);
@@ -84,6 +100,35 @@ const Page = () => {
     getCareNetworkList(api.careNetwork + `?search=${name}&date=${date}`);
   };
 
+  const applyJob = async (formValue) => {
+    if (file === "" || file === null || !file) {
+      setImgError(true);
+      return;
+    } else setImgError(false);
+    setLoading(true);
+    let form = new FormData();
+    form.append("full_name", formValue.full_name);
+    form.append("email", formValue.email);
+    form.append("mobile", formValue.mobile);
+    form.append("job_id", apply.id);
+    form.append("resume", file);
+    const response = await ApiService.postAPIWithAccessTokenMultiPart(
+      api.applyJob,
+      form
+    );
+    setApply({
+      status: false,
+      id: null,
+    });
+    if (response.data.status) {
+      toast.success(response.data.message);
+      getCareNetworkList(api.careNetwork);
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
+  };
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: GeolocationApiKey,
@@ -107,6 +152,10 @@ const Page = () => {
       api.careNetwork +
         `?latitude=${location.lat}&longitude=${location.lng}&categoryid=${selectCategories}&subcategoryid=${formValue.sub_category}&radius=${formValue.radius}`
     );
+  };
+
+  const handleResumeChange = (e) => {
+    setFile(e.target.files[0]);
   };
 
   const getCurrentAddress = () => {
@@ -157,7 +206,11 @@ const Page = () => {
               <div className="row g-2">
                 <div className="col-md-3">
                   <div className="form-group mb-0">
-                    <Link to="" onClick={() => setFilter(true)} className="btn-gr wd100">
+                    <Link
+                      to=""
+                      onClick={() => setFilter(true)}
+                      className="btn-gr wd100"
+                    >
                       Sort By Filter
                     </Link>
                   </div>
@@ -256,16 +309,32 @@ const Page = () => {
                           </div>
                         </div>
                         <div className="care-card-foot">
-                          <div className="care-action">
-                            <Link
-                              className="btn-bl"
-                              to={`${routes.careNetworkDetails}/${encode(
-                                ele.id
-                              )}`}
-                            >
-                              View Job Detail
-                            </Link>
-                          </div>
+                          {ele.applied_status ? (
+                            <div class="care-action">
+                              <a class="btn-gra" href="#">
+                                Applied
+                              </a>
+                            </div>
+                          ) : (
+                            <div className="care-action">
+                              <Link
+                                className="btn-gr"
+                                onClick={() =>
+                                  setApply({ status: true, id: ele.id })
+                                }
+                              >
+                                Apply
+                              </Link>
+                              <Link
+                                className="btn-bl"
+                                to={`${routes.careNetworkDetails}/${encode(
+                                  ele.id
+                                )}`}
+                              >
+                                View Job Detail
+                              </Link>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -287,6 +356,113 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={apply.status}
+        onHide={() => {
+          setApply({ status: false, id: null });
+        }}
+        className=""
+      >
+        <div className="modal-content">
+          <ModalHeader>
+            <h5 className="mb-0">Apply Jobs</h5>
+          </ModalHeader>
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <Formik
+                initialValues={initialValues}
+                validateOnChange={true}
+                validationSchema={validationSchema}
+                onSubmit={applyJob}
+                enableReinitialize
+              >
+                {({ values, setFieldValue }) => (
+                  <Form>
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        className="form-control"
+                        name="full_name"
+                        placeholder="Enter Name"
+                      />
+                      <ErrorMessage
+                        name="full_name"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <Field
+                        type="email"
+                        className="form-control"
+                        name="email"
+                        placeholder="Enter Email"
+                      />
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        className="form-control"
+                        name="mobile"
+                        placeholder="Enter Phone"
+                        maxlength={10}
+                        value={values.mobile.replace(
+                          /(\d{3})(\d{3})(\d{4})/,
+                          "($1) $2-$3"
+                        )}
+                      />
+                      <ErrorMessage
+                        name="mobile"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="file"
+                        className="form-control"
+                        name="file"
+                        accept="application/pdf"
+                        onChange={handleResumeChange}
+                      />
+                      {imgError && (
+                        <div className="alert alert-danger">
+                          Resume is required!
+                        </div>
+                      )}
+                    </div>
+                    <div className="form-group text-end">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setApply({ status: false, id: null });
+                        }}
+                        className="btn btn-re me-2"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="btn btn-gr me-2"
+                        data-bs-dismiss="modal"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
 
       <Modal
         show={filter}

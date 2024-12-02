@@ -6,7 +6,7 @@ import NoData from "../../../assets/admin/images/no-data-found.svg";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { decode, encode } from "base-64";
 import moment from "moment";
-import { api } from "../../../utlis/provider/api.utlis";
+import { api } from "../../../utlis/staff/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
@@ -23,10 +23,12 @@ const Details = () => {
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
+  let userData = JSON.parse(localStorage.getItem("careexchange"));
+
   const initialValues = {
-    full_name: "",
-    mobile: "",
-    email: "",
+    full_name: userData.fullname ?? "",
+    mobile: userData.mobile ?? "",
+    email: userData.email ?? "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -128,7 +130,7 @@ const Details = () => {
                         <div className="details-tags-item">
                           {job?.category ?? "NA"}
                         </div>
-                        <div className="details-tags-item-sub">
+                        <div className="tags-item-sub">
                           {job?.subcategory ?? "NA"}
                         </div>
                       </div>
@@ -140,7 +142,10 @@ const Details = () => {
                         </div>
                         <div className="jobs-details-item">
                           <img src={Dollar} /> Salary:
-                          <span className="text-capitalize">{job?.pay_range ?? "NA"}/{job?.pay_range_type ?? "NA"}</span>
+                          <span className="text-capitalize">
+                            {job?.pay_range ?? "NA"}/
+                            {job?.pay_range_type ?? "NA"}
+                          </span>
                         </div>
                         <div className="jobs-details-item">
                           <img src={SuitCase} /> Work Exp:
@@ -158,6 +163,14 @@ const Details = () => {
                         {job?.applicantListCount ?? 0} Applicant Applied for
                         this job
                       </div>
+                      <Link
+                        onClick={() =>
+                          setApply({ status: true, id: decode(id) })
+                        }
+                        className="btn-bl"
+                      >
+                        Apply
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -166,6 +179,113 @@ const Details = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={apply.status}
+        onHide={() => {
+          setApply({ status: false, id: null });
+        }}
+        className=""
+      >
+        <div className="modal-content">
+          <ModalHeader>
+            <h5 className="mb-0">Apply Jobs</h5>
+          </ModalHeader>
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <Formik
+                initialValues={initialValues}
+                validateOnChange={true}
+                validationSchema={validationSchema}
+                onSubmit={applyJob}
+                enableReinitialize
+              >
+                {({ values, setFieldValue }) => (
+                  <Form>
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        className="form-control"
+                        name="full_name"
+                        placeholder="Enter Name"
+                      />
+                      <ErrorMessage
+                        name="full_name"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <Field
+                        type="email"
+                        className="form-control"
+                        name="email"
+                        placeholder="Enter Email"
+                      />
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <Field
+                        type="text"
+                        className="form-control"
+                        name="mobile"
+                        placeholder="Enter Phone"
+                        maxlength={10}
+                        value={values.mobile.replace(
+                          /(\d{3})(\d{3})(\d{4})/,
+                          "($1) $2-$3"
+                        )}
+                      />
+                      <ErrorMessage
+                        name="mobile"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="file"
+                        className="form-control"
+                        name="file"
+                        accept="application/pdf"
+                        onChange={handleResumeChange}
+                      />
+                      {imgError && (
+                        <div className="alert alert-danger">
+                          Image is required!
+                        </div>
+                      )}
+                    </div>
+                    <div className="form-group text-end">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setApply({ status: false, id: null });
+                        }}
+                        className="btn btn-re me-2"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="btn btn-gr me-2"
+                        data-bs-dismiss="modal"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </Form>
+                )}
+              </Formik>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
     </>
   );
 };

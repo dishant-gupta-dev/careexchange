@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import advertisementImage from "../../../assets/provider/images/1.jpg";
 import Select from "react-select";
 import { encode } from "base-64";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -13,10 +12,10 @@ import {
   adsLIMIT,
 } from "../../../utlis/common.utlis";
 import moment from "moment";
-import { routes } from "../../../utlis/provider/routes.utlis";
+import { routes } from "../../../utlis/staff/routes.utlis";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
-import { api } from "../../../utlis/provider/api.utlis";
+import { api } from "../../../utlis/staff/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";

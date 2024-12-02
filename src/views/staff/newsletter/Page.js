@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MailImg from "../../../assets/user/images/mail-sent-pana.svg";
-import { api } from "../../../utlis/provider/api.utlis";
+import { api } from "../../../utlis/staff/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import { Formik, Field, Form, ErrorMessage } from "formik";

@@ -5,18 +5,19 @@ import Searchicon from "../../../assets/provider/images/search-normal.svg";
 import Arrowicon from "../../../assets/provider/images/arrow-right.svg";
 import careservicesicon1 from "../../../assets/provider/images/ss-care.svg";
 import careservicesicon2 from "../../../assets/provider/images/ch-care.svg";
-import { api } from "../../../utlis/provider/api.utlis";
+import { api } from "../../../utlis/staff/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { Link, useNavigate } from "react-router-dom";
-import { routes } from "../../../utlis/provider/routes.utlis";
 import { GeolocationApiKey } from "../../../utlis/common.utlis";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 const Page = () => {
+  const options = [];
   const [dashboard, setDashboard] = useState();
+  const [state, setState] = useState([]);
   const [loading, setLoading] = useState(false);
   const [dateVal, setDate] = useState("");
   const inputRef = useRef(null);
@@ -29,11 +30,22 @@ const Page = () => {
   const getDashboardData = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    // console.log("all dashboard => ", response.data);
+    console.log("all dashboard => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setDashboard(response.data.data);
     } else setDashboard();
     setLoading(false);
+  };
+
+  const getStateList = async (api) => {
+    const response = await ApiService.getAPI(api);
+    // console.log("state list => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      response.data.data.states.forEach((element) => {
+        options.push({ value: element.id, label: element.name });
+      });
+      setState(options);
+    } else setState([]);
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -56,9 +68,10 @@ const Page = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     getDashboardData(api.dashboard);
+    getStateList(api.stateList + `?country_id=231`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
+
   return (
     <>
       {loading ? <Loader /> : null}
@@ -94,7 +107,7 @@ const Page = () => {
                   </div>
                 </div>
                 <div className="care-tag-text mb-0 align-items-center d-flex">
-                  <p className="m-0"> Provider</p>
+                  <p className="m-0">Care Staff</p>
                 </div>
               </div>
             </div>
@@ -115,7 +128,7 @@ const Page = () => {
                         <input
                           className="form-control"
                           placeholder="Where are you going?"
-                          style={{width: "220%"}}
+                          style={{ width: "220%" }}
                         />
                       </StandaloneSearchBox>
                     )}
@@ -140,10 +153,17 @@ const Page = () => {
                     <div className="schedule-card-text">Network Directory</div>
                   </div>
                   <div className="dropdown-select">
-                    <select className="form-control">
-                      <option>Gorgia</option>
-                      <option>1</option>
-                      <option>2</option>
+                    <select className="form-control text-capitalize">
+                      <option value="">Select State</option>
+                      {state.length !== 0
+                        ? state.map((ele, indx) => {
+                            return (
+                              <option key={indx} value={ele.value}>
+                                {ele.label}
+                              </option>
+                            );
+                          })
+                        : null}
                     </select>
                   </div>
                 </div>

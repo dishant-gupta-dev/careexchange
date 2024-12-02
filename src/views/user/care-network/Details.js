@@ -193,81 +193,89 @@ const Details = () => {
                 validateOnChange={true}
                 validationSchema={validationSchema}
                 onSubmit={applyJob}
+                enableReinitialize
               >
-                <Form>
-                  <div className="form-group">
-                    <Field
-                      type="text"
-                      className="form-control"
-                      name="full_name"
-                      placeholder="Enter Name"
-                    />
-                    <ErrorMessage
-                      name="full_name"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <Field
-                      type="email"
-                      className="form-control"
-                      name="email"
-                      placeholder="Enter Email"
-                    />
-                    <ErrorMessage
-                      name="email"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <Field
-                      type="number"
-                      className="form-control todo-list-input"
-                      name="mobile"
-                      placeholder="Enter Mobile"
-                    />
-                    <ErrorMessage
-                      name="mobile"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="file"
-                      className="form-control"
-                      name="file"
-                      accept="application/*"
-                      onChange={handleResumeChange}
-                    />
-                    {imgError && (
-                      <div className="alert alert-danger">
-                        Image is required!
-                      </div>
-                    )}
-                  </div>
-                  <div className="form-group text-end">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setApply({ status: false, id: null });
-                      }}
-                      className="btn btn-re me-2"
-                      data-bs-dismiss="modal"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="btn btn-gr me-2"
-                      data-bs-dismiss="modal"
-                    >
-                      Apply
-                    </button>
-                  </div>
-                </Form>
+                {({ values, setFieldValue }) => (
+                  <Form>
+                    <div className="form-group">
+                      <Field
+                        type="text"
+                        className="form-control"
+                        name="full_name"
+                        placeholder="Enter Name"
+                      />
+                      <ErrorMessage
+                        name="full_name"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <Field
+                        type="email"
+                        className="form-control"
+                        name="email"
+                        placeholder="Enter Email"
+                      />
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <Field
+                        type="text"
+                        className="form-control"
+                        name="mobile"
+                        placeholder="Enter Phone"
+                        maxlength={10}
+                        value={values.mobile.replace(
+                          /(\d{3})(\d{3})(\d{4})/,
+                          "($1) $2-$3"
+                        )}
+                      />
+                      <ErrorMessage
+                        name="mobile"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="file"
+                        className="form-control"
+                        name="file"
+                        accept="application/pdf"
+                        onChange={handleResumeChange}
+                      />
+                      {imgError && (
+                        <div className="alert alert-danger">
+                          Image is required!
+                        </div>
+                      )}
+                    </div>
+                    <div className="form-group text-end">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setApply({ status: false, id: null });
+                        }}
+                        className="btn btn-re me-2"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="btn btn-gr me-2"
+                        data-bs-dismiss="modal"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </Form>
+                )}
               </Formik>
             </div>
           </ModalBody>

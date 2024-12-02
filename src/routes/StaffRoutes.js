@@ -33,10 +33,22 @@ var StaffRoutes = [
         component: Jobs
     },
     {
+        path: routes.jobDetails+"/:id",
+        exact: true,
+        layout: StaffLayout,
+        component: JobDetails
+    },
+    {
         path: routes.careNetwork,
         exact: true,
         layout: StaffLayout,
         component: CareNetwork
+    },
+    {
+        path: routes.careNetworkDetails+"/:id",
+        exact: true,
+        layout: StaffLayout,
+        component: CareNetworkDetails
     },
     {
         path: routes.advertisement,

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import googlemapIcon from "../../../assets/provider/images/Google_Map.svg";
 import careuserprofile from "../../../assets/provider/images/user.png";
 import caresuccessful from "../../../assets/provider/images/successful.svg";
-import { api } from "../../../utlis/provider/api.utlis";
+import { api } from "../../../utlis/staff/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
