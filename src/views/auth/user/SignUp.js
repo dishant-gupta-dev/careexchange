@@ -7,6 +7,7 @@ import CareUsers from "../../../assets/user/images/careuser.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { routes } from "../../../utlis/user/routes.utlis";
 import { routes as providerRoutes } from "../../../utlis/provider/routes.utlis";
+import { routes as staffRoutes } from "../../../utlis/staff/routes.utlis";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const SignUp = () => {
     if (tab == 1) {
       navigate(routes.userRegister);
     } else if (tab == 2) {
-      return;
+      navigate(staffRoutes.staffRegister);
     } else if (tab == 3) {
       navigate(providerRoutes.providerRegister);
     }

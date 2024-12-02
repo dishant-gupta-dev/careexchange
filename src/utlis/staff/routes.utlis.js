@@ -1,0 +1,17 @@
+exports.routes = {
+    login: `/sign-in`,
+    signup: `/sign-up`,
+    staffRegister: `/staff/sign-up`,
+    dashboard: `/staff/dashboard`,
+    message: `/staff/message`,
+    myJobs: `/staff/jobs`,
+    jobDetails: `/staff/job/info`,
+    careNetwork: `/staff/care-network`,
+    careNetworkDetails: `/staff/care-network/info`,
+    advertisement: `/staff/advertisement`,
+    networkDirectory: `/staff/network-directory`,
+    profile: `/staff/profile`,
+    calendar: `/staff/calendar`,
+    subscriptionPlan: `/staff/subscription-plan`,
+    newsletter: `/staff/newsletter`,
+}

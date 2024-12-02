@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://13.57.166.13/api/v1/";
+// const API_BASE_URL = "http://13.57.166.13/api/v1/";
+const API_BASE_URL = "https://careexchange.nileprojects.in/api/v1/";
 
 class ApiService {
   /*Get API*/

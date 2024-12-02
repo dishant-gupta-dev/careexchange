@@ -6,6 +6,7 @@ import ApiService from "../../core/services/ApiService";
 import { routes } from "../../utlis/admin/routes.utlis";
 import { routes as userRoutes } from "../../utlis/user/routes.utlis";
 import { routes as providerRoutes } from "../../utlis/provider/routes.utlis";
+import { routes as staffRoutes } from "../../utlis/staff/routes.utlis";
 const careexchange = JSON.parse(localStorage.getItem("careexchange"));
 
 export const login = createAsyncThunk(
@@ -128,7 +129,12 @@ const initialState = careexchange ? (
       careexchange.role_id == 2 ? (
         { isLoggedIn: true, careexchange, redirect: providerRoutes.dashboard }
       ) :
-      ({ isLoggedIn: false, careexchange: null, redirect: null })
+      (
+        careexchange.role_id == 3 ? (
+          { isLoggedIn: true, careexchange, redirect: staffRoutes.dashboard }
+        ) :
+        ({ isLoggedIn: false, careexchange: null, redirect: null })
+      )
     )
   )
 ) :
@@ -140,10 +146,8 @@ const authSlice = createSlice({
   extraReducers: {
     [verifyOtp.fulfilled]: (state, action) => {
       state.isLoggedIn = true;
-      state.redirect = (action.payload.careexchange.data.user.user_type == 1) ? userRoutes.dashboard : providerRoutes.dashboard;
+      state.redirect = ((action.payload.careexchange.data.user.user_type == 1) ? userRoutes.dashboard : (action.payload.careexchange.data.user.user_type == 2 ? providerRoutes.dashboard : staffRoutes.dashboard));
       state.careexchange = action.payload.careexchange;
-      console.log(action.payload.careexchange.data.user.user_type);
-      
     },
     [verifyOtp.rejected]: (state, action) => {
       state.isLoggedIn = false;

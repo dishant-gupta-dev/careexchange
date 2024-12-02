@@ -3,7 +3,7 @@ import GmapImg from "../../../assets/user/images/Google_Maps_icon.svg";
 import LocImg from "../../../assets/user/images/location.svg";
 import Logo from "../../../assets/user/images/logo.svg";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { api } from "../../../utlis/provider/api.utlis";
+import { api } from "../../../utlis/staff/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
@@ -16,7 +16,7 @@ import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import toast from "react-hot-toast";
 import moment from "moment";
-import { routes } from "../../../utlis/provider/routes.utlis";
+import { routes } from "../../../utlis/staff/routes.utlis";
 import jpgImg from "../../../assets/provider/images/1.jpg";
 import OtpInput from "react-otp-input";
 import Select from "react-select";
@@ -37,7 +37,6 @@ const Register = () => {
   const [cityError, setCityError] = useState(false);
   const [categories, setCategory] = useState([]);
   const [subCategories, setSubCategory] = useState([]);
-  const [providers, setProvider] = useState([]);
   const [selectRadius, setSelectRadius] = useState("");
   const [selectCategories, setSelectCategory] = useState("");
   const [selectSubCategories, setSelectSubCategory] = useState("");
@@ -70,7 +69,8 @@ const Register = () => {
     fee_per_month: "",
     fee_per_hour: "",
     business_name: "",
-    slogan: "",
+    care_job_title: "",
+    gender: "",
     license_number: "",
     payment_accepted_type: "",
     description: "",
@@ -86,11 +86,14 @@ const Register = () => {
     free_in_home_assessment: Yup.string().required(
       "In-Home assessment is required!"
     ),
+    gender: Yup.string().required(
+      "Gender is required!"
+    ),
     fee_per_hour: Yup.string().required("Fees per hour is required!"),
     fee_per_week: Yup.string().required("Fees per week is required!"),
     fee_per_month: Yup.string().required("Fees per month is required!"),
     business_name: Yup.string().required("Business name is required!"),
-    slogan: Yup.string().required("Slogan is required!"),
+    care_job_title: Yup.string().required("Care job title is required!"),
     license_number: Yup.string().required("License number is required!"),
     payment_accepted_type: Yup.string().required("Payment type is required!"),
     description: Yup.string().required("Description is required!"),
@@ -142,14 +145,6 @@ const Register = () => {
   };
 
   const firstStep = async (formValue) => {
-    if (selectedState.length === 0) {
-      setStateError(true);
-      return;
-    } else setStateError(false);
-    if (selectedCity.length === 0) {
-      setCityError(true);
-      return;
-    } else setCityError(false);
     if (file === "" || file === null || !file) {
       setImgError(true);
       return;
@@ -170,24 +165,19 @@ const Register = () => {
     form.append("fee_per_week", formValue.fee_per_week);
     form.append("experience", formValue.experience);
     form.append("business_name", formValue.business_name);
-    form.append("slogan", formValue.slogan);
+    form.append("care_job_title", formValue.care_job_title);
+    form.append("gender", formValue.gender);
     form.append("license_number", formValue.license_number);
     form.append("free_in_home_assessment", formValue.free_in_home_assessment);
-    form.append("user_type", 2);
+    form.append("user_type", 3);
     form.append("service_offered_area", formValue.radius);
     form.append("payment_accepted_type", formValue.payment_accepted_type);
     form.append("business_address", location.address);
     form.append("latitude", location.lat);
     form.append("longitude", location.lng);
-    form.append("file", file);
+    form.append("resume", file);
     multiFile.forEach((image) => {
       form.append("license_image", image);
-    });
-    selectedState.forEach((ele) => {
-      form.append("state_ids[]", ele.value);
-    });
-    selectedCity.forEach((ele) => {
-      form.append("city_ids[]", ele.value);
     });
     const response = await ApiService.postAPIMultiPart(api.register, form);
     // console.log("Add service request => ", response.data);
@@ -362,7 +352,7 @@ const Register = () => {
                   {tab == 1 ? (
                     <div className="tab-pane fade active show" id="tab1">
                       <div className="findcare-form">
-                        <h2>Care-Provider Sign Up</h2>
+                        <h2>Care-Staff Sign Up</h2>
                         <div className="findcare-card">
                           <Formik
                             initialValues={initialFirstValues}
@@ -541,44 +531,18 @@ const Register = () => {
 
                                   <div className="col-md-12">
                                     <div className="form-group">
-                                      <div className="row">
-                                        <div className="col-md-6">
-                                          <h4>Select States</h4>
-                                          <Select
-                                            name="state_ids"
-                                            className="form-control text-capitalize todo-list-input"
-                                            placeholder="Select states"
-                                            isMulti={true}
-                                            options={state}
-                                            onChange={(ans) => {
-                                              setSelectedState(ans);
-                                            }}
-                                          />
-                                          {stateError && (
-                                            <div className="alert alert-danger">
-                                              State is required!
-                                            </div>
-                                          )}
-                                        </div>
-                                        <div className="col-md-6">
-                                          <h4>Select Cities</h4>
-                                          <Select
-                                            name="city_ids"
-                                            className="form-control text-capitalize todo-list-input"
-                                            placeholder="Select cities"
-                                            isMulti={true}
-                                            options={city}
-                                            onChange={(ans) => {
-                                              setSelectedCity(ans);
-                                            }}
-                                          />
-                                          {cityError && (
-                                            <div className="alert alert-danger">
-                                              City is required!
-                                            </div>
-                                          )}
-                                        </div>
-                                      </div>
+                                      <h4>Care Job Title</h4>
+                                      <Field
+                                        type="text"
+                                        className="form-control"
+                                        name="care_job_title"
+                                        placeholder="Care job title"
+                                      />
+                                      <ErrorMessage
+                                        name="care_job_title"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
                                     </div>
                                   </div>
 
@@ -710,6 +674,57 @@ const Register = () => {
 
                                   <div className="col-md-6">
                                     <div className="form-group">
+                                      <h4>Business Name</h4>
+                                      <Field
+                                        type="text"
+                                        className="form-control"
+                                        name="business_name"
+                                        placeholder="Business Name"
+                                      />
+                                      <ErrorMessage
+                                        name="business_name"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>Experience</h4>
+                                      <Field
+                                        type="text"
+                                        className="form-control"
+                                        name="experience"
+                                        placeholder="Experience"
+                                      />
+                                      <ErrorMessage
+                                        name="experience"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>License Number</h4>
+                                      <Field
+                                        type="number"
+                                        className="form-control"
+                                        name="license_number"
+                                        placeholder="License Number"
+                                      />
+                                      <ErrorMessage
+                                        name="license_number"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6">
+                                    <div className="form-group">
                                       <h4>Free In-Home Assessment Offered?</h4>
                                       <div className="choosemiles-list">
                                         <ul>
@@ -756,85 +771,63 @@ const Register = () => {
 
                                   <div className="col-md-6">
                                     <div className="form-group">
-                                      <h4>Business Name</h4>
-                                      <Field
-                                        type="text"
-                                        className="form-control"
-                                        name="business_name"
-                                        placeholder="Business Name"
-                                      />
-                                      <ErrorMessage
-                                        name="business_name"
-                                        component="div"
-                                        className="alert alert-danger"
-                                      />
+                                      <h4>Gender</h4>
+                                      <div className="choosemiles-list">
+                                        <ul>
+                                          <li>
+                                            <div className="ceradio">
+                                              <Field
+                                                type="radio"
+                                                name="gender"
+                                                id="Male"
+                                                value="M"
+                                              />
+                                              <label for="Male">
+                                                <span className="checkbox-text">
+                                                  {" "}
+                                                  Male
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div className="ceradio">
+                                              <Field
+                                                type="radio"
+                                                name="gender"
+                                                id="Female"
+                                                value="F"
+                                              />
+                                              <label for="Female">
+                                                <span className="checkbox-text">
+                                                  Female
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+                                        </ul>
+                                        <ErrorMessage
+                                          name="gender"
+                                          component="div"
+                                          className="alert alert-danger"
+                                        />
+                                      </div>
                                     </div>
                                   </div>
 
                                   <div className="col-md-6">
                                     <div className="form-group">
-                                      <h4>Experience</h4>
-                                      <Field
-                                        type="text"
-                                        className="form-control"
-                                        name="experience"
-                                        placeholder="Experience"
-                                      />
-                                      <ErrorMessage
-                                        name="experience"
-                                        component="div"
-                                        className="alert alert-danger"
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="col-md-6">
-                                    <div className="form-group">
-                                      <h4>Slogan</h4>
-                                      <Field
-                                        type="text"
-                                        className="form-control"
-                                        name="slogan"
-                                        placeholder="Slogan"
-                                      />
-                                      <ErrorMessage
-                                        name="slogan"
-                                        component="div"
-                                        className="alert alert-danger"
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="col-md-6">
-                                    <div className="form-group">
-                                      <h4>License Number</h4>
-                                      <Field
-                                        type="number"
-                                        className="form-control"
-                                        name="license_number"
-                                        placeholder="License Number"
-                                      />
-                                      <ErrorMessage
-                                        name="license_number"
-                                        component="div"
-                                        className="alert alert-danger"
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="col-md-6">
-                                    <div className="form-group">
-                                      <h4>Upload File</h4>
+                                      <h4>Upload Resume</h4>
                                       <input
                                         type="file"
                                         name="file"
-                                        accept="image/*"
+                                        accept="application/pdf"
                                         onChange={handleImgChange}
                                         className="form-control todo-list-input"
                                       />
                                       {imgError && (
                                         <div className="alert alert-danger">
-                                          Image is required!
+                                          Resume is required!
                                         </div>
                                       )}
                                     </div>
