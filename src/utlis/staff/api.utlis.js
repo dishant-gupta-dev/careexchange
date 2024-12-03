@@ -16,6 +16,7 @@ exports.api = {
     deleteAdvertisement: `advertisement/delete/`,
     updateAdvertisement: `advertisement/update/`,
     addAdvertisement: `advertisement/add`,
+    postedAdvertisement: `advertisement/my-posted-ads`,
     advertisementDetail: `advertisement/details/`,
     advertisementChangeStatus: `admin/advertisement/status/`,
     tagsList: `tag/list`,
@@ -24,6 +25,7 @@ exports.api = {
     paymentUnlockRequest: `payment/unlock-request`,
     careNetwork: `user/posted/job`,
     careNetworkDetail: `provider/posted/job/detail/`,
-    networkDirectory: `provider/List`,
     applyJob: `job/apply`,
+    appliedJob: `job/applied-list`,
+    networkDirectory: `provider/List`,
 }

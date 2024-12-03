@@ -204,6 +204,16 @@ const Page = () => {
             <h2 className="heading-title">Care Network</h2>
             <div className="search-filter wd70">
               <div className="row g-2">
+                <div className="col-md-2">
+                  <div className="form-group mb-0">
+                    <Link
+                      to={routes.appliedJob}
+                      className="btn-gr wd100"
+                    >
+                      Applied Job
+                    </Link>
+                  </div>
+                </div>
                 <div className="col-md-3">
                   <div className="form-group mb-0">
                     <Link
@@ -235,7 +245,7 @@ const Page = () => {
                     />
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <div className="form-group mb-0">
                     <div className="search-form-group">
                       <input
@@ -314,6 +324,14 @@ const Page = () => {
                               <a class="btn-gra" href="#">
                                 Applied
                               </a>
+                              <Link
+                                className="btn-bl"
+                                to={`${routes.careNetworkDetails}/${encode(
+                                  ele.id
+                                )}`}
+                              >
+                                View Job Detail
+                              </Link>
                             </div>
                           ) : (
                             <div className="care-action">

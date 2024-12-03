@@ -16,73 +16,61 @@ import SubscriptionPlan from "../views/provider/subscription-plan/Page.js";
 var ProviderRoutes = [
     {
         path: routes.dashboard,
-        exact: true,
         layout: ProviderLayout,
         component: Dashboard
     },
     {
         path: routes.message,
-        exact: true,
         layout: ProviderLayout,
         component: Message
     },
     {
         path: routes.myJobs,
-        exact: true,
         layout: ProviderLayout,
         component: Jobs
     },
     {
         path: routes.jobDetails+"/:id",
-        exact: true,
         layout: ProviderLayout,
         component: JobDetails
     },
     {
         path: routes.careNetwork,
-        exact: true,
         layout: ProviderLayout,
         component: CareNetwork
     },
     {
         path: routes.careNetworkDetails+"/:id",
-        exact: true,
         layout: ProviderLayout,
         component: CareNetworkDetails
     },
     {
         path: routes.advertisement,
-        exact: true,
         layout: ProviderLayout,
         component: Advertisement
     },
     {
         path: routes.networkDirectory,
-        exact: true,
         layout: ProviderLayout,
         component: NetworkDirectory
     },
     {
         path: routes.calendar,
-        exact: true,
         layout: ProviderLayout,
         component: Calendar
     },
     {
         path: routes.newsletter,
-        exact: true,
         layout: ProviderLayout,
         component: Newsletter
     },
     {
         path: routes.profile,
-        exact: true,
         layout: ProviderLayout,
         component: Profile
     },
     {
         path: routes.subscriptionPlan,
-        exact: true,
         layout: ProviderLayout,
         component: SubscriptionPlan
     },

@@ -40,6 +40,7 @@ const Details = () => {
   const getJobDetails = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
+    console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setJob(response.data.data);
     } else setJob();
@@ -163,14 +164,20 @@ const Details = () => {
                         {job?.applicantListCount ?? 0} Applicant Applied for
                         this job
                       </div>
-                      <Link
-                        onClick={() =>
-                          setApply({ status: true, id: decode(id) })
-                        }
-                        className="btn-bl"
-                      >
-                        Apply
-                      </Link>
+                      {job?.applied_status ? (
+                        <a class="btn-gra" href="#">
+                          Applied
+                        </a>
+                      ) : (
+                        <Link
+                          onClick={() =>
+                            setApply({ status: true, id: decode(id) })
+                          }
+                          className="btn-bl"
+                        >
+                          Apply
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>

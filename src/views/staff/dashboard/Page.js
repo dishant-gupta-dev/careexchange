@@ -30,7 +30,7 @@ const Page = () => {
   const getDashboardData = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log("all dashboard => ", response.data);
+    // console.log("all dashboard => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setDashboard(response.data.data);
     } else setDashboard();
