@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import advertisementImage from "../../../assets/provider/images/1.jpg";
+import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { encode } from "base-64";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -13,17 +12,18 @@ import {
   adsLIMIT,
 } from "../../../utlis/common.utlis";
 import moment from "moment";
-import { routes } from "../../../utlis/provider/routes.utlis";
+import { routes } from "../../../utlis/staff/routes.utlis";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
-import { api } from "../../../utlis/provider/api.utlis";
+import { api } from "../../../utlis/staff/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import Loader from "../../../layouts/loader/Loader";
 import Searchicon from "../../../assets/provider/images/search1.svg";
 
-const Page = () => {
+const PostedAds = () => {
+  const navigate = useNavigate();
   const [advertisement, setAdvertisement] = useState([]);
   const [categories, setCategory] = useState([]);
   const [subCategories, setSubCategory] = useState([]);
@@ -99,7 +99,7 @@ const Page = () => {
   const getAdvertisementList = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    // console.log("all advertisement list => ", response.data);
+    console.log("all advertisement list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setAdvertisement(response.data.data.advertisementList);
       setTotal(response.data.data.total);
@@ -140,7 +140,9 @@ const Page = () => {
     if (date !== null && date != undefined && date !== "")
       date = moment(date).format("yyyy-MM-DD");
     else date = "";
-    getAdvertisementList(api.advertisement + `?search=${name}&date=${date}`);
+    getAdvertisementList(
+      api.postedAdvertisement + `?search=${name}&date=${date}`
+    );
   };
 
   const updateAds = async (formValue) => {
@@ -198,7 +200,7 @@ const Page = () => {
     setSubCategory([]);
     if (response.data.status) {
       toast.success(response.data.message);
-      getAdvertisementList(api.advertisement);
+      getAdvertisementList(api.postedAdvertisement);
     } else {
       toast.error(response.data.message);
     }
@@ -246,7 +248,7 @@ const Page = () => {
     setSubCategory([]);
     if (response.data.status) {
       toast.success(response.data.message);
-      getAdvertisementList(api.advertisement);
+      getAdvertisementList(api.postedAdvertisement);
     } else {
       toast.error(response.data.message);
     }
@@ -264,7 +266,7 @@ const Page = () => {
     });
     if (response.data.status) {
       toast.success(response.data.message);
-      getAdvertisementList(api.advertisement);
+      getAdvertisementList(api.postedAdvertisement);
     } else {
       toast.error(response.data.message);
     }
@@ -325,7 +327,7 @@ const Page = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    getAdvertisementList(api.advertisement);
+    getAdvertisementList(api.postedAdvertisement);
     getCategoryList(api.categoryList);
     getTagsList(api.tagsList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -337,24 +339,21 @@ const Page = () => {
       <div className="container">
         <div className="advertisement-section">
           <div className="care-title-header">
-            <h2 className="heading-title">Advertisement</h2>
-            <div className="search-filter wd70">
+            <h2 className="heading-title">
+              <Link
+                className="btn-back"
+                to=""
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(-1);
+                }}
+              >
+                <i className="mdi mdi-arrow-left-thin"></i>
+              </Link>
+              &nbsp;Posted Advertisement
+            </h2>
+            <div className="search-filter wd50">
               <div className="row g-2">
-                <div className="col-md-4">
-                  <div className="form-group search-form-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Search"
-                      onChange={(e) => handleFilter(e)}
-                      name="name"
-                    />
-                    <span className="search-icon">
-                      {" "}
-                      <img src={Searchicon} alt="" />
-                    </span>
-                  </div>
-                </div>
                 <div className="col-md-4">
                   <div className="form-group mb-0">
                     <DatePicker
@@ -374,20 +373,19 @@ const Page = () => {
                     />
                   </div>
                 </div>
-                <div className="col-md-2">
-                  <div className="form-group mb-0">
-                    <Link to={routes.postedAdvertisement} className="btn-gr wd100">Posted Ads</Link>
-                  </div>
-                </div>
-                <div className="col-md-2">
-                  <div className="form-group mb-0">
-                    <Link
-                      className="btn-bl wd100"
-                      onClick={() => setAddAd({ status: true })}
-                    >
+                <div className="col-md-8">
+                  <div className="form-group search-form-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Search"
+                      onChange={(e) => handleFilter(e)}
+                      name="name"
+                    />
+                    <span className="search-icon">
                       {" "}
-                      Post New Ads
-                    </Link>
+                      <img src={Searchicon} alt="" />
+                    </span>
                   </div>
                 </div>
               </div>
@@ -982,4 +980,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default PostedAds;

@@ -180,7 +180,7 @@ const Page = () => {
                       <p>{details?.experience ?? 0} Years</p>
                     </div>
                     <div className="care-location-text">
-                      <h4>Lorem Ipsum</h4>
+                      <h4>Fees </h4>
                       <p>{details?.fee ?? "NA"}</p>
                     </div>
                   </div>

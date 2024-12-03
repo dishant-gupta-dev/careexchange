@@ -16,6 +16,7 @@ exports.api = {
     deleteAdvertisement: `advertisement/delete/`,
     updateAdvertisement: `advertisement/update/`,
     addAdvertisement: `advertisement/add`,
+    postedAdvertisement: `advertisement/my-posted-ads`,
     advertisementDetail: `advertisement/details/`,
     advertisementChangeStatus: `admin/advertisement/status/`,
     tagsList: `tag/list`,

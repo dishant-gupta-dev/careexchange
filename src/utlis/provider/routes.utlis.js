@@ -9,6 +9,8 @@ exports.routes = {
     careNetwork: `/provider/care-network`,
     careNetworkDetails: `/provider/care-network/info`,
     advertisement: `/provider/advertisement`,
+    postedAdvertisement: `/provider/advertisement/posted`,
+    advertisementDetails: `/provider/advertisement/info`,
     networkDirectory: `/provider/network-directory`,
     profile: `/provider/profile`,
     calendar: `/provider/calendar`,

@@ -9,6 +9,8 @@ import CareNetworkDetails from "../views/provider/care-network/Details.js";
 import Calendar from "../views/provider/calendar/Page.js";
 import Newsletter from "../views/provider/newsletter/Page.js";
 import Advertisement from "../views/provider/advertisement/Page.js";
+import AdvertisementDetails from "../views/staff/advertisement/Details.js";
+import PostedAds from "../views/staff/advertisement/PostedAds.js";
 import Profile from "../views/provider/profile/Page.js";
 import NetworkDirectory from "../views/provider/network-directory/Page.js";
 import SubscriptionPlan from "../views/provider/subscription-plan/Page.js";
@@ -48,6 +50,16 @@ var ProviderRoutes = [
         path: routes.advertisement,
         layout: ProviderLayout,
         component: Advertisement
+    },
+    {
+        path: routes.postedAdvertisement,
+        layout: ProviderLayout,
+        component: PostedAds
+    },
+    {
+        path: routes.advertisementDetails+"/:id",
+        layout: ProviderLayout,
+        component: AdvertisementDetails
     },
     {
         path: routes.networkDirectory,
