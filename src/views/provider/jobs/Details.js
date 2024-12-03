@@ -19,7 +19,7 @@ const Details = () => {
   const getJobDetails = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log(response.data);
+    // console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data);
     } else setDetails();
@@ -33,7 +33,7 @@ const Details = () => {
       "amount": amount
     });
     const response = await ApiService.postAPIWithAccessToken(api.paymentUnlockRequest, form);
-    console.log(response.data);
+    // console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       // navigate(response.data.data.approvalUrl);
       window.open(response.data.data.approvalUrl, '_blank').focus();

@@ -100,7 +100,7 @@ const Page = () => {
           .collection("messages")
           .get();
       } catch (error) {
-        console.log("Error in send message function :- ", error);
+        // console.log("Error in send message function :- ", error);
       }
     }
   };

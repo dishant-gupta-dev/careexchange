@@ -40,7 +40,7 @@ const Details = () => {
   const getJobDetails = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log(response.data);
+    // console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setJob(response.data.data);
     } else setJob();

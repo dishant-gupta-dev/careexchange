@@ -99,7 +99,7 @@ const PostedAds = () => {
   const getAdvertisementList = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log("all advertisement list => ", response.data);
+    // console.log("all advertisement list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setAdvertisement(response.data.data.advertisementList);
       setTotal(response.data.data.total);

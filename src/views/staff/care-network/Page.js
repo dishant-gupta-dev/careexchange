@@ -65,7 +65,7 @@ const Page = () => {
   const getCareNetworkList = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log("all care network list => ", response.data);
+    // console.log("all care network list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setList(response.data.data.postedJob);
     } else setList([]);
