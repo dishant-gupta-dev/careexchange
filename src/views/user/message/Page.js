@@ -19,6 +19,7 @@ import { api } from "../../../utlis/user/api.utlis";
 import WhCalen from "../../../assets/user/images/whcalendar.svg";
 import RepeatImg from "../../../assets/user/images/Repeat.svg";
 import Loader from "../../../layouts/loader/Loader";
+import { bookingStatus } from "../../../utlis/common.utlis";
 
 const Page = () => {
   let userId = JSON.parse(localStorage.getItem("careexchange")).userId;
@@ -59,10 +60,16 @@ const Page = () => {
     } else setList([]);
   };
 
+  const bookingRequest = async () => {
+    setLoading(true);
+
+    setLoading(false);
+  }
+
   const createGroup = async (userid, id, name, image, exist = false) => {
     setSenderData({ userId: userid, senderId: id, name: name, image: image });
     console.log(sendInfo);
-    
+
     setMessagesData([]);
     setStatus(0);
     const response = await ApiService.getAPIWithAccessToken(
@@ -221,7 +228,7 @@ const Page = () => {
                           <div
                             key={indx}
                             className={
-                              sendInfo.senderId === ele.userid
+                              sendInfo.senderId === ele.id
                                 ? "chat-userlist-item active"
                                 : "chat-userlist-item"
                             }
@@ -299,7 +306,13 @@ const Page = () => {
                       <li>
                         <Link
                           className={status === 0 ? "active" : ""}
-                          onClick={() => {setStatus(0); bookingList(api.bookingList + `?providerid=${sendInfo.senderId}`);}}
+                          onClick={() => {
+                            setStatus(0);
+                            bookingList(
+                              api.bookingList +
+                                `?providerid=${sendInfo.senderId}`
+                            );
+                          }}
                           to=""
                           data-bs-toggle="tab"
                         >
@@ -309,7 +322,13 @@ const Page = () => {
                       <li>
                         <Link
                           className={status === 1 ? "active" : ""}
-                          onClick={() => {setStatus(1); bookingList(api.bookingList + `?providerid=${sendInfo.senderId}`);}}
+                          onClick={() => {
+                            setStatus(1);
+                            bookingList(
+                              api.bookingList +
+                                `?providerid=${sendInfo.senderId}`
+                            );
+                          }}
                           to=""
                           data-bs-toggle="tab"
                         >
@@ -319,7 +338,13 @@ const Page = () => {
                       <li>
                         <Link
                           className={status === 2 ? "active" : ""}
-                          onClick={() => {setStatus(2); bookingList(api.bookingList + `?providerid=${sendInfo.senderId}`);}}
+                          onClick={() => {
+                            setStatus(2);
+                            bookingList(
+                              api.bookingList +
+                                `?providerid=${sendInfo.senderId}`
+                            );
+                          }}
                           to=""
                           data-bs-toggle="tab"
                         >
@@ -664,14 +689,35 @@ const Page = () => {
                                   <div className="care-card-head">
                                     <div className="care-status">
                                       Status:{" "}
-                                      <span>
+                                      <span
+                                        className={
+                                          ele.request_status == 0
+                                            ? "text-warning"
+                                            : ele.request_status == 1
+                                            ? ""
+                                            : "text-danger"
+                                        }
+                                      >
                                         {ele.request_status_text ?? "NA"}
                                       </span>
                                     </div>
 
-                                    <div className="care-action">
-                                      <Link to="">View Detail</Link>
-                                    </div>
+                                    {/* <div>
+                                      <Link
+                                        className="btn-gr edit-btn"
+                                        to=""
+                                        onClick={() => bookingRequest(ele.id)}
+                                      >
+                                        Confirm
+                                      </Link>
+                                      <Link
+                                        className="btn-re delete-btn mx-2"
+                                        to=""
+                                        onClick={() => bookingRequest(ele.id)}
+                                      >
+                                        Reject
+                                      </Link>
+                                    </div> */}
                                   </div>
                                   <div className="care-card-body">
                                     <div className="care-content">

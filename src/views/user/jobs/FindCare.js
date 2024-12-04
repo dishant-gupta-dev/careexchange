@@ -800,10 +800,15 @@ console.log(selectRadius);
                                 <div className="form-group">
                                   <h4>Fax Number</h4>
                                   <Field
-                                    type="number"
+                                    type="text"
                                     className="form-control"
                                     name="fax"
-                                    placeholder="Fax Number"
+                                    placeholder="Enter Fax Number"
+                                    maxlength={10}
+                                    value={values.fax.replace(
+                                      /(\d{3})(\d{3})(\d{4})/,
+                                      "$1-$2-$3"
+                                    )}
                                   />
                                   <ErrorMessage
                                     name="fax"

@@ -270,7 +270,7 @@ const Page = () => {
                   </div>
                 </div>
                 <div className="opportunity-card-action">
-                  <Link to={`${routes.careNetwork}/${location.address}/${location.lat}/${location.lng}`}>GO</Link>
+                  <Link to={`${routes.addPost}`}>GO</Link>
                 </div>
               </div>
             </div>

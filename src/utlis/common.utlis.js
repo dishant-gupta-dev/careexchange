@@ -7,6 +7,13 @@ export const status = (Id) => {
     else if (statusId === 4) return "Deleted";
 };
 
+export const bookingStatus = (Id) => {
+    let statusId = parseInt(Id);
+    if (statusId === 0) return "Pending";
+    else if (statusId === 1) return "Confirm";
+    else if (statusId === 3) return "Rejected";
+};
+
 export const LIMIT = 10;
 export const adsLIMIT = 5;
 export const CommonMiles = 10000;

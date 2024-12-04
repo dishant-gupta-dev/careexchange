@@ -404,9 +404,9 @@ const Page = () => {
                                       </span>
                                     </div>
 
-                                    <div className="care-action">
+                                    {/* <div className="care-action">
                                       <Link to="">View Detail</Link>
-                                    </div>
+                                    </div> */}
                                   </div>
                                   <div className="care-card-body">
                                     <div className="care-content">

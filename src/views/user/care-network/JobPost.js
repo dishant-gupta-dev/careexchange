@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { routes } from "../../../utlis/user/routes.utlis";
+import { GeolocationApiKey } from "../../../utlis/common.utlis";
 
 const JobPost = () => {
   const inputRef = useRef(null);
@@ -145,7 +146,7 @@ const JobPost = () => {
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyBxVrpIiwVIHIwBEWULPzlaIxyd0vSSadc",
+    googleMapsApiKey: GeolocationApiKey,
     libraries: ["places"],
   });
 
@@ -645,7 +646,7 @@ const JobPost = () => {
                               Clear All
                             </button>
                             <button class="btn-gr" type="submit">
-                              Post
+                              Post New Job
                             </button>
                           </div>
                         </div>
