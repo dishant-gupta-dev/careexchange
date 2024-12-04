@@ -178,6 +178,18 @@ const Page = () => {
                       users.map((ele, indx) => {
                         return (
                           <div
+                            style={{ cursor: "pointer" }}
+                            onClick={() =>
+                              createGroup(
+                                ele.userid,
+                                ele?.fullname ? ele?.fullname : "NA",
+                                ele.image !== null &&
+                                  ele.image !== "" &&
+                                  ele.image !== undefined
+                                  ? ele.image
+                                  : NoImage
+                              )
+                            }
                             key={indx}
                             className={
                               sendInfo.senderId === ele.userid
@@ -186,17 +198,6 @@ const Page = () => {
                             }
                           >
                             <Link
-                              onClick={() =>
-                                createGroup(
-                                  ele.userid,
-                                  ele?.fullname ? ele?.fullname : "NA",
-                                  ele.image !== null &&
-                                    ele.image !== "" &&
-                                    ele.image !== undefined
-                                    ? ele.image
-                                    : NoImage
-                                )
-                              }
                               to=""
                             >
                               <div className="chat-userlist-item-image">
@@ -251,7 +252,13 @@ const Page = () => {
                       <li>
                         <Link
                           className={status === 1 ? "active" : ""}
-                          onClick={() => {setStatus(1); bookingList(api.userBookingList + `?userId=${sendInfo.senderId}`);}}
+                          onClick={() => {
+                            setStatus(1);
+                            bookingList(
+                              api.userBookingList +
+                                `?userId=${sendInfo.senderId}`
+                            );
+                          }}
                           to=""
                           data-bs-toggle="tab"
                         >
@@ -261,7 +268,13 @@ const Page = () => {
                       <li>
                         <Link
                           className={status === 2 ? "active" : ""}
-                          onClick={() => {setStatus(2); bookingList(api.userBookingList + `?userId=${sendInfo.senderId}`);}}
+                          onClick={() => {
+                            setStatus(2);
+                            bookingList(
+                              api.userBookingList +
+                                `?userId=${sendInfo.senderId}`
+                            );
+                          }}
                           to=""
                           data-bs-toggle="tab"
                         >

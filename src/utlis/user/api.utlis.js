@@ -12,6 +12,7 @@ exports.api = {
     providerChatList: `service/chat/provider-list`,
     providerDetail: `provider/detail/`,
     bookingList: `service/booking/list`,
+    serviceRequest: `service/deal/status/`,
     myJobs: `service/request/myjob`,
     jobDetail: `service/request-details`,
     profile: `user/profile`,

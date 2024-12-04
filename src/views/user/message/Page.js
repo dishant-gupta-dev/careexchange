@@ -19,7 +19,8 @@ import { api } from "../../../utlis/user/api.utlis";
 import WhCalen from "../../../assets/user/images/whcalendar.svg";
 import RepeatImg from "../../../assets/user/images/Repeat.svg";
 import Loader from "../../../layouts/loader/Loader";
-import { bookingStatus } from "../../../utlis/common.utlis";
+import { Modal, ModalBody } from "react-bootstrap";
+import toast from "react-hot-toast";
 
 const Page = () => {
   let userId = JSON.parse(localStorage.getItem("careexchange")).userId;
@@ -27,6 +28,12 @@ const Page = () => {
   const [status, setStatus] = useState(0);
   const [providers, setProvider] = useState([]);
   const [details, setDetails] = useState();
+  const [bookingStatus, setBookingStatus] = useState({
+    open: false,
+    status: null,
+    id: null,
+    providerUserId: null,
+  });
   const [list, setList] = useState([]);
   const [sendInfo, setSenderData] = useState({
     userId: null,
@@ -42,7 +49,7 @@ const Page = () => {
   const getProviders = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    // console.log("all providers list => ", response.data);
+    console.log("all providers list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setProvider(response.data.data.ProviderList);
     } else setProvider([]);
@@ -60,22 +67,36 @@ const Page = () => {
     } else setList([]);
   };
 
-  const bookingRequest = async () => {
+  const bookingRequest = async (id, status, providerUserId) => {
     setLoading(true);
-
+    let form = JSON.stringify({
+      status: status,
+      userid: providerUserId,
+    });
+    const response = await ApiService.putAPIWithAccessToken(
+      api.serviceRequest + id,
+      form
+    );
+    if (response.data.status && response.data.statusCode === 200) {
+      bookingList(api.bookingList + `?providerid=${sendInfo.senderId}`);
+      setBookingStatus({
+        open: false,
+        status: null,
+        id: null,
+        providerUserId: null,
+      });
+      toast.success(response.data.message);
+    } else toast.error(response.data.message);
     setLoading(false);
-  }
+  };
 
   const createGroup = async (userid, id, name, image, exist = false) => {
     setSenderData({ userId: userid, senderId: id, name: name, image: image });
-    console.log(sendInfo);
-
     setMessagesData([]);
     setStatus(0);
     const response = await ApiService.getAPIWithAccessToken(
       api.providerDetail + `${id}`
     );
-    console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data);
     } else setDetails();
@@ -117,7 +138,7 @@ const Page = () => {
           .add({ ...data, createdAt: serverTimestamp() });
         setMessage("");
       } catch (error) {
-        console.log("Error in send message function :- ", error);
+        // console.log("Error in send message function :- ", error);
       }
     }
   };
@@ -226,6 +247,21 @@ const Page = () => {
                       providers.map((ele, indx) => {
                         return (
                           <div
+                            style={{ cursor: "pointer" }}
+                            onClick={() =>
+                              createGroup(
+                                ele.userid,
+                                ele.id,
+                                ele?.business_name
+                                  ? ele?.business_name
+                                  : ele?.fullname,
+                                ele.logo !== null &&
+                                  ele.logo !== "" &&
+                                  ele.logo !== undefined
+                                  ? ele.logo
+                                  : ele.profile_image
+                              )
+                            }
                             key={indx}
                             className={
                               sendInfo.senderId === ele.id
@@ -233,23 +269,7 @@ const Page = () => {
                                 : "chat-userlist-item"
                             }
                           >
-                            <Link
-                              onClick={() =>
-                                createGroup(
-                                  ele.userid,
-                                  ele.id,
-                                  ele?.business_name
-                                    ? ele?.business_name
-                                    : ele?.fullname,
-                                  ele.logo !== null &&
-                                    ele.logo !== "" &&
-                                    ele.logo !== undefined
-                                    ? ele.logo
-                                    : ele.profile_image
-                                )
-                              }
-                              to=""
-                            >
+                            <Link to="">
                               <div className="chat-userlist-item-image">
                                 {ele.logo !== null &&
                                 ele.logo !== "" &&
@@ -262,7 +282,7 @@ const Page = () => {
                                     className="me-3"
                                   />
                                 )}
-                                <span className="user-status"></span>
+                                {/* <span className="user-status"></span> */}
                               </div>
                             </Link>
                             <div className="chat-userlist-item-content">
@@ -687,13 +707,13 @@ const Page = () => {
                               return (
                                 <div key={indx} className="care-card">
                                   <div className="care-card-head">
-                                    <div className="care-status">
+                                    <div className="care-status text-capitalize">
                                       Status:{" "}
                                       <span
                                         className={
-                                          ele.request_status == 0
+                                          ele.request_status == 1
                                             ? "text-warning"
-                                            : ele.request_status == 1
+                                            : ele.request_status == 2
                                             ? ""
                                             : "text-danger"
                                         }
@@ -702,22 +722,40 @@ const Page = () => {
                                       </span>
                                     </div>
 
-                                    {/* <div>
-                                      <Link
-                                        className="btn-gr edit-btn"
-                                        to=""
-                                        onClick={() => bookingRequest(ele.id)}
-                                      >
-                                        Confirm
-                                      </Link>
-                                      <Link
-                                        className="btn-re delete-btn mx-2"
-                                        to=""
-                                        onClick={() => bookingRequest(ele.id)}
-                                      >
-                                        Reject
-                                      </Link>
-                                    </div> */}
+                                    {ele.request_status == 1 ? (
+                                      <div>
+                                        <Link
+                                          className="btn-gr edit-btn"
+                                          to=""
+                                          onClick={() =>
+                                            setBookingStatus({
+                                              open: true,
+                                              status: 2,
+                                              id: ele.id,
+                                              providerUserId:
+                                                ele.provider_userid,
+                                            })
+                                          }
+                                        >
+                                          Confirm
+                                        </Link>
+                                        <Link
+                                          className="btn-re delete-btn mx-2"
+                                          to=""
+                                          onClick={() =>
+                                            setBookingStatus({
+                                              open: true,
+                                              status: 3,
+                                              id: ele.id,
+                                              providerUserId:
+                                                ele.provider_userid,
+                                            })
+                                          }
+                                        >
+                                          Reject
+                                        </Link>
+                                      </div>
+                                    ) : null}
                                   </div>
                                   <div className="care-card-body">
                                     <div className="care-content">
@@ -813,6 +851,62 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={bookingStatus.open}
+        onHide={() => {
+          setBookingStatus({
+            open: false,
+            status: null,
+            id: null,
+            providerUserId: null,
+          });
+        }}
+        className="cc-modal-form"
+      >
+        <div className="modal-content">
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <h5 className="text-center mb-0">Are you sure</h5>
+              <p className="text-center">
+                You want to {bookingStatus.status == 2 ? "confirm" : "reject"}{" "}
+                this booking?
+              </p>
+              <div className="form-group text-center mb-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setBookingStatus({
+                      open: false,
+                      status: null,
+                      id: null,
+                      providerUserId: null,
+                    })
+                  }
+                  className="btn-re me-2"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-gr"
+                  data-bs-dismiss="modal"
+                  onClick={() =>
+                    bookingRequest(
+                      bookingStatus.id,
+                      bookingStatus.status,
+                      bookingStatus.providerUserId
+                    )
+                  }
+                >
+                  Yes! {bookingStatus.status == 2 ? "Confirm" : "Reject"}
+                </button>
+              </div>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
     </>
   );
 };

@@ -10,9 +10,12 @@ import { api } from "../../../utlis/user/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
+import CallImg from "../../../assets/user/images/call.svg";
+import SmsImg from "../../../assets/user/images/sms.svg";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
+import { userType } from "../../../utlis/common.utlis";
 
 const Details = () => {
   const navigate = useNavigate();
@@ -22,6 +25,8 @@ const Details = () => {
   const [apply, setApply] = useState({ status: false, id: null });
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
+
+  let userData = JSON.parse(localStorage.getItem("careexchange"));
 
   const initialValues = {
     full_name: "",
@@ -131,6 +136,9 @@ const Details = () => {
                         <div className="details-tags-item">
                           {job?.category ?? "NA"}
                         </div>
+                        <div className="tags-item-sub">
+                          {job?.subcategory ?? "NA"}
+                        </div>
                       </div>
 
                       <div className="jobs-details-point-list">
@@ -140,7 +148,7 @@ const Details = () => {
                         </div>
                         <div className="jobs-details-item">
                           <img src={Dollar} /> Salary:
-                          <span>{job?.pay_range ?? "NA"}/Annually</span>
+                          <span className="text-capitalize">${job?.pay_range ?? "NA"}/{job?.pay_range_type ?? ""}</span>
                         </div>
                         <div className="jobs-details-item">
                           <img src={SuitCase} /> Work Exp:
@@ -158,7 +166,8 @@ const Details = () => {
                         {job?.applicantListCount ?? 0} Applicant Applied for
                         this job
                       </div>
-                      {job?.applied_status ? (
+                      {userData.userId ==
+                      job?.userid ? null : job?.applied_status ? (
                         <a class="btn-gra" href="#">
                           Applied
                         </a>
@@ -176,6 +185,70 @@ const Details = () => {
                   </div>
                 </div>
               </div>
+
+              {userData.userId == job?.userid ? (
+                <div class="col-md-12">
+                  <div class="row">
+                    {job?.applicantList?.length !== 0
+                      ? job?.applicantList?.map((ele, indx) => {
+                          return (
+                            <div key={indx} class="col-md-4">
+                              <div class="care-card">
+                                <div class="care-card-head">
+                                  <div class="care-id">
+                                    Applicant ID:{" "}
+                                    <span>{ele.applicant_id ?? "NA"}</span>
+                                  </div>
+
+                                  <div class="care-date">
+                                    Applied On:{" "}
+                                    <span>
+                                      {moment(
+                                        ele.applicant_created_date
+                                      ).format("MM-DD-yyyy")}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div class="care-card-body">
+                                  <div class="care-content">
+                                    <div class="jobs-point">
+                                      <div class="jobs-point-item">
+                                        {ele.applicant_full_name ?? "NA"}
+                                      </div>
+                                      <div class="jobs-point-item">
+                                        <img src={CallImg} />{" "}
+                                        <span>{ele.mobile ?? "NA"}</span>
+                                      </div>
+                                      <div class="jobs-point-item">
+                                        <img src={SmsImg} />{" "}
+                                        <span>{ele.email ?? "NA"}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="care-card-foot">
+                                  <div class="care-action">
+                                    {ele.resume !== null &&
+                                    ele.resume !== undefined &&
+                                    ele.resume !== "" ? (
+                                      <Link
+                                        class="btn-bl"
+                                        target="_blank"
+                                        to={ele.resume}
+                                      >
+                                        Download CV
+                                      </Link>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      : null}
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

@@ -17,6 +17,7 @@ const JobRequest = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [job, setJob] = useState([]);
+  const [myJob, setMyJob] = useState([]);
   const [startDate, setStartDate] = useState("");
 
   const getJobRequest = async (api) => {
@@ -29,19 +30,30 @@ const JobRequest = () => {
     setLoading(false);
   };
 
+  const getMyJob = async (api) => {
+    const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log("all posted job => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setMyJob(response.data.data.postedJob);
+    } else setMyJob([]);
+  };
+
   const handleFilter = (e, date = null) => {
     e.persist();
     let name = "";
+    let postedJobId = "";
     if (e.target.name === "name") name = e.target.value;
+    if (e.target.name === "postedJobId") postedJobId = e.target.value;
     if (date != null && date != undefined && date != "")
       date = moment(date).format("yyyy-MM-DD");
     else date = "";
-    getJobRequest(api.jobRequest + `?search=${name}&date=${date}`);
+    getJobRequest(api.jobRequest + `?search=${name}&date=${date}&postedJobId=${postedJobId}`);
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
     getJobRequest(api.jobRequest);
+    getMyJob(api.postedJob);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -80,9 +92,9 @@ const JobRequest = () => {
             <Link class="bottom-buttons" to={routes.addPost} title="Add Post">
               <i className="fa fa-plus"></i>
             </Link>
-            <div class="search-filter wd50">
+            <div class="search-filter wd70">
               <div class="row g-2">
-                <div class="col-md-5">
+                <div class="col-md-3">
                   <div class="form-group">
                     <DatePicker
                       toggleCalendarOnIconClick
@@ -103,7 +115,26 @@ const JobRequest = () => {
                   </div>
                 </div>
 
-                <div class="col-md-7">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <div class="search-form-group">
+                      <select name="postedJobId" className="form-control" onChange={(e) => handleFilter(e)} id="">
+                        <option value="">Select Job</option>
+                        {
+                          myJob.length !== 0 ? (
+                            myJob.map((ele, indx) => {
+                              return (
+                                <option key={indx} value={ele.id}>{ele.title}</option>
+                              )
+                            })
+                          ) : null
+                        }
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
                   <div class="form-group">
                     <div class="search-form-group">
                       <input
@@ -166,14 +197,6 @@ const JobRequest = () => {
                         </div>
                         <div class="care-card-foot">
                           <div class="care-action">
-                            <Link
-                              class="btn-gr"
-                              to={`${routes.careNetworkDetails}/${encode(
-                                ele.id
-                              )}`}
-                            >
-                              View Job Detail
-                            </Link>
                             {ele.resume !== null &&
                             ele.resume !== undefined &&
                             ele.resume !== "" ? (

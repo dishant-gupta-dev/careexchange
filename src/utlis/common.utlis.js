@@ -14,6 +14,14 @@ export const bookingStatus = (Id) => {
     else if (statusId === 3) return "Rejected";
 };
 
+export const userType = (Id) => {
+    let statusId = parseInt(Id);
+    if (statusId === 4) return "Admin";
+    else if (statusId === 1) return "User";
+    else if (statusId === 2) return "Provider";
+    else if (statusId === 3) return "Staff";
+};
+
 export const LIMIT = 10;
 export const adsLIMIT = 5;
 export const CommonMiles = 10000;

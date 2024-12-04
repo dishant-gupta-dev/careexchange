@@ -39,7 +39,6 @@ const FindCare = () => {
     lng: lng ?? null,
     address: address ?? null,
   });
-console.log(selectRadius);
 
   const initialFirstValues = {
     radius: selectRadius ?? "",
@@ -75,7 +74,7 @@ console.log(selectRadius);
     gender: Yup.string().required("Gender is required!"),
     email: Yup.string().required("Email is required!"),
     phone: Yup.string().min(10).required("Phone is required!"),
-    fax: Yup.string().required("Fax is required!"),
+    fax: Yup.string().min(10).required("Fax is required!"),
     age: Yup.string().required("Age is required!"),
     frequency: Yup.string().required("Frequency is required!"),
     relationship: Yup.string().required("Relationship is required!"),

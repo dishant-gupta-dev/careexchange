@@ -19,4 +19,7 @@ exports.routes = {
     calendar: `/user/calendar`,
     subscriptionPlan: `/user/subscription-plan`,
     newsletter: `/user/newsletter`,
+    aboutUs: `/user/about-us`,
+    privacyPolicy: `/user/privacy-policy`,
+    termsCondition: `/user/terms-condition`,
 }

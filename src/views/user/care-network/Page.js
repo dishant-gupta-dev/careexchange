@@ -339,7 +339,7 @@ const Page = () => {
                               </div>
                               <div className="jobs-point-item">
                                 <img src={Dollar} /> Salary:
-                                <span>{ele.pay_range ?? "$0"}/Annually</span>
+                                <span className="text-capitalize">${ele.pay_range ?? "$0"}/{ele.pay_range_type ?? ""}</span>
                               </div>
                               <div className="jobs-point-item">
                                 <img src={SuitCase} /> Work Experience:
@@ -352,11 +352,22 @@ const Page = () => {
                           </div>
                         </div>
                         <div className="care-card-foot">
-                          {ele.applied_status ? (
+                          {userData.userId == ele.userid ? (
                             <div class="care-action">
-                              <a class="btn-gra" href="#">
+                              <Link
+                                className="btn-bl"
+                                to={`${routes.careNetworkDetails}/${encode(
+                                  ele.id
+                                )}`}
+                              >
+                                View Details
+                              </Link>
+                            </div>
+                          ) : ele.applied_status ? (
+                            <div class="care-action">
+                              <Link class="btn-gra" to="">
                                 Applied
-                              </a>
+                              </Link>
                               <Link
                                 className="btn-bl"
                                 to={`${routes.careNetworkDetails}/${encode(

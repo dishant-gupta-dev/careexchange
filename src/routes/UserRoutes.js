@@ -15,6 +15,9 @@ import AppliedJob from "../views/user/care-network/AppliedJob.js";
 import JobPost from "../views/user/care-network/JobPost.js";
 import PostedJob from "../views/user/care-network/PostedJob.js";
 import FindCare from "../views/user/jobs/FindCare.js";
+import AboutUs from "../views/user/more/AboutUs.js";
+import PrivacyPolicy from "../views/user/more/PrivacyPolicy.js";
+import TermCondition from "../views/user/more/TermCondition.js";
 
 var UserRoutes = [
     {
@@ -91,6 +94,21 @@ var UserRoutes = [
         path: routes.newsletter,
         layout: UserLayout,
         component: Newsletter
+    },
+    {
+        path: routes.aboutUs,
+        layout: UserLayout,
+        component: AboutUs
+    },
+    {
+        path: routes.privacyPolicy,
+        layout: UserLayout,
+        component: PrivacyPolicy
+    },
+    {
+        path: routes.termsCondition,
+        layout: UserLayout,
+        component: TermCondition
     },
 ];
 

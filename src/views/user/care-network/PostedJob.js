@@ -185,7 +185,7 @@ const PostedJob = () => {
                               </div>
                               <div class="jobs-point-item">
                                 <img src={Dollar} /> Salary:
-                                <span>{ele.pay_range ?? "$0"}/Annually</span>
+                                <span className="text-capitalize">${ele.pay_range ?? "$0"}/{ele.pay_range_type ?? ""}</span>
                               </div>
                               <div class="jobs-point-item">
                                 <img src={SuitCase} /> Work Exp:
@@ -206,6 +206,14 @@ const PostedJob = () => {
                               }
                             >
                               Delete
+                            </Link>
+                            <Link
+                              class="btn-gr"
+                              to={`${routes.careNetworkDetails}/${encode(
+                                ele.id
+                              )}`}
+                            >
+                              View Job Detail
                             </Link>
                             <Link
                               class="btn-gra"

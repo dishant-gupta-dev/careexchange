@@ -10,6 +10,7 @@ import Clock from "../../../assets/user/images/clock.svg";
 import Dollar from "../../../assets/user/images/dollar.svg";
 import SuitCase from "../../../assets/user/images/jobs-suitcase.svg";
 import moment from "moment";
+import { encode } from "base-64";
 import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 
@@ -161,7 +162,7 @@ const AppliedJob = () => {
                               </div>
                               <div class="jobs-point-item">
                                 <img src={Dollar} /> Salary:
-                                <span>{ele.pay_range ?? "$0"}/Annually</span>
+                                <span className="text-capitalize">${ele.pay_range ?? "$0"}/{ele.pay_range_type ?? ""}</span>
                               </div>
                               <div class="jobs-point-item">
                                 <img src={SuitCase} /> Work Exp:
@@ -174,9 +175,17 @@ const AppliedJob = () => {
                         </div>
                         <div class="care-card-foot">
                           <div class="care-action">
-                            <a class="btn-gra" href="#">
+                            <Link class="btn-gra" to="">
                               Applied
-                            </a>
+                            </Link>
+                            <Link
+                              class="btn-gr"
+                              to={`${routes.careNetworkDetails}/${encode(
+                                ele.id
+                              )}`}
+                            >
+                              View Job Detail
+                            </Link>
                           </div>
                         </div>
                       </div>
