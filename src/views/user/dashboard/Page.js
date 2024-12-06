@@ -11,6 +11,7 @@ import Loader from "../../../layouts/loader/Loader";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { Link, useNavigate } from "react-router-dom";
 import { routes } from "../../../utlis/user/routes.utlis";
+import { decode, encode } from "base-64";
 import { GeolocationApiKey } from "../../../utlis/common.utlis";
 
 const Page = () => {
@@ -67,7 +68,7 @@ const Page = () => {
 
   function findState(type, arr) {
     for (let i in arr) {
-      if ((arr[i].types).includes(type)) {
+      if (arr[i].types.includes(type)) {
         return arr[i].long_name;
       }
     }
@@ -76,9 +77,9 @@ const Page = () => {
 
   function findState2(type, arr) {
     for (let i in arr) {
-      if ((arr[i].types).includes(type)) {
+      if (arr[i].types.includes(type)) {
         for (let j in arr[i].address_components) {
-          if ((arr[i].address_components[j].types).includes(type)) {
+          if (arr[i].address_components[j].types.includes(type)) {
             return arr[i].address_components[j].long_name;
           }
         }
@@ -93,7 +94,10 @@ const Page = () => {
       lat: address.geometry.location.lat(),
       lng: address.geometry.location.lng(),
       address: address.formatted_address,
-      state: findState('administrative_area_level_1', address.address_components)
+      state: findState(
+        "administrative_area_level_1",
+        address.address_components
+      ),
     });
   };
 
@@ -115,7 +119,7 @@ const Page = () => {
               lat: crd.latitude,
               lng: crd.longitude,
               address: findAddress("street_address", data.results),
-              state: findState2('administrative_area_level_1', data.results)
+              state: findState2("administrative_area_level_1", data.results),
             });
           })
           .catch((error) => console.log(error));
@@ -253,7 +257,11 @@ const Page = () => {
                     </div>
                   </div>
                   <div className="schedule-card-action">
-                    <Link to={`${routes.findCare}/${location.address}/${location.lat}/${location.lng}`}>Book Now</Link>
+                    <Link
+                      to={`${routes.findCare}/${location.address}/${location.lat}/${location.lng}`}
+                    >
+                      Book Now
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -289,7 +297,9 @@ const Page = () => {
               ? dashboard?.category.map((ele, indx) => {
                   return (
                     <div key={indx} className="col-md-2">
-                      <Link to={`${routes.findCare}/${location.address}/${location.lat}/${location.lng}/${ele.id}`}>
+                      <Link
+                        to={`${routes.findCare}/${location.address}/${location.lat}/${location.lng}/${ele.id}`}
+                      >
                         <div className="careservices-card">
                           <div className="careservices-icon">
                             {ele.image === null ||
@@ -321,7 +331,14 @@ const Page = () => {
             {dashboard?.ProviderList.length !== 0
               ? dashboard?.ProviderList.map((ele, indx) => {
                   return (
-                    <div key={indx} className="col-md-4">
+                    <div
+                      key={indx}
+                      className="col-md-4"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate(routes.userDetail + `/${encode(ele.id)}`);
+                      }}
+                    >
                       <div className="care-card">
                         <div className="care-card-head">
                           <div className="care-user-info">
@@ -330,6 +347,10 @@ const Page = () => {
                               ele.logo !== "" &&
                               ele.logo !== undefined ? (
                                 <img src={ele.logo} alt="" className="me-3" />
+                              ) : ele.profile_image === null ||
+                                ele.profile_image === "" ||
+                                ele.profile_image === undefined ? (
+                                <img src={NoImage} alt="" className="me-3" />
                               ) : (
                                 <img
                                   src={ele.profile_image}
@@ -405,9 +426,9 @@ const Page = () => {
                         </div>
                         <div className="advertisement-content">
                           <h4>{ele.title ?? "NA"}</h4>
-                          {/* <a className="viewmorebtn" href="">
+                          <Link className="viewmorebtn" to={routes.advertisementDetails+`/${encode(ele.id)}`}>
                             View More
-                          </a> */}
+                          </Link>
                         </div>
                       </div>
                     </div>

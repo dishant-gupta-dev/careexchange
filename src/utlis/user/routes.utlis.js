@@ -5,6 +5,7 @@ exports.routes = {
     userRegister: `/user/sign-up`,
     otp: `/user/verification-otp`,
     dashboard: `/user/dashboard`,
+    userDetail: `/user/info`,
     findCare: `/user/find-care`,
     message: `/user/message`,
     myJobs: `/user/jobs`,
@@ -22,4 +23,5 @@ exports.routes = {
     aboutUs: `/user/about-us`,
     privacyPolicy: `/user/privacy-policy`,
     termsCondition: `/user/terms-condition`,
+    advertisementDetails: `/user/advertisement/info`,
 }

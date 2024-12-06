@@ -1002,11 +1002,11 @@ const FindCare = () => {
                                             type="radio"
                                             name="best_time_to_call"
                                             id="Morning_At_Word"
-                                            value="morning at word"
+                                            value="morning at work"
                                           />
                                           <label for="Morning_At_Word">
                                             <span className="ceradio-text">
-                                              Morning At Word
+                                              Morning At Work
                                             </span>
                                           </label>
                                         </div>
@@ -1018,7 +1018,7 @@ const FindCare = () => {
                                             type="radio"
                                             name="best_time_to_call"
                                             id="Afternoon_At_Word"
-                                            value="afternoon at word"
+                                            value="afternoon at work"
                                           />
                                           <label for="Afternoon_At_Word">
                                             <span className="ceradio-text">
@@ -1034,7 +1034,7 @@ const FindCare = () => {
                                             type="radio"
                                             name="best_time_to_call"
                                             id="Evening_At_Word"
-                                            value="evening at word"
+                                            value="evening at home"
                                           />
                                           <label for="Evening_At_Word">
                                             <span className="ceradio-text">

@@ -275,6 +275,10 @@ const Page = () => {
                                 ele.logo !== "" &&
                                 ele.logo !== undefined ? (
                                   <img src={ele.logo} alt="" className="me-3" />
+                                ) : ele.profile_image === null ||
+                                  ele.profile_image === "" ||
+                                  ele.profile_image === undefined ? (
+                                  <img src={NoImage} alt="" className="me-3" />
                                 ) : (
                                   <img
                                     src={ele.profile_image}

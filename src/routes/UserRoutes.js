@@ -1,6 +1,8 @@
 import { routes } from "../utlis/user/routes.utlis";
 import { UserLayout } from "../layouts/user/App.js";
 import Dashboard from "../views/user/dashboard/Page.js";
+import ProviderDetail from "../views/user/dashboard/ProviderDetail.js";
+import AdvertisementDetails from "../views/user/advertisement/Details.js";
 import Jobs from "../views/user/jobs/Page.js";
 import JobDetails from "../views/user/jobs/Details.js";
 import Message from "../views/user/message/Page.js";
@@ -24,6 +26,21 @@ var UserRoutes = [
         path: routes.dashboard,
         layout: UserLayout,
         component: Dashboard
+    },
+    {
+        path: routes.userDetail+"/:id",
+        layout: UserLayout,
+        component: ProviderDetail
+    },
+    {
+        path: routes.advertisementDetails+"/:id",
+        layout: UserLayout,
+        component: AdvertisementDetails
+    },
+    {
+        path: routes.userDetail+"/:id",
+        layout: UserLayout,
+        component: ProviderDetail
     },
     {
         path: routes.findCare+"/:address?/:lat?/:lng?/:cat?",
