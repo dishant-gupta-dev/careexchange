@@ -168,9 +168,8 @@ const Page = () => {
               </li>
               <li>
                 <Link
-                  to=""
-                  className={tab == 2 ? "active" : ""}
-                  onClick={() => setTab(2)}
+                  to={routes.addPost}
+                  className=""
                 >
                   Post A Job
                 </Link>
@@ -223,18 +222,6 @@ const Page = () => {
                         <img src={Search} />
                       </button>
                     ) : null}
-                    {tab == 2 ? (
-                      <button
-                        className="intake-btn-done"
-                        onClick={() => {
-                          navigate(
-                            `${routes.addPost}/${location.address}/${location.lat}/${location.lng}/${location.state}`
-                          );
-                        }}
-                      >
-                        <img src={Search} />
-                      </button>
-                    ) : null}
                   </div>
                 </div>
               </div>
@@ -244,21 +231,20 @@ const Page = () => {
 
         <div className="overview-section">
           <div className="row">
-            {tab == 0 || tab == 2 ? (
-              <div className="col-md-6">
+            {tab == 0 ? (
+              <div className="col-md-12">
                 <div className="schedule-card">
                   <div className="schedule-card-content">
                     <div className="schedule-card-icon">
                       <img src={Schedule} />
                     </div>
                     <div className="schedule-card-text">
-                      Schedule A <span>Free!</span>
-                      <p className="pb-0 mb-0">In-Home Care Assessment</p>
+                      Schedule A <span>Free!</span> In-Home Care Assessment
                     </div>
                   </div>
                   <div className="schedule-card-action">
                     <Link
-                      to={`${routes.findCare}/${location.address}/${location.lat}/${location.lng}`}
+                      to={`${routes.findCareHomeAss}/${location.lat ?? null}/${location.lng ?? null}/${location.address ?? null}`}
                     >
                       Book Now
                     </Link>
@@ -267,21 +253,23 @@ const Page = () => {
               </div>
             ) : null}
 
-            <div className="col-md-6">
-              <div className="opportunity-card">
-                <div className="opportunity-card-content">
-                  <div className="opportunity-card-icon">
-                    <img src={Post} />
+            {tab == 1 ? (
+              <div className="col-md-12">
+                <div className="opportunity-card">
+                  <div className="opportunity-card-content">
+                    <div className="opportunity-card-icon">
+                      <img src={Post} />
+                    </div>
+                    <div className="opportunity-card-text">
+                      Post Job Opportunity In Your Area
+                    </div>
                   </div>
-                  <div className="opportunity-card-text">
-                    Post Job Opportunity In Your Area
+                  <div className="opportunity-card-action">
+                    <Link to={`${routes.addPost}`}>GO</Link>
                   </div>
-                </div>
-                <div className="opportunity-card-action">
-                  <Link to={`${routes.addPost}`}>GO</Link>
                 </div>
               </div>
-            </div>
+            ) : null}
           </div>
         </div>
 
@@ -298,7 +286,7 @@ const Page = () => {
                   return (
                     <div key={indx} className="col-md-2">
                       <Link
-                        to={`${routes.findCare}/${location.address}/${location.lat}/${location.lng}/${ele.id}`}
+                        to={`${routes.findCareHomeAss}/${location.lat ?? null}/${location.lng ?? null}/${location.address ?? null}/${ele.id}`}
                       >
                         <div className="careservices-card">
                           <div className="careservices-icon">
@@ -426,7 +414,12 @@ const Page = () => {
                         </div>
                         <div className="advertisement-content">
                           <h4>{ele.title ?? "NA"}</h4>
-                          <Link className="viewmorebtn" to={routes.advertisementDetails+`/${encode(ele.id)}`}>
+                          <Link
+                            className="viewmorebtn"
+                            to={
+                              routes.advertisementDetails + `/${encode(ele.id)}`
+                            }
+                          >
                             View More
                           </Link>
                         </div>

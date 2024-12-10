@@ -459,12 +459,12 @@ const JobPost = () => {
                                       type="radio"
                                       name="pay_range_type"
                                       id="Hour"
-                                      value="hour"
+                                      value="hourly"
                                     />
                                     <label for="Hour">
                                       <span className="checkbox-text">
                                         {" "}
-                                        Hour
+                                        Hourly
                                       </span>
                                     </label>
                                   </div>
@@ -491,12 +491,12 @@ const JobPost = () => {
                                       type="radio"
                                       name="pay_range_type"
                                       id="Week"
-                                      value="week"
+                                      value="weekly"
                                     />
                                     <label for="Week">
                                       <span className="checkbox-text">
                                         {" "}
-                                        Week
+                                        Weekly
                                       </span>
                                     </label>
                                   </div>
@@ -507,12 +507,12 @@ const JobPost = () => {
                                       type="radio"
                                       name="pay_range_type"
                                       id="Monthly"
-                                      value="month"
+                                      value="monthly"
                                     />
                                     <label for="Monthly">
                                       <span className="checkbox-text">
                                         {" "}
-                                        Month
+                                        Monthly
                                       </span>
                                     </label>
                                   </div>
@@ -523,12 +523,12 @@ const JobPost = () => {
                                       type="radio"
                                       name="pay_range_type"
                                       id="Year"
-                                      value="year"
+                                      value="yearly"
                                     />
                                     <label for="Year">
                                       <span className="checkbox-text">
                                         {" "}
-                                        Year
+                                        Yearly
                                       </span>
                                     </label>
                                   </div>

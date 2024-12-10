@@ -8,7 +8,8 @@ import NoImage from "../../../assets/admin/images/no-image.jpg";
 import locationImage from "../../../assets/admin/images/Google_Map.svg";
 import ApiService from "../../../core/services/ApiService";
 import moment from "moment";
-import { decode } from "base-64";
+import { decode, encode } from "base-64";
+import { routes } from "../../../utlis/user/routes.utlis";
 
 const Details = () => {
   const navigate = useNavigate();
@@ -189,6 +190,11 @@ const Details = () => {
                                             ?.business_address ?? "NA"}
                                         </p>
                                       </div>
+                                    </div>
+                                    <div className="text-center mt-2 w-100">
+                                      <Link className="viewmorebtn" to={routes.userMessage+`/${encode(ele?.provider_id)}`}>
+                                        <i className="fa fa-wechat"></i> Chat
+                                      </Link>
                                     </div>
                                   </div>
                                 </div>

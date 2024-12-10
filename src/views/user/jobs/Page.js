@@ -175,7 +175,7 @@ const Page = () => {
                                     </div>
                                   </div>
 
-                                  {ele.providers.length !== 0
+                                  {/* {ele.providers.length !== 0
                                     ? ele.providers.map((element, index) => {
                                         return (
                                           <div
@@ -217,7 +217,7 @@ const Page = () => {
                                           </div>
                                         );
                                       })
-                                    : null}
+                                    : null} */}
                                   {/* <div className="care-action1">
                                       <a className="btn-gr mt-1" href="#">
                                         View Care-Provider Profile

@@ -20,6 +20,8 @@ import FindCare from "../views/user/jobs/FindCare.js";
 import AboutUs from "../views/user/more/AboutUs.js";
 import PrivacyPolicy from "../views/user/more/PrivacyPolicy.js";
 import TermCondition from "../views/user/more/TermCondition.js";
+import ProviderChat from "../views/user/message/ProviderChat.js";
+import FindCareHomeAss from "../views/user/jobs/FindCareHomeAss.js";
 
 var UserRoutes = [
     {
@@ -43,14 +45,24 @@ var UserRoutes = [
         component: ProviderDetail
     },
     {
-        path: routes.findCare+"/:address?/:lat?/:lng?/:cat?",
+        path: routes.findCare+"/:address?/:lat?/:lng?",
         layout: UserLayout,
         component: FindCare
+    },
+    {
+        path: routes.findCareHomeAss+"/:lat?/:lng?/:address?/:cat?",
+        layout: UserLayout,
+        component: FindCareHomeAss
     },
     {
         path: routes.message,
         layout: UserLayout,
         component: Message
+    },
+    {
+        path: routes.userMessage+"/:id",
+        layout: UserLayout,
+        component: ProviderChat
     },
     {
         path: routes.myJobs,

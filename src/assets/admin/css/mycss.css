@@ -1443,3 +1443,6 @@ button.search-btn {
   color: #bcc4cf;
   margin: 0;
 }
+input.form-control{
+  color: #929191 !important;
+}

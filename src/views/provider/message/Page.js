@@ -77,7 +77,8 @@ const Page = () => {
     if (message == "") {
     } else {
       try {
-        const docid = sendInfo.senderId + "-" + userId;
+        // const docid = sendInfo.senderId + "-" + userId;
+        const docid = ((sendInfo.senderId > userId) ? userId + '-' + sendInfo.senderId: sendInfo.senderId + '-' + userId);
         const data = {
           text: message,
           image: "",
@@ -121,7 +122,8 @@ const Page = () => {
 
   useEffect(() => {
     if (sendInfo.senderId) {
-      const docid = sendInfo.senderId + "-" + userId;
+      // const docid = sendInfo.senderId + "-" + userId;
+      const docid = ((sendInfo.senderId > userId) ? userId + '-' + sendInfo.senderId: sendInfo.senderId + '-' + userId);
 
       const getMessage = db
         .collection("provider_chats")

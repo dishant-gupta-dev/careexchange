@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "../../../firebase";
 import ApiService from "../../../core/services/ApiService";
 import { serverTimestamp } from "firebase/firestore";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import moment from "moment/moment";
 import Search from "../../../assets/user/images/search1.svg";
 import AttachImg from "../../../assets/user/images/attachemnt.svg";
@@ -21,9 +21,11 @@ import RepeatImg from "../../../assets/user/images/Repeat.svg";
 import Loader from "../../../layouts/loader/Loader";
 import { Modal, ModalBody } from "react-bootstrap";
 import toast from "react-hot-toast";
+import { decode } from "base-64";
 
-const Page = () => {
+const ProviderChat = () => {
   let userId = JSON.parse(localStorage.getItem("careexchange")).userId;
+  const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
   const [providers, setProvider] = useState([]);
@@ -39,7 +41,8 @@ const Page = () => {
     userId: null,
     senderId: null,
     name: "",
-    image: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp",
+    image:
+      "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp",
   });
   const [message, setMessage] = useState("");
   const [search, setSearch] = useState("");
@@ -48,12 +51,36 @@ const Page = () => {
   const getProviders = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log("all providers list => ", response.data);
+    // console.log("all providers list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setProvider(response.data.data.ProviderList);
     } else setProvider([]);
     setLoading(false);
   };
+
+  const userDetails = async () => {
+    const response = await ApiService.getAPIWithAccessToken(
+      api.providerDetail + `${decode(id)}`
+    );
+    if (response.data.status && response.data.statusCode === 200) {
+      // console.log(response.data.data);
+      setSenderData({
+        userId: response.data.data.userid,
+        senderId: response.data.data.id,
+        name: response.data.data.business_name
+          ? response.data.data.business_name
+          : response.data.data.fullname,
+        image:
+          response.data.data.logo !== null &&
+          response.data.data.logo !== "" &&
+          response.data.data.logo !== undefined
+            ? response.data.data.logo
+            : response.data.data.profile_image,
+      });
+      setDetails(response.data.data);
+    } else setDetails();
+  };
+console.log(sendInfo);
 
   const bookingList = async (api) => {
     const res = await ApiService.getAPIWithAccessToken(api);
@@ -154,6 +181,7 @@ const Page = () => {
 
   useEffect(() => {
     getProviders(api.providerChatList);
+    userDetails();
   }, []);
 
   useEffect(() => {
@@ -916,4 +944,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default ProviderChat;

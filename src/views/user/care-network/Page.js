@@ -211,11 +211,6 @@ const Page = () => {
               </Link>
             </li>
             <li>
-              <Link to={routes.jobRequest} className="btn-wh">
-                Job Requests
-              </Link>
-            </li>
-            <li>
               <Link to={routes.appliedJob} className="btn-wh">
                 {" "}
                 Applied Jobs
@@ -224,6 +219,11 @@ const Page = () => {
             <li>
               <Link to={routes.postedJob} className="btn-wh">
                 Posted Job
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.jobRequest} className="btn-wh">
+                Job Requests
               </Link>
             </li>
           </ul>
@@ -354,6 +354,9 @@ const Page = () => {
                         <div className="care-card-foot">
                           {userData.userId == ele.userid ? (
                             <div class="care-action">
+                              <Link class="btn-gra" to="">
+                                Posted Job
+                              </Link>
                               <Link
                                 className="btn-bl"
                                 to={`${routes.careNetworkDetails}/${encode(
