@@ -58,11 +58,6 @@ const AppliedJob = () => {
               </Link>
             </li>
             <li>
-              <Link to={routes.jobRequest} className="btn-bl">
-                Job Requests
-              </Link>
-            </li>
-            <li>
               <Link to={routes.appliedJob} class="btn-wh active">
                 {" "}
                 Applied Jobs
@@ -71,6 +66,11 @@ const AppliedJob = () => {
             <li>
               <Link to={routes.postedJob} class="btn-wh">
                 Posted Job
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.jobRequest} className="btn-bl">
+                Job Requests
               </Link>
             </li>
           </ul>
@@ -162,7 +162,7 @@ const AppliedJob = () => {
                               </div>
                               <div class="jobs-point-item">
                                 <img src={Dollar} /> Salary:
-                                <span className="text-capitalize">${ele.pay_range ?? "$0"}/{ele.pay_range_type ?? ""}</span>
+                                <span className="text-capitalize">{ele.currency ?? "$"}{ele.pay_range ?? "$0"}/{ele.pay_range_type ?? ""}</span>
                               </div>
                               <div class="jobs-point-item">
                                 <img src={SuitCase} /> Work Exp:

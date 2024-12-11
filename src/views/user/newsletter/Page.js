@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MailImg from "../../../assets/user/images/mail-sent-pana.svg";
 import { api } from "../../../utlis/user/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
+  const [newsletter, setNewsletter] = useState([]);
 
   const initialValues = {
     name: "",
@@ -21,6 +22,16 @@ const Page = () => {
     phone: Yup.string().min(10).required("Mobile is required!"),
     email_address: Yup.string().email().required("Email address is required!"),
   });
+
+  const getNewsletterList = async (api) => {
+    setLoading(true);
+    const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log("all posted job => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setNewsletter(response.data.data.subscribers);
+    } else setNewsletter([]);
+    setLoading(false);
+  };
 
   const addNewsLetter = async (formvalue) => {
     setLoading(true);
@@ -42,6 +53,11 @@ const Page = () => {
     setLoading(false);
   };
 
+  useEffect(() => {
+    getNewsletterList(api.newsletterList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       {loading ? <Loader /> : null}
@@ -62,67 +78,71 @@ const Page = () => {
                         <div class="auth-form">
                           <h2>Subscribe</h2>
                           <p>Subscribe To Our Newsletter & Stay Updated</p>
-                          <Formik
-                            initialValues={initialValues}
-                            validateOnChange={true}
-                            validationSchema={validationSchema}
-                            onSubmit={addNewsLetter}
-                            enableReinitialize
-                          >
-                            {({ values, setFieldValue }) => (
-                              <Form class="pt-4" id="newsletter-form">
-                                <div class="form-group">
-                                  <Field
-                                    type="text"
-                                    className="form-control todo-list-input"
-                                    name="name"
-                                    placeholder="Enter Name"
-                                  />
-                                  <ErrorMessage
-                                    name="name"
-                                    component="div"
-                                    className="alert alert-danger"
-                                  />
-                                </div>
-                                <div class="form-group">
-                                  <Field
-                                    type="email_address"
-                                    className="form-control"
-                                    name="email_address"
-                                    placeholder="Enter Email"
-                                  />
-                                  <ErrorMessage
-                                    name="email_address"
-                                    component="div"
-                                    className="alert alert-danger"
-                                  />
-                                </div>
-                                <div class="form-group">
-                                  <Field
-                                    type="text"
-                                    className="form-control"
-                                    name="phone"
-                                    placeholder="Enter Phone"
-                                    maxlength={10}
-                                    value={values.phone.replace(
-                                      /(\d{3})(\d{3})(\d{4})/,
-                                      "($1) $2-$3"
-                                    )}
-                                  />
-                                  <ErrorMessage
-                                    name="phone"
-                                    component="div"
-                                    className="alert alert-danger"
-                                  />
-                                </div>
-                                <div class="form-group">
-                                  <button type="submit" class="auth-form-btn">
-                                    Submit
-                                  </button>
-                                </div>
-                              </Form>
-                            )}
-                          </Formik>
+                          {newsletter.length !== 0 ? (
+                            <h3 className="">Newsletter Already Subscribed</h3>
+                          ) : (
+                            <Formik
+                              initialValues={initialValues}
+                              validateOnChange={true}
+                              validationSchema={validationSchema}
+                              onSubmit={addNewsLetter}
+                              enableReinitialize
+                            >
+                              {({ values, setFieldValue }) => (
+                                <Form class="pt-4" id="newsletter-form">
+                                  <div class="form-group">
+                                    <Field
+                                      type="text"
+                                      className="form-control todo-list-input"
+                                      name="name"
+                                      placeholder="Enter Name"
+                                    />
+                                    <ErrorMessage
+                                      name="name"
+                                      component="div"
+                                      className="alert alert-danger"
+                                    />
+                                  </div>
+                                  <div class="form-group">
+                                    <Field
+                                      type="email_address"
+                                      className="form-control"
+                                      name="email_address"
+                                      placeholder="Enter Email"
+                                    />
+                                    <ErrorMessage
+                                      name="email_address"
+                                      component="div"
+                                      className="alert alert-danger"
+                                    />
+                                  </div>
+                                  <div class="form-group">
+                                    <Field
+                                      type="text"
+                                      className="form-control"
+                                      name="phone"
+                                      placeholder="Enter Phone"
+                                      maxlength={10}
+                                      value={values.phone.replace(
+                                        /(\d{3})(\d{3})(\d{4})/,
+                                        "($1) $2-$3"
+                                      )}
+                                    />
+                                    <ErrorMessage
+                                      name="phone"
+                                      component="div"
+                                      className="alert alert-danger"
+                                    />
+                                  </div>
+                                  <div class="form-group">
+                                    <button type="submit" class="auth-form-btn">
+                                      Submit
+                                    </button>
+                                  </div>
+                                </Form>
+                              )}
+                            </Formik>
+                          )}
                         </div>
                       </div>
                     </div>

@@ -344,11 +344,11 @@ const Page = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="chat-panel-chat-footer">
+                          <div className="chat-panel-chat-footer pb-0">
                             <div className="form">
                               <div className="row">
                                 <div className="col-md-10">
-                                  <div className="form-group">
+                                  <div className="form-group mb-0">
                                     <input
                                       type="text"
                                       autoComplete="off"

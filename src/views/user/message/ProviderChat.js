@@ -63,7 +63,6 @@ const ProviderChat = () => {
       api.providerDetail + `${decode(id)}`
     );
     if (response.data.status && response.data.statusCode === 200) {
-      // console.log(response.data.data);
       setSenderData({
         userId: response.data.data.userid,
         senderId: response.data.data.id,
@@ -80,7 +79,6 @@ const ProviderChat = () => {
       setDetails(response.data.data);
     } else setDetails();
   };
-console.log(sendInfo);
 
   const bookingList = async (api) => {
     const res = await ApiService.getAPIWithAccessToken(api);
@@ -466,11 +464,11 @@ console.log(sendInfo);
                               </div>
                             </div>
                           </div>
-                          <div className="chat-panel-chat-footer">
+                          <div className="chat-panel-chat-footer pb-0">
                             <div className="form">
                               <div className="row">
                                 <div className="col-md-10">
-                                  <div className="form-group">
+                                  <div className="form-group mb-0">
                                     <input
                                       type="text"
                                       autoComplete="off"

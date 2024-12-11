@@ -339,7 +339,7 @@ const Page = () => {
                               </div>
                               <div className="jobs-point-item">
                                 <img src={Dollar} /> Salary:
-                                <span className="text-capitalize">${ele.pay_range ?? "$0"}/{ele.pay_range_type ?? ""}</span>
+                                <span className="text-capitalize">{ele.currency ?? "$"}{ele.pay_range ?? "$0"}/{ele.pay_range_type ?? ""}</span>
                               </div>
                               <div className="jobs-point-item">
                                 <img src={SuitCase} /> Work Experience:

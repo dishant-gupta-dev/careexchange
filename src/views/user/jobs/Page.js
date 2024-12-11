@@ -6,6 +6,7 @@ import NoData from "../../../assets/admin/images/no-data-found.svg";
 import WhCalen from "../../../assets/user/images/whcalendar.svg";
 import RepeatImg from "../../../assets/user/images/Repeat.svg";
 import VerifyImg from "../../../assets/user/images/verify.svg";
+import locationImage from "../../../assets/admin/images/Google_Map.svg";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import moment from "moment";
@@ -20,7 +21,7 @@ const Page = () => {
   const getJobs = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    // console.log("all my jobs => ", response.data);
+    console.log("all my jobs => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setJobs(response.data.data.myjobList);
     } else setJobs([]);
@@ -123,7 +124,7 @@ const Page = () => {
                                 <div className="care-card">
                                   <div className="care-card-head">
                                     <div className="care-id">
-                                      Job ID:<span> {ele.id ?? "NA"}</span>
+                                      Job ID:<span> {ele.job_id ?? "NA"}</span>
                                     </div>
 
                                     <div className="care-status">
@@ -143,28 +144,59 @@ const Page = () => {
                                       <div className="title-text">
                                         {ele.first_name ?? "NA"}
                                       </div>
-                                      <div className="date-text">
-                                        <img src={WhCalen} />{" "}
-                                        {moment(ele.start_date).format(
-                                          "MM-DD-yyyy"
-                                        )}{" "}
-                                        {/* {ele.start_time} */}
+                                      <div className="row d-flex justify-content-between w-100">
+                                        <div className="col-md-7">
+                                          <div className="date-text">
+                                            <img src={WhCalen} />{" "}
+                                            {moment(ele.start_date).format(
+                                              "MM-DD-yyyy"
+                                            )}{" "}
+                                            {ele.start_time ?? "NA"}
+                                          </div>
+                                        </div>
+                                        <div className="col-md-3">
+                                          <div class="tags-list float-end">
+                                            <div class="tags-item">
+                                              {ele?.gender == "M"
+                                                ? "Male"
+                                                : "Female"}
+                                            </div>
+                                            <div class="tags-item mx-2">
+                                              Age: {ele?.age ?? "NA"}
+                                            </div>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                     <div className="care-day-Weekly-info">
-                                      <div className="care-point-box">
-                                        <div className="care-point-icon">
-                                          <img src={RepeatImg} />
+                                      <div className="row w-100">
+                                        <div className="col-md-4">
+                                          <div className="care-point-box">
+                                            <div className="care-point-icon">
+                                              <img src={RepeatImg} />
+                                            </div>
+                                            <div className="care-point-text">
+                                              <h4>Frequency:</h4>
+                                              <p>
+                                                {ele.frequency === "O"
+                                                  ? "One Time"
+                                                  : ele.frequency === "W"
+                                                  ? "Repeat Weekly"
+                                                  : "Repeat Monthly"}
+                                              </p>
+                                            </div>
+                                          </div>
                                         </div>
-                                        <div className="care-point-text">
-                                          <h4>Frequency:</h4>
-                                          <p>
-                                            {ele.frequency === "O"
-                                              ? "One Time"
-                                              : ele.frequency === "W"
-                                              ? "Repeat Weekly"
-                                              : "Repeat Monthly"}
-                                          </p>
+                                        <div className="col-md-8">
+                                          <div className="care-point-box">
+                                            <div className="care-point-icon">
+                                              <img src={locationImage} />
+                                            </div>
+                                            <div className="care-point-text">
+                                              <h4>Location:</h4>
+                                              <p>{ele.address ?? "NA"}</p>
+                                            </div>
+                                          </div>
                                         </div>
                                       </div>
                                       <div className="care-day-list">

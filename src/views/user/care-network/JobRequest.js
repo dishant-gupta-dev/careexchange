@@ -18,7 +18,8 @@ const JobRequest = () => {
   const [loading, setLoading] = useState(false);
   const [job, setJob] = useState([]);
   const [myJob, setMyJob] = useState([]);
-  const [startDate, setStartDate] = useState("");
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
 
   const getJobRequest = async (api) => {
     setLoading(true);
@@ -38,16 +39,19 @@ const JobRequest = () => {
     } else setMyJob([]);
   };
 
-  const handleFilter = (e, date = null) => {
+  const handleFilter = (e, fromDate = null, toDate = null) => {
     e.persist();
     let name = "";
     let postedJobId = "";
     if (e.target.name === "name") name = e.target.value;
     if (e.target.name === "postedJobId") postedJobId = e.target.value;
-    if (date != null && date != undefined && date != "")
-      date = moment(date).format("yyyy-MM-DD");
-    else date = "";
-    getJobRequest(api.jobRequest + `?search=${name}&date=${date}&postedJobId=${postedJobId}`);
+    if (fromDate != null && fromDate != undefined && fromDate != "")
+      fromDate = moment(fromDate).format("yyyy-MM-DD");
+    else fromDate = "";
+    if (toDate != null && toDate != undefined && toDate != "")
+      toDate = moment(toDate).format("yyyy-MM-DD");
+    else toDate = "";
+    getJobRequest(api.jobRequest + `?search=${name}&from_date=${fromDate}&to_date=${toDate}&postedJobId=${postedJobId}`);
   };
 
   useEffect(() => {
@@ -69,11 +73,6 @@ const JobRequest = () => {
               </Link>
             </li>
             <li>
-              <Link to={routes.jobRequest} className="btn-bl active">
-                Job Requests
-              </Link>
-            </li>
-            <li>
               <Link to={routes.appliedJob} class="btn-wh">
                 {" "}
                 Applied Jobs
@@ -82,6 +81,11 @@ const JobRequest = () => {
             <li>
               <Link to={routes.postedJob} class="btn-wh">
                 Posted Job
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.jobRequest} className="btn-bl active">
+                Job Requests
               </Link>
             </li>
           </ul>
@@ -100,37 +104,39 @@ const JobRequest = () => {
                       toggleCalendarOnIconClick
                       showIcon
                       dateFormat={"MM-dd-yyyy"}
-                      selected={startDate}
+                      selected={fromDate}
                       onChange={(date, e) => {
-                        setStartDate(date);
-                        handleFilter(e, date);
+                        setFromDate(date);
+                        handleFilter(e, date, toDate ?? "");
                       }}
                       className="form-control"
                       style={{ padding: "15px 40px" }}
                       isClearable
                       autoComplete="off"
                       name="date"
-                      placeholderText="Select Date"
+                      placeholderText="From Date"
                     />
                   </div>
                 </div>
 
                 <div class="col-md-3">
                   <div class="form-group">
-                    <div class="search-form-group">
-                      <select name="postedJobId" className="form-control" onChange={(e) => handleFilter(e)} id="">
-                        <option value="">Select Job</option>
-                        {
-                          myJob.length !== 0 ? (
-                            myJob.map((ele, indx) => {
-                              return (
-                                <option key={indx} value={ele.id}>{ele.title}</option>
-                              )
-                            })
-                          ) : null
-                        }
-                      </select>
-                    </div>
+                    <DatePicker
+                      toggleCalendarOnIconClick
+                      showIcon
+                      dateFormat={"MM-dd-yyyy"}
+                      selected={toDate}
+                      onChange={(date, e) => {
+                        setToDate(date);
+                        handleFilter(e, fromDate, date);
+                      }}
+                      className="form-control"
+                      style={{ padding: "15px 40px" }}
+                      isClearable
+                      autoComplete="off"
+                      name="date"
+                      placeholderText="To Date"
+                    />
                   </div>
                 </div>
 

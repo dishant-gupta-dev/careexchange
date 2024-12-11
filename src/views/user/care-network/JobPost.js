@@ -459,7 +459,7 @@ const JobPost = () => {
                                       type="radio"
                                       name="pay_range_type"
                                       id="Hour"
-                                      value="hourly"
+                                      value="hour"
                                     />
                                     <label for="Hour">
                                       <span className="checkbox-text">
@@ -475,7 +475,7 @@ const JobPost = () => {
                                       type="radio"
                                       name="pay_range_type"
                                       id="Daily"
-                                      value="daily"
+                                      value="day"
                                     />
                                     <label for="Daily">
                                       <span className="checkbox-text">
@@ -491,7 +491,7 @@ const JobPost = () => {
                                       type="radio"
                                       name="pay_range_type"
                                       id="Week"
-                                      value="weekly"
+                                      value="week"
                                     />
                                     <label for="Week">
                                       <span className="checkbox-text">
@@ -507,7 +507,7 @@ const JobPost = () => {
                                       type="radio"
                                       name="pay_range_type"
                                       id="Monthly"
-                                      value="monthly"
+                                      value="month"
                                     />
                                     <label for="Monthly">
                                       <span className="checkbox-text">
@@ -523,7 +523,7 @@ const JobPost = () => {
                                       type="radio"
                                       name="pay_range_type"
                                       id="Year"
-                                      value="yearly"
+                                      value="year"
                                     />
                                     <label for="Year">
                                       <span className="checkbox-text">
