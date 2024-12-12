@@ -192,8 +192,11 @@ const Details = () => {
                                       </div>
                                     </div>
                                     <div className="text-center mt-2 w-100">
-                                      <Link className="viewmorebtn" to={routes.userMessage+`/${encode(ele?.provider_id)}`}>
+                                      <Link className="viewmorebtn mx-1" to={routes.userMessage+`/${encode(ele?.provider_id)}`}>
                                         <i className="fa fa-wechat"></i> Chat
+                                      </Link>
+                                      <Link className="viewmorebtn mx-1" to={routes.userDetail + `/${encode(ele?.provider_id)}`}>
+                                        <i className="fa fa-eye"></i> View Profile
                                       </Link>
                                     </div>
                                   </div>

@@ -70,8 +70,8 @@ const JobPost = () => {
     description: Yup.string().required("Job description is required!"),
     qualification: Yup.string().required("Job qualification is required!"),
     benefit: Yup.string().required("Benefits is required!"),
-    pay_range: Yup.string().required("Job Pay Range is required!"),
-    pay_range_type: Yup.string().required("Job Pay Range Type is required!"),
+    pay_range: Yup.string().required("Payment amount is required!"),
+    pay_range_type: Yup.string().required("Payment type is required!"),
     name: Yup.string().required("Name is required!"),
     email: Yup.string().required("Email is required!"),
     phone: Yup.string().min(10).required("Phone is required!"),
@@ -348,7 +348,10 @@ const JobPost = () => {
 
                         <div class="col-md-4">
                           <div class="form-group">
-                            <h4>Working Experience</h4>
+                            <h4>
+                              Experience{" "}
+                              <span className="text-danger">(In Year)</span>
+                            </h4>
                             <Field
                               type="number"
                               className="form-control"
@@ -446,11 +449,11 @@ const JobPost = () => {
                     </div>
 
                     <div class="post-job-card">
-                      <h3>Pay Range Offered</h3>
+                      <h3>Payment</h3>
                       <div class="row">
                         <div className="col-md-6">
                           <div className="form-group">
-                            <h4>Pay Range Type</h4>
+                            <h4>Type</h4>
                             <div className="choosemiles-list">
                               <ul>
                                 <li>
@@ -545,7 +548,7 @@ const JobPost = () => {
 
                         <div class="col-md-6">
                           <div class="form-group search-form-group-r">
-                            <h4>Pay Range</h4>
+                            <h4>Amount</h4>
                             <Field
                               type="number"
                               className="form-control"

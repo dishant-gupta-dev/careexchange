@@ -167,10 +167,7 @@ const Page = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to={routes.addPost}
-                  className=""
-                >
+                <Link to={routes.addPost} className="">
                   Post A Job
                 </Link>
               </li>
@@ -203,7 +200,9 @@ const Page = () => {
                         className="intake-btn-done"
                         onClick={() => {
                           navigate(
-                            `${routes.findCare}/${location.address}/${location.lat}/${location.lng}`
+                            `${routes.findCareHomeAss}/${location.lat}/${
+                              location.lng
+                            }/${location.address ?? null}`
                           );
                         }}
                       >
@@ -232,19 +231,22 @@ const Page = () => {
         <div className="overview-section">
           <div className="row">
             {tab == 0 ? (
-              <div className="col-md-12">
+              <div className="col-md-6">
                 <div className="schedule-card">
                   <div className="schedule-card-content">
                     <div className="schedule-card-icon">
                       <img src={Schedule} />
                     </div>
-                    <div className="schedule-card-text">
-                      Schedule A <span>Free!</span> In-Home Care Assessment
+                    <div className="schedule-card-text pt-2">
+                      Schedule A <span>Free!</span>
+                      <p className="pt-1">In-Home Care Assessment</p>
                     </div>
                   </div>
                   <div className="schedule-card-action">
                     <Link
-                      to={`${routes.findCareHomeAss}/${location.lat ?? null}/${location.lng ?? null}/${location.address ?? null}`}
+                      to={`${routes.findCare}/${location.lat ?? null}/${
+                        location.lng ?? null
+                      }/${location.address ?? null}`}
                     >
                       Book Now
                     </Link>
@@ -254,7 +256,7 @@ const Page = () => {
             ) : null}
 
             {tab == 1 ? (
-              <div className="col-md-12">
+              <div className="col-md-6">
                 <div className="opportunity-card">
                   <div className="opportunity-card-content">
                     <div className="opportunity-card-icon">
@@ -286,7 +288,9 @@ const Page = () => {
                   return (
                     <div key={indx} className="col-md-2">
                       <Link
-                        to={`${routes.findCareHomeAss}/${location.lat ?? null}/${location.lng ?? null}/${location.address ?? null}/${ele.id}`}
+                        to={`${routes.findCare}/${location.lat ?? null}/${
+                          location.lng ?? null
+                        }/${location.address ?? null}/${ele.id}`}
                       >
                         <div className="careservices-card">
                           <div className="careservices-icon">
@@ -370,16 +374,19 @@ const Page = () => {
                                 {ele.fee ?? "NA"}
                               </div> */}
                               <div className="exp-text">
-                                {ele.experience ?? 0} Years Exp
+                                {ele.experience ?? 0} Years Experience
                               </div>
                             </div>
                             <div className="care-tag-text">
                               {ele.category ?? "NA"}
                             </div>
                           </div>
-                          <div className="care-location-box">
-                            <div className="care-location-text">
-                              <h4>Location</h4>
+                          <div className="care-point-box">
+                            <div className="care-point-icon">
+                              <img src={Map} />
+                            </div>
+                            <div className="care-point-text">
+                              <h4>Location:</h4>
                               <p>{ele.business_address ?? "NA"}</p>
                             </div>
                           </div>

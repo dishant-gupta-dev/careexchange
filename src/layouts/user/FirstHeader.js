@@ -213,7 +213,7 @@ const FirstHeader = () => {
                             user?.image === undefined ? (
                               <img src={NoImage} alt="" />
                             ) : (
-                              <img src={user?.image} alt="" />
+                              <img id="user-panel-profile-pic" src={user?.image} alt="" />
                             )}
                           </div>
                         </DropdownToggle>

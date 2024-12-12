@@ -201,7 +201,7 @@ const ProviderDetail = () => {
                   </div>
                 </div>
 
-                <div class="review-card">
+                {/* <div class="review-card">
                   <div class="review-card-content">
                     <div class="review-card-icon">
                       <img src={StarWhImg} />
@@ -270,7 +270,8 @@ const ProviderDetail = () => {
                       <img width={300} src={NoData} alt="" />
                     </div>
                   )}
-                </div>
+                </div> */}
+
               </div>
             </div>
           </div>

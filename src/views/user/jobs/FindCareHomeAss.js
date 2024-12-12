@@ -150,7 +150,7 @@ const FindCareHomeAss = () => {
     form.append("frequency", formValue.frequency);
     form.append("prefer_contacted", formValue.prefer);
     form.append("payment_type", formValue.payment_type);
-    form.append("in_home_assist", 1);
+    form.append("in_home_assist", 0);
     form.append("address", location.address);
     form.append("latitude", location.lat);
     form.append("longitude", location.lng);
@@ -240,7 +240,10 @@ const FindCareHomeAss = () => {
   };
 
   useEffect(() => {
-    getProviders(api.providerList + `?user_type=2&latitude=${location.lat}&longitude=${location.lng}&radious=${selectRadius}`);
+    getProviders(
+      api.providerList +
+        `?user_type=2&latitude=${location.lat}&longitude=${location.lng}&radious=${selectRadius}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab]);
 
@@ -483,11 +486,11 @@ const FindCareHomeAss = () => {
                               </div>
                             </div>
 
-                            <div className="col-md-12">
+                            <div className="col-md-6">
                               <div className="form-group">
-                                <h4>Care Services You Are Looking For?</h4>
+                                <h4>Category</h4>
                                 <div className="row">
-                                  <div className="col-md-6">
+                                  <div className="col-md-12">
                                     <select
                                       className="form-control"
                                       name="category"
@@ -509,7 +512,15 @@ const FindCareHomeAss = () => {
                                         : null}
                                     </select>
                                   </div>
-                                  <div className="col-md-6">
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <h4>Sub Category</h4>
+                                <div className="row">
+                                  <div className="col-md-12">
                                     <Field
                                       as="select"
                                       type="text"

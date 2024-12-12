@@ -58,6 +58,11 @@ const AppliedJob = () => {
               </Link>
             </li>
             <li>
+              <Link className="btn-wh" to={routes.addPost}>
+                Post A Job
+              </Link>
+            </li>
+            <li>
               <Link to={routes.appliedJob} class="btn-wh active">
                 {" "}
                 Applied Jobs
@@ -167,7 +172,7 @@ const AppliedJob = () => {
                               <div class="jobs-point-item">
                                 <img src={SuitCase} /> Work Exp:
                                 <span>
-                                  {ele.working_expirence ?? "NA"} Experience{" "}
+                                  {ele.working_expirence ?? "NA"} Year Experience{" "}
                                 </span>
                               </div>
                             </div>

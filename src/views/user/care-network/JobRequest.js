@@ -73,6 +73,11 @@ const JobRequest = () => {
               </Link>
             </li>
             <li>
+              <Link className="btn-wh" to={routes.addPost}>
+                Post A Job
+              </Link>
+            </li>
+            <li>
               <Link to={routes.appliedJob} class="btn-wh">
                 {" "}
                 Applied Jobs

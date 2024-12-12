@@ -86,12 +86,7 @@ const Register = () => {
     free_in_home_assessment: Yup.string().required(
       "In-Home assessment is required!"
     ),
-    gender: Yup.string().required(
-      "Gender is required!"
-    ),
-    fee_per_hour: Yup.string().required("Fees per hour is required!"),
-    fee_per_week: Yup.string().required("Fees per week is required!"),
-    fee_per_month: Yup.string().required("Fees per month is required!"),
+    gender: Yup.string().required("Gender is required!"),
     business_name: Yup.string().required("Business name is required!"),
     care_job_title: Yup.string().required("Care job title is required!"),
     license_number: Yup.string().required("License number is required!"),
@@ -352,7 +347,7 @@ const Register = () => {
                   {tab == 1 ? (
                     <div className="tab-pane fade active show" id="tab1">
                       <div className="findcare-form">
-                        <h2>Care-Staff Sign Up</h2>
+                        <h2 className="text-center pb-3">Care-Staff Sign Up</h2>
                         <div className="findcare-card">
                           <Formik
                             initialValues={initialFirstValues}
@@ -364,9 +359,65 @@ const Register = () => {
                             {({ values, setFieldValue }) => (
                               <Form id="first-step-form">
                                 <div className="row">
-                                  <div className="col-md-12">
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>Name</h4>
+                                      <Field
+                                        type="text"
+                                        className="form-control"
+                                        name="name"
+                                        placeholder="Enter Name"
+                                      />
+                                      <ErrorMessage
+                                        name="name"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>Email Address</h4>
+                                      <Field
+                                        type="email"
+                                        className="form-control"
+                                        name="email"
+                                        placeholder="Enter Email Address"
+                                      />
+                                      <ErrorMessage
+                                        name="email"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>Phone</h4>
+                                      <Field
+                                        type="text"
+                                        className="form-control"
+                                        name="phone"
+                                        placeholder="Enter Phone"
+                                        maxlength={10}
+                                        value={values.phone.replace(
+                                          /(\d{3})(\d{3})(\d{4})/,
+                                          "($1) $2-$3"
+                                        )}
+                                      />
+                                      <ErrorMessage
+                                        name="phone"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6">
                                     <div className="form-group search-form-group">
-                                      <h4>Business Address</h4>
+                                      <h4>Service Area</h4>
                                       {isLoaded && (
                                         <StandaloneSearchBox
                                           onLoad={(ref) =>
@@ -376,7 +427,7 @@ const Register = () => {
                                         >
                                           <input
                                             className="form-control"
-                                            placeholder="Where are you going?"
+                                            placeholder="Enter Service Area"
                                             defaultValue={location.address}
                                           />
                                         </StandaloneSearchBox>
@@ -529,30 +580,57 @@ const Register = () => {
                                     </div>
                                   </div>
 
-                                  <div className="col-md-12">
+                                  <div className="col-md-4">
                                     <div className="form-group">
-                                      <h4>Care Job Title</h4>
-                                      <Field
-                                        type="text"
-                                        className="form-control"
-                                        name="care_job_title"
-                                        placeholder="Care job title"
-                                      />
-                                      <ErrorMessage
-                                        name="care_job_title"
-                                        component="div"
-                                        className="alert alert-danger"
-                                      />
+                                      <h4>Gender</h4>
+                                      <div className="choosemiles-list">
+                                        <ul>
+                                          <li>
+                                            <div className="ceradio">
+                                              <Field
+                                                type="radio"
+                                                name="gender"
+                                                id="Male"
+                                                value="M"
+                                              />
+                                              <label for="Male">
+                                                <span className="checkbox-text">
+                                                  {" "}
+                                                  Male
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+                                          <li>
+                                            <div className="ceradio">
+                                              <Field
+                                                type="radio"
+                                                name="gender"
+                                                id="Female"
+                                                value="F"
+                                              />
+                                              <label for="Female">
+                                                <span className="checkbox-text">
+                                                  Female
+                                                </span>
+                                              </label>
+                                            </div>
+                                          </li>
+                                        </ul>
+                                        <ErrorMessage
+                                          name="gender"
+                                          component="div"
+                                          className="alert alert-danger"
+                                        />
+                                      </div>
                                     </div>
                                   </div>
 
-                                  <div className="col-md-12">
+                                  <div className="col-md-4">
                                     <div className="form-group">
-                                      <h4>
-                                        Care Services You Are Looking For?
-                                      </h4>
+                                      <h4>Category</h4>
                                       <div className="row">
-                                        <div className="col-md-6">
+                                        <div className="col-md-12">
                                           <select
                                             className="form-control"
                                             name="category"
@@ -581,7 +659,15 @@ const Register = () => {
                                               : null}
                                           </select>
                                         </div>
-                                        <div className="col-md-6">
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-4">
+                                    <div className="form-group">
+                                      <h4>Sub Category</h4>
+                                      <div className="row">
+                                        <div className="col-md-12">
                                           <Field
                                             as="select"
                                             type="text"
@@ -618,54 +704,15 @@ const Register = () => {
 
                                   <div className="col-md-6">
                                     <div className="form-group">
-                                      <h4>Name</h4>
+                                      <h4>Care Job Title</h4>
                                       <Field
                                         type="text"
                                         className="form-control"
-                                        name="name"
-                                        placeholder="Name"
+                                        name="care_job_title"
+                                        placeholder="Enter Care Job Title"
                                       />
                                       <ErrorMessage
-                                        name="name"
-                                        component="div"
-                                        className="alert alert-danger"
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="col-md-6">
-                                    <div className="form-group">
-                                      <h4>Email Id</h4>
-                                      <Field
-                                        type="email"
-                                        className="form-control"
-                                        name="email"
-                                        placeholder="Email Address"
-                                      />
-                                      <ErrorMessage
-                                        name="email"
-                                        component="div"
-                                        className="alert alert-danger"
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="col-md-6">
-                                    <div className="form-group">
-                                      <h4>Phone</h4>
-                                      <Field
-                                        type="text"
-                                        className="form-control"
-                                        name="phone"
-                                        placeholder="Enter Phone"
-                                        maxlength={10}
-                                        value={values.phone.replace(
-                                          /(\d{3})(\d{3})(\d{4})/,
-                                          "($1) $2-$3"
-                                        )}
-                                      />
-                                      <ErrorMessage
-                                        name="phone"
+                                        name="care_job_title"
                                         component="div"
                                         className="alert alert-danger"
                                       />
@@ -679,7 +726,7 @@ const Register = () => {
                                         type="text"
                                         className="form-control"
                                         name="business_name"
-                                        placeholder="Business Name"
+                                        placeholder="Enter Business Name"
                                       />
                                       <ErrorMessage
                                         name="business_name"
@@ -691,32 +738,20 @@ const Register = () => {
 
                                   <div className="col-md-6">
                                     <div className="form-group">
-                                      <h4>Experience</h4>
+                                      <h4>
+                                        Experience{" "}
+                                        <span className="text-danger">
+                                          (In Year)
+                                        </span>
+                                      </h4>
                                       <Field
                                         type="text"
                                         className="form-control"
                                         name="experience"
-                                        placeholder="Experience"
+                                        placeholder="Enter Experience (In Year)"
                                       />
                                       <ErrorMessage
                                         name="experience"
-                                        component="div"
-                                        className="alert alert-danger"
-                                      />
-                                    </div>
-                                  </div>
-
-                                  <div className="col-md-6">
-                                    <div className="form-group">
-                                      <h4>License Number</h4>
-                                      <Field
-                                        type="number"
-                                        className="form-control"
-                                        name="license_number"
-                                        placeholder="License Number"
-                                      />
-                                      <ErrorMessage
-                                        name="license_number"
                                         component="div"
                                         className="alert alert-danger"
                                       />
@@ -769,53 +804,61 @@ const Register = () => {
                                     </div>
                                   </div>
 
-                                  <div className="col-md-6">
-                                    <div className="form-group">
-                                      <h4>Gender</h4>
-                                      <div className="choosemiles-list">
-                                        <ul>
-                                          <li>
-                                            <div className="ceradio">
-                                              <Field
-                                                type="radio"
-                                                name="gender"
-                                                id="Male"
-                                                value="M"
-                                              />
-                                              <label for="Male">
-                                                <span className="checkbox-text">
-                                                  {" "}
-                                                  Male
-                                                </span>
-                                              </label>
-                                            </div>
-                                          </li>
-                                          <li>
-                                            <div className="ceradio">
-                                              <Field
-                                                type="radio"
-                                                name="gender"
-                                                id="Female"
-                                                value="F"
-                                              />
-                                              <label for="Female">
-                                                <span className="checkbox-text">
-                                                  Female
-                                                </span>
-                                              </label>
-                                            </div>
-                                          </li>
-                                        </ul>
-                                        <ErrorMessage
-                                          name="gender"
-                                          component="div"
-                                          className="alert alert-danger"
-                                        />
-                                      </div>
+                                  <div class="col-md-4">
+                                    <div class="form-group search-form-group-r">
+                                      <h4>Fees Per Hour</h4>
+                                      <Field
+                                        type="number"
+                                        className="form-control"
+                                        name="fee_per_hour"
+                                        placeholder="$0.00 per hour"
+                                      />
+                                      <ErrorMessage
+                                        name="fee_per_hour"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                      <span class="Rangedays-text">/Hour</span>
                                     </div>
                                   </div>
 
-                                  <div className="col-md-6">
+                                  <div class="col-md-4">
+                                    <div class="form-group search-form-group-r">
+                                      <h4>Fees Per Week</h4>
+                                      <Field
+                                        type="number"
+                                        className="form-control"
+                                        name="fee_per_week"
+                                        placeholder="$0.00 per week"
+                                      />
+                                      <ErrorMessage
+                                        name="fee_per_week"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                      <span class="Rangedays-text">/Week</span>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-4">
+                                    <div class="form-group search-form-group-r">
+                                      <h4>Fees Per Month</h4>
+                                      <Field
+                                        type="number"
+                                        className="form-control"
+                                        name="fee_per_month"
+                                        placeholder="$0.00 per month"
+                                      />
+                                      <ErrorMessage
+                                        name="fee_per_month"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                      <span class="Rangedays-text">/Month</span>
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-12">
                                     <div className="form-group">
                                       <h4>Upload Resume</h4>
                                       <input
@@ -830,6 +873,23 @@ const Register = () => {
                                           Resume is required!
                                         </div>
                                       )}
+                                    </div>
+                                  </div>
+
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <h4>License Number</h4>
+                                      <Field
+                                        type="number"
+                                        className="form-control"
+                                        name="license_number"
+                                        placeholder="Enter License Number"
+                                      />
+                                      <ErrorMessage
+                                        name="license_number"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
                                     </div>
                                   </div>
 
@@ -857,7 +917,7 @@ const Register = () => {
 
                                   <div className="col-md-12">
                                     <div className="form-group">
-                                      <h4>What is your Payment Method?</h4>
+                                      <h4>Payment Types Accepted</h4>
                                       <div className="choosemiles-list">
                                         <ul>
                                           <li>
@@ -946,60 +1006,6 @@ const Register = () => {
                                           className="alert alert-danger"
                                         />
                                       </div>
-                                    </div>
-                                  </div>
-
-                                  <div class="col-md-4">
-                                    <div class="form-group search-form-group-r">
-                                      <h4>Fees Per Hour</h4>
-                                      <Field
-                                        type="number"
-                                        className="form-control"
-                                        name="fee_per_hour"
-                                        placeholder="Fees Per Hour"
-                                      />
-                                      <ErrorMessage
-                                        name="fee_per_hour"
-                                        component="div"
-                                        className="alert alert-danger"
-                                      />
-                                      <span class="Rangedays-text">Hour</span>
-                                    </div>
-                                  </div>
-
-                                  <div class="col-md-4">
-                                    <div class="form-group search-form-group-r">
-                                      <h4>Fees Per Week</h4>
-                                      <Field
-                                        type="number"
-                                        className="form-control"
-                                        name="fee_per_week"
-                                        placeholder="Fees Per Week"
-                                      />
-                                      <ErrorMessage
-                                        name="fee_per_week"
-                                        component="div"
-                                        className="alert alert-danger"
-                                      />
-                                      <span class="Rangedays-text">Week</span>
-                                    </div>
-                                  </div>
-
-                                  <div class="col-md-4">
-                                    <div class="form-group search-form-group-r">
-                                      <h4>Fees Per Month</h4>
-                                      <Field
-                                        type="number"
-                                        className="form-control"
-                                        name="fee_per_month"
-                                        placeholder="Fees Per Month"
-                                      />
-                                      <ErrorMessage
-                                        name="fee_per_month"
-                                        component="div"
-                                        className="alert alert-danger"
-                                      />
-                                      <span class="Rangedays-text">Month</span>
                                     </div>
                                   </div>
 

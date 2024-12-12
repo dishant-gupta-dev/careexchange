@@ -148,7 +148,7 @@ const FindCare = () => {
     form.append("frequency", formValue.frequency);
     form.append("prefer_contacted", formValue.prefer);
     form.append("payment_type", formValue.payment_type);
-    form.append("in_home_assist", 0);
+    form.append("in_home_assist", 1);
     form.append("address", location.address);
     form.append("latitude", location.lat);
     form.append("longitude", location.lng);
@@ -273,22 +273,14 @@ const FindCare = () => {
             <ul id="progressbar" className="nav steps nav-tabs">
               <li
                 className={
-                  tab == 1 || tab == 2
-                    ? "active nav-item"
-                    : "nav-item"
+                  tab == 1 || tab == 2 ? "active nav-item" : "nav-item"
                 }
               >
-                <Link
-                  className={tab == 1 || tab == 2 ? "active" : ""}
-                >
+                <Link className={tab == 1 || tab == 2 ? "active" : ""}>
                   <span className="number">1</span>
                 </Link>
               </li>
-              <li
-                className={
-                  tab == 2 ? "active nav-item" : "nav-item"
-                }
-              >
+              <li className={tab == 2 ? "active nav-item" : "nav-item"}>
                 <Link className={tab == 1 || tab == 2 ? "active" : ""}>
                   <span className="number">2</span>
                 </Link>
@@ -472,11 +464,11 @@ const FindCare = () => {
                               </div>
                             </div>
 
-                            <div className="col-md-12">
+                            <div className="col-md-6">
                               <div className="form-group">
-                                <h4>Care Services You Are Looking For?</h4>
+                                <h4>Category</h4>
                                 <div className="row">
-                                  <div className="col-md-6">
+                                  <div className="col-md-12">
                                     <select
                                       className="form-control"
                                       name="category"
@@ -498,7 +490,15 @@ const FindCare = () => {
                                         : null}
                                     </select>
                                   </div>
-                                  <div className="col-md-6">
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <h4>Sub Category</h4>
+                                <div className="row">
+                                  <div className="col-md-12">
                                     <Field
                                       as="select"
                                       type="text"

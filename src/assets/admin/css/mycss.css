@@ -1289,7 +1289,11 @@ img {
   background-color: #f8f9fa;
 }
 .find-location-tab ul li a.active {
-  background: var(--blue) !important;
+  background: var(--green) !important;
+}
+.find-location-tab ul li {
+  box-shadow: 0px 8px 13px rgb(0 0 0 / 5%);
+  border: 1px solid #eee
 }
 .care-location-text p {
   overflow: hidden;
@@ -1445,4 +1449,27 @@ button.search-btn {
 }
 input.form-control{
   color: #929191 !important;
+}
+.exp-text, .tags-item, .details-tags-item{
+  background: var(--white) !important;
+  border: 1px solid var(--blue) !important;
+  color: var(--blue) !important;
+  padding: 0.1px 8px !important;
+  font-size: 12px !important;
+}
+.care-tag-text, .tags-item-sub{
+  background: var(--white) !important;
+  border: 1px solid var(--green) !important;
+  color: var(--green) !important;
+  padding: 0.1px 8px !important;
+  font-size: 12px !important;
+}
+.care-point-text p{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  letter-spacing: 0.25px;
+  padding: 0;
+  margin: 0;
 }
