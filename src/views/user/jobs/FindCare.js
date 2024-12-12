@@ -1162,7 +1162,7 @@ const FindCare = () => {
                                 <div className="form-group">
                                   <h4>Preferred Time</h4>
                                   <Field
-                                    type="time"
+                                    type="time-local"
                                     className="form-control"
                                     name="start_time"
                                   />

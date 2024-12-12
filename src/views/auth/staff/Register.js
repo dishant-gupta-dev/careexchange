@@ -741,14 +741,14 @@ const Register = () => {
                                       <h4>
                                         Experience{" "}
                                         <span className="text-danger">
-                                          (In Year)
+                                          (In Years)
                                         </span>
                                       </h4>
                                       <Field
                                         type="text"
                                         className="form-control"
                                         name="experience"
-                                        placeholder="Enter Experience (In Year)"
+                                        placeholder="Enter Experience (In Years)"
                                       />
                                       <ErrorMessage
                                         name="experience"

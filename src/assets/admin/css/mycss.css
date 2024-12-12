@@ -1473,3 +1473,19 @@ input.form-control{
   padding: 0;
   margin: 0;
 }
+.nav-link span.bg-danger{
+  background: red !important;
+}
+.nav-link span.dots { color: var(--white); height: 7px; width: 7px; font-size: 0px; text-align: center; padding: 0; position: absolute; top: 0px; right: 21px; animation: shadow-pulse-dots 1s infinite; border-radius: 50%; -webkit-border-radius: 50%; }
+@keyframes shadow-pulse-dots {
+  0% { box-shadow: 0 0 0 0px rgba(236, 49, 49, 0.879); }
+  100% { box-shadow: 0 0 0 15px rgba(230, 65, 65, 0); }
+}
+.notification-head h2 small.badge{
+  background: var(--blue);
+  color: var(--white);
+  font-size: 12px;
+  padding: .3em .6em;
+  line-height: 1.3;
+  text-transform: capitalize;
+}
