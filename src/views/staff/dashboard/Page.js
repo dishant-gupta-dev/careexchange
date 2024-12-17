@@ -13,6 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { GeolocationApiKey } from "../../../utlis/common.utlis";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import NoImage from "../../../assets/admin/images/no-image.jpg";
 
 const Page = () => {
   const options = [];
@@ -25,6 +26,7 @@ const Page = () => {
     lat: null,
     lng: null,
     address: null,
+    state: null,
   });
 
   const getDashboardData = async (api) => {
@@ -54,20 +56,88 @@ const Page = () => {
     libraries: ["places"],
   });
 
+  function findAddress(type, arr) {
+    for (let i in arr) {
+      if (arr[i].types.includes(type)) {
+        return arr[i].formatted_address;
+      }
+    }
+    return "";
+  }
+
+  function findState(type, arr) {
+    for (let i in arr) {
+      if (arr[i].types.includes(type)) {
+        return arr[i].long_name;
+      }
+    }
+    return null;
+  }
+
+  function findState2(type, arr) {
+    for (let i in arr) {
+      if (arr[i].types.includes(type)) {
+        for (let j in arr[i].address_components) {
+          if (arr[i].address_components[j].types.includes(type)) {
+            return arr[i].address_components[j].long_name;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
   const handlePlaceChange = () => {
     let [address] = inputRef.current.getPlaces();
-    // console.log(findStateCity('administrative_area_level_1', address.address_components));
-    // console.log(findStateCity('locality', address.address_components));
     setLocation({
       lat: address.geometry.location.lat(),
       lng: address.geometry.location.lng(),
       address: address.formatted_address,
+      state: findState(
+        "administrative_area_level_1",
+        address.address_components
+      ),
     });
+  };
+
+  const getCurrentAddress = () => {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const crd = pos.coords;
+        // console.log("Your current position is:");
+        // console.log(`Latitude : ${crd.latitude}`);
+        // console.log(`Longitude: ${crd.longitude}`);
+        // console.log(`More or less ${JSON.stringify(crd)} meters.`);
+        fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${crd.latitude},${crd.longitude}&key=${GeolocationApiKey}`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            // console.log(data.results);
+            setLocation({
+              lat: crd.latitude,
+              lng: crd.longitude,
+              address: findAddress("street_address", data.results),
+              state: findState2("administrative_area_level_1", data.results),
+            });
+          })
+          .catch((error) => console.log(error));
+      },
+      function errorCallback(error) {
+        // console.log("Error => ", error);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0,
+      }
+    );
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
     getDashboardData(api.dashboard);
+    getCurrentAddress();
     getStateList(api.stateList + `?country_id=231`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -86,6 +156,10 @@ const Page = () => {
                     dashboard?.ProviderDetail?.logo !== "" &&
                     dashboard?.ProviderDetail?.logo !== undefined ? (
                       <img src={dashboard?.ProviderDetail?.logo} alt="" />
+                    ) : dashboard?.ProviderDetail?.profile_image === null ||
+                      dashboard?.ProviderDetail?.profile_image === "" ||
+                      dashboard?.ProviderDetail?.profile_image === undefined ? (
+                      <img src={NoImage} alt="" />
                     ) : (
                       <img
                         src={dashboard?.ProviderDetail?.profile_image}
@@ -128,7 +202,8 @@ const Page = () => {
                         <input
                           className="form-control"
                           placeholder="Where are you going?"
-                          style={{ width: "220%" }}
+                          style={{ width: "220%", padding: "10px 11px" }}
+                          defaultValue={location.address}
                         />
                       </StandaloneSearchBox>
                     )}

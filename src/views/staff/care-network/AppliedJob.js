@@ -135,6 +135,9 @@ const AppliedJob = () => {
                               <div class="tags-item">
                                 {ele.categoryname ?? "NA"}
                               </div>
+                              <div class="tags-item-sub">
+                                {ele.subcategoryname ?? "NA"}
+                              </div>
                             </div>
 
                             <div class="jobs-point">
@@ -144,12 +147,12 @@ const AppliedJob = () => {
                               </div>
                               <div class="jobs-point-item">
                                 <img src={Dollar} /> Salary:
-                                <span>{ele.pay_range ?? "$0"}/Annually</span>
+                                <span>{ele.currency ?? "$"}{ele.pay_range ?? "$0"}/Annually</span>
                               </div>
                               <div class="jobs-point-item">
                                 <img src={SuitCase} /> Work Exp:
                                 <span>
-                                  {ele.working_expirence ?? "NA"} Experience{" "}
+                                  {ele.working_expirence ?? "NA"} Years Experience{" "}
                                 </span>
                               </div>
                             </div>

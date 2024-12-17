@@ -73,7 +73,11 @@ const Page = () => {
                 </div>
                 <div>
                   <div className="">
-                    <Link class="btn-delete" onClick={() => setDeleteAcc(true)} to="">
+                    <Link
+                      class="btn-delete"
+                      onClick={() => setDeleteAcc(true)}
+                      to=""
+                    >
                       <i className="fa fa-trash ms-2"></i> Delete Account
                     </Link>
                   </div>
@@ -89,6 +93,10 @@ const Page = () => {
                           details?.logo !== "" &&
                           details?.logo !== undefined ? (
                             <img src={details?.logo} alt="" />
+                          ) : details?.profile_image === null ||
+                            details?.profile_image === "" ||
+                            details?.profile_image === undefined ? (
+                            <img src={NoImage} alt="" />
                           ) : (
                             <img src={details?.profile_image} alt="" />
                           )}

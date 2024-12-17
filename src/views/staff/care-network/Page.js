@@ -31,7 +31,7 @@ const Page = () => {
   const [filter, setFilter] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [apply, setApply] = useState({ status: false, id: null });
-  const [selectRadius, setSelectRadius] = useState("");
+  const [selectRadius, setSelectRadius] = useState(null);
   const [selectCategories, setSelectCategory] = useState("");
   const [selectSubCategories, setSelectSubCategory] = useState("");
   const [categories, setCategory] = useState([]);
@@ -41,6 +41,7 @@ const Page = () => {
     lat: lat ?? null,
     lng: lng ?? null,
     address: address ?? null,
+    state: null,
   });
 
   let userData = JSON.parse(localStorage.getItem("careexchange"));
@@ -52,7 +53,7 @@ const Page = () => {
   };
 
   const initialValuesFilter = {
-    radius: selectRadius ?? "",
+    radius: selectRadius ?? CommonMiles,
     sub_category: selectSubCategories ?? "",
   };
 
@@ -135,12 +136,47 @@ const Page = () => {
     libraries: ["places"],
   });
 
+  function findAddress(type, arr) {
+    for (let i in arr) {
+      if (arr[i].types.includes(type)) {
+        return arr[i].formatted_address;
+      }
+    }
+    return "";
+  }
+
+  function findState(type, arr) {
+    for (let i in arr) {
+      if (arr[i].types.includes(type)) {
+        return arr[i].long_name;
+      }
+    }
+    return null;
+  }
+
+  function findState2(type, arr) {
+    for (let i in arr) {
+      if (arr[i].types.includes(type)) {
+        for (let j in arr[i].address_components) {
+          if (arr[i].address_components[j].types.includes(type)) {
+            return arr[i].address_components[j].long_name;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
   const handlePlaceChange = () => {
     let [address] = inputRef.current.getPlaces();
     setLocation({
       lat: address.geometry.location.lat(),
       lng: address.geometry.location.lng(),
       address: address.formatted_address,
+      state: findState(
+        "administrative_area_level_1",
+        address.address_components
+      ),
     });
   };
 
@@ -166,11 +202,20 @@ const Page = () => {
         // console.log(`Latitude : ${crd.latitude}`);
         // console.log(`Longitude: ${crd.longitude}`);
         // console.log(`More or less ${JSON.stringify(crd)} meters.`);
-        setLocation({
-          lat: lat ?? crd.latitude,
-          lng: lng ?? crd.longitude,
-          address: address ?? "",
-        });
+        fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${crd.latitude},${crd.longitude}&key=${GeolocationApiKey}`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data.results);
+            setLocation({
+              lat: crd.latitude,
+              lng: crd.longitude,
+              address: findAddress("street_address", data.results),
+              state: findState2("administrative_area_level_1", data.results),
+            });
+          })
+          .catch((error) => console.log(error));
         getCareNetworkList(
           api.careNetwork +
             `?latitude=${lat ?? crd.latitude}&longitude=${
@@ -192,9 +237,11 @@ const Page = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     getCategoryList(api.categoryList);
-    getCareNetworkList(api.careNetwork);
+    getCurrentAddress();
+    // getCareNetworkList(api.careNetwork);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       {loading ? <Loader /> : null}
@@ -206,10 +253,7 @@ const Page = () => {
               <div className="row g-2">
                 <div className="col-md-2">
                   <div className="form-group mb-0">
-                    <Link
-                      to={routes.appliedJob}
-                      className="btn-gr wd100"
-                    >
+                    <Link to={routes.appliedJob} className="btn-gr wd100">
                       Applied Job
                     </Link>
                   </div>
@@ -305,6 +349,7 @@ const Page = () => {
                               <div className="jobs-point-item">
                                 <img src={DollarIcon} alt="" /> Salary:
                                 <span className="text-capitalize">
+                                  {ele.currency ?? "$"}
                                   {ele.pay_range ?? "$0"}/
                                   {ele.pay_range_type ?? "NA"}
                                 </span>

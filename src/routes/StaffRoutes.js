@@ -15,6 +15,9 @@ import NetworkDirectory from "../views/staff/network-directory/Page.js";
 import SubscriptionPlan from "../views/staff/subscription-plan/Page.js";
 import AppliedJob from "../views/staff/care-network/AppliedJob.js";
 import PostedAds from "../views/staff/advertisement/PostedAds.js";
+import AboutUs from "../views/staff/more/AboutUs.js";
+import PrivacyPolicy from "../views/staff/more/PrivacyPolicy.js";
+import TermCondition from "../views/staff/more/TermCondition.js";
 
 var StaffRoutes = [
     {
@@ -91,6 +94,21 @@ var StaffRoutes = [
         path: routes.subscriptionPlan,
         layout: StaffLayout,
         component: SubscriptionPlan
+    },
+    {
+        path: routes.aboutUs,
+        layout: StaffLayout,
+        component: AboutUs
+    },
+    {
+        path: routes.privacyPolicy,
+        layout: StaffLayout,
+        component: PrivacyPolicy
+    },
+    {
+        path: routes.termsCondition,
+        layout: StaffLayout,
+        component: TermCondition
     },
 ];
 

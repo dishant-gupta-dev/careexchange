@@ -16,4 +16,7 @@ exports.routes = {
     calendar: `/provider/calendar`,
     subscriptionPlan: `/provider/subscription-plan`,
     newsletter: `/provider/newsletter`,
+    aboutUs: `/provider/about-us`,
+    privacyPolicy: `/provider/privacy-policy`,
+    termsCondition: `/provider/terms-condition`,
 }

@@ -298,6 +298,10 @@ const Page = () => {
                           details?.logo !== "" &&
                           details?.logo !== undefined ? (
                             <img src={details?.logo} alt="" />
+                          ) : details?.profile_image === null ||
+                            details?.profile_image === "" ||
+                            details?.profile_image === undefined ? (
+                            <img src={NoImage} alt="" />
                           ) : (
                             <img src={details?.profile_image} alt="" />
                           )}

@@ -10,10 +10,10 @@ import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { Link, useNavigate } from "react-router-dom";
-import { routes } from "../../../utlis/provider/routes.utlis";
 import { GeolocationApiKey } from "../../../utlis/common.utlis";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import NoImage from "../../../assets/admin/images/no-image.jpg";
 
 const Page = () => {
   const options = [];
@@ -156,6 +156,10 @@ const Page = () => {
                     dashboard?.ProviderDetail?.logo !== "" &&
                     dashboard?.ProviderDetail?.logo !== undefined ? (
                       <img src={dashboard?.ProviderDetail?.logo} alt="" />
+                    ) : dashboard?.ProviderDetail?.profile_image === null ||
+                      dashboard?.ProviderDetail?.profile_image === "" ||
+                      dashboard?.ProviderDetail?.profile_image === undefined ? (
+                      <img src={NoImage} alt="" />
                     ) : (
                       <img
                         src={dashboard?.ProviderDetail?.profile_image}

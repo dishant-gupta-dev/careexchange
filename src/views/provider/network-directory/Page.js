@@ -181,7 +181,7 @@ const Page = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="tags-list">
+                              <div className="tags-list mb-0">
                                 <div className="tags-item">
                                   {ele.category ?? "NA"}
                                 </div>
@@ -206,10 +206,7 @@ const Page = () => {
                                 </div>
                               </div>
                               <div className="care-location-box-action">
-                                <Link
-                                  className="btn-bl"
-                                  to=""
-                                >
+                                <Link className="btn-bl" to="">
                                   View Details
                                 </Link>
                               </div>

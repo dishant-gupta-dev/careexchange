@@ -14,6 +14,9 @@ import PostedAds from "../views/provider/advertisement/PostedAds.js";
 import Profile from "../views/provider/profile/Page.js";
 import NetworkDirectory from "../views/provider/network-directory/Page.js";
 import SubscriptionPlan from "../views/provider/subscription-plan/Page.js";
+import AboutUs from "../views/provider/more/AboutUs.js";
+import PrivacyPolicy from "../views/provider/more/PrivacyPolicy.js";
+import TermCondition from "../views/provider/more/TermCondition.js";
 
 var ProviderRoutes = [
     {
@@ -85,6 +88,21 @@ var ProviderRoutes = [
         path: routes.subscriptionPlan,
         layout: ProviderLayout,
         component: SubscriptionPlan
+    },
+    {
+        path: routes.aboutUs,
+        layout: ProviderLayout,
+        component: AboutUs
+    },
+    {
+        path: routes.privacyPolicy,
+        layout: ProviderLayout,
+        component: PrivacyPolicy
+    },
+    {
+        path: routes.termsCondition,
+        layout: ProviderLayout,
+        component: TermCondition
     },
 ];
 

@@ -19,7 +19,6 @@ import { Modal, ModalBody, ModalHeader } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { CommonMiles, GeolocationApiKey } from "../../../utlis/common.utlis";
-import * as Yup from "yup";
 
 const Page = () => {
   const inputRef = useRef(null);
@@ -192,6 +191,7 @@ const Page = () => {
     // getCareNetworkList(api.careNetwork);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       {loading ? <Loader /> : null}

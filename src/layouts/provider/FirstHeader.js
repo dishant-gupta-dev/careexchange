@@ -158,7 +158,11 @@ const FirstHeader = () => {
                               return (
                                 <div
                                   key={indx}
-                                  className={ele.is_seen == 0 ? "notification-item seen cursor-pointer" : "notification-item"}
+                                  className={
+                                    ele.is_seen == 0
+                                      ? "notification-item seen cursor-pointer"
+                                      : "notification-item"
+                                  }
                                   onClick={() => {
                                     seenNotification(ele.id);
                                   }}
@@ -168,7 +172,7 @@ const FirstHeader = () => {
                                   </div>
                                   <div className="notification-item-text">
                                     <h2>{ele.message ?? "NA"}</h2>
-                                    <p style={{color: "#626568"}}>
+                                    <p style={{ color: "#626568" }}>
                                       <span>
                                         <i className="fas fa-clock"></i>
                                         {/* {moment(ele.created_date).format(
@@ -230,7 +234,17 @@ const FirstHeader = () => {
                           aria-expanded="true"
                         >
                           <div className="profile-pic">
-                            <img src={User} alt="user" />
+                            {user?.logo !== null &&
+                            user?.logo !== "" &&
+                            user?.logo !== undefined ? (
+                              <img src={user?.logo} alt="" />
+                            ) : user?.profile_image === null ||
+                              user?.profile_image === "" ||
+                              user?.profile_image === undefined ? (
+                              <img src={NoImage} alt="" />
+                            ) : (
+                              <img src={user?.profile_image} alt="" />
+                            )}
                           </div>
                         </DropdownToggle>
 

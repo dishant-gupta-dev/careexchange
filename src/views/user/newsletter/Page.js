@@ -79,7 +79,9 @@ const Page = () => {
                           <h2>Subscribe</h2>
                           <p>Subscribe To Our Newsletter & Stay Updated</p>
                           {newsletter.length !== 0 ? (
-                            <h3 className="mt-2">Newsletter Already Subscribed</h3>
+                            <h3 className="mt-2">
+                              Newsletter Already Subscribed
+                            </h3>
                           ) : (
                             <Formik
                               initialValues={initialValues}

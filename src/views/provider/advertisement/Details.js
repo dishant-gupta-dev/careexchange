@@ -105,7 +105,9 @@ const Details = () => {
             <div class="col-md-7">
               <div class="advertisement-deatils-content">
                 <div class="strip-text">Status : {status(details?.status)}</div>
-                <div class="strip-text mx-2">Total Views : {details?.adsTotalViews ?? 0}</div>
+                <div class="strip-text mx-2">
+                  Total Views : {details?.adsTotalViews ?? 0}
+                </div>
                 <div class="title-text">{details?.title ?? "NA"}</div>
                 <div class="date-text">
                   Posted On :{" "}
@@ -116,13 +118,16 @@ const Details = () => {
                   {moment(details?.start_date).format("MM-DD-yyyy")}
                 </div>
                 <div class="date-text">
-                  End Date :{" "}
-                  {moment(details?.end_date).format("MM-DD-yyyy")}
+                  End Date : {moment(details?.end_date).format("MM-DD-yyyy")}
                 </div>
                 <div class="tags-list">
                   {details?.tags?.length !== 0
                     ? details?.tags?.map((ele, indx) => {
-                        return <div class="tags-item-sub mx-1">{ele.name ?? "NA"}</div>;
+                        return (
+                          <div class="tags-item-sub mx-1">
+                            {ele.name ?? "NA"}
+                          </div>
+                        );
                       })
                     : null}
                 </div>

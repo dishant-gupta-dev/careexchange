@@ -544,7 +544,7 @@ const SecondHeader = () => {
                   <i className="fa fa-angle-down"></i>
                 </a>
                 <ul className="sub-menu">
-                  <li aria-haspopup="true">
+                  {/* <li aria-haspopup="true">
                     <Link
                       to={routes.calendar}
                       className={
@@ -555,15 +555,15 @@ const SecondHeader = () => {
                     >
                       Calendar
                     </Link>
+                  </li> */}
+                  <li aria-haspopup="true">
+                    <Link to={routes.aboutUs}>About US</Link>
                   </li>
                   <li aria-haspopup="true">
-                    <a href="#">About US</a>
+                    <Link to={routes.termsCondition}>Terms & Condition</Link>
                   </li>
                   <li aria-haspopup="true">
-                    <a href="#">Terms & Condition</a>
-                  </li>
-                  <li aria-haspopup="true">
-                    <a href="#">Privacy Policy</a>
+                    <Link to={routes.privacyPolicy}>Privacy Policy</Link>
                   </li>
                 </ul>
               </li>

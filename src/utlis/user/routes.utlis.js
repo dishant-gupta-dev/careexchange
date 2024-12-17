@@ -6,6 +6,7 @@ exports.routes = {
     otp: `/user/verification-otp`,
     dashboard: `/user/dashboard`,
     userDetail: `/user/info`,
+    advertisementDetails: `/user/advertisement/info`,
     findCare: `/user/find-care`,
     findCareHomeAss: `/user/find-care-home-assessment`,
     message: `/user/message`,
@@ -25,5 +26,4 @@ exports.routes = {
     aboutUs: `/user/about-us`,
     privacyPolicy: `/user/privacy-policy`,
     termsCondition: `/user/terms-condition`,
-    advertisementDetails: `/user/advertisement/info`,
 }

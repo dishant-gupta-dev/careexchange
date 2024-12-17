@@ -144,6 +144,7 @@ const Details = () => {
                         <div className="jobs-details-item">
                           <img src={Dollar} /> Salary:
                           <span className="text-capitalize">
+                            {job?.currency ?? "$"}
                             {job?.pay_range ?? "NA"}/
                             {job?.pay_range_type ?? "NA"}
                           </span>

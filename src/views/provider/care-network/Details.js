@@ -128,7 +128,7 @@ const Details = () => {
                         <div className="details-tags-item">
                           {job?.category ?? "NA"}
                         </div>
-                        <div className="details-tags-item-sub">
+                        <div className="tags-item-sub">
                           {job?.subcategory ?? "NA"}
                         </div>
                       </div>

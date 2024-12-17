@@ -140,7 +140,9 @@ const Page = () => {
     if (date !== null && date != undefined && date !== "")
       date = moment(date).format("yyyy-MM-DD");
     else date = "";
-    getAdvertisementList(api.postedAdvertisement + `?search=${name}&date=${date}`);
+    getAdvertisementList(
+      api.postedAdvertisement + `?search=${name}&date=${date}`
+    );
   };
 
   const updateAds = async (formValue) => {
