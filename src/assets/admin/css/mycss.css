@@ -1450,17 +1450,24 @@ button.search-btn {
 input.form-control{
   color: #929191 !important;
 }
-.exp-text, .tags-item, .details-tags-item{
+.tags-item, .details-tags-item, .advertisement-tags-item{
   background: var(--white) !important;
   border: 1px solid var(--blue) !important;
   color: var(--blue) !important;
   padding: 0.1px 8px !important;
   font-size: 12px !important;
 }
-.care-tag-text, .tags-item-sub{
+.care-tag-text, .tags-item-sub, .details-tags-item-sub, .advertisement-tags-item-sub{
   background: var(--white) !important;
   border: 1px solid var(--green) !important;
   color: var(--green) !important;
+  padding: 0.1px 8px !important;
+  font-size: 12px !important;
+}
+.exp-text{
+  background: var(--white) !important;
+  border: 1px solid var(--gray) !important;
+  color: var(--gray) !important;
   padding: 0.1px 8px !important;
   font-size: 12px !important;
 }
@@ -1472,6 +1479,9 @@ input.form-control{
   letter-spacing: 0.25px;
   padding: 0;
   margin: 0;
+}
+.strip-text{
+  padding: 1px 14px !important;
 }
 .nav-link span.bg-danger{
   background: red !important;
@@ -1488,4 +1498,32 @@ input.form-control{
   padding: .3em .6em;
   line-height: 1.3;
   text-transform: capitalize;
+}
+.date-text{
+  background: var(--gray) !important;
+}
+.fa.fa-envelope{
+  color: var(--red);
+}
+.fa.fa-phone{
+  color: var(--green);
+}
+.form-group label {
+  color: var(--black);
+}
+.register-form span.Rangedays-text {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  background: var(--blue);
+  color: var(--white);
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-size: 11px;
+}
+.notification-item.seen{
+  background: #e5ebf1;
+}
+.cursor-pointer {
+  cursor: pointer;
 }

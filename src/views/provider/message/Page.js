@@ -213,7 +213,7 @@ const Page = () => {
                                 ) : (
                                   <img src={NoImage} alt="" className="me-3" />
                                 )}
-                                <span className="user-status"></span>
+                                {/* <span className="user-status"></span> */}
                               </div>
                             </Link>
                             <div className="chat-userlist-item-content">

@@ -221,15 +221,6 @@ const Register = () => {
     libraries: ["places"],
   });
 
-  function findStateCity(type, arr) {
-    for (let i in arr) {
-      if (arr[i].types.includes(type)) {
-        return arr[i].long_name;
-      }
-    }
-    return null;
-  }
-
   const handlePlaceChange = () => {
     let [address] = inputRef.current.getPlaces();
     // console.log(findStateCity('administrative_area_level_1', address.address_components));
@@ -724,7 +715,7 @@ const Register = () => {
                                                 type="radio"
                                                 name="free_in_home_assessment"
                                                 id="Yes"
-                                                value="yes"
+                                                value="1"
                                               />
                                               <label for="Yes">
                                                 <span className="checkbox-text">
@@ -740,7 +731,7 @@ const Register = () => {
                                                 type="radio"
                                                 name="free_in_home_assessment"
                                                 id="No"
-                                                value="no"
+                                                value="0"
                                               />
                                               <label for="No">
                                                 <span className="checkbox-text">

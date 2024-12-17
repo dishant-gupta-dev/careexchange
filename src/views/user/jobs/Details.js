@@ -79,10 +79,10 @@ const Details = () => {
                             {details?.first_name ?? "NA"}
                           </div>
                           <div class="tags-list">
-                            <div class="tags-item">
+                            <div class="tags-item-sub">
                               {details?.gender == "M" ? "Male" : "Female"}
                             </div>
-                            <div class="tags-item mx-2">
+                            <div class="tags-item-sub mx-2">
                               Age: {details?.age ?? "NA"}
                             </div>
                           </div>

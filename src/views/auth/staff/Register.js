@@ -706,11 +706,20 @@ const Register = () => {
                                     <div className="form-group">
                                       <h4>Care Job Title</h4>
                                       <Field
+                                        as="select"
                                         type="text"
                                         className="form-control"
                                         name="care_job_title"
-                                        placeholder="Enter Care Job Title"
-                                      />
+                                      >
+                                        <option value="">Select Care Job Title</option>
+                                        <option value="Caregiver">Caregiver</option>
+                                        <option value="Nursing Assistant (NA)">Nursing Assistant (NA)</option>
+                                        <option value="Home Health Aide (CNA/HHA)">Home Health Aide (CNA/HHA)</option>
+                                        <option value="Medical Assistant (MA)">Medical Assistant (MA)</option>
+                                        <option value="Licensed Practical/Vocational Nurse (LPN/LVN)">Licensed Practical/Vocational Nurse (LPN/LVN)</option>
+                                        <option value="Registered Nurse (RN)">Registered Nurse (RN)</option>
+                                        <option value="Nurse Practitioner (NP)">Nurse Practitioner (NP)</option>
+                                      </Field>
                                       <ErrorMessage
                                         name="care_job_title"
                                         component="div"
@@ -769,7 +778,7 @@ const Register = () => {
                                                 type="radio"
                                                 name="free_in_home_assessment"
                                                 id="Yes"
-                                                value="yes"
+                                                value="1"
                                               />
                                               <label for="Yes">
                                                 <span className="checkbox-text">
@@ -785,7 +794,7 @@ const Register = () => {
                                                 type="radio"
                                                 name="free_in_home_assessment"
                                                 id="No"
-                                                value="no"
+                                                value="0"
                                               />
                                               <label for="No">
                                                 <span className="checkbox-text">

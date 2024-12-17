@@ -33,6 +33,7 @@ const Details = () => {
   }, []);
   return (
     <>
+      {loading ? <Loader /> : null}
       <div class="container">
         <div class="carenetwork-section">
           <div className="care-title-header">

@@ -195,7 +195,7 @@ const PostedJob = () => {
                               <div class="jobs-point-item">
                                 <img src={SuitCase} /> Work Exp:
                                 <span>
-                                  {ele.working_expirence ?? "NA"} Year Experience{" "}
+                                  {ele.working_expirence ?? "NA"} Years Experience{" "}
                                 </span>
                               </div>
                             </div>

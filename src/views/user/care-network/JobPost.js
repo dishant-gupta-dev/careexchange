@@ -350,7 +350,7 @@ const JobPost = () => {
                           <div class="form-group">
                             <h4>
                               Experience{" "}
-                              <span className="text-danger">(In Year)</span>
+                              <span className="text-danger">(In Years)</span>
                             </h4>
                             <Field
                               type="number"

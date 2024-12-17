@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Searchicon from "../../../assets/provider/images/search1.svg";
 import careuserprofile from "../../../assets/provider/images/user.png";
-import whcalendar from "../../../assets/provider/images/whcalendar.svg";
-import Repeat from "../../../assets/provider/images/Repeat.svg";
+import WhCalen from "../../../assets/provider/images/whcalendar.svg";
+import RepeatImg from "../../../assets/provider/images/Repeat.svg";
+import locationImage from "../../../assets/admin/images/Google_Map.svg";
 import Verify from "../../../assets/provider/images/verify.svg";
 import { Link } from "react-router-dom";
 import { routes } from "../../../utlis/provider/routes.utlis";
 import { api } from "../../../utlis/provider/api.utlis";
 import ApiService from "../../../core/services/ApiService";
+import moment from "moment";
 import Loader from "../../../layouts/loader/Loader";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import { encode } from "base-64";
@@ -138,32 +140,66 @@ const Page = () => {
                                     <div className="title-text">
                                       {ele.first_name ?? "NA"}
                                     </div>
-                                    <div className="date-text">
-                                      <img src={whcalendar} alt="" />{" "}
-                                      {ele.start_date} {ele.start_time}
+                                    <div className="row d-flex justify-content-between w-100">
+                                      <div className="col-md-7">
+                                        <div className="date-text">
+                                          <img src={WhCalen} />{" "}
+                                          {moment(ele.start_date).format(
+                                            "MM-DD-yyyy"
+                                          )}{" "}
+                                          {ele.start_time ?? "NA"}
+                                        </div>
+                                      </div>
+                                      <div className="col-md-3">
+                                        <div class="tags-list float-end">
+                                          <div class="tags-item-sub">
+                                            {ele?.gender == "M"
+                                              ? "Male"
+                                              : "Female"}
+                                          </div>
+                                          <div class="tags-item-sub mx-2">
+                                            Age: {ele?.age ?? "NA"}
+                                          </div>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                   <div className="care-day-Weekly-info">
-                                    <div className="care-point-box">
-                                      <div className="care-point-icon">
-                                        <img src={Repeat} alt="" />
+                                    <div className="row w-100">
+                                      <div className="col-md-4">
+                                        <div className="care-point-box">
+                                          <div className="care-point-icon">
+                                            <img src={RepeatImg} />
+                                          </div>
+                                          <div className="care-point-text">
+                                            <h4>Frequency:</h4>
+                                            <p>
+                                              {ele.frequency === "O"
+                                                ? "One Time"
+                                                : ele.frequency === "W"
+                                                ? "Repeat Weekly"
+                                                : "Repeat Monthly"}
+                                            </p>
+                                          </div>
+                                        </div>
                                       </div>
-                                      <div className="care-point-text">
-                                        <h4>Frequency:</h4>
-                                        <p>
-                                          {ele.frequency === "O"
-                                            ? "One Time"
-                                            : ele.frequency === "W"
-                                            ? "Repeat Weekly"
-                                            : "Repeat Monthly"}
-                                        </p>
+                                      <div className="col-md-8">
+                                        <div className="care-point-box">
+                                          <div className="care-point-icon">
+                                            <img src={locationImage} />
+                                          </div>
+                                          <div className="care-point-text">
+                                            <h4>Location:</h4>
+                                            <p>{ele.address ?? "NA"}</p>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
-                                    {/* <div className="care-day-list">
-                                      <div className="care-day-item">S</div>
-                                      <div className="care-day-item">T</div>
-                                      <div className="care-day-item">W</div>
-                                    </div> */}
+                                    <div className="care-day-list">
+                                      {/* <div className="care-day-item">S</div>
+                                        <div className="care-day-item">T</div>
+                                        <div className="care-day-item">W</div> */}
+                                    </div>
                                   </div>
                                 </div>
 

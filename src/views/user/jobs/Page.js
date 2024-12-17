@@ -66,7 +66,7 @@ const Page = () => {
                       onClick={() => setStatus(1)}
                       data-bs-toggle="tab"
                     >
-                      On Going
+                      Ongoing
                     </Link>
                   </li>
                   <li>
@@ -156,12 +156,12 @@ const Page = () => {
                                         </div>
                                         <div className="col-md-3">
                                           <div class="tags-list float-end">
-                                            <div class="tags-item">
+                                            <div class="tags-item-sub">
                                               {ele?.gender == "M"
                                                 ? "Male"
                                                 : "Female"}
                                             </div>
-                                            <div class="tags-item mx-2">
+                                            <div class="tags-item-sub mx-2">
                                               Age: {ele?.age ?? "NA"}
                                             </div>
                                           </div>

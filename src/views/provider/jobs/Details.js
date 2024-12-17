@@ -98,17 +98,16 @@ const Details = () => {
                   </div>
 
                   <div className="cc-tags-list">
-                    <button type="button" className="cc-tags-item">
+                    <button type="button" className="tags-item-sub">
                       {details?.gender == "M" ? "Male" : "Female"}
                     </button>
-                    <button type="button" className="cc-tags-item mx-2">
+                    <button type="button" className="tags-item-sub mx-2">
                       Age: {details?.age ?? "NA"}
                     </button>
                   </div>
 
-                  <div className="cc-date-text">
-                    <i className="mdi mdi-calendar-clock-outline"></i> Date &
-                    Time:{" "}
+                  <div className="date-text">
+                    <i className="mdi mdi-calendar-clock-outline"></i>{" "}
                     <span>
                       {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
                       {details?.start_time}

@@ -57,13 +57,16 @@ const FirstHeader = () => {
   };
 
   const seenNotification = async (id) => {
-    const response = await ApiService.postAPIWithAccessToken(api.seenNotification+`${id}`);
+    const response = await ApiService.postAPIWithAccessToken(
+      api.seenNotification + `${id}`
+    );
     if (response.data.status && response.data.statusCode === 200) {
-      
+      getUnseenCount(api.unseenNotification);
+      getNotifications(api.notification);
     } else {
       toast.error(response.data.message);
     }
-  }
+  };
 
   const deleteTrash = async () => {
     const response = await ApiService.deleteAPIWithAccessToken(
@@ -148,15 +151,17 @@ const FirstHeader = () => {
                           {notify.length !== 0 ? (
                             notify.map((ele, indx) => {
                               return (
-                                <div key={indx} className="notification-item" onClick={() => {
-                                  seenNotification(ele.id)
-                                }}>
+                                <div key={indx}
+                                  className={ele.is_seen == 0 ? "notification-item seen cursor-pointer" : "notification-item"}
+                                  onClick={() => {
+                                    seenNotification(ele.id);
+                                  }}>
                                   <div className="notification-item-icon">
                                     <i className="fa fa-bell"></i>
                                   </div>
                                   <div className="notification-item-text">
                                     <h2>{ele.message ?? "NA"}</h2>
-                                    <p>
+                                    <p style={{color: "#626568"}}>
                                       <span>
                                         <i className="fas fa-clock"></i>
                                         {/* {moment(ele.created_date).format(

@@ -153,7 +153,7 @@ const Details = () => {
                         <div className="jobs-details-item">
                           <img src={SuitCase} /> Work Exp:
                           <span>
-                            {job?.working_expirence ?? "NA"} Year Experience{" "}
+                            {job?.working_expirence ?? "NA"} Years Experience{" "}
                           </span>
                         </div>
                       </div>

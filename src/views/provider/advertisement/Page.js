@@ -140,7 +140,7 @@ const Page = () => {
     if (date !== null && date != undefined && date !== "")
       date = moment(date).format("yyyy-MM-DD");
     else date = "";
-    getAdvertisementList(api.advertisement + `?search=${name}&date=${date}`);
+    getAdvertisementList(api.postedAdvertisement + `?search=${name}&date=${date}`);
   };
 
   const updateAds = async (formValue) => {
@@ -198,7 +198,7 @@ const Page = () => {
     setSubCategory([]);
     if (response.data.status) {
       toast.success(response.data.message);
-      getAdvertisementList(api.advertisement);
+      getAdvertisementList(api.postedAdvertisement);
     } else {
       toast.error(response.data.message);
     }
@@ -246,7 +246,7 @@ const Page = () => {
     setSubCategory([]);
     if (response.data.status) {
       toast.success(response.data.message);
-      getAdvertisementList(api.advertisement);
+      getAdvertisementList(api.postedAdvertisement);
     } else {
       toast.error(response.data.message);
     }
@@ -264,7 +264,7 @@ const Page = () => {
     });
     if (response.data.status) {
       toast.success(response.data.message);
-      getAdvertisementList(api.advertisement);
+      getAdvertisementList(api.postedAdvertisement);
     } else {
       toast.error(response.data.message);
     }
@@ -325,7 +325,7 @@ const Page = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    getAdvertisementList(api.advertisement);
+    getAdvertisementList(api.postedAdvertisement);
     getCategoryList(api.categoryList);
     getTagsList(api.tagsList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -340,7 +340,7 @@ const Page = () => {
             <h2 className="heading-title">Advertisement</h2>
             <div className="search-filter wd70">
               <div className="row g-2">
-                <div className="col-md-4">
+                <div className="col-md-6">
                   <div className="form-group search-form-group">
                     <input
                       type="text"
@@ -374,11 +374,11 @@ const Page = () => {
                     />
                   </div>
                 </div>
-                <div className="col-md-2">
+                {/* <div className="col-md-2">
                   <div className="form-group mb-0">
                     <Link to={routes.postedAdvertisement} className="btn-gr wd100">Posted Ads</Link>
                   </div>
-                </div>
+                </div> */}
                 <div className="col-md-2">
                   <div className="form-group mb-0">
                     <Link
@@ -414,7 +414,7 @@ const Page = () => {
                             <div>
                               <div class="strip-text">{status(ele.status)}</div>
                               <div class="title-text">{ele.title ?? "NA"}</div>
-                              <div class="advertisement-date-text">
+                              <div class="date-text">
                                 Posted On{" "}
                                 {moment(ele.created_date).format(
                                   "MM-DD-yyyy hh:mm A"

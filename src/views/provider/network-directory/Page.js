@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Searchicon from "../../../assets/provider/images/search1.svg";
+import Map from "../../../assets/user/images/Google_Map.svg";
 import { api } from "../../../utlis/provider/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
@@ -143,6 +144,14 @@ const Page = () => {
                                       alt=""
                                       className="me-3"
                                     />
+                                  ) : ele.profile_image === null ||
+                                    ele.profile_image === "" ||
+                                    ele.profile_image === undefined ? (
+                                    <img
+                                      src={NoImage}
+                                      alt=""
+                                      className="me-3"
+                                    />
                                   ) : (
                                     <img
                                       src={ele.profile_image}
@@ -167,28 +176,42 @@ const Page = () => {
                             <div className="care-card-body">
                               <div className="care-pricetag-content">
                                 <div className="care-price-text d-flex align-items-center">
-                                  <div className="pricehour-text mt-2">
+                                  <div className="strip-text mt-2">
                                     {ele.user_type == 3 ? "Staff" : "Provider"}
                                   </div>
                                 </div>
                               </div>
-                              <div className="care-location-box d-flex justify-content-between mt-3">
+                              <div className="tags-list">
+                                <div className="tags-item">
+                                  {ele.category ?? "NA"}
+                                </div>
+                                <div className="tags-item-sub">
+                                  {ele.subcategory ?? "NA"}
+                                </div>
+                              </div>
+                              <div className="care-pricetag-content">
+                                <div className="care-price-text">
+                                  <div className="exp-text">
+                                    {ele.experience ?? 0} Years Experience
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="care-location-box">
+                                <div className="care-point-icon">
+                                  <img src={Map} />
+                                </div>
                                 <div className="care-location-text">
                                   <h4>Location</h4>
                                   <p>{ele.business_address ?? "NA"}</p>
                                 </div>
-                                <div className="care-location-text ">
-                                  <h4>Experience</h4>
-                                  <p>{ele.experience ?? 0} Years</p>
-                                </div>
                               </div>
                               <div className="care-location-box-action">
-                                <div className="exp-text mb-0">
-                                  {ele.category ?? "NA"}
-                                </div>
-                                <div className="care-tag-text  mb-0">
-                                  View Profile
-                                </div>
+                                <Link
+                                  className="btn-bl"
+                                  to=""
+                                >
+                                  View Details
+                                </Link>
                               </div>
                             </div>
                           </div>

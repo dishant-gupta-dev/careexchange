@@ -340,7 +340,7 @@ const Details = () => {
                     <img src={ActiveJob} alt="" height="60px" />
                   </div>
                   <div className="card-overview-content">
-                    <h4>On Going Jobs</h4>
+                    <h4>Ongoing Jobs</h4>
                     <h2>{provider?.activeJob ?? 0}</h2>
                   </div>
                 </div>
@@ -410,7 +410,7 @@ const Details = () => {
                                 to=""
                                 onClick={() => setStatus(1)}
                               >
-                                On Going
+                                Ongoing
                               </Link>
                             </li>
                             <li className="nav-item">
