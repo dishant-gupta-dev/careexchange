@@ -86,7 +86,6 @@ const FindCareHomeAss = () => {
   });
 
   const getProviders = async (api) => {
-    setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
     // console.log("all providers list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
@@ -99,7 +98,6 @@ const FindCareHomeAss = () => {
       setProvider(providerData);
       setTotal(response.data.data.total);
     } else setProvider([]);
-    setLoading(false);
   };
 
   const getCategoryList = async (api) => {
@@ -585,45 +583,47 @@ const FindCareHomeAss = () => {
                 </div>
               ) : null}
 
-              {tab == 2 ? (
-                <div className="tab-pane fade" id="tab2">
-                  <div className="findcare-form">
-                    <h2>Share A Few Details More…</h2>
-                    <div className="findcare-card">
-                      <Formik
-                        initialValues={initialSecondValues}
-                        validateOnChange={true}
-                        validationSchema={validationSecondSchema}
-                        onSubmit={secondStep}
-                        enableReinitialize
-                      >
-                        {({ values, setFieldValue }) => (
-                          <Form id="second-step-form">
-                            <div className="row">
-                              <div className="col-md-12">
-                                <div className="form-group">
-                                  <h4>Care Category</h4>
-                                  <div className="category-card">
-                                    <div className="category-card-content">
-                                      <h2>{findCategory(selectCategories)}</h2>
-                                      {/* <h5>Care For Marry Lane</h5> */}
-                                      <div className="location-adress-text">
-                                        <img src={GmapImg} />{" "}
-                                        {location.address ?? "NA"}
-                                      </div>
+              <div
+                className={tab == 2 ? "tab-pane show" : "tab-pane d-none"}
+                id="tab2"
+              >
+                <div className="findcare-form">
+                  <h2>Share A Few Details More…</h2>
+                  <div className="findcare-card">
+                    <Formik
+                      initialValues={initialSecondValues}
+                      validateOnChange={true}
+                      validationSchema={validationSecondSchema}
+                      onSubmit={secondStep}
+                      enableReinitialize
+                    >
+                      {({ values, setFieldValue }) => (
+                        <Form id="second-step-form">
+                          <div className="row">
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <h4>Care Category</h4>
+                                <div className="category-card">
+                                  <div className="category-card-content">
+                                    <h2>{findCategory(selectCategories)}</h2>
+                                    {/* <h5>Care For Marry Lane</h5> */}
+                                    <div className="location-adress-text">
+                                      <img src={GmapImg} />{" "}
+                                      {location.address ?? "NA"}
                                     </div>
-                                    <Link
-                                      className="btn-gr"
-                                      to=""
-                                      onClick={() => setTab(1)}
-                                    >
-                                      Change
-                                    </Link>
                                   </div>
+                                  <Link
+                                    className="btn-gr"
+                                    to=""
+                                    onClick={() => setTab(1)}
+                                  >
+                                    Change
+                                  </Link>
                                 </div>
                               </div>
+                            </div>
 
-                              {/* <div className="col-md-6">
+                            {/* <div className="col-md-6">
                               <div className="form-group">
                                 <h4>Care Location</h4>
                                 <div className="category-card">
@@ -639,207 +639,207 @@ const FindCareHomeAss = () => {
                               </div>
                             </div> */}
 
-                              <div className="col-md-6">
-                                <div className="form-group">
-                                  <h4>First Name</h4>
-                                  <Field
-                                    type="text"
-                                    className="form-control"
-                                    name="fname"
-                                    placeholder="First Name"
-                                  />
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <h4>First Name</h4>
+                                <Field
+                                  type="text"
+                                  className="form-control"
+                                  name="fname"
+                                  placeholder="First Name"
+                                />
+                                <ErrorMessage
+                                  name="fname"
+                                  component="div"
+                                  className="alert alert-danger"
+                                />
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <h4>Last Name</h4>
+                                <Field
+                                  type="text"
+                                  className="form-control"
+                                  name="lname"
+                                  placeholder="Last Name"
+                                />
+                                <ErrorMessage
+                                  name="lname"
+                                  component="div"
+                                  className="alert alert-danger"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <h4>How do you prefer to be contacted?</h4>
+                                <div className="choosemiles-list">
+                                  <ul>
+                                    <li>
+                                      <div className="ceradio">
+                                        <Field
+                                          type="radio"
+                                          name="prefer"
+                                          id="Email"
+                                          value="email"
+                                        />
+                                        <label for="Email">
+                                          <span className="checkbox-text">
+                                            Email
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className="ceradio">
+                                        <Field
+                                          type="radio"
+                                          name="prefer"
+                                          id="Phone"
+                                          value="phone"
+                                        />
+                                        <label for="Phone">
+                                          <span className="checkbox-text">
+                                            {" "}
+                                            Phone
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className="ceradio">
+                                        <Field
+                                          type="radio"
+                                          name="prefer"
+                                          id="Fax"
+                                          value="fax"
+                                        />
+                                        <label for="Fax">
+                                          <span className="checkbox-text">
+                                            Fax
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+                                  </ul>
                                   <ErrorMessage
-                                    name="fname"
+                                    name="prefer"
                                     component="div"
                                     className="alert alert-danger"
                                   />
                                 </div>
                               </div>
-                              <div className="col-md-6">
-                                <div className="form-group">
-                                  <h4>Last Name</h4>
-                                  <Field
-                                    type="text"
-                                    className="form-control"
-                                    name="lname"
-                                    placeholder="Last Name"
-                                  />
+                            </div>
+
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <h4>Who Needs Care?</h4>
+                                <div className="choosemiles-list">
+                                  <ul>
+                                    <li>
+                                      <div className="ceradio">
+                                        <Field
+                                          type="radio"
+                                          name="gender"
+                                          id="Male"
+                                          value="M"
+                                        />
+                                        <label for="Male">
+                                          <span className="checkbox-text">
+                                            {" "}
+                                            Male
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className="ceradio">
+                                        <Field
+                                          type="radio"
+                                          name="gender"
+                                          id="Female"
+                                          value="F"
+                                        />
+                                        <label for="Female">
+                                          <span className="checkbox-text">
+                                            Female
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+                                  </ul>
                                   <ErrorMessage
-                                    name="lname"
+                                    name="gender"
                                     component="div"
                                     className="alert alert-danger"
                                   />
                                 </div>
                               </div>
+                            </div>
 
-                              <div className="col-md-6">
-                                <div className="form-group">
-                                  <h4>How do you prefer to be contacted?</h4>
-                                  <div className="choosemiles-list">
-                                    <ul>
-                                      <li>
-                                        <div className="ceradio">
-                                          <Field
-                                            type="radio"
-                                            name="prefer"
-                                            id="Email"
-                                            value="email"
-                                          />
-                                          <label for="Email">
-                                            <span className="checkbox-text">
-                                              Email
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-                                      <li>
-                                        <div className="ceradio">
-                                          <Field
-                                            type="radio"
-                                            name="prefer"
-                                            id="Phone"
-                                            value="phone"
-                                          />
-                                          <label for="Phone">
-                                            <span className="checkbox-text">
-                                              {" "}
-                                              Phone
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-                                      <li>
-                                        <div className="ceradio">
-                                          <Field
-                                            type="radio"
-                                            name="prefer"
-                                            id="Fax"
-                                            value="fax"
-                                          />
-                                          <label for="Fax">
-                                            <span className="checkbox-text">
-                                              Fax
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-                                    </ul>
-                                    <ErrorMessage
-                                      name="prefer"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                  </div>
-                                </div>
+                            <div className="col-md-4">
+                              <div className="form-group">
+                                <h4>Email Id</h4>
+                                <Field
+                                  type="email"
+                                  className="form-control"
+                                  name="email"
+                                  placeholder="Email Address"
+                                />
+                                <ErrorMessage
+                                  name="email"
+                                  component="div"
+                                  className="alert alert-danger"
+                                />
                               </div>
+                            </div>
+                            <div className="col-md-4">
+                              <div className="form-group">
+                                <h4>Phone</h4>
+                                <Field
+                                  type="text"
+                                  className="form-control"
+                                  name="phone"
+                                  placeholder="Enter Phone"
+                                  maxlength={10}
+                                  value={values.phone.replace(
+                                    /(\d{3})(\d{3})(\d{4})/,
+                                    "($1) $2-$3"
+                                  )}
+                                />
+                                <ErrorMessage
+                                  name="phone"
+                                  component="div"
+                                  className="alert alert-danger"
+                                />
+                              </div>
+                            </div>
 
-                              <div className="col-md-6">
-                                <div className="form-group">
-                                  <h4>Who Needs Care?</h4>
-                                  <div className="choosemiles-list">
-                                    <ul>
-                                      <li>
-                                        <div className="ceradio">
-                                          <Field
-                                            type="radio"
-                                            name="gender"
-                                            id="Male"
-                                            value="M"
-                                          />
-                                          <label for="Male">
-                                            <span className="checkbox-text">
-                                              {" "}
-                                              Male
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-                                      <li>
-                                        <div className="ceradio">
-                                          <Field
-                                            type="radio"
-                                            name="gender"
-                                            id="Female"
-                                            value="F"
-                                          />
-                                          <label for="Female">
-                                            <span className="checkbox-text">
-                                              Female
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-                                    </ul>
-                                    <ErrorMessage
-                                      name="gender"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                  </div>
-                                </div>
+                            <div className="col-md-4">
+                              <div className="form-group">
+                                <h4>Fax Number</h4>
+                                <Field
+                                  type="text"
+                                  className="form-control"
+                                  name="fax"
+                                  placeholder="Enter Fax Number"
+                                  maxlength={10}
+                                  value={values.fax.replace(
+                                    /(\d{3})(\d{3})(\d{4})/,
+                                    "$1-$2-$3"
+                                  )}
+                                />
+                                <ErrorMessage
+                                  name="fax"
+                                  component="div"
+                                  className="alert alert-danger"
+                                />
                               </div>
+                            </div>
 
-                              <div className="col-md-4">
-                                <div className="form-group">
-                                  <h4>Email Id</h4>
-                                  <Field
-                                    type="email"
-                                    className="form-control"
-                                    name="email"
-                                    placeholder="Email Address"
-                                  />
-                                  <ErrorMessage
-                                    name="email"
-                                    component="div"
-                                    className="alert alert-danger"
-                                  />
-                                </div>
-                              </div>
-                              <div className="col-md-4">
-                                <div className="form-group">
-                                  <h4>Phone</h4>
-                                  <Field
-                                    type="text"
-                                    className="form-control"
-                                    name="phone"
-                                    placeholder="Enter Phone"
-                                    maxlength={10}
-                                    value={values.phone.replace(
-                                      /(\d{3})(\d{3})(\d{4})/,
-                                      "($1) $2-$3"
-                                    )}
-                                  />
-                                  <ErrorMessage
-                                    name="phone"
-                                    component="div"
-                                    className="alert alert-danger"
-                                  />
-                                </div>
-                              </div>
-
-                              <div className="col-md-4">
-                                <div className="form-group">
-                                  <h4>Fax Number</h4>
-                                  <Field
-                                    type="text"
-                                    className="form-control"
-                                    name="fax"
-                                    placeholder="Enter Fax Number"
-                                    maxlength={10}
-                                    value={values.fax.replace(
-                                      /(\d{3})(\d{3})(\d{4})/,
-                                      "$1-$2-$3"
-                                    )}
-                                  />
-                                  <ErrorMessage
-                                    name="fax"
-                                    component="div"
-                                    className="alert alert-danger"
-                                  />
-                                </div>
-                              </div>
-
-                              {/* <div className="col-md-4">
+                            {/* <div className="col-md-4">
                               <div className="form-group">
                                 <h4>Type of Care?</h4>
                                 <select className="form-control">
@@ -848,7 +848,7 @@ const FindCareHomeAss = () => {
                               </div>
                             </div> */}
 
-                              {/* <div className="col-md-4">
+                            {/* <div className="col-md-4">
                               <div className="form-group">
                               <h4>Type of Care?</h4>
                                 <Field
@@ -872,501 +872,509 @@ const FindCareHomeAss = () => {
                               </div>
                             </div> */}
 
-                              <div className="col-md-6">
-                                <div className="form-group">
-                                  <h4>Relationship?</h4>
-                                  <Field
-                                    as="select"
-                                    type="text"
-                                    className="form-control"
-                                    name="relationship"
-                                  >
-                                    <option value="">
-                                      Select Relationship
-                                    </option>
-                                    <option value="Parent, Grandparent">
-                                      Parent, Grandparent
-                                    </option>
-                                    <option value="In-Laws">In-Laws</option>
-                                    <option value="Self-Care">Self-Care</option>
-                                    <option value="Spouse">Spouse</option>
-                                    <option value="Hospital Care">
-                                      Hospital Care
-                                    </option>
-                                    <option value="Others">Others</option>
-                                  </Field>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <h4>Relationship?</h4>
+                                <Field
+                                  as="select"
+                                  type="text"
+                                  className="form-control"
+                                  name="relationship"
+                                >
+                                  <option value="">Select Relationship</option>
+                                  <option value="Parent, Grandparent">
+                                    Parent, Grandparent
+                                  </option>
+                                  <option value="In-Laws">In-Laws</option>
+                                  <option value="Self-Care">Self-Care</option>
+                                  <option value="Spouse">Spouse</option>
+                                  <option value="Hospital Care">
+                                    Hospital Care
+                                  </option>
+                                  <option value="Others">Others</option>
+                                </Field>
+                                <ErrorMessage
+                                  name="relationship"
+                                  component="div"
+                                  className="alert alert-danger"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <h4>Age</h4>
+                                <Field
+                                  type="number"
+                                  className="form-control"
+                                  name="age"
+                                  placeholder="Age"
+                                />
+                                <ErrorMessage
+                                  name="age"
+                                  component="div"
+                                  className="alert alert-danger"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <h4>What is your Payment Method?</h4>
+                                <div className="choosemiles-list">
+                                  <ul>
+                                    <li>
+                                      <div className="ceradio1">
+                                        <Field
+                                          type="radio"
+                                          name="payment_type"
+                                          id="FirstPay"
+                                          value="Private Pay, Insurance"
+                                        />
+                                        <label for="FirstPay">
+                                          <span className="checkbox-text">
+                                            {" "}
+                                            Private Pay, Insurance
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className="ceradio1">
+                                        <Field
+                                          type="radio"
+                                          name="payment_type"
+                                          id="SecondPay"
+                                          value="Medicare (age 65+)"
+                                        />
+                                        <label for="SecondPay">
+                                          <span className="checkbox-text">
+                                            Medicare (age 65+)
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+
+                                    <li>
+                                      <div className="ceradio1">
+                                        <Field
+                                          type="radio"
+                                          name="payment_type"
+                                          id="ThirdPay"
+                                          value="Medicaid"
+                                        />
+                                        <label for="ThirdPay">
+                                          <span className="checkbox-text">
+                                            Medicaid
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+                                  </ul>
                                   <ErrorMessage
-                                    name="relationship"
+                                    name="payment_type"
                                     component="div"
                                     className="alert alert-danger"
                                   />
-                                </div>
-                              </div>
-
-                              <div className="col-md-6">
-                                <div className="form-group">
-                                  <h4>Age</h4>
-                                  <Field
-                                    type="number"
-                                    className="form-control"
-                                    name="age"
-                                    placeholder="Age"
-                                  />
-                                  <ErrorMessage
-                                    name="age"
-                                    component="div"
-                                    className="alert alert-danger"
-                                  />
-                                </div>
-                              </div>
-
-                              <div className="col-md-12">
-                                <div className="form-group">
-                                  <h4>What is your Payment Method?</h4>
-                                  <div className="choosemiles-list">
-                                    <ul>
-                                      <li>
-                                        <div className="ceradio1">
-                                          <Field
-                                            type="radio"
-                                            name="payment_type"
-                                            id="FirstPay"
-                                            value="Private Pay, Insurance"
-                                          />
-                                          <label for="FirstPay">
-                                            <span className="checkbox-text">
-                                              {" "}
-                                              Private Pay, Insurance
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-                                      <li>
-                                        <div className="ceradio1">
-                                          <Field
-                                            type="radio"
-                                            name="payment_type"
-                                            id="SecondPay"
-                                            value="Medicare (age 65+)"
-                                          />
-                                          <label for="SecondPay">
-                                            <span className="checkbox-text">
-                                              Medicare (age 65+)
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-
-                                      <li>
-                                        <div className="ceradio1">
-                                          <Field
-                                            type="radio"
-                                            name="payment_type"
-                                            id="ThirdPay"
-                                            value="Medicaid"
-                                          />
-                                          <label for="ThirdPay">
-                                            <span className="checkbox-text">
-                                              Medicaid
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-                                    </ul>
-                                    <ErrorMessage
-                                      name="payment_type"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="col-md-12">
-                                <div className="form-group">
-                                  <h4>Best Time To Call?</h4>
-                                  <div className="choosemiles-list">
-                                    <ul>
-                                      <li>
-                                        <div className="ceradio1">
-                                          <Field
-                                            type="radio"
-                                            name="best_time_to_call"
-                                            id="Anytime"
-                                            value="anytime"
-                                          />
-                                          <label for="Anytime">
-                                            <span className="ceradio-text">
-                                              Anytime
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-                                      <li>
-                                        <div className="ceradio1">
-                                          <Field
-                                            type="radio"
-                                            name="best_time_to_call"
-                                            id="Morning_At_Home"
-                                            value="morning at home"
-                                          />
-                                          <label for="Morning_At_Home">
-                                            <span className="ceradio-text">
-                                              Morning At Home
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-
-                                      <li>
-                                        <div className="ceradio1">
-                                          <Field
-                                            type="radio"
-                                            name="best_time_to_call"
-                                            id="Morning_At_Word"
-                                            value="morning at work"
-                                          />
-                                          <label for="Morning_At_Word">
-                                            <span className="ceradio-text">
-                                              Morning At Work
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-
-                                      <li>
-                                        <div className="ceradio1">
-                                          <Field
-                                            type="radio"
-                                            name="best_time_to_call"
-                                            id="Afternoon_At_Word"
-                                            value="afternoon at work"
-                                          />
-                                          <label for="Afternoon_At_Word">
-                                            <span className="ceradio-text">
-                                              Afternoon At Work
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-
-                                      <li>
-                                        <div className="ceradio1">
-                                          <Field
-                                            type="radio"
-                                            name="best_time_to_call"
-                                            id="Evening_At_Word"
-                                            value="evening at home"
-                                          />
-                                          <label for="Evening_At_Word">
-                                            <span className="ceradio-text">
-                                              Evening At Home
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-
-                                      <li>
-                                        <div className="ceradio1">
-                                          <Field
-                                            type="radio"
-                                            name="best_time_to_call"
-                                            id="Evening_At_Work"
-                                            value="evening at work"
-                                          />
-                                          <label for="Evening_At_Work">
-                                            <span className="ceradio-text">
-                                              Evening At Work
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-                                    </ul>
-                                    <ErrorMessage
-                                      name="best_time_to_call"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="col-md-12">
-                                <div className="form-group">
-                                  <h4>When And Where Do You Need Care?</h4>
-                                  <div className="choosemiles-list">
-                                    <ul>
-                                      <li>
-                                        <div className="ceradio1">
-                                          <Field
-                                            type="radio"
-                                            name="frequency"
-                                            id="One_time"
-                                            value="O"
-                                          />
-                                          <label for="One_time">
-                                            <span className="ceradio-text">
-                                              <i className="fa fa-clock"></i>{" "}
-                                              One time
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-                                      <li>
-                                        <div className="ceradio1">
-                                          <Field
-                                            type="radio"
-                                            name="frequency"
-                                            id="Repeat_Weekly"
-                                            value="W"
-                                          />
-                                          <label for="Repeat_Weekly">
-                                            <span className="ceradio-text">
-                                              <i className="fa fa-clock-rotate-left"></i>{" "}
-                                              Repeat Weekly
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-
-                                      <li>
-                                        <div className="ceradio1">
-                                          <Field
-                                            type="radio"
-                                            name="frequency"
-                                            id="Repeat_Monthly"
-                                            value="M"
-                                          />
-                                          <label for="Repeat_Monthly">
-                                            <span className="ceradio-text">
-                                              <i className="fa fa-calendar"></i>{" "}
-                                              Repeat Monthly
-                                            </span>
-                                          </label>
-                                        </div>
-                                      </li>
-                                    </ul>
-                                    <ErrorMessage
-                                      name="frequency"
-                                      component="div"
-                                      className="alert alert-danger"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div className="col-md-6">
-                                <div className="form-group">
-                                  <h4>Preferred Date</h4>
-                                  <DatePicker
-                                    toggleCalendarOnIconClick
-                                    showIcon
-                                    dateFormat={"MM-dd-yyyy"}
-                                    selected={startDate}
-                                    className="form-control todo-list-input"
-                                    onChange={(date) => {
-                                      setStartDate(date);
-                                    }}
-                                    isClearable
-                                    name="start_date"
-                                    autoComplete="off"
-                                    placeholderText="Select Start Date"
-                                  />
-                                  {startError && (
-                                    <div className="alert alert-danger">
-                                      Start date is required!
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-
-                              <div className="col-md-6">
-                                <div className="form-group">
-                                  <h4>Preferred Time</h4>
-                                  <Field
-                                    type="time"
-                                    className="form-control"
-                                    name="start_time"
-                                  />
-                                  <ErrorMessage
-                                    name="start_time"
-                                    component="div"
-                                    className="alert alert-danger"
-                                  />
-                                </div>
-                              </div>
-
-                              <div className="col-md-12">
-                                <div className="form-group">
-                                  <h4>Description</h4>
-                                  <Field
-                                    type="text"
-                                    as="textarea"
-                                    className="form-control"
-                                    name="description"
-                                    placeholder="Other Info/About your Business"
-                                  />
-                                  <ErrorMessage
-                                    name="description"
-                                    component="div"
-                                    className="alert alert-danger"
-                                  />
-                                </div>
-                              </div>
-
-                              <div className="col-md-12">
-                                <div className="form-group">
-                                  <button
-                                    className="btn-bl mx-2"
-                                    type="button"
-                                    onClick={() => {
-                                      document
-                                        .getElementById("second-step-form")
-                                        .reset();
-                                      setStartDate("");
-                                    }}
-                                  >
-                                    Clear All
-                                  </button>
-                                  <button className="btn-gr" type="submit">
-                                    Submit & Find Care Provider
-                                  </button>
                                 </div>
                               </div>
                             </div>
-                          </Form>
-                        )}
-                      </Formik>
-                    </div>
-                  </div>
-                </div>
-              ) : null}
 
-              {tab == 3 ? (
-                <div className="tab-pane fade" id="tab3">
-                  <div className="findcare-form">
-                    <h2>Choose from {total ?? 0} Care Provider</h2>
-                    <div className="findcare-card">
-                      <Formik
-                        initialValues={initialThirdValues}
-                        enableReinitialize
-                        onSubmit={thirdStep}
-                      >
-                        <Form>
-                          <div className="row">
-                            {providers.length !== 0 ? (
-                              providers.map((ele, indx) => {
-                                return (
-                                  <div key={indx} className="col-md-4">
-                                    <div className="findcarecheckbox">
-                                      <input
-                                        type="checkbox"
-                                        name="user_id"
-                                        checked={ele.checked}
-                                        onChange={() => handleCheck(ele.userid)}
-                                        id={`${ele.userid}proImg`}
-                                        value={ele.userid}
-                                      />
-                                      <label htmlFor={`${ele.userid}proImg`}>
-                                        <span className="checkbox-circle-mark"></span>
-                                        <div className="findcare-card">
-                                          <div className="findcare-card-head">
-                                            <div className="findcare-user-info">
-                                              <div className="findcare-user-image">
-                                                {ele.logo !== null &&
-                                                ele.logo !== "" &&
-                                                ele.logo !== undefined ? (
-                                                  <img
-                                                    src={ele.logo}
-                                                    alt=""
-                                                    className="me-3"
-                                                  />
-                                                ) : (
-                                                  <img
-                                                    src={ele.profile_image}
-                                                    alt=""
-                                                    className="me-3"
-                                                  />
-                                                )}
-                                              </div>
-                                              <div className="findcare-user-text">
-                                                <div className="findcare-user-name">
-                                                  {ele?.business_name
-                                                    ? ele?.business_name
-                                                    : ele?.fullname}
-                                                </div>
-                                                <div className="d-flex">
-                                                  <div className="findcare-user-rating">
-                                                    <i className="fa fa-star"></i>{" "}
-                                                    {ele.average_rating ??
-                                                      "0.0"}
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="findcare-card-body">
-                                            <div className="findcare-pricetag-content">
-                                              <div className="findcare-price-text">
-                                                <div className="exp-text">
-                                                  {ele.experience ?? 0} Year Exp
-                                                </div>
-                                              </div>
-                                              <div className="cared-text">
-                                                <img src={HouseImg} />{" "}
-                                                {ele.user_type == 2
-                                                  ? "Provider"
-                                                  : "Staff"}
-                                              </div>
-                                            </div>
-                                            <div className="findcare-location-box">
-                                              <div className="findcare-location-text">
-                                                <h4>Location</h4>
-                                                <p>
-                                                  {ele.business_address ?? "NA"}
-                                                </p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </label>
-                                    </div>
-                                  </div>
-                                );
-                              })
-                            ) : (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  margin: "5% 0",
-                                }}
-                              >
-                                <img width={300} src={NoData} alt="" />
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <h4>Best Time To Call?</h4>
+                                <div className="choosemiles-list">
+                                  <ul>
+                                    <li>
+                                      <div className="ceradio1">
+                                        <Field
+                                          type="radio"
+                                          name="best_time_to_call"
+                                          id="Anytime"
+                                          value="anytime"
+                                        />
+                                        <label for="Anytime">
+                                          <span className="ceradio-text">
+                                            Anytime
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className="ceradio1">
+                                        <Field
+                                          type="radio"
+                                          name="best_time_to_call"
+                                          id="Morning_At_Home"
+                                          value="morning at home"
+                                        />
+                                        <label for="Morning_At_Home">
+                                          <span className="ceradio-text">
+                                            Morning At Home
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+
+                                    <li>
+                                      <div className="ceradio1">
+                                        <Field
+                                          type="radio"
+                                          name="best_time_to_call"
+                                          id="Morning_At_Word"
+                                          value="morning at work"
+                                        />
+                                        <label for="Morning_At_Word">
+                                          <span className="ceradio-text">
+                                            Morning At Work
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+
+                                    <li>
+                                      <div className="ceradio1">
+                                        <Field
+                                          type="radio"
+                                          name="best_time_to_call"
+                                          id="Afternoon_At_Word"
+                                          value="afternoon at work"
+                                        />
+                                        <label for="Afternoon_At_Word">
+                                          <span className="ceradio-text">
+                                            Afternoon At Work
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+
+                                    <li>
+                                      <div className="ceradio1">
+                                        <Field
+                                          type="radio"
+                                          name="best_time_to_call"
+                                          id="Evening_At_Word"
+                                          value="evening at home"
+                                        />
+                                        <label for="Evening_At_Word">
+                                          <span className="ceradio-text">
+                                            Evening At Home
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+
+                                    <li>
+                                      <div className="ceradio1">
+                                        <Field
+                                          type="radio"
+                                          name="best_time_to_call"
+                                          id="Evening_At_Work"
+                                          value="evening at work"
+                                        />
+                                        <label for="Evening_At_Work">
+                                          <span className="ceradio-text">
+                                            Evening At Work
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                  <ErrorMessage
+                                    name="best_time_to_call"
+                                    component="div"
+                                    className="alert alert-danger"
+                                  />
+                                </div>
                               </div>
-                            )}
+                            </div>
+
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <h4>When And Where Do You Need Care?</h4>
+                                <div className="choosemiles-list">
+                                  <ul>
+                                    <li>
+                                      <div className="ceradio1">
+                                        <Field
+                                          type="radio"
+                                          name="frequency"
+                                          id="One_time"
+                                          value="O"
+                                        />
+                                        <label for="One_time">
+                                          <span className="ceradio-text">
+                                            <i className="fa fa-clock"></i> One
+                                            time
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div className="ceradio1">
+                                        <Field
+                                          type="radio"
+                                          name="frequency"
+                                          id="Repeat_Weekly"
+                                          value="W"
+                                        />
+                                        <label for="Repeat_Weekly">
+                                          <span className="ceradio-text">
+                                            <i className="fa fa-clock-rotate-left"></i>{" "}
+                                            Repeat Weekly
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+
+                                    <li>
+                                      <div className="ceradio1">
+                                        <Field
+                                          type="radio"
+                                          name="frequency"
+                                          id="Repeat_Monthly"
+                                          value="M"
+                                        />
+                                        <label for="Repeat_Monthly">
+                                          <span className="ceradio-text">
+                                            <i className="fa fa-calendar"></i>{" "}
+                                            Repeat Monthly
+                                          </span>
+                                        </label>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                  <ErrorMessage
+                                    name="frequency"
+                                    component="div"
+                                    className="alert alert-danger"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <h4>Preferred Date</h4>
+                                <DatePicker
+                                  toggleCalendarOnIconClick
+                                  showIcon
+                                  dateFormat={"MM-dd-yyyy"}
+                                  selected={startDate}
+                                  className="form-control todo-list-input"
+                                  onChange={(date) => {
+                                    setStartDate(date);
+                                  }}
+                                  isClearable
+                                  name="start_date"
+                                  autoComplete="off"
+                                  placeholderText="Select Start Date"
+                                />
+                                {startError && (
+                                  <div className="alert alert-danger">
+                                    Start date is required!
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <h4>Preferred Time</h4>
+                                <Field
+                                  type="time"
+                                  className="form-control"
+                                  name="start_time"
+                                />
+                                <ErrorMessage
+                                  name="start_time"
+                                  component="div"
+                                  className="alert alert-danger"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <h4>Description</h4>
+                                <Field
+                                  type="text"
+                                  as="textarea"
+                                  className="form-control"
+                                  name="description"
+                                  placeholder="Other Info/About your Business"
+                                />
+                                <ErrorMessage
+                                  name="description"
+                                  component="div"
+                                  className="alert alert-danger"
+                                />
+                              </div>
+                            </div>
+
                             <div className="col-md-12">
                               <div className="form-group">
                                 <button
-                                  type="button"
                                   className="btn-bl mx-2"
-                                  onClick={() => handleUncheck()}
+                                  type="button"
+                                  onClick={() => {
+                                    document
+                                      .getElementById("second-step-form")
+                                      .reset();
+                                    setStartDate("");
+                                  }}
                                 >
                                   Clear All
                                 </button>
                                 <button className="btn-gr" type="submit">
-                                  Submit Service Request
+                                  Submit & Find Care Provider
                                 </button>
                               </div>
                             </div>
                           </div>
                         </Form>
-                      </Formik>
-                    </div>
+                      )}
+                    </Formik>
                   </div>
                 </div>
-              ) : null}
+              </div>
+
+              <div
+                className={tab == 3 ? "tab-pane show" : "tab-pane d-none"}
+                id="tab3"
+              >
+                <div className="findcare-form">
+                  <div className="d-flex justify-content-between">
+                    <h2>Choose from {total ?? 0} Care Provider</h2>
+                    {providers.length === 0 ? (
+                      <button
+                        type="button"
+                        className="btn-gr"
+                        onClick={() => setTab(2)}
+                      >
+                        Change
+                      </button>
+                    ) : null}
+                  </div>
+                  <div className="findcare-card">
+                    <Formik
+                      initialValues={initialThirdValues}
+                      enableReinitialize
+                      onSubmit={thirdStep}
+                    >
+                      <Form>
+                        <div className="row">
+                          {providers.length !== 0 ? (
+                            providers.map((ele, indx) => {
+                              return (
+                                <div key={indx} className="col-md-4">
+                                  <div className="findcarecheckbox">
+                                    <input
+                                      type="checkbox"
+                                      name="user_id"
+                                      checked={ele.checked}
+                                      onChange={() => handleCheck(ele.userid)}
+                                      id={`${ele.userid}proImg`}
+                                      value={ele.userid}
+                                    />
+                                    <label htmlFor={`${ele.userid}proImg`}>
+                                      <span className="checkbox-circle-mark"></span>
+                                      <div className="findcare-card">
+                                        <div className="findcare-card-head">
+                                          <div className="findcare-user-info">
+                                            <div className="findcare-user-image">
+                                              {ele.logo !== null &&
+                                              ele.logo !== "" &&
+                                              ele.logo !== undefined ? (
+                                                <img
+                                                  src={ele.logo}
+                                                  alt=""
+                                                  className="me-3"
+                                                />
+                                              ) : (
+                                                <img
+                                                  src={ele.profile_image}
+                                                  alt=""
+                                                  className="me-3"
+                                                />
+                                              )}
+                                            </div>
+                                            <div className="findcare-user-text">
+                                              <div className="findcare-user-name">
+                                                {ele?.business_name
+                                                  ? ele?.business_name
+                                                  : ele?.fullname}
+                                              </div>
+                                              <div className="d-flex">
+                                                <div className="findcare-user-rating">
+                                                  <i className="fa fa-star"></i>{" "}
+                                                  {ele.average_rating ?? "0.0"}
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="findcare-card-body">
+                                          <div className="findcare-pricetag-content">
+                                            <div className="findcare-price-text">
+                                              <div className="exp-text">
+                                                {ele.experience ?? 0} Year Exp
+                                              </div>
+                                            </div>
+                                            <div className="cared-text">
+                                              <img src={HouseImg} />{" "}
+                                              {ele.user_type == 2
+                                                ? "Provider"
+                                                : "Staff"}
+                                            </div>
+                                          </div>
+                                          <div className="findcare-location-box">
+                                            <div className="findcare-location-text">
+                                              <h4>Location</h4>
+                                              <p>
+                                                {ele.business_address ?? "NA"}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </label>
+                                  </div>
+                                </div>
+                              );
+                            })
+                          ) : (
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                margin: "5% 0",
+                              }}
+                            >
+                              <img width={300} src={NoData} alt="" />
+                            </div>
+                          )}
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <button
+                                type="button"
+                                className="btn-bl mx-2"
+                                onClick={() => handleUncheck()}
+                              >
+                                Clear All
+                              </button>
+                              <button className="btn-gr" type="submit">
+                                Submit Service Request
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </Form>
+                    </Formik>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
