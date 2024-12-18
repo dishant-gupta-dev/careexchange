@@ -22,6 +22,20 @@ const UserRegister = () => {
   const [data, setData] = useState({ email: null, name: null });
   const [formError, setFormError] = useState(false);
   const { redirect } = useSelector((state) => state.auth);
+  const [timer, setTimer] = useState(0);
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  useEffect(() => {
+    let countdown;
+    if (timer > 0) {
+      countdown = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    } else {
+      setIsDisabled(false);
+    }
+    return () => clearInterval(countdown);
+  }, [timer]);
 
   const initialValues = {
     email: "",
@@ -53,44 +67,14 @@ const UserRegister = () => {
       });
       toast.success(response.data.message);
       setData({ email: formValue.email, name: formValue.username });
+      setTimer(30);
+      setIsDisabled(true);
       setMultiScreen(1);
     } else {
       toast.error(response.data.message);
     }
     setLoading(false);
   };
-
-  // const verifyUser = async () => {
-  //   if (code.length !== 4) {
-  //     setFormError(true);
-  //     return;
-  //   } else setFormError(false);
-  //   setLoading(true);
-  //   let form = JSON.stringify({
-  //     email: data.email,
-  //     otp: code,
-  //   });
-  //   const response = await ApiService.postAPI(api.otpVerify, form);
-  //   if (response.data.status) {
-  //     let formData = new FormData();
-  //     formData.append("username", data.name);
-  //     formData.append("email", data.email);
-  //     formData.append("user_type", 1);
-  //     const responseData = await ApiService.postAPI(api.register, formData);
-  //     console.log(responseData);
-
-  //     if (responseData.data.status) {
-  //       // toast.success(response.data.message);
-  //       toast.success(responseData.data.message);
-  //       navigate(routes.login);
-  //     } else {
-  //       toast.error(responseData.data.message);
-  //     }
-  //   } else {
-  //     toast.error(response.data.message);
-  //   }
-  //   setLoading(false);
-  // };
 
   const verifyUser = () => {
     if (code.length !== 4) {
@@ -131,6 +115,8 @@ const UserRegister = () => {
     });
     const response = await ApiService.postAPI(api.sendOtp, form);
     if (response.data.status) {
+      setTimer(30);
+      setIsDisabled(true);
       toast(response.data.data?.otp, {
         style: {
           borderRadius: "10px",
@@ -257,11 +243,20 @@ const UserRegister = () => {
                             />
                           </div>
                         </div>
-                        <div className="mb-1 forgotpsw-text">
-                          <Link to="" onClick={() => resendOtp()}>
-                            {" "}
-                            Resend Verification{" "}
-                          </Link>
+                        <div className="my-2 forgotpsw-text d-flex justify-content-between">
+                          <p>
+                            {timer != 0 && (
+                              <>
+                                Time Remaining: <b>{timer} seconds</b>
+                              </>
+                            )}
+                          </p>
+                          {!isDisabled && (
+                            <Link to="" onClick={() => resendOtp()}>
+                              {" "}
+                              Resend Verification{" "}
+                            </Link>
+                          )}
                         </div>
                         <div className="form-group">
                           <button

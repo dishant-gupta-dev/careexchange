@@ -24,6 +24,20 @@ const Login = () => {
   const { isLoggedIn, redirect } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message, shallowEqual);
   const [formError, setFormError] = useState(false);
+  const [timer, setTimer] = useState(0);
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  useEffect(() => {
+    let countdown;
+    if (timer > 0) {
+      countdown = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    } else {
+      setIsDisabled(false);
+    }
+    return () => clearInterval(countdown);
+  }, [timer]);
 
   const initialValues = {
     email: "",
@@ -44,7 +58,7 @@ const Login = () => {
     if (isLoggedIn) {
       return navigate(redirect);
     }
-  }, [])
+  }, []);
 
   if (isLoggedIn) {
     return navigate(redirect);
@@ -54,7 +68,7 @@ const Login = () => {
     setLoading(true);
     let form = JSON.stringify({
       email: formValue.email,
-      user_type: 1
+      user_type: 1,
     });
     const response = await ApiService.postAPI(api.sendOtp, form);
     if (response.data.status) {
@@ -67,6 +81,8 @@ const Login = () => {
       });
       toast.success(response.data.message);
       setData({ email: formValue.email });
+      setTimer(30);
+      setIsDisabled(true);
       setMultiScreen(1);
     } else {
       toast.error(response.data.message);
@@ -95,10 +111,12 @@ const Login = () => {
     setLoading(true);
     let form = JSON.stringify({
       email: data.email,
-      user_type: 1
+      user_type: 1,
     });
     const response = await ApiService.postAPI(api.sendOtp, form);
     if (response.data.status) {
+      setTimer(30);
+      setIsDisabled(true);
       toast(response.data.data?.otp, {
         style: {
           borderRadius: "10px",
@@ -109,7 +127,7 @@ const Login = () => {
       toast.success(response.data.message);
     } else toast.error(response.data.message);
     setLoading(false);
-  }
+  };
 
   const handleChange = (code) => setCode(code);
 
@@ -200,7 +218,7 @@ const Login = () => {
                                 color: "#000",
                                 fontWeight: "400",
                                 caretColor: "blue",
-                                margin: "0 5px"
+                                margin: "0 5px",
                               }}
                               focusStyle={{
                                 border: "1px solid #CFD3DB",
@@ -209,16 +227,38 @@ const Login = () => {
                             />
                           </div>
                         </div>
-                        <div className="mb-1 forgotpsw-text">
-                          <Link to="" onClick={() => resendOtp()}> Resend Verification </Link>
+                        <div className="my-2 forgotpsw-text d-flex justify-content-between">
+                          <p>
+                            {timer != 0 && (
+                              <>
+                                Time Remaining: <b>{timer} seconds</b>
+                              </>
+                            )}
+                          </p>
+                          {!isDisabled && (
+                            <Link to="" onClick={() => resendOtp()}>
+                              {" "}
+                              Resend Verification{" "}
+                            </Link>
+                          )}
                         </div>
                         <div className="form-group">
-                          <button type="button" className="auth-form-btn" onClick={() => verifyUser()}>
+                          <button
+                            type="button"
+                            className="auth-form-btn"
+                            onClick={() => verifyUser()}
+                          >
                             Validate OTP
                           </button>
                         </div>
                         <div className="form-group">
-                          <Link onClick={() => {setData({ email: null }); setMultiScreen(0); setCode(""); }}>
+                          <Link
+                            onClick={() => {
+                              setData({ email: null });
+                              setMultiScreen(0);
+                              setCode("");
+                            }}
+                          >
                             Back
                           </Link>
                         </div>
@@ -229,7 +269,10 @@ const Login = () => {
                         </div>
                       )}
                       {message && (
-                        <div className="form-group text-center mt-4 mb-0" style={{fontSize: "0.9rem"}}>
+                        <div
+                          className="form-group text-center mt-4 mb-0"
+                          style={{ fontSize: "0.9rem" }}
+                        >
                           <div className="alert alert-danger" role="alert">
                             {message}
                           </div>

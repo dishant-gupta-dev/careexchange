@@ -57,6 +57,20 @@ const Register = () => {
     lng: lng ?? null,
     address: address ?? null,
   });
+  const [timer, setTimer] = useState(0);
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  useEffect(() => {
+    let countdown;
+    if (timer > 0) {
+      countdown = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    } else {
+      setIsDisabled(false);
+    }
+    return () => clearInterval(countdown);
+  }, [timer]);
 
   const initialFirstValues = {
     radius: selectRadius ?? "",
@@ -193,6 +207,8 @@ const Register = () => {
         });
         toast.success(response1.data.message);
         setData({ email: formValue.email, name: formValue.name });
+        setTimer(30);
+        setIsDisabled(true);
         setTab(2);
       } else {
         toast.error(response1.data.message);
@@ -257,6 +273,8 @@ const Register = () => {
     });
     const response = await ApiService.postAPI(api.sendOtp, form);
     if (response.data.status) {
+      setTimer(30);
+      setIsDisabled(true);
       toast(response.data.data?.otp, {
         style: {
           borderRadius: "10px",
@@ -711,14 +729,31 @@ const Register = () => {
                                         className="form-control"
                                         name="care_job_title"
                                       >
-                                        <option value="">Select Care Job Title</option>
-                                        <option value="Caregiver">Caregiver</option>
-                                        <option value="Nursing Assistant (NA)">Nursing Assistant (NA)</option>
-                                        <option value="Home Health Aide (CNA/HHA)">Home Health Aide (CNA/HHA)</option>
-                                        <option value="Medical Assistant (MA)">Medical Assistant (MA)</option>
-                                        <option value="Licensed Practical/Vocational Nurse (LPN/LVN)">Licensed Practical/Vocational Nurse (LPN/LVN)</option>
-                                        <option value="Registered Nurse (RN)">Registered Nurse (RN)</option>
-                                        <option value="Nurse Practitioner (NP)">Nurse Practitioner (NP)</option>
+                                        <option value="">
+                                          Select Care Job Title
+                                        </option>
+                                        <option value="Caregiver">
+                                          Caregiver
+                                        </option>
+                                        <option value="Nursing Assistant (NA)">
+                                          Nursing Assistant (NA)
+                                        </option>
+                                        <option value="Home Health Aide (CNA/HHA)">
+                                          Home Health Aide (CNA/HHA)
+                                        </option>
+                                        <option value="Medical Assistant (MA)">
+                                          Medical Assistant (MA)
+                                        </option>
+                                        <option value="Licensed Practical/Vocational Nurse (LPN/LVN)">
+                                          Licensed Practical/Vocational Nurse
+                                          (LPN/LVN)
+                                        </option>
+                                        <option value="Registered Nurse (RN)">
+                                          Registered Nurse (RN)
+                                        </option>
+                                        <option value="Nurse Practitioner (NP)">
+                                          Nurse Practitioner (NP)
+                                        </option>
                                       </Field>
                                       <ErrorMessage
                                         name="care_job_title"
@@ -1115,11 +1150,20 @@ const Register = () => {
                               />
                             </div>
                           </div>
-                          <div className="mb-1 forgotpsw-text">
-                            <Link to="" onClick={() => resendOtp()}>
-                              {" "}
-                              Resend Verification{" "}
-                            </Link>
+                          <div className="my-2 forgotpsw-text d-flex justify-content-between">
+                            <p>
+                              {timer != 0 && (
+                                <>
+                                  Time Remaining: <b>{timer} seconds</b>
+                                </>
+                              )}
+                            </p>
+                            {!isDisabled && (
+                              <Link to="" onClick={() => resendOtp()}>
+                                {" "}
+                                Resend Verification{" "}
+                              </Link>
+                            )}
                           </div>
                           <div className="form-group col-6 mx-auto">
                             <button
