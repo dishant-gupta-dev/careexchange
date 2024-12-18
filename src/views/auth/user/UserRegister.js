@@ -37,6 +37,12 @@ const UserRegister = () => {
     return () => clearInterval(countdown);
   }, [timer]);
 
+  useEffect(() => {
+    if (code.length === 4) {
+      verifyUser(); // Auto submit OTP once it's complete
+    }
+  }, [code]);
+
   const initialValues = {
     email: "",
     username: "",

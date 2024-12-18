@@ -60,6 +60,12 @@ const Login = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (code.length === 4) {
+      verifyUser(); // Auto submit OTP once it's complete
+    }
+  }, [code]);
+
   if (isLoggedIn) {
     return navigate(redirect);
   }
