@@ -181,8 +181,8 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
-                <div className="care-tag-text mb-0 align-items-center d-flex">
-                  <p className="m-0"> Provider</p>
+                <div className="align-items-center justify-content-center d-flex" style={{height: "100px !important"}}>
+                  <div className="strip-text">Provider</div>
                 </div>
               </div>
             </div>
@@ -257,7 +257,10 @@ const Page = () => {
                         <div className="careservices-icon m-0">
                           <img src={careservicesicon1} alt="" />
                         </div>
-                        <Link to={routes.myJobs} className="careservices-text d-flex justify-content-between align-items-end">
+                        <Link
+                          to={routes.myJobs}
+                          className="careservices-text d-flex justify-content-between align-items-end"
+                        >
                           <h2>
                             Ongoing Jobs{" "}
                             <i className="mdi mdi-arrow-right ms-2"></i>

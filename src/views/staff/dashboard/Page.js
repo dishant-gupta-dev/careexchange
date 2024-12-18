@@ -180,8 +180,8 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
-                <div className="care-tag-text mb-0 align-items-center d-flex">
-                  <p className="m-0">Care Staff</p>
+                <div className="align-items-center justify-content-center d-flex" style={{height: "100px !important"}}>
+                  <div className="strip-text">Care Staff</div>
                 </div>
               </div>
             </div>
