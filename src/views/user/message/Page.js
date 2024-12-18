@@ -237,7 +237,7 @@ const Page = () => {
                       className="search-btn"
                       type="button"
                       onClick={() =>
-                        getProviders(api.providerList + `?search=${search}`)
+                        getProviders(api.providerChatList + `?search=${search}`)
                       }
                     >
                       <img src={SearchImg} />

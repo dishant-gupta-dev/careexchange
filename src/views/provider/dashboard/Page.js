@@ -14,6 +14,7 @@ import { GeolocationApiKey } from "../../../utlis/common.utlis";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
+import { routes } from "../../../utlis/provider/routes.utlis";
 
 const Page = () => {
   const options = [];
@@ -256,9 +257,9 @@ const Page = () => {
                         <div className="careservices-icon m-0">
                           <img src={careservicesicon1} alt="" />
                         </div>
-                        <Link className="careservices-text d-flex justify-content-between align-items-end">
+                        <Link to={routes.myJobs} className="careservices-text d-flex justify-content-between align-items-end">
                           <h2>
-                            Active Jobs{" "}
+                            Ongoing Jobs{" "}
                             <i className="mdi mdi-arrow-right ms-2"></i>
                           </h2>
                           <h3>{dashboard?.activeJobCount ?? 0}</h3>
@@ -275,7 +276,7 @@ const Page = () => {
                           data-bs-toggle="modal"
                           data-bs-target="#locked-job-requests"
                           data-bs-dismiss="modal"
-                          href="#"
+                          to={routes.lockedJobs}
                           className="careservices-text d-flex justify-content-between align-items-end"
                         >
                           <h2>

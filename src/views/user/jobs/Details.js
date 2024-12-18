@@ -66,7 +66,7 @@ const Details = () => {
                     <div class="care-card">
                       <div class="care-card-head">
                         <div class="care-id">
-                          Job ID: <span>{decode(id)}</span>
+                          Job ID: <span>{details?.job_id ?? "NA"}</span>
                         </div>
 
                         <div class="care-status">

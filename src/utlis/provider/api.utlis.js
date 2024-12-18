@@ -27,6 +27,7 @@ exports.api = {
     advertisementChangeStatus: `admin/advertisement/status/`,
     tagsList: `tag/list`,
     myJobs: `provider/request/myjob`,
+    lockedJobs: `provider/job/requested-list`,
     jobDetails: `admin/care/job-detail/`,
     paymentUnlockRequest: `payment/unlock-request`,
     careNetwork: `user/posted/job`,

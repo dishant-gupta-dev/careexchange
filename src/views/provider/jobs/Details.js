@@ -209,8 +209,8 @@ const Details = () => {
 
           {details?.status == 0 ? (
             <div className="col-md-12 text-center mt-2">
-              <button onClick={() => makePayment(details?.id, 10)} className="btn btn-gr w-50">
-                Make Payment $10
+              <button onClick={() => makePayment(details?.id, 1)} className="btn btn-gr w-50">
+                Make Payment $1
               </button>
             </div>
           ) : null}

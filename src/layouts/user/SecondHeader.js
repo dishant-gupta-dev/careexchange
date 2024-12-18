@@ -391,7 +391,7 @@ const SecondHeader = () => {
                 </Link>
               </li> */}
 
-              <li aria-haspopup="true">
+              {/* <li aria-haspopup="true">
                 <Link
                   to={routes.subscriptionPlan}
                   className={
@@ -451,7 +451,7 @@ const SecondHeader = () => {
                   </span>
                   <span className="wsmenutext"> Subscription Plan</span>
                 </Link>
-              </li>
+              </li> */}
 
               <li aria-haspopup="true">
                 <Link

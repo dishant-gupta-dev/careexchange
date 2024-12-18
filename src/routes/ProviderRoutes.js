@@ -2,6 +2,7 @@ import { routes } from "../utlis/provider/routes.utlis";
 import { ProviderLayout } from "../layouts/provider/App.js";
 import Dashboard from "../views/provider/dashboard/Page.js";
 import Jobs from "../views/provider/jobs/Page.js";
+import LockedJob from "../views/provider/jobs/LockedJob.js";
 import JobDetails from "../views/provider/jobs/Details.js";
 import Message from "../views/provider/message/Page.js";
 import CareNetwork from "../views/provider/care-network/Page.js";
@@ -33,6 +34,11 @@ var ProviderRoutes = [
         path: routes.myJobs,
         layout: ProviderLayout,
         component: Jobs
+    },
+    {
+        path: routes.lockedJobs,
+        layout: ProviderLayout,
+        component: LockedJob
     },
     {
         path: routes.jobDetails+"/:id",

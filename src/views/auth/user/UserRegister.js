@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import jpgImg from "../../../assets/user/images/1.jpg";
 import Logo from "../../../assets/user/images/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,6 +7,7 @@ import { routes } from "../../../utlis/user/routes.utlis";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ApiService from "../../../core/services/ApiService";
+import { verifyOtp } from "../../../store/slices/Auth";
 import { api } from "../../../utlis/user/api.utlis";
 import toast from "react-hot-toast";
 import Loader from "../../../layouts/loader/Loader";
@@ -13,11 +15,13 @@ import OtpInput from "react-otp-input";
 
 const UserRegister = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [multiScreen, setMultiScreen] = useState(0);
   const [data, setData] = useState({ email: null, name: null });
   const [formError, setFormError] = useState(false);
+  const { redirect } = useSelector((state) => state.auth);
 
   const initialValues = {
     email: "",
@@ -56,41 +60,74 @@ const UserRegister = () => {
     setLoading(false);
   };
 
-  const verifyUser = async () => {
+  // const verifyUser = async () => {
+  //   if (code.length !== 4) {
+  //     setFormError(true);
+  //     return;
+  //   } else setFormError(false);
+  //   setLoading(true);
+  //   let form = JSON.stringify({
+  //     email: data.email,
+  //     otp: code,
+  //   });
+  //   const response = await ApiService.postAPI(api.otpVerify, form);
+  //   if (response.data.status) {
+  //     let formData = new FormData();
+  //     formData.append("username", data.name);
+  //     formData.append("email", data.email);
+  //     formData.append("user_type", 1);
+  //     const responseData = await ApiService.postAPI(api.register, formData);
+  //     console.log(responseData);
+
+  //     if (responseData.data.status) {
+  //       // toast.success(response.data.message);
+  //       toast.success(responseData.data.message);
+  //       navigate(routes.login);
+  //     } else {
+  //       toast.error(responseData.data.message);
+  //     }
+  //   } else {
+  //     toast.error(response.data.message);
+  //   }
+  //   setLoading(false);
+  // };
+
+  const verifyUser = () => {
     if (code.length !== 4) {
       setFormError(true);
       return;
     } else setFormError(false);
     setLoading(true);
-    let form = JSON.stringify({
-      email: data.email,
-      otp: code,
-    });
-    const response = await ApiService.postAPI(api.otpVerify, form);
-    if (response.data.status) {
-      let formData = new FormData();
-      formData.append("username", data.name);
-      formData.append("email", data.email);
-      formData.append("user_type", 1);
-      const responseData = await ApiService.postAPI(api.register, formData);
-      if (responseData.data.status) {
-        // toast.success(response.data.message);
-        toast.success(responseData.data.message);
-        navigate(routes.login);
-      } else {
-        toast.error(responseData.data.message);
-      }
-    } else {
-      toast.error(response.data.message);
-    }
-    setLoading(false);
+    let otp = code;
+    let email = data.email;
+    let user_type = 1;
+    dispatch(verifyOtp({ email, otp, user_type }))
+      .unwrap()
+      .then(async () => {
+        let formData = new FormData();
+        formData.append("username", data.name);
+        formData.append("email", data.email);
+        formData.append("user_type", 1);
+        const responseData = await ApiService.postAPI(api.register, formData);
+
+        if (responseData.data.status) {
+          // toast.success(response.data.message);
+          toast.success(responseData.data.message);
+          navigate(routes.dashboard);
+        } else {
+          toast.error(responseData.data.message);
+        }
+      })
+      .catch((msg, i) => {
+        setLoading(false);
+      });
   };
 
   const resendOtp = async () => {
     setLoading(true);
     let form = JSON.stringify({
       email: data.email,
-      user_type: 1
+      user_type: 1,
     });
     const response = await ApiService.postAPI(api.sendOtp, form);
     if (response.data.status) {
@@ -104,7 +141,7 @@ const UserRegister = () => {
       toast.success(response.data.message);
     } else toast.error(response.data.message);
     setLoading(false);
-  }
+  };
 
   const handleChange = (code) => setCode(code);
 
@@ -221,10 +258,17 @@ const UserRegister = () => {
                           </div>
                         </div>
                         <div className="mb-1 forgotpsw-text">
-                          <Link to="" onClick={() => resendOtp()}> Resend Verification </Link>
+                          <Link to="" onClick={() => resendOtp()}>
+                            {" "}
+                            Resend Verification{" "}
+                          </Link>
                         </div>
                         <div className="form-group">
-                          <button type="button" className="auth-form-btn" onClick={() => verifyUser()}>
+                          <button
+                            type="button"
+                            className="auth-form-btn"
+                            onClick={() => verifyUser()}
+                          >
                             Validate OTP
                           </button>
                         </div>
