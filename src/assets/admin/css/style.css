@@ -17914,7 +17914,7 @@ button.auth-form-btn {
   color: var(--blue);
   font-size: 14px;
 }
-.main-panel a.btn-back{
+.main-panel a.btn-back {
   margin-right: 10px;
 }
 
@@ -17945,7 +17945,7 @@ button.auth-form-btn {
 
 .loading {
   position: fixed;
-  top: 0;
+  top: 22%;
   left: 0;
   background: hsl(0deg 0% 100% / 50%);
   right: 0;
@@ -17957,7 +17957,9 @@ button.auth-form-btn {
   backdrop-filter: blur(5px);
 }
 
-.loading span{animation: loading 1s infinite ease-in-out;}
+.loading span {
+  animation: loading 1s infinite ease-in-out;
+}
 
 @keyframes loading {
   0% {
