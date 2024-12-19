@@ -15,6 +15,7 @@ import {
   status,
   totalPageCalculator,
   adsLIMIT,
+  SingleFile,
 } from "../../../utlis/common.utlis";
 import moment from "moment";
 import { Link } from "react-router-dom";
@@ -37,7 +38,8 @@ const Page = () => {
   const [selectedTag, setSelectedTag] = useState([]);
   const [selectedEditTag, setSelectedEditTag] = useState([]);
   const [selectedDelTag, setSelectedDelTag] = useState([]);
-  const [imgError, setImgError] = useState(false);
+  const [imgError, setImgError] = useState({ status: false, msg: null });
+  const [imgError1, setImgError1] = useState({ status: false, msg: null });
   const [startError, setStartError] = useState(false);
   const [endError, setEndError] = useState(false);
   const [tagError, setTagError] = useState(false);
@@ -162,6 +164,10 @@ const Page = () => {
       setEndEditError(true);
       return;
     } else setEndEditError(false);
+    if (imgError1.status) {
+      setImgError1({ status: true, msg: imgError1.msg });
+      return;
+    } else setImgError1({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
     form.append("title", formValue.title);
@@ -223,9 +229,9 @@ const Page = () => {
       return;
     } else setEndError(false);
     if (file === "" || file === null || !file) {
-      setImgError(true);
+      setImgError({ status: true, msg: `File not found.` });
       return;
-    } else setImgError(false);
+    } else setImgError({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
     form.append("title", formValue.title);
@@ -321,18 +327,51 @@ const Page = () => {
   };
 
   const handleImgChange = (e) => {
-    if (!e.target.files[0]) {
-      setImgError(true);
-    } else setImgError(false);
-    setFile(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      const fileSizeInMB = file.size / (1024 * 1024);
+      const maxFileSize = SingleFile;
+      if (fileSizeInMB > maxFileSize) {
+        setFile();
+        setImgError({
+          status: true,
+          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
+            2
+          )} MB.`,
+        });
+      } else {
+        setFile(e.target.files[0]);
+        setImgError({ status: false, msg: null });
+      }
+    } else {
+      setImgError({ status: true, msg: `File not found.` });
+    }
   };
 
   const handleEditImgChange = (e) => {
-    setEditFile(e.target.files[0]);
-  };
+      const file = e.target.files[0];
+      if (file) {
+        const fileSizeInMB = file.size / (1024 * 1024);
+        const maxFileSize = SingleFile;
+        if (fileSizeInMB > maxFileSize) {
+          setEditFile();
+          setImgError1({
+            status: true,
+            msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
+              2
+            )} MB.`,
+          });
+        } else {
+          setEditFile(e.target.files[0]);
+          setImgError1({ status: false, msg: null });
+        }
+      } else {
+        setImgError1({ status: true, msg: `File not found.` });
+      }
+    };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getAdvertisementList(
       api.advertisement + `?page=${pageNum}&limit=${adsLIMIT}`
     );
@@ -813,6 +852,11 @@ const Page = () => {
                       onChange={handleEditImgChange}
                       className="form-control todo-list-input"
                     />
+                    {imgError1.status && (
+                      <div className="alert alert-danger">
+                        {imgError1.msg ?? null}
+                      </div>
+                    )}
                   </div>
                   <div className="form-group">
                     <Field
@@ -1032,9 +1076,9 @@ const Page = () => {
                       onChange={handleImgChange}
                       className="form-control todo-list-input"
                     />
-                    {imgError && (
+                    {imgError.status && (
                       <div className="alert alert-danger">
-                        Image is required!
+                        {imgError.msg ?? null}
                       </div>
                     )}
                   </div>

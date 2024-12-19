@@ -6,6 +6,7 @@ import NoImage from "../../../assets/admin/images/no-image.jpg";
 import moment from "moment";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import { SingleFile } from "../../../utlis/common.utlis";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 
@@ -14,6 +15,7 @@ const Page = () => {
   const [user, setUser] = useState();
   const [file, setFile] = useState();
   const [edit, setEdit] = useState({ status: false });
+  const [imgError, setImgError] = useState({ status: false, msg: null });
 
   const initialValues = {
     username: user?.fullname ?? "",
@@ -36,6 +38,10 @@ const Page = () => {
   };
 
   const updateProfile = async (formvalue) => {
+    if (imgError.status) {
+      setImgError({ status: true, msg: imgError.msg });
+      return;
+    } else setImgError({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
     form.append("username", formvalue.username);
@@ -59,11 +65,29 @@ const Page = () => {
   };
 
   const handleImgChange = (e) => {
-    setFile(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      const fileSizeInMB = file.size / (1024 * 1024);
+      const maxFileSize = SingleFile;
+      if (fileSizeInMB > maxFileSize) {
+        setFile();
+        setImgError({
+          status: true,
+          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
+            2
+          )} MB.`,
+        });
+      } else {
+        setFile(e.target.files[0]);
+        setImgError({ status: false, msg: null });
+      }
+    } else {
+      setImgError({ status: true, msg: `File not found.` });
+    }
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getUserDetails(api.profile);
   }, []);
   return (
@@ -173,7 +197,13 @@ const Page = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <input type="text" className="form-control todo-list-input" name="email" value={user?.email} disabled />
+                    <input
+                      type="text"
+                      className="form-control todo-list-input"
+                      name="email"
+                      value={user?.email}
+                      disabled
+                    />
                   </div>
                   <div className="form-group">
                     <Field
@@ -196,6 +226,11 @@ const Page = () => {
                       onChange={handleImgChange}
                       className="form-control todo-list-input"
                     />
+                    {imgError.status && (
+                      <div className="alert alert-danger">
+                        {imgError.msg ?? null}
+                      </div>
+                    )}
                   </div>
                   <div className="form-group text-end">
                     <button

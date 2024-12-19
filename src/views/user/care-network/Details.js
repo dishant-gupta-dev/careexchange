@@ -15,13 +15,13 @@ import SmsImg from "../../../assets/user/images/sms.svg";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
-import { userType } from "../../../utlis/common.utlis";
+import { SingleFile } from "../../../utlis/common.utlis";
 
 const Details = () => {
   const navigate = useNavigate();
   const [job, setJob] = useState();
   const [file, setFile] = useState();
-  const [imgError, setImgError] = useState(false);
+  const [imgError, setImgError] = useState({ status: false, msg: null });
   const [apply, setApply] = useState({ status: false, id: null });
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
@@ -51,9 +51,9 @@ const Details = () => {
 
   const applyJob = async (formValue) => {
     if (file === "" || file === null || !file) {
-      setImgError(true);
+      setImgError({ status: true, msg: `File not found.` });
       return;
-    } else setImgError(false);
+    } else setImgError({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
     form.append("full_name", formValue.full_name);
@@ -79,7 +79,25 @@ const Details = () => {
   };
 
   const handleResumeChange = (e) => {
-    setFile(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      const fileSizeInMB = file.size / (1024 * 1024);
+      const maxFileSize = SingleFile;
+      if (fileSizeInMB > maxFileSize) {
+        setFile();
+        setImgError({
+          status: true,
+          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
+            2
+          )} MB.`,
+        });
+      } else {
+        setFile(e.target.files[0]);
+        setImgError({ status: false, msg: null });
+      }
+    } else {
+      setImgError({ status: true, msg: `File not found.` });
+    }
   };
 
   useEffect(() => {
@@ -148,7 +166,10 @@ const Details = () => {
                         </div>
                         <div className="jobs-details-item">
                           <img src={Dollar} /> Salary:
-                          <span className="text-capitalize">{job?.currency ?? "$"}{job?.pay_range ?? "NA"}/{job?.pay_range_type ?? ""}</span>
+                          <span className="text-capitalize">
+                            {job?.currency ?? "$"}
+                            {job?.pay_range ?? "NA"}/{job?.pay_range_type ?? ""}
+                          </span>
                         </div>
                         <div className="jobs-details-item">
                           <img src={SuitCase} /> Work Exp:
@@ -328,9 +349,9 @@ const Details = () => {
                         accept="application/pdf"
                         onChange={handleResumeChange}
                       />
-                      {imgError && (
+                      {imgError.status && (
                         <div className="alert alert-danger">
-                          Image is required!
+                          {imgError.msg ?? null}
                         </div>
                       )}
                     </div>

@@ -11,7 +11,11 @@ import NoData from "../../../assets/admin/images/no-data-found.svg";
 import Loader from "../../../layouts/loader/Loader";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { clearMessage } from "../../../store/slices/Message";
-import { GeolocationApiKey } from "../../../utlis/common.utlis";
+import {
+  GeolocationApiKey,
+  MultipleFile,
+  SingleFile,
+} from "../../../utlis/common.utlis";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import DatePicker from "react-datepicker";
@@ -48,8 +52,11 @@ const Register = () => {
   const [startError, setStartError] = useState(false);
   const [file, setFile] = useState();
   const [multiFile, setMultiFile] = useState([]);
-  const [imgError, setImgError] = useState(false);
-  const [imgMultiError, setImgMultiError] = useState(false);
+  const [imgError, setImgError] = useState({ status: false, msg: null });
+  const [imgMultiError, setImgMultiError] = useState({
+    status: false,
+    msg: null,
+  });
   const { address, lat, lng } = useParams();
   const [code, setCode] = useState("");
   const [multiScreen, setMultiScreen] = useState(0);
@@ -169,13 +176,13 @@ const Register = () => {
 
   const firstStep = async (formValue) => {
     if (file === "" || file === null || !file) {
-      setImgError(true);
+      setImgError({ status: true, msg: `File not found.` });
       return;
-    } else setImgError(false);
+    } else setImgError({ status: false, msg: null });
     if (multiFile.length === 0) {
-      setImgMultiError(true);
+      setImgMultiError({ status: true, msg: `File not found.` });
       return;
-    } else setImgMultiError(false);
+    } else setImgMultiError({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
     form.append("service_id", formValue.sub_category);
@@ -304,15 +311,52 @@ const Register = () => {
   const handleChange = (code) => setCode(code);
 
   const handleImgChange = (e) => {
-    if (!e.target.files[0]) {
-      setImgError(true);
-    } else setImgError(false);
-    setFile(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      const fileSizeInMB = file.size / (1024 * 1024);
+      const maxFileSize = SingleFile;
+      if (fileSizeInMB > maxFileSize) {
+        setFile();
+        setImgError({
+          status: true,
+          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
+            2
+          )} MB.`,
+        });
+      } else {
+        setFile(e.target.files[0]);
+        setImgError({ status: false, msg: null });
+      }
+    } else {
+      setImgError({ status: true, msg: `File not found.` });
+    }
   };
 
   const handleMultiImgChange = (e) => {
-    let arr = Object.entries(e.target.files).map((e) => e[1]);
-    setMultiFile([...multiFile, ...arr]);
+    const files = e.target.files;
+    if (files) {
+      const maxTotalSize = MultipleFile;
+      let totalFileSize = 0;
+      for (let i = 0; i < files.length; i++) {
+        totalFileSize += files[i].size;
+      }
+      const totalFileSizeInMB = totalFileSize / (1024 * 1024);
+      if (totalFileSizeInMB > maxTotalSize) {
+        setMultiFile([]);
+        setImgMultiError({
+          status: true,
+          msg: `Total file size exceeds ${maxTotalSize} MB. Your total size is ${totalFileSizeInMB.toFixed(
+            2
+          )} MB.`,
+        });
+      } else {
+        let arr = Object.entries(files).map((e) => e[1]);
+        setMultiFile([...multiFile, ...arr]);
+        setImgMultiError({ status: false, msg: null });
+      }
+    } else {
+      setImgMultiError({ status: true, msg: `File not found.` });
+    }
   };
 
   useEffect(() => {
@@ -928,9 +972,9 @@ const Register = () => {
                                         onChange={handleImgChange}
                                         className="form-control todo-list-input"
                                       />
-                                      {imgError && (
+                                      {imgError.status && (
                                         <div className="alert alert-danger">
-                                          Resume is required!
+                                          {imgError.msg ?? null}
                                         </div>
                                       )}
                                     </div>
@@ -967,9 +1011,9 @@ const Register = () => {
                                         }
                                         className="form-control todo-list-input"
                                       />
-                                      {imgMultiError && (
+                                      {imgMultiError.status && (
                                         <div className="alert alert-danger">
-                                          License Image is required!
+                                          {imgMultiError.msg ?? null}
                                         </div>
                                       )}
                                     </div>

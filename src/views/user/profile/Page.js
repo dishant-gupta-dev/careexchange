@@ -10,12 +10,14 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../../../store/slices/Auth";
+import { SingleFile } from "../../../utlis/common.utlis";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState();
   const [file, setFile] = useState();
   const [edit, setEdit] = useState({ status: false, id: null });
+  const [imgError, setImgError] = useState({ status: false, msg: null });
   const [editImg, setEditImg] = useState(false);
   const [deleteAcc, setDeleteAcc] = useState(false);
 
@@ -68,6 +70,10 @@ const Page = () => {
   };
 
   const updateProfileImg = async (formvalue) => {
+    if (file === "" || file === null || !file) {
+      setImgError({ status: true, msg: `File not found.` });
+      return;
+    } else setImgError({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
     form.append("image", file);
@@ -113,7 +119,25 @@ const Page = () => {
   };
 
   const handleImgChange = (e) => {
-    setFile(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      const fileSizeInMB = file.size / (1024 * 1024);
+      const maxFileSize = SingleFile;
+      if (fileSizeInMB > maxFileSize) {
+        setFile();
+        setImgError({
+          status: true,
+          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
+            2
+          )} MB.`,
+        });
+      } else {
+        setFile(e.target.files[0]);
+        setImgError({ status: false, msg: null });
+      }
+    } else {
+      setImgError({ status: true, msg: `File not found.` });
+    }
   };
 
   useEffect(() => {
@@ -368,6 +392,11 @@ const Page = () => {
                       onChange={handleImgChange}
                       className="form-control todo-list-input"
                     />
+                    {imgError.status && (
+                      <div className="alert alert-danger">
+                        {imgError.msg ?? null}
+                      </div>
+                    )}
                   </div>
                   <div className="form-group text-end">
                     <button

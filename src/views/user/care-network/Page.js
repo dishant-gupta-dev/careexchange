@@ -20,7 +20,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
-import { CommonMiles, GeolocationApiKey } from "../../../utlis/common.utlis";
+import { CommonMiles, GeolocationApiKey, SingleFile } from "../../../utlis/common.utlis";
 
 const Page = () => {
   const inputRef = useRef(null);
@@ -30,7 +30,7 @@ const Page = () => {
   const [startDate, setStartDate] = useState("");
   const [file, setFile] = useState();
   const [filter, setFilter] = useState(false);
-  const [imgError, setImgError] = useState(false);
+  const [imgError, setImgError] = useState({ status: false, msg: null });
   const [apply, setApply] = useState({ status: false, id: null });
   const [selectRadius, setSelectRadius] = useState(null);
   const [selectCategories, setSelectCategory] = useState("");
@@ -105,9 +105,9 @@ const Page = () => {
 
   const applyJob = async (formValue) => {
     if (file === "" || file === null || !file) {
-      setImgError(true);
+      setImgError({ status: true, msg: `File not found.` });
       return;
-    } else setImgError(false);
+    } else setImgError({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
     form.append("full_name", formValue.full_name);
@@ -143,7 +143,25 @@ const Page = () => {
   };
 
   const handleResumeChange = (e) => {
-    setFile(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      const fileSizeInMB = file.size / (1024 * 1024);
+      const maxFileSize = SingleFile;
+      if (fileSizeInMB > maxFileSize) {
+        setFile();
+        setImgError({
+          status: true,
+          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
+            2
+          )} MB.`,
+        });
+      } else {
+        setFile(e.target.files[0]);
+        setImgError({ status: false, msg: null });
+      }
+    } else {
+      setImgError({ status: true, msg: `File not found.` });
+    }
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -833,9 +851,9 @@ const Page = () => {
                         accept="application/pdf"
                         onChange={handleResumeChange}
                       />
-                      {imgError && (
+                      {imgError.status && (
                         <div className="alert alert-danger">
-                          Image is required!
+                          {imgError.msg ?? null}
                         </div>
                       )}
                     </div>
