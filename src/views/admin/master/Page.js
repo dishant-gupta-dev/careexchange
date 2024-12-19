@@ -8,17 +8,19 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import Loader from "../../../layouts/loader/Loader";
+import { SingleFile } from "../../../utlis/common.utlis";
 
 const Page = () => {
   const [category, setCategory] = useState([]);
   const [loading, setLoading] = useState([]);
   const [total, setTotal] = useState(0);
   const [pageNum, setPageNum] = useState(1);
-  const [imgError, setImgError] = useState(false);
   const [file, setFile] = useState();
+  const [imgError, setImgError] = useState({ status: false, msg: null });
   const [file1, setFile1] = useState();
-  const [imgError2, setImgError2] = useState(false);
+  const [imgError1, setImgError1] = useState({ status: false, msg: null });
   const [file2, setFile2] = useState();
+  const [imgError2, setImgError2] = useState({ status: false, msg: null });
   const [deleteSubCat, setDeleteSubCat] = useState({ status: false, id: null });
   const [addSubCat, setAddSubCat] = useState({
     status: false,
@@ -67,6 +69,10 @@ const Page = () => {
   });
 
   const updateCategory = async (formValue) => {
+    if (imgError1.status) {
+      setImgError1({ status: true, msg: imgError1.msg });
+      return;
+    } else setImgError1({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
     form.append("name", formValue.name);
@@ -98,9 +104,9 @@ const Page = () => {
 
   const addCategory = async (formValue) => {
     if (file === "" || file === null || !file) {
-      setImgError(true);
+      setImgError({ status: true, msg: `File not found.` });
       return;
-    } else setImgError(false);
+    } else setImgError({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
     form.append("name", formValue.name);
@@ -126,9 +132,9 @@ const Page = () => {
 
   const addSubCategory = async (formValue) => {
     if (file2 === "" || file2 === null || !file2) {
-      setImgError2(true);
+      setImgError2({ status: true, msg: `File not found.` });
       return;
-    } else setImgError2(false);
+    } else setImgError2({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
     form.append("name", formValue.name);
@@ -208,25 +214,73 @@ const Page = () => {
   };
 
   const handleImgChange = (e) => {
-    if (!e.target.files[0]) {
-      setImgError(true);
-    } else setImgError(false);
-    setFile(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      const fileSizeInMB = file.size / (1024 * 1024);
+      const maxFileSize = SingleFile;
+      if (fileSizeInMB > maxFileSize) {
+        setFile();
+        setImgError({
+          status: true,
+          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
+            2
+          )} MB.`,
+        });
+      } else {
+        setFile(e.target.files[0]);
+        setImgError({ status: false, msg: null });
+      }
+    } else {
+      setImgError({ status: true, msg: `File not found.` });
+    }
   };
 
   const handleImgChange1 = (e) => {
-    setFile1(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      const fileSizeInMB = file.size / (1024 * 1024);
+      const maxFileSize = SingleFile;
+      if (fileSizeInMB > maxFileSize) {
+        setFile1();
+        setImgError1({
+          status: true,
+          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
+            2
+          )} MB.`,
+        });
+      } else {
+        setFile1(e.target.files[0]);
+        setImgError1({ status: false, msg: null });
+      }
+    } else {
+      setImgError1({ status: true, msg: `File not found.` });
+    }
   };
 
   const handleImgChange2 = (e) => {
-    if (!e.target.files[0]) {
-      setImgError2(true);
-    } else setImgError2(false);
-    setFile2(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      const fileSizeInMB = file.size / (1024 * 1024);
+      const maxFileSize = SingleFile;
+      if (fileSizeInMB > maxFileSize) {
+        setFile2();
+        setImgError2({
+          status: true,
+          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
+            2
+          )} MB.`,
+        });
+      } else {
+        setFile2(e.target.files[0]);
+        setImgError2({ status: false, msg: null });
+      }
+    } else {
+      setImgError2({ status: true, msg: `File not found.` });
+    }
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getCategoryList(api.categoryList);
   }, []);
   return (
@@ -495,6 +549,11 @@ const Page = () => {
                       onChange={handleImgChange1}
                       className="form-control todo-list-input"
                     />
+                    {imgError1.status && (
+                      <div className="alert alert-danger">
+                        {imgError1.msg ?? null}
+                      </div>
+                    )}
                   </div>
                   <div className="form-group">
                     <Field
@@ -604,9 +663,9 @@ const Page = () => {
                       onChange={handleImgChange}
                       className="form-control todo-list-input"
                     />
-                    {imgError && (
+                    {imgError.status && (
                       <div className="alert alert-danger">
-                        Image is required!
+                        {imgError.msg ?? null}
                       </div>
                     )}
                   </div>
@@ -757,9 +816,9 @@ const Page = () => {
                       onChange={handleImgChange2}
                       className="form-control todo-list-input"
                     />
-                    {imgError2 && (
+                    {imgError2.status && (
                       <div className="alert alert-danger">
-                        Image is required!
+                        {imgError2.msg ?? null}
                       </div>
                     )}
                   </div>
