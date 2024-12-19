@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import GmapImg from "../../../assets/user/images/Google_Maps_icon.svg";
 import LocImg from "../../../assets/user/images/location.svg";
 import Logo from "../../../assets/user/images/logo.svg";
@@ -9,6 +10,7 @@ import NoImage from "../../../assets/admin/images/no-image.jpg";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import Loader from "../../../layouts/loader/Loader";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
+import { clearMessage } from "../../../store/slices/Message";
 import { GeolocationApiKey } from "../../../utlis/common.utlis";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -25,6 +27,7 @@ const Register = () => {
   const options = [];
   const cityOptions = [];
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [tab, setTab] = useState(1);
   const [total, setTotal] = useState(0);
   const inputRef = useRef(null);
@@ -53,6 +56,7 @@ const Register = () => {
   const [multiScreen, setMultiScreen] = useState(0);
   const [formError, setFormError] = useState(false);
   const [data, setData] = useState({ email: null, name: null });
+  const { message } = useSelector((state) => state.message, shallowEqual);
   const [location, setLocation] = useState({
     lat: lat ?? null,
     lng: lng ?? null,
@@ -78,6 +82,10 @@ const Register = () => {
       verifyUser(); // Auto submit OTP once it's complete
     }
   }, [code]);
+
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch]);
 
   const initialFirstValues = {
     radius: selectRadius ?? "",
@@ -1131,12 +1139,25 @@ const Register = () => {
                                 }}
                               />
                             </div>
+                            {message && (
+                              <div
+                                className="form-group text-center mt-4 mb-0"
+                                style={{ fontSize: "0.9rem" }}
+                              >
+                                <div
+                                  className="alert alert-danger"
+                                  role="alert"
+                                >
+                                  {message}
+                                </div>
+                              </div>
+                            )}
                           </div>
                           <div className="my-2 forgotpsw-text d-flex justify-content-between">
                             <p>
                               {timer != 0 && (
                                 <>
-                                  Time Remaining: <b>{timer} seconds</b>
+                                  Didn't receive a code? Resend (<b>{timer}</b>)
                                 </>
                               )}
                             </p>

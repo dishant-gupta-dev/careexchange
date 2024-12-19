@@ -232,12 +232,22 @@ const Login = () => {
                               }}
                             />
                           </div>
+                          {message && (
+                            <div
+                              className="form-group text-center mt-4 mb-0"
+                              style={{ fontSize: "0.9rem" }}
+                            >
+                              <div className="alert alert-danger" role="alert">
+                                {message}
+                              </div>
+                            </div>
+                          )}
                         </div>
                         <div className="my-2 forgotpsw-text d-flex justify-content-between">
                           <p>
                             {timer != 0 && (
                               <>
-                                Time Remaining: <b>{timer} seconds</b>
+                                Didn't receive a code? Resend (<b>{timer}</b>)
                               </>
                             )}
                           </p>
@@ -272,16 +282,6 @@ const Login = () => {
                       {formError && (
                         <div className="alert alert-danger">
                           OTP is required
-                        </div>
-                      )}
-                      {message && (
-                        <div
-                          className="form-group text-center mt-4 mb-0"
-                          style={{ fontSize: "0.9rem" }}
-                        >
-                          <div className="alert alert-danger" role="alert">
-                            {message}
-                          </div>
                         </div>
                       )}
                     </div>

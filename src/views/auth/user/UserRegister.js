@@ -7,6 +7,7 @@ import { routes } from "../../../utlis/user/routes.utlis";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ApiService from "../../../core/services/ApiService";
+import { clearMessage } from "../../../store/slices/Message";
 import { verifyOtp } from "../../../store/slices/Auth";
 import { api } from "../../../utlis/user/api.utlis";
 import toast from "react-hot-toast";
@@ -21,7 +22,7 @@ const UserRegister = () => {
   const [multiScreen, setMultiScreen] = useState(0);
   const [data, setData] = useState({ email: null, name: null });
   const [formError, setFormError] = useState(false);
-  const { redirect } = useSelector((state) => state.auth);
+  const { message } = useSelector((state) => state.message, shallowEqual);
   const [timer, setTimer] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -42,6 +43,10 @@ const UserRegister = () => {
       verifyUser(); // Auto submit OTP once it's complete
     }
   }, [code]);
+
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch]);
 
   const initialValues = {
     email: "",
@@ -248,12 +253,22 @@ const UserRegister = () => {
                               }}
                             />
                           </div>
+                          {message && (
+                            <div
+                              className="form-group text-center mt-4 mb-0"
+                              style={{ fontSize: "0.9rem" }}
+                            >
+                              <div className="alert alert-danger" role="alert">
+                                {message}
+                              </div>
+                            </div>
+                          )}
                         </div>
                         <div className="my-2 forgotpsw-text d-flex justify-content-between">
                           <p>
                             {timer != 0 && (
                               <>
-                                Time Remaining: <b>{timer} seconds</b>
+                                Didn't receive a code? Resend (<b>{timer}</b>)
                               </>
                             )}
                           </p>

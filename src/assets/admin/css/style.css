@@ -17947,14 +17947,14 @@ button.auth-form-btn {
   position: fixed;
   top: 0;
   left: 0;
-  background: hsl(0deg 0% 100% / 95%);
+  background: hsl(0deg 0% 100% / 50%);
   right: 0;
   bottom: 0;
-  z-index: 99999;
+  z-index: 99999 !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(5px);
 }
 
 .loading span{animation: loading 1s infinite ease-in-out;}
