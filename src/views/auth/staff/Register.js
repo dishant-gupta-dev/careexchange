@@ -907,19 +907,21 @@ const Register = () => {
                                   </div>
 
                                   <div class="col-md-4">
-                                    <div class="form-group search-form-group-r">
+                                    <div class="form-group search-form-group-r PerHour-form-group">
                                       <h4>Fees Per Hour</h4>
+
                                       <Field
                                         type="number"
                                         className="form-control"
                                         name="fee_per_hour"
-                                        placeholder="$0.00 per hour"
+                                        placeholder="0.00 per hour"
                                       />
                                       <ErrorMessage
                                         name="fee_per_hour"
                                         component="div"
                                         className="alert alert-danger"
                                       />
+                                      <span class="dollar-text">$</span>
                                       <span class="Rangedays-text">/Hour</span>
                                     </div>
                                   </div>
