@@ -120,7 +120,6 @@ h6 {
   padding: 10px 30px;
   position: relative;
   background: var(--darkblue);
-  z-index: 100001 !important;
 }
 .top-header-content {
   display: flex;
@@ -215,7 +214,6 @@ h6 {
   background: var(--blue);
   position: relative;
   box-shadow: 0px 4px 35px 0px rgb(0 0 0 / 10%);
-  z-index: 100000 !important;
 }
 
 .wsmenu > .wsmenu-list > li > ul.sub-menu {

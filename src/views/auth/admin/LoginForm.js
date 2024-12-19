@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../../store/slices/Auth";
 import { clearMessage } from "../../../store/slices/Message";
-import Loader from "../../../layouts/loader/Loader";
+import AuthLoader from "../../../layouts/loader/AuthLoader";
 
 const LoginForm = () => {
   const router = useNavigate();
@@ -51,7 +51,7 @@ const LoginForm = () => {
 
   return (
     <>
-      {loading ? <Loader /> : null}
+      {loading ? <AuthLoader /> : null}
       <Formik
         initialValues={initialValues}
         validateOnChange={true}

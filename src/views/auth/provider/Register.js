@@ -8,7 +8,7 @@ import { api } from "../../../utlis/provider/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
-import Loader from "../../../layouts/loader/Loader";
+import AuthLoader from "../../../layouts/loader/AuthLoader";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { clearMessage } from "../../../store/slices/Message";
 import {
@@ -376,7 +376,7 @@ const Register = () => {
 
   return (
     <>
-      {loading ? <Loader /> : null}
+      {loading ? <AuthLoader /> : null}
       <div className="auth-section auth-height">
         <div className="auth-bg-video">
           <img id="background-video" src={jpgImg} />

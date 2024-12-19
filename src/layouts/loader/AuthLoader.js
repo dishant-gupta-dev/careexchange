@@ -1,9 +1,9 @@
 import React from "react";
 import LoaderImg from "../../assets/admin/images/loader.svg";
-const Loader = () => {
+const AuthLoader = () => {
   return (
     <>
-      <div className="loading">
+      <div className="admin-loading">
         <span>
           <img src={LoaderImg} />
         </span>
@@ -12,4 +12,4 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+export default AuthLoader;

@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import ApiService from "../../../core/services/ApiService";
 import { api } from "../../../utlis/user/api.utlis";
 import toast from "react-hot-toast";
-import Loader from "../../../layouts/loader/Loader";
+import AuthLoader from "../../../layouts/loader/AuthLoader";
 import { verifyOtp } from "../../../store/slices/Auth";
 import { clearMessage } from "../../../store/slices/Message";
 import OtpInput from "react-otp-input";
@@ -139,7 +139,7 @@ const Login = () => {
 
   return (
     <>
-      {loading ? <Loader /> : null}
+      {loading ? <AuthLoader /> : null}
       <div className="auth-section auth-height">
         <div className="auth-bg-video">
           <img id="background-video" src={jpgImg} />
