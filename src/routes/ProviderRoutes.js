@@ -18,6 +18,8 @@ import SubscriptionPlan from "../views/provider/subscription-plan/Page.js";
 import AboutUs from "../views/provider/more/AboutUs.js";
 import PrivacyPolicy from "../views/provider/more/PrivacyPolicy.js";
 import TermCondition from "../views/provider/more/TermCondition.js";
+import JobPost from "../views/provider/care-network/JobPost.js";
+import PostedJob from "../views/provider/care-network/PostedJob.js";
 
 var ProviderRoutes = [
     {
@@ -54,6 +56,16 @@ var ProviderRoutes = [
         path: routes.careNetworkDetails+"/:id",
         layout: ProviderLayout,
         component: CareNetworkDetails
+    },
+    {
+        path: routes.addPost,
+        layout: ProviderLayout,
+        component: JobPost
+    },
+    {
+        path: routes.postedJob,
+        layout: ProviderLayout,
+        component: PostedJob
     },
     {
         path: routes.advertisement,

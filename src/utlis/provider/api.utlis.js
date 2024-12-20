@@ -30,7 +30,10 @@ exports.api = {
     lockedJobs: `provider/job/requested-list`,
     jobDetails: `admin/care/job-detail/`,
     paymentUnlockRequest: `payment/unlock-request`,
-    careNetwork: `user/posted/job`,
+    careNetwork: `job/request/list`,
     careNetworkDetail: `provider/posted/job/detail/`,
+    postedJob: `provider/posted/job-list`,
+    addPost: `job/post`,
+    deletePost: `job/post/`,
     networkDirectory: `provider/List`,
 }

@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import MapImg from "../../../assets/user/images/Google_Maps_icon.svg";
-import { api } from "../../../utlis/user/api.utlis";
+import { api } from "../../../utlis/provider/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
-import { routes } from "../../../utlis/user/routes.utlis";
+import { routes } from "../../../utlis/provider/routes.utlis";
 import { GeolocationApiKey } from "../../../utlis/common.utlis";
 
 const JobPost = () => {
@@ -184,22 +184,19 @@ const JobPost = () => {
       <div class="container">
         <div class="carenetwork-section">
           <div class="care-title-header">
-            <h2 class="heading-title">Post New Job</h2>
-            <div class="search-filter ">
-              <div class="row g-2">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <Link
-                      class="btn-bl wd100"
-                      to=""
-                      onClick={() => navigate(-1)}
-                    >
-                      Back
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <h2 class="heading-title">
+              <Link
+                className="btn-back"
+                to=""
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(-1);
+                }}
+              >
+                <i className="mdi mdi-arrow-left-thin"></i>
+              </Link>
+              &nbsp;Post New Job
+            </h2>
           </div>
           <div class="post-newjob-content">
             <div class="post-job-form">

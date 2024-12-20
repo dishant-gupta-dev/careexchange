@@ -8,6 +8,8 @@ exports.routes = {
     lockedJobs: `/provider/locked/jobs`,
     jobDetails: `/provider/job/info`,
     careNetwork: `/provider/care-network`,
+    addPost: `/provider/care-network/job-post`,
+    postedJob: `/provider/care-network/posted-job`,
     careNetworkDetails: `/provider/care-network/info`,
     advertisement: `/provider/advertisement`,
     postedAdvertisement: `/provider/advertisement/posted`,
