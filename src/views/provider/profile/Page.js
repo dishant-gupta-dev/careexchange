@@ -446,7 +446,7 @@ const Page = () => {
               >
                 {({ values, setFieldValue }) => (
                   <Form>
-                    <div className="row register-form">
+                    <div className="row findcare-form">
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Name</label>
@@ -837,7 +837,7 @@ const Page = () => {
                         </div>
                       </div>
                       <div className="col-md-6">
-                        <div className="form-group">
+                        <div className="form-group search-form-group-r PerHour-form-group">
                           <label>Fees Per Hour</label>
                           <Field
                             type="number"
@@ -845,15 +845,17 @@ const Page = () => {
                             name="fee_per_hour"
                             placeholder="$0.00 per hour"
                           />
-                          <ErrorMessage
-                            name="fee_per_hour"
-                            component="div"
-                            className="alert alert-danger"
-                          />
+                          <span class="dollar-text">$</span>
+                          <span class="Rangedays-text">/Hour</span>
                         </div>
+                        <ErrorMessage
+                          name="fee_per_hour"
+                          component="div"
+                          className="alert alert-danger"
+                        />
                       </div>
                       <div className="col-md-6">
-                        <div className="form-group">
+                        <div className="form-group search-form-group-r PerHour-form-group">
                           <label>Fees Per Week</label>
                           <Field
                             type="number"
@@ -861,15 +863,17 @@ const Page = () => {
                             name="fee_per_week"
                             placeholder="$0.00 per week"
                           />
-                          <ErrorMessage
-                            name="fee_per_week"
-                            component="div"
-                            className="alert alert-danger"
-                          />
+                          <span class="dollar-text">$</span>
+                          <span class="Rangedays-text">/Week</span>
                         </div>
+                        <ErrorMessage
+                          name="fee_per_week"
+                          component="div"
+                          className="alert alert-danger"
+                        />
                       </div>
                       <div className="col-md-6">
-                        <div className="form-group">
+                        <div className="form-group search-form-group-r PerHour-form-group">
                           <label>Fees Per Month</label>
                           <Field
                             type="number"
@@ -877,12 +881,14 @@ const Page = () => {
                             name="fee_per_month"
                             placeholder="$0.00 per month"
                           />
-                          <ErrorMessage
-                            name="fee_per_month"
-                            component="div"
-                            className="alert alert-danger"
-                          />
+                          <span class="dollar-text">$</span>
+                          <span class="Rangedays-text">/Month</span>
                         </div>
+                        <ErrorMessage
+                          name="fee_per_month"
+                          component="div"
+                          className="alert alert-danger"
+                        />
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">

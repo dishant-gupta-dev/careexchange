@@ -447,7 +447,7 @@ const JobPost = () => {
 
                     <div class="post-job-card">
                       <h3>Payment</h3>
-                      <div class="row">
+                      <div class="row findcare-form">
                         <div className="col-md-6">
                           <div className="form-group">
                             <h4>Type</h4>
@@ -544,20 +544,21 @@ const JobPost = () => {
                         </div>
 
                         <div class="col-md-6">
-                          <div class="form-group search-form-group-r">
+                          <div class="form-group search-form-group-r PerHour-form-group">
                             <h4>Amount</h4>
                             <Field
                               type="number"
                               className="form-control"
                               name="pay_range"
-                              placeholder="$0.00"
+                              placeholder="Enter Amount"
                             />
-                            <ErrorMessage
-                              name="pay_range"
-                              component="div"
-                              className="alert alert-danger"
-                            />
+                            <span class="dollar-text">$</span>
                           </div>
+                          <ErrorMessage
+                            name="pay_range"
+                            component="div"
+                            className="alert alert-danger"
+                          />
                         </div>
                       </div>
                     </div>
