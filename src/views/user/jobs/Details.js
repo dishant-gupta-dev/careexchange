@@ -168,10 +168,10 @@ const Details = () => {
                                   <div class="care-card-body">
                                     <div class="care-pricetag-content">
                                       <div class="care-price-text">
-                                        <div class="pricehour-text">
+                                        {/* <div class="pricehour-text">
                                           {ele?.care_providers_details?.fee ??
                                             "NA"}
-                                        </div>
+                                        </div> */}
                                         <div class="exp-text">
                                           {ele?.care_providers_details
                                             ?.experience ?? "NA"}
