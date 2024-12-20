@@ -883,55 +883,58 @@ const Register = () => {
                                   </div>
 
                                   <div class="col-md-6">
-                                    <div class="form-group search-form-group-r">
+                                    <div class="form-group search-form-group-r PerHour-form-group">
                                       <h4>Fees Per Hour</h4>
                                       <Field
                                         type="number"
                                         className="form-control"
                                         name="fee_per_hour"
-                                        placeholder="$0.00 per hour"
+                                        placeholder="Enter Fees"
                                       />
                                       <ErrorMessage
                                         name="fee_per_hour"
                                         component="div"
                                         className="alert alert-danger"
                                       />
+                                      <span class="dollar-text">$</span>
                                       <span class="Rangedays-text">/Hour</span>
                                     </div>
                                   </div>
 
                                   <div class="col-md-6">
-                                    <div class="form-group search-form-group-r">
+                                    <div class="form-group search-form-group-r PerHour-form-group">
                                       <h4>Fees Per Week</h4>
                                       <Field
                                         type="number"
                                         className="form-control"
                                         name="fee_per_week"
-                                        placeholder="$0.00 per week"
+                                        placeholder="Enter Fees"
                                       />
                                       <ErrorMessage
                                         name="fee_per_week"
                                         component="div"
                                         className="alert alert-danger"
                                       />
+                                      <span class="dollar-text">$</span>
                                       <span class="Rangedays-text">/Week</span>
                                     </div>
                                   </div>
 
                                   <div class="col-md-6">
-                                    <div class="form-group search-form-group-r">
+                                    <div class="form-group search-form-group-r PerHour-form-group">
                                       <h4>Fees Per Month</h4>
                                       <Field
                                         type="number"
                                         className="form-control"
                                         name="fee_per_month"
-                                        placeholder="$0.00 per month"
+                                        placeholder="Enter Fees"
                                       />
                                       <ErrorMessage
                                         name="fee_per_month"
                                         component="div"
                                         className="alert alert-danger"
                                       />
+                                      <span class="dollar-text">$</span>
                                       <span class="Rangedays-text">/Month</span>
                                     </div>
                                   </div>

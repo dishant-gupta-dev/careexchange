@@ -17945,11 +17945,12 @@ button.auth-form-btn {
 
 .loading {
   position: fixed;
-  top: 23%;
+  top: 21%;
   left: 0;
   background: hsl(0deg 0% 100% / 50%);
   right: 0;
   bottom: 0;
+  z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17964,6 +17965,7 @@ button.auth-form-btn {
   right: 0;
   bottom: 0;
   display: flex;
+  z-index: 99999;
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(5px);
@@ -17977,6 +17979,7 @@ button.auth-form-btn {
   right: 0;
   bottom: 0;
   display: flex;
+  z-index: 99999;
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(5px);

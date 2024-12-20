@@ -3,7 +3,7 @@ import LoaderImg from "../../assets/admin/images/loader.svg";
 const AuthLoader = () => {
   return (
     <>
-      <div className="admin-loading">
+      <div className="auth-loading">
         <span>
           <img src={LoaderImg} />
         </span>
