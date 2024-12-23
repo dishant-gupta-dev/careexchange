@@ -32,6 +32,7 @@ const JobPost = () => {
   let userData = JSON.parse(localStorage.getItem("careexchange"));
   const [categories, setCategory] = useState([]);
   const [subCategories, setSubCategory] = useState([]);
+  const [jobRequestCount, setJobRequestCount] = useState(0);
 
   const getCategoryList = async (api) => {
     const response = await ApiService.getAPIWithAccessToken(api);
@@ -49,6 +50,16 @@ const JobPost = () => {
     if (response?.data?.status && response?.data?.statusCode === 200) {
       setSubCategory(response?.data?.data?.categories);
     } else setSubCategory([]);
+  };
+
+  const getJobRequestCount = async (api) => {
+    setLoading(true);
+    const response = await ApiService.getAPIWithAccessToken(api);
+    console.log("job request count => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setJobRequestCount(response.data.data.jobRequestCount);
+    } else setJobRequestCount(0);
+    setLoading(false);
   };
 
   const initialValues = {
@@ -175,6 +186,7 @@ const JobPost = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     getCategoryList(api.categoryList);
+    getJobRequestCount(api.jobRequestCount);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -182,10 +194,45 @@ const JobPost = () => {
     <>
       {loading ? <Loader /> : null}
       <div class="container">
-        <div class="carenetwork-section">
+        <div className="messages-tab">
+          <ul className="nav nav-tabs">
+            <li>
+              <Link class="btn-wh" to={routes.careNetwork}>
+                Find A Job
+              </Link>
+            </li>
+            <li>
+              <Link className="btn-wh active" to={routes.addPost}>
+                Post A Job
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.appliedJob} class="btn-wh">
+                {" "}
+                Applied Jobs
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.postedJob} class="btn-wh">
+                Posted Job
+              </Link>
+            </li>
+            <li className="position-relative">
+              <Link to={routes.jobRequest} className="btn-bl">
+                Job Requests
+              </Link>
+              {jobRequestCount != 0 &&
+              jobRequestCount != undefined &&
+              jobRequestCount != null ? (
+                <span class="bg-danger dots"></span>
+              ) : null}
+            </li>
+          </ul>
+        </div>
+        <div class="carenetwork-section mt-4 pt-3">
           <div class="care-title-header">
             <h2 class="heading-title">Post New Job</h2>
-            <div class="search-filter ">
+            {/* <div class="search-filter ">
               <div class="row g-2">
                 <div class="col-md-12">
                   <div class="form-group">
@@ -199,7 +246,7 @@ const JobPost = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div class="post-newjob-content">
             <div class="post-job-form">

@@ -141,6 +141,14 @@ const Details = () => {
                                             alt=""
                                             className="me-3"
                                           />
+                                        ) : ele.image === null ||
+                                          ele.image === "" ||
+                                          ele.image === undefined ? (
+                                          <img
+                                            src={NoImage}
+                                            alt=""
+                                            className="me-3"
+                                          />
                                         ) : (
                                           <img
                                             src={ele.image}
@@ -151,8 +159,10 @@ const Details = () => {
                                       </div>
                                       <div class="care-user-text">
                                         <div class="care-user-name">
-                                          {ele?.care_providers_details?.business_name
-                                            ? ele?.care_providers_details?.business_name
+                                          {ele?.care_providers_details
+                                            ?.business_name
+                                            ? ele?.care_providers_details
+                                                ?.business_name
                                             : ele?.fullname}
                                         </div>
                                         <div class="care-user-rating">
@@ -162,7 +172,9 @@ const Details = () => {
                                       </div>
                                     </div>
                                     <div>
-                                      {ele.user_type == 2 ? "Provider" : "Staff"}
+                                      {ele.user_type == 2
+                                        ? "Provider"
+                                        : "Staff"}
                                     </div>
                                   </div>
                                   <div class="care-card-body">
@@ -192,11 +204,24 @@ const Details = () => {
                                       </div>
                                     </div>
                                     <div className="text-center mt-2 w-100">
-                                      <Link className="viewmorebtn mx-1" to={routes.userMessage+`/${encode(ele?.provider_id)}`}>
+                                      <Link
+                                        className="viewmorebtn mx-1"
+                                        to={
+                                          routes.userMessage +
+                                          `/${encode(ele?.provider_id)}`
+                                        }
+                                      >
                                         <i className="fa fa-wechat"></i> Chat
                                       </Link>
-                                      <Link className="viewmorebtn mx-1" to={routes.userDetail + `/${encode(ele?.provider_id)}`}>
-                                        <i className="fa fa-eye"></i> View Profile
+                                      <Link
+                                        className="viewmorebtn mx-1"
+                                        to={
+                                          routes.userDetail +
+                                          `/${encode(ele?.provider_id)}`
+                                        }
+                                      >
+                                        <i className="fa fa-eye"></i> View
+                                        Profile
                                       </Link>
                                     </div>
                                   </div>
@@ -210,7 +235,9 @@ const Details = () => {
 
                   <div class="col-md-6">
                     <div class="jobs-details-info-card">
-                      <div class="jobs-details-phone">{details?.phone ?? "NA"}</div>
+                      <div class="jobs-details-phone">
+                        {details?.phone ?? "NA"}
+                      </div>
 
                       <div class="jobs-details-point">
                         <div class="jobs-details-point-item">
@@ -238,9 +265,7 @@ const Details = () => {
                   <div class="col-md-6">
                     <div class="jobs-details-desc-card">
                       <h3>Description</h3>
-                      <p>
-                        {details?.description ?? "NA"}
-                      </p>
+                      <p>{details?.description ?? "NA"}</p>
                     </div>
                   </div>
                 </div>

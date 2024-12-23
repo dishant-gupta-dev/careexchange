@@ -59,7 +59,7 @@ const Page = () => {
 
   const validationSchema = Yup.object().shape({
     full_name: Yup.string().required("Name is required!"),
-    mobile: Yup.string().min(10).required("Mobile is required!"),
+    mobile: Yup.string().min(10).required("Phone is required!"),
     email: Yup.string().email().required("Email is required!"),
   });
 

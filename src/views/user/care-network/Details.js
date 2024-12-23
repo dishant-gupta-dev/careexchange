@@ -29,14 +29,14 @@ const Details = () => {
   let userData = JSON.parse(localStorage.getItem("careexchange"));
 
   const initialValues = {
-    full_name: "",
-    mobile: "",
-    email: "",
+    full_name: userData.fullname ?? "",
+    mobile: userData.mobile ?? "",
+    email: userData.email ?? "",
   };
 
   const validationSchema = Yup.object().shape({
     full_name: Yup.string().required("Name is required!"),
-    mobile: Yup.string().required("Mobile is required!"),
+    mobile: Yup.string().required("Phone is required!"),
     email: Yup.string().email().required("Email is required!"),
   });
 
