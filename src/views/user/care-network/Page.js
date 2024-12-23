@@ -20,12 +20,17 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
-import { CommonMiles, GeolocationApiKey, SingleFile } from "../../../utlis/common.utlis";
+import {
+  CommonMiles,
+  GeolocationApiKey,
+  SingleFile,
+} from "../../../utlis/common.utlis";
 
 const Page = () => {
   const inputRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
+  const [jobRequestCount, setJobRequestCount] = useState(0);
   const [careNetwork, setCareNetwork] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [file, setFile] = useState();
@@ -80,6 +85,16 @@ const Page = () => {
     if (response?.data?.status && response?.data?.statusCode === 200) {
       setSubCategory(response?.data?.data?.categories);
     } else setSubCategory([]);
+  };
+
+  const getJobRequestCount = async (api) => {
+    setLoading(true);
+    const response = await ApiService.getAPIWithAccessToken(api);
+    console.log("job request count => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setJobRequestCount(response.data.data.jobRequestCount);
+    } else setJobRequestCount(0);
+    setLoading(false);
   };
 
   const getCareNetwork = async (api) => {
@@ -223,7 +238,9 @@ const Page = () => {
         // console.log(`Longitude: ${crd.longitude}`);
         // console.log(`More or less ${JSON.stringify(crd)} meters.`);
         fetch(
-          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat ?? crd.latitude},${location.lng ?? crd.longitude}&key=${GeolocationApiKey}`
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${
+            location.lat ?? crd.latitude
+          },${location.lng ?? crd.longitude}&key=${GeolocationApiKey}`
         )
           .then((response) => response.json())
           .then((data) => {
@@ -259,6 +276,7 @@ const Page = () => {
     getCurrentAddress();
     // getCareNetwork(api.careNetworkList);
     getCategoryList(api.categoryList);
+    getJobRequestCount(api.jobRequestCount);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -289,10 +307,15 @@ const Page = () => {
                 Posted Job
               </Link>
             </li>
-            <li>
+            <li className="position-relative">
               <Link to={routes.jobRequest} className="btn-wh">
                 Job Requests
               </Link>
+              {jobRequestCount != 0 &&
+              jobRequestCount != undefined &&
+              jobRequestCount != null ? (
+                <span class="bg-danger dots"></span>
+              ) : null}
             </li>
           </ul>
         </div>

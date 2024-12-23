@@ -19,6 +19,7 @@ const AppliedJob = () => {
   const [loading, setLoading] = useState(false);
   const [appliedJob, setAppliedJob] = useState([]);
   const [startDate, setStartDate] = useState("");
+  const [jobRequestCount, setJobRequestCount] = useState(0);
 
   const getAppliedJob = async (api) => {
     setLoading(true);
@@ -27,6 +28,16 @@ const AppliedJob = () => {
     if (response.data.status && response.data.statusCode === 200) {
       setAppliedJob(response.data.data.appliedjobList);
     } else setAppliedJob([]);
+    setLoading(false);
+  };
+
+  const getJobRequestCount = async (api) => {
+    setLoading(true);
+    const response = await ApiService.getAPIWithAccessToken(api);
+    console.log("job request count => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setJobRequestCount(response.data.data.jobRequestCount);
+    } else setJobRequestCount(0);
     setLoading(false);
   };
 
@@ -43,6 +54,7 @@ const AppliedJob = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     getAppliedJob(api.appliedJob);
+    getJobRequestCount(api.jobRequestCount);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -73,10 +85,15 @@ const AppliedJob = () => {
                 Posted Job
               </Link>
             </li>
-            <li>
+            <li className="position-relative">
               <Link to={routes.jobRequest} className="btn-bl">
                 Job Requests
               </Link>
+              {jobRequestCount != 0 &&
+              jobRequestCount != undefined &&
+              jobRequestCount != null ? (
+                <span class="bg-danger dots"></span>
+              ) : null}
             </li>
           </ul>
         </div>
@@ -145,9 +162,7 @@ const AppliedJob = () => {
                           <div class="care-date">
                             Posted On:{" "}
                             <span>
-                              {moment(ele.created_date).format(
-                                "MM-DD-yyyy"
-                              )}
+                              {moment(ele.created_date).format("MM-DD-yyyy")}
                             </span>
                           </div>
                         </div>
@@ -167,12 +182,17 @@ const AppliedJob = () => {
                               </div>
                               <div class="jobs-point-item">
                                 <img src={Dollar} /> Salary:
-                                <span className="text-capitalize">{ele.currency ?? "$"}{ele.pay_range ?? "$0"}/{ele.pay_range_type ?? ""}</span>
+                                <span className="text-capitalize">
+                                  {ele.currency ?? "$"}
+                                  {ele.pay_range ?? "$0"}/
+                                  {ele.pay_range_type ?? ""}
+                                </span>
                               </div>
                               <div class="jobs-point-item">
                                 <img src={SuitCase} /> Work Exp:
                                 <span>
-                                  {ele.working_expirence ?? "NA"} Years Experience{" "}
+                                  {ele.working_expirence ?? "NA"} Years
+                                  Experience{" "}
                                 </span>
                               </div>
                             </div>

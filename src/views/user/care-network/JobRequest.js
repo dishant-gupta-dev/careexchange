@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import { encode } from "base-64";
+import toast from "react-hot-toast";
 
 const JobRequest = () => {
   const navigate = useNavigate();
@@ -39,6 +40,16 @@ const JobRequest = () => {
     } else setMyJob([]);
   };
 
+   const getJobRequestSeen = async (api) => {
+      setLoading(true);
+      const response = await ApiService.getAPIWithAccessToken(api);
+      console.log("job request count => ", response.data);
+      if (response.data.status && response.data.statusCode === 200) {
+        // toast.success(response.data.message);
+      }
+      setLoading(false);
+    };
+
   const handleFilter = (e, fromDate = null, toDate = null) => {
     e.persist();
     let name = "";
@@ -58,6 +69,7 @@ const JobRequest = () => {
     window.scrollTo(0, 0);
     getJobRequest(api.jobRequest);
     getMyJob(api.postedJob);
+    getJobRequestSeen(api.jobRequestSeen);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

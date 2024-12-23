@@ -29,6 +29,8 @@ exports.api = {
     applyJob: `job/apply`,
     careNetworkDetail: `provider/posted/job/detail/`,
     jobRequest: `user/job/requested`,
+    jobRequestCount: `user/job/requested/count`,
+    jobRequestSeen: `user/job/requested/seen`,
     appliedJob: `job/applied-list`,
     addPost: `job/post`,
     deletePost: `job/post/`,
