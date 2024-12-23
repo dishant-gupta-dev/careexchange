@@ -142,12 +142,10 @@ const Page = () => {
   };
 
   const updateProfile = async (formValue) => {
-    console.log(edit);
-
     setLoading(true);
     let form = new FormData();
     form.append("service_id", formValue.sub_category);
-    form.append("username", formValue.name);
+    form.append("fullname", formValue.name);
     form.append("phone", formValue.phone);
     form.append("description", formValue.description);
     form.append("fee_per_hour", formValue.fee_per_hour);
@@ -187,7 +185,6 @@ const Page = () => {
     }
     setLoading(false);
   };
-  console.log(details);
 
   const deleteAccount = async () => {
     setLoading(true);
