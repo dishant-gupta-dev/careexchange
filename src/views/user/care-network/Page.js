@@ -223,7 +223,7 @@ const Page = () => {
         // console.log(`Longitude: ${crd.longitude}`);
         // console.log(`More or less ${JSON.stringify(crd)} meters.`);
         fetch(
-          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${crd.latitude},${crd.longitude}&key=${GeolocationApiKey}`
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat ?? crd.latitude},${location.lng ?? crd.longitude}&key=${GeolocationApiKey}`
         )
           .then((response) => response.json())
           .then((data) => {
