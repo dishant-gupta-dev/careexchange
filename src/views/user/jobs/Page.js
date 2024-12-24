@@ -21,7 +21,7 @@ const Page = () => {
   const getJobs = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log("all my jobs => ", response.data);
+    // console.log("all my jobs => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setJobs(response.data.data.myjobList);
     } else setJobs([]);

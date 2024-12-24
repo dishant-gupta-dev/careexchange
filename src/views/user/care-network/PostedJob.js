@@ -37,7 +37,7 @@ const PostedJob = () => {
   const getJobRequestCount = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log("job request count => ", response.data);
+    // console.log("job request count => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setJobRequestCount(response.data.data.jobRequestCount);
     } else setJobRequestCount(0);
