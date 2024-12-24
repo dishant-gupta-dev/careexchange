@@ -20,7 +20,7 @@ import { routes } from "../../../utlis/user/routes.utlis";
 
 const FindCare = () => {
   const navigate = useNavigate();
-  const { address, lat, lng, cat } = useParams();
+  const { address, lat, lng } = useParams();
   const [tab, setTab] = useState(1);
   const [total, setTotal] = useState(0);
   const inputRef = useRef(null);
@@ -28,8 +28,8 @@ const FindCare = () => {
   const [categories, setCategory] = useState([]);
   const [subCategories, setSubCategory] = useState([]);
   const [providers, setProvider] = useState([]);
-  const [selectRadius, setSelectRadius] = useState(cat ? "200" : "");
-  const [selectCategories, setSelectCategory] = useState(cat ?? "");
+  const [selectRadius, setSelectRadius] = useState("");
+  const [selectCategories, setSelectCategory] = useState("");
   const [selectSubCategories, setSelectSubCategory] = useState("");
   const [serviceId, setServiceId] = useState();
   const [startDate, setStartDate] = useState("");
@@ -223,7 +223,7 @@ const FindCare = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     getCategoryList(api.categoryList);
-    getSubCategoryList(cat ?? "");
+    getSubCategoryList("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

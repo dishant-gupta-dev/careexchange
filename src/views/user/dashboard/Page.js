@@ -288,8 +288,8 @@ const Page = () => {
                   return (
                     <div key={indx} className="col-md-2">
                       <Link
-                        to={`${routes.findCare}/${location.lat ?? null}/${
-                          location.lng ?? null
+                        to={`${routes.findCareHomeAss}/${location.lat}/${
+                          location.lng
                         }/${location.address ?? null}/${ele.id}`}
                       >
                         <div className="careservices-card">
@@ -325,7 +325,7 @@ const Page = () => {
                   return (
                     <div
                       key={indx}
-                      className="col-md-4"
+                      className="col-md-4 mb-3"
                       onClick={(e) => {
                         e.preventDefault();
                         navigate(routes.userDetail + `/${encode(ele.id)}`);
@@ -363,25 +363,30 @@ const Page = () => {
                               </div>
                             </div>
                           </div>
-                          <div style={{ color: "green" }}>
+                          <div className="strip-text">
                             {ele.user_type == 2 ? "Provider" : "Staff"}
                           </div>
                         </div>
                         <div className="care-card-body">
-                          <div className="care-pricetag-content">
+                          <div className="d-flex flex-column align-items-start">
                             <div className="care-price-text">
                               {/* <div className="pricehour-text">
                                 {ele.fee ?? "NA"}
                               </div> */}
-                              <div className="exp-text">
+                              <div className="exp-text mb-1">
                                 {ele.experience ?? 0} Years Experience
                               </div>
                             </div>
-                            <div className="care-tag-text">
-                              {ele.category ?? "NA"}
+                            <div>
+                              <div className="tags-item">
+                                {ele.category ?? "NA"}
+                              </div>
+                              <div className="tags-item-sub">
+                                {ele.subcategory ?? "NA"}
+                              </div>
                             </div>
                           </div>
-                          <div className="care-point-box">
+                          <div className="care-point-box mt-2">
                             <div className="care-point-icon">
                               <img src={Map} />
                             </div>
@@ -408,7 +413,7 @@ const Page = () => {
             {dashboard?.advertisementList.length !== 0
               ? dashboard?.advertisementList.map((ele, indx) => {
                   return (
-                    <div key={indx} className="col-md-4 mt-2">
+                    <div key={indx} className="col-md-4 mt-2 mb-3">
                       <div className="advertisement-card">
                         <div className="advertisement-user-image">
                           {ele.image === null ||

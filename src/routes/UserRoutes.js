@@ -45,12 +45,12 @@ var UserRoutes = [
         component: ProviderDetail
     },
     {
-        path: routes.findCare+"/:lat?/:lng?/:address?/:cat?",
+        path: routes.findCare+"/:lat?/:lng?/:address?",
         layout: UserLayout,
         component: FindCare
     },
     {
-        path: routes.findCareHomeAss+"/:lat?/:lng?/:address?",
+        path: routes.findCareHomeAss+"/:lat?/:lng?/:address?/:cat?",
         layout: UserLayout,
         component: FindCareHomeAss
     },

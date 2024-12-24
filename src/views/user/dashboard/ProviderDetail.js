@@ -63,7 +63,7 @@ const ProviderDetail = () => {
               <div class="providerProfile-section">
                 <div class="user-table-item">
                   <div class="row g-1 align-items-center">
-                    <div class="col-md-4">
+                    <div class="col-md-7">
                       <div class="user-profile-item">
                         <div class="user-profile-media">
                           {details?.logo !== null &&
@@ -94,9 +94,9 @@ const ProviderDetail = () => {
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-5">
                       <div class="row g-1 align-items-center">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                           <div class="user-contact-info">
                             <div class="user-contact-info-icon">
                               <img src={StarImg} />
@@ -111,7 +111,7 @@ const ProviderDetail = () => {
                           </div>
                         </div>
 
-                        <div class="col-md-4">
+                        {/* <div class="col-md-4">
                           <div class="user-contact-info">
                             <div class="user-contact-info-icon">
                               <img src={DollarImg} />
@@ -121,8 +121,9 @@ const ProviderDetail = () => {
                               <p>{details?.fee ?? "NA"}</p>
                             </div>
                           </div>
-                        </div>
-                        <div class="col-md-4">
+                        </div> */}
+
+                        <div class="col-md-6">
                           <div class="user-contact-info">
                             <div class="user-contact-info-icon">
                               <img src={BriefcaseImg} />
@@ -188,16 +189,11 @@ const ProviderDetail = () => {
 
                 <div class="providerprofile-about">
                   <h2>Offering Services</h2>
-                  <div class="providerprofile-tag-list">
-                    {details?.offeringService?.length !== 0
-                      ? details?.offeringService?.map((ele, indx) => {
-                          return (
-                            <div key={indx} class="providerprofile-tag mx-1">
-                              {ele.category ?? "NA"}
-                            </div>
-                          );
-                        })
-                      : null}
+                  <div>
+                    <div className="tags-item">{details?.category ?? "NA"}</div>
+                    <div className="tags-item-sub">
+                      {details?.subcategory ?? "NA"}
+                    </div>
                   </div>
                 </div>
 
@@ -271,7 +267,6 @@ const ProviderDetail = () => {
                     </div>
                   )}
                 </div> */}
-
               </div>
             </div>
           </div>

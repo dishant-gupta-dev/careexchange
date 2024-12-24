@@ -5,6 +5,7 @@ import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import { decode, encode } from "base-64";
 import moment from "moment";
+import WhCalen from "../../../assets/user/images/whcalendar.svg";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import { status } from "../../../utlis/common.utlis";
 import { routes } from "../../../utlis/user/routes.utlis";
@@ -20,6 +21,7 @@ const Details = () => {
   const getAdsDetails = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
+    console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data);
     } else setDetails();
@@ -37,7 +39,7 @@ const Details = () => {
       <div class="container">
         <div class="carenetwork-section">
           <div className="care-title-header">
-            <h2 className="heading-title"></h2>
+            <h2 className="heading-title">Advertisement Detail</h2>
             <div class="search-filter">
               <div class="row g-2">
                 <div class="col-md-12">
@@ -85,29 +87,37 @@ const Details = () => {
 
             <div class="col-md-7">
               <div class="advertisement-deatils-content">
-                <div class="strip-text">Advertisement</div>
                 <div class="title-text">{details?.title ?? "NA"}</div>
-                <div class="date-text">
-                  Posted On{" "}
-                  {moment(details?.created_date).format("MM-DD-yyyy hh:mm A")}
+                <div class="date-text mb-2">
+                  <img src={WhCalen} />{" "}
+                  {moment(details?.created_date).format("MM-DD-yyyy")}
                 </div>
-                <div class="tags-list">
+                <div class="tags-list mb-1">
                   {details?.tags?.length !== 0
                     ? details?.tags?.map((ele, indx) => {
-                        return <div class="tags-item">{ele.name ?? "NA"}</div>;
+                        return (
+                          <div key={indx} class="tags-item">
+                            {ele.name ?? "NA"}
+                          </div>
+                        );
                       })
                     : null}
                 </div>
-
-                <div class="advertisement-desc">
+                <div>
+                  <div className="tags-item-sub">
+                    {details?.category ?? "NA"}
+                  </div>
+                  <div className="tags-item-sub mx-1">
+                    {details?.subcategory ?? "NA"}
+                  </div>
+                </div>
+                <div class="advertisement-desc mt-2">
                   <p>{details?.description ?? "NA"}</p>
                 </div>
                 <div class="advertisement-action mt-2">
-                  {details?.createdBy?.user_type === null ||
-                  details?.createdBy?.user_type === undefined ||
-                  details?.createdBy?.user_type === "" ? null : details
-                      ?.createdBy?.user_type == 4 ? null : details?.createdBy
-                      ?.user_type == 2 ? (
+                  {details?.createdBy?.provider_id === null ||
+                  details?.createdBy?.provider_id === undefined ||
+                  details?.createdBy?.provider_id === "" ? null : (
                     <button
                       type="button"
                       className="btn-gr"
@@ -121,14 +131,10 @@ const Details = () => {
                     >
                       View Profile
                     </button>
-                  ) : (
-                    <button type="button" className="btn-gr">
-                      View Profile
-                    </button>
                   )}
-                  <Link class="btn-bl mx-1" to="">
+                  {/* <Link class="btn-bl mx-1" to="">
                     Contact
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>

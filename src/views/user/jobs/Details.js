@@ -245,7 +245,7 @@ const Details = () => {
                       <div class="jobs-details-point">
                         <div class="jobs-details-point-item">
                           <h4>Best Time To Call: </h4>
-                          <p>{details?.best_time_to_call ?? "NA"}</p>
+                          <p className="text-capitalize">{details?.best_time_to_call ?? "NA"}</p>
                         </div>
                         <div class="jobs-details-point-item">
                           <h4>Relationship: </h4>
