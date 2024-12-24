@@ -30,7 +30,7 @@ const Page = () => {
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Name is required!"),
-    mobile: Yup.string().min(10).required("Mobile is required!"),
+    mobile: Yup.string().min(14, 'Phone is invalid').required("Mobile is required!"),
   });
 
   const initialValuesImg = {

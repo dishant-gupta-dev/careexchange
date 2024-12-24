@@ -86,7 +86,7 @@ const FindCare = () => {
     prefer: Yup.string().required("Prefered Contact is required!"),
     gender: Yup.string().required("Gender is required!"),
     email: Yup.string().required("Email is required!"),
-    phone: Yup.string().min(10).required("Phone is required!"),
+    phone: Yup.string().min(14, 'Phone is invalid').required("Phone is required!"),
     age: Yup.string().required("Age is required!"),
     frequency: Yup.string().required("Frequency is required!"),
     relationship: Yup.string().required("Relationship is required!"),

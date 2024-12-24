@@ -86,7 +86,7 @@ const JobPost = () => {
     pay_range_type: Yup.string().required("Payment type is required!"),
     name: Yup.string().required("Name is required!"),
     email: Yup.string().required("Email is required!"),
-    phone: Yup.string().min(10).required("Phone is required!"),
+    phone: Yup.string().min(14, 'Phone is invalid').required("Phone is required!"),
     experience: Yup.string().required("Working Experience is required!"),
     sub_category: Yup.string().required("Care Sub Category is required!"),
   });

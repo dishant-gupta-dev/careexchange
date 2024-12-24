@@ -118,7 +118,7 @@ const Register = () => {
     sub_category: Yup.string().required("Sub Category is required!"),
     name: Yup.string().required("Name is required!"),
     email: Yup.string().required("Email is required!"),
-    phone: Yup.string().min(10).required("Phone is required!"),
+    phone: Yup.string().min(14, 'Phone is invalid').required("Phone is required!"),
     free_in_home_assessment: Yup.string().required(
       "In-Home assessment is required!"
     ),

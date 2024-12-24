@@ -37,7 +37,7 @@ const Details = () => {
 
   const validationSchema = Yup.object().shape({
     full_name: Yup.string().required("Name is required!"),
-    mobile: Yup.string().required("Phone is required!"),
+    mobile: Yup.string().min(14, 'Phone is invalid').required("Phone is required!"),
     email: Yup.string().email().required("Email is required!"),
   });
 
