@@ -52,69 +52,7 @@ const LoginForm = () => {
   return (
     <>
       {loading ? <Loader /> : null}
-      <Formik
-        initialValues={initialValues}
-        validateOnChange={true}
-        validationSchema={validationSchema}
-        onSubmit={authenticate}
-      >
-        <Form className="pt-3">
-          <div className="form-group">
-            <Field
-              type="email"
-              className="form-control form-control-lg mt-2"
-              name="email"
-              placeholder="Enter Email ID"
-            />
-            <ErrorMessage
-              name="email"
-              component="div"
-              className="alert alert-danger"
-            />
-          </div>
-          <div className="form-group">
-            <Field
-              type="password"
-              className="form-control form-control-lg mt-2"
-              name="password"
-              placeholder="Enter Password"
-            />
-            <ErrorMessage
-              name="password"
-              component="div"
-              className="alert alert-danger"
-            />
-          </div>
-          <div className="mt-3 d-grid gap-2">
-            <button
-              type="submit"
-              className="auth-form-btn"
-            >
-              LOGIN
-            </button>
-          </div>
-          {/* <div className="my-2 d-flex justify-content-between align-items-center">
-            <a href="#" className="auth-link text-primary">
-              Forgot password?
-            </a>
-          </div> */}
-
-          {/* <div className="text-center mt-4 font-weight-light">
-            {" "}
-            Don't have an account?{" "}
-            <a href="register.html" className="text-primary">
-              Create
-            </a>
-          </div> */}
-        </Form>
-      </Formik>
-      {message && (
-        <div className="form-group text-center mt-4 mb-0" style={{fontSize: "0.9rem"}}>
-          <div className="alert alert-danger" role="alert">
-            {message}
-          </div>
-        </div>
-      )}
+      
     </>
   );
 };

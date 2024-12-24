@@ -204,15 +204,18 @@ const Details = () => {
                                       </div>
                                     </div>
                                     <div className="text-center mt-2 w-100">
-                                      <Link
-                                        className="viewmorebtn mx-1"
-                                        to={
-                                          routes.userMessage +
-                                          `/${encode(ele?.provider_id)}`
-                                        }
-                                      >
-                                        <i className="fa fa-wechat"></i> Chat
-                                      </Link>
+                                      {ele?.chatStatus == "true" ? (
+                                        <Link
+                                          className="viewmorebtn mx-1"
+                                          to={
+                                            routes.userMessage +
+                                            `/${encode(ele?.provider_id)}`
+                                          }
+                                        >
+                                          <i className="fa fa-wechat"></i> gChat
+                                        </Link>
+                                      ) : null}
+
                                       <Link
                                         className="viewmorebtn mx-1"
                                         to={

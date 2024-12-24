@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import GmapImg from "../../../assets/user/images/Google_Maps_icon.svg";
-import LocImg from "../../../assets/user/images/location.svg";
+import LocImge from "../../../assets/user/images/location.svg";
 import Logo from "../../../assets/user/images/logo.svg";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { api } from "../../../utlis/staff/api.utlis";
@@ -529,7 +529,7 @@ const Register = () => {
                                               />
                                               <label for="10miles">
                                                 <span className="checkbox-text">
-                                                  <img src={LocImg} /> 10 Miles{" "}
+                                                  <img src={LocImge} /> 10 Miles{" "}
                                                 </span>
                                               </label>
                                             </div>
@@ -544,7 +544,7 @@ const Register = () => {
                                               />
                                               <label for="20miles">
                                                 <span className="checkbox-text">
-                                                  <img src={LocImg} /> 20 Miles{" "}
+                                                  <img src={LocImge} /> 20 Miles{" "}
                                                 </span>
                                               </label>
                                             </div>
@@ -560,7 +560,7 @@ const Register = () => {
                                               />
                                               <label for="30miles">
                                                 <span className="checkbox-text">
-                                                  <img src={LocImg} /> 30 Miles{" "}
+                                                  <img src={LocImge} /> 30 Miles{" "}
                                                 </span>
                                               </label>
                                             </div>
@@ -576,7 +576,7 @@ const Register = () => {
                                               />
                                               <label for="50miles">
                                                 <span className="checkbox-text">
-                                                  <img src={LocImg} /> 50 Miles{" "}
+                                                  <img src={LocImge} /> 50 Miles{" "}
                                                 </span>
                                               </label>
                                             </div>
@@ -592,7 +592,7 @@ const Register = () => {
                                               />
                                               <label for="100miles">
                                                 <span className="checkbox-text">
-                                                  <img src={LocImg} /> 100 Miles{" "}
+                                                  <img src={LocImge} /> 100 Miles{" "}
                                                 </span>
                                               </label>
                                             </div>
@@ -608,7 +608,7 @@ const Register = () => {
                                               />
                                               <label for="200miles">
                                                 <span className="checkbox-text">
-                                                  <img src={LocImg} /> 200 Miles{" "}
+                                                  <img src={LocImge} /> 200 Miles{" "}
                                                 </span>
                                               </label>
                                             </div>
@@ -624,7 +624,7 @@ const Register = () => {
                                               />
                                               <label for="300miles">
                                                 <span className="checkbox-text">
-                                                  <img src={LocImg} /> 300 Miles{" "}
+                                                  <img src={LocImge} /> 300 Miles{" "}
                                                 </span>
                                               </label>
                                             </div>
@@ -640,7 +640,7 @@ const Register = () => {
                                               />
                                               <label for="1000miles">
                                                 <span className="checkbox-text">
-                                                  <img src={LocImg} /> 1000
+                                                  <img src={LocImge} /> 1000
                                                   Miles{" "}
                                                 </span>
                                               </label>

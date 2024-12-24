@@ -1189,7 +1189,7 @@ const FindCare = () => {
                                   Clear All
                                 </button>
                                 <button className="btn-gr" type="submit">
-                                  Submit & Find Care Provider
+                                  Submit
                                 </button>
                               </div>
                             </div>
