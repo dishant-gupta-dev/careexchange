@@ -35,7 +35,7 @@ exports.api = {
     addPost: `job/post`,
     deletePost: `job/post/`,
     postedJob: `user/posted/job`,
-    newsletterList: `newsletter/subscriber-list`,
+    newsletterSubscribe: `newsletter/subscribe`,
     addNewsletter: `newsletter/add`,
     planList: `admin/plan`,
     categoryList: `category/list`,

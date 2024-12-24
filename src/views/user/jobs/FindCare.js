@@ -40,18 +40,20 @@ const FindCare = () => {
     address: address ?? null,
   });
 
+  let userData = JSON.parse(localStorage.getItem("careexchange"));
+
   const initialFirstValues = {
     radius: selectRadius ?? "",
     sub_category: selectSubCategories ?? "",
   };
 
   const initialSecondValues = {
-    fname: "",
-    lname: "",
+    fname: (userData.fullname != "" || userData.fullname != null || userData.fullname != undefined) ? userData.fullname.split(" ")[0] : "",
+    lname: (userData.fullname != "" || userData.fullname != null || userData.fullname != undefined) ? userData.fullname.split(" ")[1] : "",
     prefer: "",
     gender: "",
-    email: "",
-    phone: "",
+    email: userData.email ?? "",
+    phone: userData.mobile ?? "",
     fax: "",
     age: "",
     frequency: "",
@@ -200,6 +202,15 @@ const FindCare = () => {
     for (let i in categories) {
       if (categories[i].id == id) {
         return categories[i].name;
+      }
+    }
+    return null;
+  }
+
+  function findSubCategory(id) {
+    for (let i in subCategories) {
+      if (subCategories[i].id == id) {
+        return subCategories[i].name;
       }
     }
     return null;
@@ -564,10 +575,20 @@ const FindCare = () => {
                           <div className="row">
                             <div className="col-md-12">
                               <div className="form-group">
-                                <h4>Care Category</h4>
+                                {/* <h4>Care Category</h4> */}
                                 <div className="category-card">
                                   <div className="category-card-content">
-                                    <h2>{findCategory(selectCategories)}</h2>
+                                    <div>
+                                      <div className="tags-item">
+                                        {findCategory(selectCategories)}
+                                      </div>
+                                      <div className="tags-item-sub mx-1">
+                                        {findSubCategory(selectSubCategories)}
+                                      </div>
+                                      <div className="exp-text">
+                                        {selectRadius + " Miles"}
+                                      </div>
+                                    </div>
                                     {/* <h5>Care For Marry Lane</h5> */}
                                     <div className="location-adress-text">
                                       <img src={GmapImg} />{" "}

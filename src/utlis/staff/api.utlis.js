@@ -12,7 +12,7 @@ exports.api = {
     dashboard: `provider/home`,
     userChatList: `provider/chat/user-list`,
     userBookingList: `provider/booking/list`,
-    newsletterList: `newsletter/subscriber-list`,
+    newsletterSubscribe: `newsletter/subscribe`,
     addNewsletter: `newsletter/add`,
     planList: `admin/plan`,
     profile: `user/profile`,

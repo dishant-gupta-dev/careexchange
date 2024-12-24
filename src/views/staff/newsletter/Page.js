@@ -9,12 +9,13 @@ import toast from "react-hot-toast";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
-  const [newsletter, setNewsletter] = useState([]);
+  const [newsletter, setNewsletter] = useState(false);
+  let userData = JSON.parse(localStorage.getItem("careexchange"));
 
   const initialValues = {
-    name: "",
-    phone: "",
-    email_address: "",
+    name: userData.fullname ?? "",
+    phone: userData.mobile ?? "",
+    email_address: userData.email ?? "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -23,13 +24,13 @@ const Page = () => {
     email_address: Yup.string().email().required("Email address is required!"),
   });
 
-  const getNewsletterList = async (api) => {
+  const getNewsletterSubscribe = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
     // console.log("all posted job => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
-      setNewsletter(response.data.data.subscribers);
-    } else setNewsletter([]);
+      setNewsletter(response.data.data.isSubscribe);
+    } else setNewsletter(false);
     setLoading(false);
   };
 
@@ -45,6 +46,7 @@ const Page = () => {
       form
     );
     if (response.data.status) {
+      getNewsletterSubscribe(api.newsletterSubscribe);
       toast.success(response.data.message);
       document.getElementById("newsletter-form").reset();
     } else {
@@ -54,7 +56,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    getNewsletterList(api.newsletterList);
+    getNewsletterSubscribe(api.newsletterSubscribe);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -78,10 +80,10 @@ const Page = () => {
                         <div class="auth-form">
                           <h2>Subscribe</h2>
                           <p>Subscribe To Our Newsletter & Stay Updated</p>
-                          {newsletter.length !== 0 ? (
-                            <h3 className="mt-2">
-                              Newsletter Already Subscribed
-                            </h3>
+                          {newsletter ? (
+                            <h5 className="mt-2">
+                              Newsletter subscription already confirmed
+                            </h5>
                           ) : (
                             <Formik
                               initialValues={initialValues}
