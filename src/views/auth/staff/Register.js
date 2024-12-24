@@ -24,6 +24,7 @@ import toast from "react-hot-toast";
 import moment from "moment";
 import { routes } from "../../../utlis/staff/routes.utlis";
 import jpgImg from "../../../assets/provider/images/1.jpg";
+import InputMask from "react-input-mask";
 import OtpInput from "react-otp-input";
 import Select from "react-select";
 
@@ -472,17 +473,23 @@ const Register = () => {
                                   <div className="col-md-6">
                                     <div className="form-group">
                                       <h4>Phone</h4>
-                                      <Field
-                                        type="text"
-                                        className="form-control"
-                                        name="phone"
-                                        placeholder="Enter Phone"
-                                        maxlength={10}
-                                        value={values.phone.replace(
-                                          /(\d{3})(\d{3})(\d{4})/,
-                                          "($1) $2-$3"
+                                      <Field name="phone">
+                                        {({ field }) => (
+                                          <InputMask
+                                            {...field}
+                                            mask="(999) 999-9999"
+                                            className="form-control"
+                                            maskChar=""
+                                            onChange={(e) => {
+                                              setFieldValue(
+                                                field.name,
+                                                e.target.value
+                                              );
+                                            }}
+                                            placeholder="Enter phone"
+                                          />
                                         )}
-                                      />
+                                      </Field>
                                       <ErrorMessage
                                         name="phone"
                                         component="div"
@@ -592,7 +599,8 @@ const Register = () => {
                                               />
                                               <label for="100miles">
                                                 <span className="checkbox-text">
-                                                  <img src={LocImge} /> 100 Miles{" "}
+                                                  <img src={LocImge} /> 100
+                                                  Miles{" "}
                                                 </span>
                                               </label>
                                             </div>
@@ -608,7 +616,8 @@ const Register = () => {
                                               />
                                               <label for="200miles">
                                                 <span className="checkbox-text">
-                                                  <img src={LocImge} /> 200 Miles{" "}
+                                                  <img src={LocImge} /> 200
+                                                  Miles{" "}
                                                 </span>
                                               </label>
                                             </div>
@@ -624,7 +633,8 @@ const Register = () => {
                                               />
                                               <label for="300miles">
                                                 <span className="checkbox-text">
-                                                  <img src={LocImge} /> 300 Miles{" "}
+                                                  <img src={LocImge} /> 300
+                                                  Miles{" "}
                                                 </span>
                                               </label>
                                             </div>

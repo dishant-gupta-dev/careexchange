@@ -17,6 +17,7 @@ import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import toast from "react-hot-toast";
 import moment from "moment";
 import { routes } from "../../../utlis/user/routes.utlis";
+import InputMask from "react-input-mask";
 
 const FindCare = () => {
   const navigate = useNavigate();
@@ -48,8 +49,18 @@ const FindCare = () => {
   };
 
   const initialSecondValues = {
-    fname: (userData.fullname != "" || userData.fullname != null || userData.fullname != undefined) ? userData.fullname.split(" ")[0] : "",
-    lname: (userData.fullname != "" || userData.fullname != null || userData.fullname != undefined) ? userData.fullname.split(" ")[1] : "",
+    fname:
+      userData.fullname != "" ||
+      userData.fullname != null ||
+      userData.fullname != undefined
+        ? userData.fullname.split(" ")[0]
+        : "",
+    lname:
+      userData.fullname != "" ||
+      userData.fullname != null ||
+      userData.fullname != undefined
+        ? userData.fullname.split(" ")[1]
+        : "",
     prefer: "",
     gender: "",
     email: userData.email ?? "",
@@ -781,17 +792,23 @@ const FindCare = () => {
                             <div className="col-md-4">
                               <div className="form-group">
                                 <h4>Phone</h4>
-                                <Field
-                                  type="text"
-                                  className="form-control"
-                                  name="phone"
-                                  placeholder="Enter Phone"
-                                  maxlength={10}
-                                  value={values.phone.replace(
-                                    /(\d{3})(\d{3})(\d{4})/,
-                                    "($1) $2-$3"
+                                <Field name="phone">
+                                  {({ field }) => (
+                                    <InputMask
+                                      {...field}
+                                      mask="(999) 999-9999"
+                                      className="form-control"
+                                      maskChar=""
+                                      onChange={(e) => {
+                                        setFieldValue(
+                                          field.name,
+                                          e.target.value
+                                        );
+                                      }}
+                                      placeholder="Enter phone"
+                                    />
                                   )}
-                                />
+                                </Field>
                                 <ErrorMessage
                                   name="phone"
                                   component="div"
@@ -803,17 +820,23 @@ const FindCare = () => {
                             <div className="col-md-4">
                               <div className="form-group">
                                 <h4>Fax Number</h4>
-                                <Field
-                                  type="text"
-                                  className="form-control"
-                                  name="fax"
-                                  placeholder="Enter Fax Number"
-                                  maxlength={10}
-                                  value={values.fax.replace(
-                                    /(\d{3})(\d{3})(\d{4})/,
-                                    "$1-$2-$3"
+                                <Field name="fax">
+                                  {({ field }) => (
+                                    <InputMask
+                                      {...field}
+                                      mask="999-999-9999"
+                                      className="form-control"
+                                      maskChar=""
+                                      onChange={(e) => {
+                                        setFieldValue(
+                                          field.name,
+                                          e.target.value
+                                        );
+                                      }}
+                                      placeholder="Enter fax number"
+                                    />
                                   )}
-                                />
+                                </Field>
                                 <ErrorMessage
                                   name="fax"
                                   component="div"

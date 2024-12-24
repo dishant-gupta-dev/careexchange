@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { routes } from "../../../utlis/provider/routes.utlis";
 import { GeolocationApiKey } from "../../../utlis/common.utlis";
+import InputMask from "react-input-mask";
 
 const JobPost = () => {
   const inputRef = useRef(null);
@@ -601,17 +602,20 @@ const JobPost = () => {
                         <div class="col-md-4">
                           <div class="form-group">
                             <h4>Phone</h4>
-                            <Field
-                              type="text"
-                              className="form-control"
-                              name="phone"
-                              placeholder="Enter Phone"
-                              maxlength={10}
-                              value={values.phone.replace(
-                                /(\d{3})(\d{3})(\d{4})/,
-                                "($1) $2-$3"
+                            <Field name="phone">
+                              {({ field }) => (
+                                <InputMask
+                                  {...field}
+                                  mask="(999) 999-9999"
+                                  className="form-control"
+                                  maskChar=""
+                                  onChange={(e) => {
+                                    setFieldValue(field.name, e.target.value);
+                                  }}
+                                  placeholder="Enter phone"
+                                />
                               )}
-                            />
+                            </Field>
                             <ErrorMessage
                               name="phone"
                               component="div"

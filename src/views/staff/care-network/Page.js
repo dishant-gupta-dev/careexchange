@@ -19,6 +19,7 @@ import { Modal, ModalBody, ModalHeader } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { CommonMiles, GeolocationApiKey } from "../../../utlis/common.utlis";
+import InputMask from "react-input-mask";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
 
@@ -469,17 +470,20 @@ const Page = () => {
                       />
                     </div>
                     <div className="form-group">
-                      <Field
-                        type="text"
-                        className="form-control"
-                        name="mobile"
-                        placeholder="Enter Phone"
-                        maxlength={10}
-                        value={values.mobile.replace(
-                          /(\d{3})(\d{3})(\d{4})/,
-                          "($1) $2-$3"
+                      <Field name="mobile">
+                        {({ field }) => (
+                          <InputMask
+                            {...field}
+                            mask="(999) 999-9999"
+                            className="form-control"
+                            maskChar=""
+                            onChange={(e) => {
+                              setFieldValue(field.name, e.target.value);
+                            }}
+                            placeholder="Enter phone"
+                          />
                         )}
-                      />
+                      </Field>
                       <ErrorMessage
                         name="mobile"
                         component="div"

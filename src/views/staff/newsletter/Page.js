@@ -6,6 +6,7 @@ import ApiService from "../../../core/services/ApiService";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
+import InputMask from "react-input-mask";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
@@ -121,17 +122,23 @@ const Page = () => {
                                     />
                                   </div>
                                   <div class="form-group">
-                                    <Field
-                                      type="text"
-                                      className="form-control"
-                                      name="phone"
-                                      placeholder="Enter Phone"
-                                      maxlength={10}
-                                      value={values.phone.replace(
-                                        /(\d{3})(\d{3})(\d{4})/,
-                                        "($1) $2-$3"
+                                    <Field name="phone">
+                                      {({ field }) => (
+                                        <InputMask
+                                          {...field}
+                                          mask="(999) 999-9999"
+                                          className="form-control"
+                                          maskChar=""
+                                          onChange={(e) => {
+                                            setFieldValue(
+                                              field.name,
+                                              e.target.value
+                                            );
+                                          }}
+                                          placeholder="Enter phone"
+                                        />
                                       )}
-                                    />
+                                    </Field>
                                     <ErrorMessage
                                       name="phone"
                                       component="div"

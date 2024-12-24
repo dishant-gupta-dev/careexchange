@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../../../store/slices/Auth";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
+import InputMask from "react-input-mask";
 import {
   GeolocationApiKey,
   MultipleFile,
@@ -479,17 +480,20 @@ const Page = () => {
                       <div className="col-md-6">
                         <div className="form-group">
                           <h4>Phone</h4>
-                          <Field
-                            type="text"
-                            className="form-control"
-                            name="phone"
-                            placeholder="Enter Phone"
-                            maxlength={10}
-                            value={values.phone.replace(
-                              /(\d{3})(\d{3})(\d{4})/,
-                              "($1) $2-$3"
+                          <Field name="phone">
+                            {({ field }) => (
+                              <InputMask
+                                {...field}
+                                mask="(999) 999-9999"
+                                className="form-control"
+                                maskChar=""
+                                onChange={(e) => {
+                                  setFieldValue(field.name, e.target.value);
+                                }}
+                                placeholder="Enter phone"
+                              />
                             )}
-                          />
+                          </Field>
                           <ErrorMessage
                             name="phone"
                             component="div"

@@ -11,6 +11,7 @@ import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import InputMask from "react-input-mask";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 
@@ -237,17 +238,20 @@ const Details = () => {
                       />
                     </div>
                     <div class="form-group">
-                      <Field
-                        type="text"
-                        className="form-control"
-                        name="mobile"
-                        placeholder="Enter Phone"
-                        maxlength={10}
-                        value={values.mobile.replace(
-                          /(\d{3})(\d{3})(\d{4})/,
-                          "($1) $2-$3"
+                      <Field name="mobile">
+                        {({ field }) => (
+                          <InputMask
+                            {...field}
+                            mask="(999) 999-9999"
+                            className="form-control"
+                            maskChar=""
+                            onChange={(e) => {
+                              setFieldValue(field.name, e.target.value);
+                            }}
+                            placeholder="Enter phone"
+                          />
                         )}
-                      />
+                      </Field>
                       <ErrorMessage
                         name="mobile"
                         component="div"

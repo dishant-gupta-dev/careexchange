@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../../../store/slices/Auth";
 import { SingleFile } from "../../../utlis/common.utlis";
+import InputMask from "react-input-mask";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
@@ -317,17 +318,20 @@ const Page = () => {
                       />
                     </div>
                     <div className="form-group">
-                      <Field
-                        type="text"
-                        className="form-control"
-                        name="mobile"
-                        placeholder="Enter Phone"
-                        maxlength={10}
-                        value={values.mobile.replace(
-                          /(\d{3})(\d{3})(\d{4})/,
-                          "($1) $2-$3"
+                      <Field name="mobile">
+                        {({ field }) => (
+                          <InputMask
+                            {...field}
+                            mask="(999) 999-9999"
+                            className="form-control"
+                            maskChar=""
+                            onChange={(e) => {
+                              setFieldValue(field.name, e.target.value);
+                            }}
+                            placeholder="Enter phone"
+                          />
                         )}
-                      />
+                      </Field>
                       <ErrorMessage
                         name="mobile"
                         component="div"
