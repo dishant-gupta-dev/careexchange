@@ -90,6 +90,7 @@ const Page = () => {
 
   const handlePlaceChange = () => {
     let [address] = inputRef.current.getPlaces();
+    // console.log(address);
     setLocation({
       lat: address.geometry.location.lat(),
       lng: address.geometry.location.lng(),

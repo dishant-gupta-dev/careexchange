@@ -40,7 +40,6 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
   const [pageNum, setPageNum] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
   const [jobRequestCount, setJobRequestCount] = useState(0);
   const [careNetwork, setCareNetwork] = useState([]);
   const [startDate, setStartDate] = useState("");
@@ -116,7 +115,6 @@ const Page = () => {
     if (response.data.status && response.data.statusCode === 200) {
       setCareNetwork(response.data.data.jobList);
       setTotal(response.data.data.total);
-      setHasMore(response.data.data.jobList.length > 0);
     } else setCareNetwork([]);
     setLoading(false);
   };

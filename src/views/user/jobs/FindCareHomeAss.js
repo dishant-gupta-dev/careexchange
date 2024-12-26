@@ -8,8 +8,17 @@ import ApiService from "../../../core/services/ApiService";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import Loader from "../../../layouts/loader/Loader";
+import StarImg from "../../../assets/user/images/star.svg";
+import DollarImg from "../../../assets/user/images/dollar-circle.svg";
+import BriefcaseImg from "../../../assets/user/images/briefcase.svg";
+import HandshakeImg from "../../../assets/user/images/Handshake.svg";
+import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
-import { GeolocationApiKey } from "../../../utlis/common.utlis";
+import {
+  GeolocationApiKey,
+  providerLIMIT,
+  status,
+} from "../../../utlis/common.utlis";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
@@ -27,8 +36,11 @@ const FindCareHomeAss = () => {
   const lat = localData.state?.lat;
   const lng = localData.state?.lng;
   const cat = localData.state?.catId ?? null;
-  const [tab, setTab] = useState(1);
+  const [detailModal, setDetailModal] = useState({ status: false, data: null });
   const [total, setTotal] = useState(0);
+  const [pageNum, setPageNum] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [tab, setTab] = useState(3);
   const inputRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [categories, setCategory] = useState([]);
@@ -110,8 +122,9 @@ const FindCareHomeAss = () => {
   });
 
   const getProviders = async (api) => {
+    setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    // console.log("all providers list => ", response.data);
+    console.log("all providers list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       const providerData = [];
       for (const key in response.data.data.ProviderList) {
@@ -119,9 +132,28 @@ const FindCareHomeAss = () => {
         const itemData = response.data.data.ProviderList[key];
         providerData.push(itemData);
       }
-      setProvider(providerData);
+      setProvider((prevData) => [...prevData, ...providerData]);
+      if (providerData.length < providerLIMIT) {
+        setHasMore(false);
+      }
       setTotal(response.data.data.total);
     } else setProvider([]);
+    setLoading(false);
+  };
+
+  const getDetails = async (id) => {
+    const response = await ApiService.getAPIWithAccessToken(
+      api.userDetail + id
+    );
+    if (response.data.status && response.data.statusCode === 200) {
+      setDetailModal({ status: true, data: response.data.data });
+    } else setDetailModal({ status: false, data: null });
+  };
+
+  const handleLoadMore = () => {
+    if (hasMore) {
+      setPageNum((prevPage) => prevPage + 1);
+    }
   };
 
   const getCategoryList = async (api) => {
@@ -272,11 +304,10 @@ const FindCareHomeAss = () => {
 
   useEffect(() => {
     getProviders(
-      api.providerList +
-        `?user_type=2&latitude=${location.lat}&longitude=${location.lng}&radious=${selectRadius}`
+      api.providerList + `?user_type=2&page=${pageNum}&limit=${providerLIMIT}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tab]);
+  }, [tab, pageNum]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -1368,7 +1399,7 @@ const FindCareHomeAss = () => {
                             providers.map((ele, indx) => {
                               return (
                                 <div key={indx} className="col-md-4">
-                                  <div className="findcarecheckbox">
+                                  <div className="findcarecheckbox position-relative">
                                     <input
                                       type="checkbox"
                                       name="user_id"
@@ -1451,7 +1482,7 @@ const FindCareHomeAss = () => {
                                             <div className="care-point-icon">
                                               <img src={GmapImg} />
                                             </div>
-                                            <div className="care-point-text">
+                                            <div className="care-point-text mb-5">
                                               <h4>Location</h4>
                                               <p>
                                                 {ele.business_address ?? "NA"}
@@ -1461,6 +1492,19 @@ const FindCareHomeAss = () => {
                                         </div>
                                       </div>
                                     </label>
+                                    <div className="text-center mt-2 w-100 provider-list-detail-btn" style={{ position: "absolute", top: "74%" }}>
+                                      <Link
+                                        className="viewmorebtn mx-1"
+                                        to=""
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          getDetails(ele.id);
+                                        }}
+                                      >
+                                        <i className="fa fa-eye"></i> View
+                                        Profile
+                                      </Link>
+                                    </div>
                                   </div>
                                 </div>
                               );
@@ -1477,6 +1521,21 @@ const FindCareHomeAss = () => {
                               <img width={300} src={NoData} alt="" />
                             </div>
                           )}
+
+                          {hasMore ? (
+                            <div className="form-group w-100 text-center">
+                              <button
+                                className="btn-gra"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleLoadMore();
+                                }}
+                              >
+                                Show More
+                              </button>
+                            </div>
+                          ) : null}
+
                           <div className="col-md-12">
                             <div className="form-group">
                               <button
@@ -1501,6 +1560,175 @@ const FindCareHomeAss = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={detailModal.status}
+        onHide={() => {
+          setDetailModal({ status: false, data: null });
+        }}
+        className="modal-lg"
+      >
+        <div className="modal-content">
+          <ModalHeader>
+            <h5 className="mb-0">Provider Details</h5>
+          </ModalHeader>
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="providerProfile-section">
+                    <div class="user-table-item">
+                      <div class="row g-1 align-items-center">
+                        <div class="col-md-7">
+                          <div class="user-profile-item">
+                            <div class="user-profile-media">
+                              {detailModal?.data?.logo !== null &&
+                              detailModal?.data?.logo !== "" &&
+                              detailModal?.data?.logo !== undefined ? (
+                                <img
+                                  src={detailModal?.data?.logo}
+                                  alt=""
+                                  className="me-3"
+                                />
+                              ) : detailModal?.data?.profile_image === null ||
+                                detailModal?.data?.profile_image === "" ||
+                                detailModal?.data?.profile_image ===
+                                  undefined ? (
+                                <img src={NoImage} alt="" className="me-3" />
+                              ) : (
+                                <img
+                                  src={detailModal?.data?.profile_image}
+                                  alt=""
+                                  className="me-3"
+                                />
+                              )}
+                            </div>
+                            <div class="user-profile-text">
+                              <h2>
+                                {detailModal?.data?.business_name
+                                  ? detailModal?.data?.business_name
+                                  : detailModal?.data?.fullname}
+                              </h2>
+                              <div class="location-text">
+                                {detailModal?.data?.business_address ?? "NA"}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-5">
+                          <div class="row g-1 align-items-center">
+                            <div class="col-md-6">
+                              <div class="user-contact-info">
+                                <div class="user-contact-info-icon">
+                                  <img src={StarImg} />
+                                </div>
+                                <div class="user-contact-info-content">
+                                  <h2>Rating</h2>
+                                  <p>
+                                    {detailModal?.data?.avarageRating
+                                      ?.average_rating ?? "0.0"}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="user-contact-info">
+                                <div class="user-contact-info-icon">
+                                  <img src={BriefcaseImg} />
+                                </div>
+                                <div class="user-contact-info-content">
+                                  <h2>Experience</h2>
+                                  <p>
+                                    {detailModal?.data?.experience ?? 0} Years
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="providerProfile-point">
+                        <div class="providerprofile-point-item">
+                          <img src={HouseImg} /> Cared{" "}
+                          {detailModal?.data?.caredFamilys ?? 0} Families
+                        </div>
+                        <div class="providerprofile-point-item">
+                          <img src={HandshakeImg} /> Hired By{" "}
+                          {detailModal?.data?.caredFamilyNearBy ?? 0} Families
+                          In Your Neighbourhood
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="providerprofile-overview">
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="overview-card">
+                            <div class="overview-content">
+                              <h2>Repeat Clients</h2>
+                              <h4>{detailModal?.data?.repeatClient ?? 0}</h4>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="overview-card">
+                            <div class="overview-content">
+                              <h2>Response Rate</h2>
+                              <h4>{detailModal?.data?.responseRate ?? "0%"}</h4>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="overview-card">
+                            <div class="overview-content">
+                              <h2>Response Time</h2>
+                              <h4>{detailModal?.data?.responseTime ?? "NA"}</h4>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="providerprofile-about">
+                      <h2>About</h2>
+                      <p>{detailModal?.data?.description ?? "NA"}</p>
+                    </div>
+
+                    <div class="providerprofile-about">
+                      <h2>Offering Services</h2>
+                      <div>
+                        <div className="tags-item">
+                          {detailModal?.data?.category ?? "NA"}
+                        </div>
+                        <div className="tags-item-sub">
+                          {detailModal?.data?.subcategory ?? "NA"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="form-group text-end mt-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setDetailModal({ status: false, data: null });
+                  }}
+                  className="btn btn-re me-2"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
     </>
   );
 };

@@ -23,6 +23,7 @@ export const userType = (Id) => {
 };
 
 export const LIMIT = 10;
+export const providerLIMIT = 3;
 export const adsLIMIT = 5;
 export const CommonMiles = "1000";
 export const SingleFile = 2;
