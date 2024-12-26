@@ -40,7 +40,7 @@ const FindCareHomeAss = () => {
   const [total, setTotal] = useState(0);
   const [pageNum, setPageNum] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [tab, setTab] = useState(3);
+  const [tab, setTab] = useState(1);
   const inputRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [categories, setCategory] = useState([]);
@@ -304,7 +304,7 @@ const FindCareHomeAss = () => {
 
   useEffect(() => {
     getProviders(
-      api.providerList + `?user_type=2&page=${pageNum}&limit=${providerLIMIT}`
+      api.providerList + `?user_type=2&latitude=${location.lat}&longitude=${location.lng}&radious=${selectRadius}&page=${pageNum}&limit=${providerLIMIT}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab, pageNum]);
