@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import GmapImg from "../../../assets/user/images/Google_Maps_icon.svg";
 import LocImg from "../../../assets/user/images/location.svg";
 import HouseImg from "../../../assets/user/images/house1.svg";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { api } from "../../../utlis/user/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
@@ -12,16 +12,21 @@ import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { GeolocationApiKey } from "../../../utlis/common.utlis";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import toast from "react-hot-toast";
 import moment from "moment";
 import { routes } from "../../../utlis/user/routes.utlis";
+import DatePicker from "react-multi-date-picker";
+import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import InputMask from "react-input-mask";
 
 const FindCareHomeAss = () => {
   const navigate = useNavigate();
-  const { address, lat, lng, cat } = useParams();
+  const localData = useLocation();
+  const address = localData.state?.address;
+  const lat = localData.state?.lat;
+  const lng = localData.state?.lng;
+  const cat = localData.state?.catId ?? null;
   const [tab, setTab] = useState(1);
   const [total, setTotal] = useState(0);
   const inputRef = useRef(null);
@@ -45,6 +50,7 @@ const FindCareHomeAss = () => {
 
   const initialFirstValues = {
     radius: selectRadius ?? "",
+    category: selectCategories ?? "",
     sub_category: selectSubCategories ?? "",
   };
 
@@ -71,6 +77,7 @@ const FindCareHomeAss = () => {
     relationship: "",
     payment_type: "",
     best_time_to_call: "",
+    start_date: "",
     start_time: "",
     description: "",
   };
@@ -79,6 +86,7 @@ const FindCareHomeAss = () => {
 
   const validationFirstSchema = Yup.object().shape({
     radius: Yup.string().required("Radius is required!"),
+    category: Yup.string().required("Category is required!"),
     sub_category: Yup.string().required("Sub Category is required!"),
   });
 
@@ -88,12 +96,15 @@ const FindCareHomeAss = () => {
     prefer: Yup.string().required("Prefered Contact is required!"),
     gender: Yup.string().required("Gender is required!"),
     email: Yup.string().required("Email is required!"),
-    phone: Yup.string().min(14, 'Phone is invalid').required("Phone is required!"),
+    phone: Yup.string()
+      .min(14, "Phone is invalid")
+      .required("Phone is required!"),
     age: Yup.string().required("Age is required!"),
     frequency: Yup.string().required("Frequency is required!"),
     relationship: Yup.string().required("Relationship is required!"),
     payment_type: Yup.string().required("Payment Type is required!"),
     best_time_to_call: Yup.string().required("Best time to call is required!"),
+    start_date: Yup.string().required("Prefered Date is required!"),
     start_time: Yup.string().required("Prefered Time is required!"),
     description: Yup.string().required("Description is required!"),
   });
@@ -165,7 +176,7 @@ const FindCareHomeAss = () => {
     form.append("address", location.address);
     form.append("latitude", location.lat);
     form.append("longitude", location.lng);
-    form.append("start_date", moment(startDate).format("MM/DD/yyyy"));
+    form.append("start_date", formValue.start_date);
     form.append("start_time", formValue.start_time);
     const response = await ApiService.postAPIWithAccessTokenMultiPart(
       api.addServiceRequest,
@@ -342,263 +353,288 @@ const FindCareHomeAss = () => {
                         validationSchema={validationFirstSchema}
                         onSubmit={firstStep}
                       >
-                        <Form id="first-step-form">
-                          <div className="row">
-                            <div className="col-md-12">
-                              <div className="form-group search-form-group">
-                                <h4>Job Location</h4>
-                                {isLoaded && (
-                                  <StandaloneSearchBox
-                                    onLoad={(ref) => (inputRef.current = ref)}
-                                    onPlacesChanged={handlePlaceChange}
-                                  >
-                                    <input
-                                      className="form-control"
-                                      placeholder="Where are you going?"
-                                      defaultValue={location.address}
-                                    />
-                                  </StandaloneSearchBox>
-                                )}
-                                <span className="form-group-icon">
-                                  <img src={GmapImg} />
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <h4>Search By Miles Away</h4>
-                                <div className="choosemiles-list">
-                                  <ul>
-                                    <li>
-                                      <div className="ceradio1">
-                                        <Field
-                                          type="radio"
-                                          name="radius"
-                                          id="10miles"
-                                          value="10"
-                                        />
-                                        <label for="10miles">
-                                          <span className="checkbox-text">
-                                            <img src={LocImg} /> 10 Miles{" "}
-                                          </span>
-                                        </label>
-                                      </div>
-                                    </li>
-                                    <li>
-                                      <div className="ceradio1">
-                                        <Field
-                                          type="radio"
-                                          name="radius"
-                                          id="20miles"
-                                          value="20"
-                                        />
-                                        <label for="20miles">
-                                          <span className="checkbox-text">
-                                            <img src={LocImg} /> 20 Miles{" "}
-                                          </span>
-                                        </label>
-                                      </div>
-                                    </li>
-
-                                    <li>
-                                      <div className="ceradio1">
-                                        <Field
-                                          type="radio"
-                                          name="radius"
-                                          id="30miles"
-                                          value="30"
-                                        />
-                                        <label for="30miles">
-                                          <span className="checkbox-text">
-                                            <img src={LocImg} /> 30 Miles{" "}
-                                          </span>
-                                        </label>
-                                      </div>
-                                    </li>
-
-                                    <li>
-                                      <div className="ceradio1">
-                                        <Field
-                                          type="radio"
-                                          name="radius"
-                                          id="50miles"
-                                          value="50"
-                                        />
-                                        <label for="50miles">
-                                          <span className="checkbox-text">
-                                            <img src={LocImg} /> 50 Miles{" "}
-                                          </span>
-                                        </label>
-                                      </div>
-                                    </li>
-
-                                    <li>
-                                      <div className="ceradio1">
-                                        <Field
-                                          type="radio"
-                                          name="radius"
-                                          id="100miles"
-                                          value="100"
-                                        />
-                                        <label for="100miles">
-                                          <span className="checkbox-text">
-                                            <img src={LocImg} /> 100 Miles{" "}
-                                          </span>
-                                        </label>
-                                      </div>
-                                    </li>
-
-                                    <li>
-                                      <div className="ceradio1">
-                                        <Field
-                                          type="radio"
-                                          name="radius"
-                                          id="200miles"
-                                          value="200"
-                                        />
-                                        <label for="200miles">
-                                          <span className="checkbox-text">
-                                            <img src={LocImg} /> 200 Miles{" "}
-                                          </span>
-                                        </label>
-                                      </div>
-                                    </li>
-
-                                    <li>
-                                      <div className="ceradio1">
-                                        <Field
-                                          type="radio"
-                                          name="radius"
-                                          id="300miles"
-                                          value="300"
-                                        />
-                                        <label for="300miles">
-                                          <span className="checkbox-text">
-                                            <img src={LocImg} /> 300 Miles{" "}
-                                          </span>
-                                        </label>
-                                      </div>
-                                    </li>
-
-                                    <li>
-                                      <div className="ceradio1">
-                                        <Field
-                                          type="radio"
-                                          name="radius"
-                                          id="1000miles"
-                                          value="1000"
-                                        />
-                                        <label for="1000miles">
-                                          <span className="checkbox-text">
-                                            <img src={LocImg} /> 1000 Miles{" "}
-                                          </span>
-                                        </label>
-                                      </div>
-                                    </li>
-                                  </ul>
-                                  <ErrorMessage
-                                    name="radius"
-                                    component="div"
-                                    className="alert alert-danger"
-                                  />
+                        {({ values, setFieldValue }) => (
+                          <Form id="first-step-form">
+                            <div className="row">
+                              <div className="col-md-12">
+                                <div className="form-group search-form-group">
+                                  <h4>Job Location</h4>
+                                  {isLoaded && (
+                                    <StandaloneSearchBox
+                                      onLoad={(ref) => (inputRef.current = ref)}
+                                      onPlacesChanged={handlePlaceChange}
+                                    >
+                                      <input
+                                        className="form-control"
+                                        placeholder="Where are you going?"
+                                        defaultValue={location.address}
+                                      />
+                                    </StandaloneSearchBox>
+                                  )}
+                                  <span className="form-group-icon">
+                                    <img src={GmapImg} />
+                                  </span>
                                 </div>
                               </div>
-                            </div>
 
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <h4>Category</h4>
-                                <div className="row">
-                                  <div className="col-md-12">
-                                    <select
-                                      className="form-control"
-                                      name="category"
-                                      value={selectCategories}
-                                      onChange={(e) => {
-                                        getSubCategoryList(e.target.value);
-                                        setSelectCategory(e.target.value);
-                                      }}
-                                    >
-                                      <option value="">Select Category</option>
-                                      {categories.length !== 0
-                                        ? categories.map((ele, indx) => {
-                                            return (
-                                              <option key={indx} value={ele.id}>
-                                                {ele.name ?? "NA"}
-                                              </option>
-                                            );
-                                          })
-                                        : null}
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <h4>Search By Miles Away</h4>
+                                  <div className="choosemiles-list">
+                                    <ul>
+                                      <li>
+                                        <div className="ceradio1">
+                                          <Field
+                                            type="radio"
+                                            name="radius"
+                                            id="10miles"
+                                            value="10"
+                                          />
+                                          <label for="10miles">
+                                            <span className="checkbox-text">
+                                              <img src={LocImg} /> 10 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+                                      <li>
+                                        <div className="ceradio1">
+                                          <Field
+                                            type="radio"
+                                            name="radius"
+                                            id="20miles"
+                                            value="20"
+                                          />
+                                          <label for="20miles">
+                                            <span className="checkbox-text">
+                                              <img src={LocImg} /> 20 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
 
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <h4>Sub Category</h4>
-                                <div className="row">
-                                  <div className="col-md-12">
-                                    <Field
-                                      as="select"
-                                      type="text"
-                                      className="form-control"
-                                      name="sub_category"
-                                    >
-                                      <option value="">
-                                        Select Sub Category
-                                      </option>
-                                      {subCategories.length !== 0
-                                        ? subCategories.map((ele, indx) => {
-                                            return (
-                                              <option key={indx} value={ele.id}>
-                                                {ele.name ?? "NA"}
-                                              </option>
-                                            );
-                                          })
-                                        : null}
-                                    </Field>
+                                      <li>
+                                        <div className="ceradio1">
+                                          <Field
+                                            type="radio"
+                                            name="radius"
+                                            id="30miles"
+                                            value="30"
+                                          />
+                                          <label for="30miles">
+                                            <span className="checkbox-text">
+                                              <img src={LocImg} /> 30 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+
+                                      <li>
+                                        <div className="ceradio1">
+                                          <Field
+                                            type="radio"
+                                            name="radius"
+                                            id="50miles"
+                                            value="50"
+                                          />
+                                          <label for="50miles">
+                                            <span className="checkbox-text">
+                                              <img src={LocImg} /> 50 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+
+                                      <li>
+                                        <div className="ceradio1">
+                                          <Field
+                                            type="radio"
+                                            name="radius"
+                                            id="100miles"
+                                            value="100"
+                                          />
+                                          <label for="100miles">
+                                            <span className="checkbox-text">
+                                              <img src={LocImg} /> 100 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+
+                                      <li>
+                                        <div className="ceradio1">
+                                          <Field
+                                            type="radio"
+                                            name="radius"
+                                            id="200miles"
+                                            value="200"
+                                          />
+                                          <label for="200miles">
+                                            <span className="checkbox-text">
+                                              <img src={LocImg} /> 200 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+
+                                      <li>
+                                        <div className="ceradio1">
+                                          <Field
+                                            type="radio"
+                                            name="radius"
+                                            id="300miles"
+                                            value="300"
+                                          />
+                                          <label for="300miles">
+                                            <span className="checkbox-text">
+                                              <img src={LocImg} /> 300 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+
+                                      <li>
+                                        <div className="ceradio1">
+                                          <Field
+                                            type="radio"
+                                            name="radius"
+                                            id="1000miles"
+                                            value="1000"
+                                          />
+                                          <label for="1000miles">
+                                            <span className="checkbox-text">
+                                              <img src={LocImg} /> 1000 Miles{" "}
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </li>
+                                    </ul>
                                     <ErrorMessage
-                                      name="sub_category"
+                                      name="radius"
                                       component="div"
                                       className="alert alert-danger"
                                     />
                                   </div>
                                 </div>
                               </div>
-                            </div>
 
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <button
-                                  className="btn-bl mx-2"
-                                  type="button"
-                                  onClick={() => {
-                                    document
-                                      .getElementById("first-step-form")
-                                      .reset();
-                                    setLocation({
-                                      lat: null,
-                                      lng: null,
-                                      address: null,
-                                    });
-                                    setSelectCategory("");
-                                    setSelectSubCategory("");
-                                    setSubCategory([]);
-                                    setSelectRadius("");
-                                  }}
-                                >
-                                  Clear All
-                                </button>
-                                <button className="btn-gr" type="submit">
-                                  Next
-                                </button>
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <h4>Category</h4>
+                                  <div className="row">
+                                    <div className="col-md-12">
+                                      <Field name="category">
+                                        {({ field }) => (
+                                          <select
+                                            {...field}
+                                            className="form-control"
+                                            value={selectCategories}
+                                            onChange={(e) => {
+                                              setFieldValue(
+                                                field.name,
+                                                e.target.value
+                                              );
+                                              getSubCategoryList(
+                                                e.target.value
+                                              );
+                                              setSelectCategory(e.target.value);
+                                            }}
+                                          >
+                                            <option value="">
+                                              Select Category
+                                            </option>
+                                            {categories.length !== 0
+                                              ? categories.map((ele, indx) => {
+                                                  return (
+                                                    <option
+                                                      key={indx}
+                                                      value={ele.id}
+                                                    >
+                                                      {ele.name ?? "NA"}
+                                                    </option>
+                                                  );
+                                                })
+                                              : null}
+                                          </select>
+                                        )}
+                                      </Field>
+                                      <ErrorMessage
+                                        name="category"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <h4>Sub Category</h4>
+                                  <div className="row">
+                                    <div className="col-md-12">
+                                      <Field
+                                        as="select"
+                                        type="text"
+                                        className="form-control"
+                                        name="sub_category"
+                                      >
+                                        <option value="">
+                                          Select Sub Category
+                                        </option>
+                                        {subCategories.length !== 0
+                                          ? subCategories.map((ele, indx) => {
+                                              return (
+                                                <option
+                                                  key={indx}
+                                                  value={ele.id}
+                                                >
+                                                  {ele.name ?? "NA"}
+                                                </option>
+                                              );
+                                            })
+                                          : null}
+                                      </Field>
+                                      <ErrorMessage
+                                        name="sub_category"
+                                        component="div"
+                                        className="alert alert-danger"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <button
+                                    className="btn-bl mx-2"
+                                    type="button"
+                                    onClick={() => {
+                                      document
+                                        .getElementById("first-step-form")
+                                        .reset();
+                                      setLocation({
+                                        lat: null,
+                                        lng: null,
+                                        address: null,
+                                      });
+                                      setSelectCategory("");
+                                      setSelectSubCategory("");
+                                      setSubCategory([]);
+                                      setSelectRadius("");
+                                    }}
+                                  >
+                                    Clear All
+                                  </button>
+                                  <button className="btn-gr" type="submit">
+                                    Next
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </Form>
+                          </Form>
+                        )}
                       </Formik>
                     </div>
                   </div>
@@ -767,7 +803,7 @@ const FindCareHomeAss = () => {
 
                             <div className="col-md-6">
                               <div className="form-group">
-                                <h4>Who Needs Care?</h4>
+                                <h4>Gender</h4>
                                 <div className="choosemiles-list">
                                   <ul>
                                     <li>
@@ -1200,25 +1236,27 @@ const FindCareHomeAss = () => {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <h4>Preferred Date</h4>
-                                <DatePicker
-                                  toggleCalendarOnIconClick
-                                  showIcon
-                                  dateFormat={"MM-dd-yyyy"}
-                                  selected={startDate}
-                                  className="form-control todo-list-input"
-                                  onChange={(date) => {
-                                    setStartDate(date);
-                                  }}
-                                  isClearable
+                                <Field
                                   name="start_date"
-                                  autoComplete="off"
-                                  placeholderText="Select Start Date"
+                                  className="form-control"
+                                >
+                                  {({ field }) => (
+                                    <DatePicker
+                                      {...field}
+                                      format="MM/DD/YYYY"
+                                      placeholder="Select Preferred Date"
+                                      value={values.start_date || ""}
+                                      onChange={(value) =>
+                                        setFieldValue("start_date", value)
+                                      }
+                                    />
+                                  )}
+                                </Field>
+                                <ErrorMessage
+                                  name="start_date"
+                                  component="div"
+                                  className="alert alert-danger"
                                 />
-                                {startError && (
-                                  <div className="alert alert-danger">
-                                    Start date is required!
-                                  </div>
-                                )}
                               </div>
                             </div>
 
@@ -1226,10 +1264,28 @@ const FindCareHomeAss = () => {
                               <div className="form-group">
                                 <h4>Preferred Time</h4>
                                 <Field
-                                  type="time"
-                                  className="form-control"
                                   name="start_time"
-                                />
+                                  className="form-control"
+                                >
+                                  {({ field }) => (
+                                    <DatePicker
+                                      {...field}
+                                      disableDayPicker
+                                      format="hh:mm A"
+                                      placeholder="Select Preferred Time"
+                                      value={values.start_time || ""}
+                                      onChange={(value) =>
+                                        setFieldValue("start_time", value)
+                                      }
+                                      plugins={[
+                                        <TimePicker
+                                          hideSeconds
+                                          position="bottom"
+                                        />,
+                                      ]}
+                                    />
+                                  )}
+                                </Field>
                                 <ErrorMessage
                                   name="start_time"
                                   component="div"
@@ -1335,6 +1391,15 @@ const FindCareHomeAss = () => {
                                                   alt=""
                                                   className="me-3"
                                                 />
+                                              ) : ele.profile_image === null ||
+                                                ele.profile_image === "" ||
+                                                ele.profile_image ===
+                                                  undefined ? (
+                                                <img
+                                                  src={NoImage}
+                                                  alt=""
+                                                  className="me-3"
+                                                />
                                               ) : (
                                                 <img
                                                   src={ele.profile_image}
@@ -1360,20 +1425,33 @@ const FindCareHomeAss = () => {
                                         </div>
                                         <div className="findcare-card-body">
                                           <div className="findcare-pricetag-content">
-                                            <div className="findcare-price-text">
-                                              <div className="exp-text">
-                                                {ele.experience ?? 0} Year Exp
-                                              </div>
-                                            </div>
-                                            <div className="cared-text">
-                                              <img src={HouseImg} />{" "}
+                                            <div className="strip-text">
                                               {ele.user_type == 2
                                                 ? "Provider"
                                                 : "Staff"}
                                             </div>
                                           </div>
-                                          <div className="findcare-location-box">
-                                            <div className="findcare-location-text">
+                                          <div className="d-flex flex-column align-items-start">
+                                            <div className="care-price-text">
+                                              <div className="exp-text mb-1">
+                                                {ele.experience ?? 0} Years
+                                                Experience
+                                              </div>
+                                            </div>
+                                            <div>
+                                              <div className="tags-item">
+                                                {ele.category ?? "NA"}
+                                              </div>
+                                              <div className="tags-item-sub">
+                                                {ele.subcategory ?? "NA"}
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="findcare-location-box mt-2">
+                                            <div className="care-point-icon">
+                                              <img src={GmapImg} />
+                                            </div>
+                                            <div className="care-point-text">
                                               <h4>Location</h4>
                                               <p>
                                                 {ele.business_address ?? "NA"}

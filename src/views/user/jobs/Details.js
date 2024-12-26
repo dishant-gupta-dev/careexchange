@@ -20,6 +20,7 @@ const Details = () => {
   const getDetails = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data.requestDetail);
     } else {
@@ -78,7 +79,42 @@ const Details = () => {
                           <div class="title-text">
                             {details?.first_name ?? "NA"}
                           </div>
-                          <div class="tags-list">
+                          <div className="row d-flex justify-content-between w-100">
+                            <div className="col-md-2">
+                              <div className="date-text">
+                                <img src={WhCalen} />{" "}
+                                {moment(details?.start_date).format(
+                                  "MM-DD-yyyy"
+                                )}{" "}
+                                {details?.start_time ?? "NA"}
+                              </div>
+                            </div>
+                            <div className="col-md-6 d-flex justify-content-between">
+                              <div class="jobs-details-point-item">
+                                <h4>Email Address: </h4>
+                                <p className="text-capitalize">
+                                  {details?.email_id ?? "NA"}
+                                </p>
+                              </div>
+                              <div class="jobs-details-point-item">
+                                <h4>Fax Number: </h4>
+                                <p className="text-capitalize">
+                                  {details?.fax ?? "NA"}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="col-md-2 mt-2">
+                              <div class="tags-list float-end">
+                                <div class="tags-item-sub">
+                                  {details?.gender == "M" ? "Male" : "Female"}
+                                </div>
+                                <div class="tags-item-sub mx-2">
+                                  Age: {details?.age ?? "NA"}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          {/* <div class="tags-list">
                             <div class="tags-item-sub">
                               {details?.gender == "M" ? "Male" : "Female"}
                             </div>
@@ -90,7 +126,7 @@ const Details = () => {
                             <img src={WhCalen} />{" "}
                             {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
                             {details?.start_time ?? "NA"}
-                          </div>
+                          </div> */}
                         </div>
                         <div class="care-day-Weekly-info">
                           <div class="care-point-box">
@@ -108,11 +144,22 @@ const Details = () => {
                               </p>
                             </div>
                           </div>
-                          {/* <div class="care-day-list">
-                            <div class="care-day-item">S</div>
-                            <div class="care-day-item">T</div>
-                            <div class="care-day-item">W</div>
-                          </div> */}
+                          <div class="care-point-box">
+                            <div class="care-point-text">
+                              <h4>Prefered Contact: </h4>
+                              <p className="text-capitalize">
+                                {details?.prefer_contacted ?? "NA"}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="care-point-box">
+                            <div class="care-point-text">
+                              <h4>Payment Type: </h4>
+                              <p className="text-capitalize">
+                                {details?.payment_type ?? "NA"}
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -171,31 +218,37 @@ const Details = () => {
                                         </div>
                                       </div>
                                     </div>
-                                    <div>
+                                    <div className="strip-text">
                                       {ele.user_type == 2
                                         ? "Provider"
                                         : "Staff"}
                                     </div>
                                   </div>
                                   <div class="care-card-body">
-                                    <div class="care-pricetag-content">
-                                      <div class="care-price-text">
-                                        {/* <div class="pricehour-text">
-                                          {ele?.care_providers_details?.fee ??
-                                            "NA"}
-                                        </div> */}
-                                        <div class="exp-text">
+                                    <div className="d-flex flex-column align-items-start">
+                                      <div className="care-price-text">
+                                        <div className="exp-text mb-1">
                                           {ele?.care_providers_details
-                                            ?.experience ?? "NA"}
+                                            ?.experience ?? 0}{" "}
+                                          Years Experience
                                         </div>
                                       </div>
-                                      <div class="care-tag-text">
-                                        {ele?.care_providers_details
-                                          ?.service_type ?? "NA"}
+                                      <div>
+                                        {/* <div className="tags-item">
+                                          {ele?.care_providers_details
+                                            ?.service_type ?? "NA"}
+                                        </div> */}
+                                        <div className="tags-item-sub">
+                                          {ele?.care_providers_details
+                                            ?.service_type ?? "NA"}
+                                        </div>
                                       </div>
                                     </div>
-                                    <div class="care-location-box">
-                                      <div class="care-location-text">
+                                    <div class="care-location-box mt-2">
+                                      <div className="care-point-icon">
+                                        <img src={locationImage} />
+                                      </div>
+                                      <div class="care-point-text">
                                         <h4>Location</h4>
                                         <p>
                                           {ele?.care_providers_details
@@ -245,7 +298,9 @@ const Details = () => {
                       <div class="jobs-details-point">
                         <div class="jobs-details-point-item">
                           <h4>Best Time To Call: </h4>
-                          <p className="text-capitalize">{details?.best_time_to_call ?? "NA"}</p>
+                          <p className="text-capitalize">
+                            {details?.best_time_to_call ?? "NA"}
+                          </p>
                         </div>
                         <div class="jobs-details-point-item">
                           <h4>Relationship: </h4>

@@ -5,6 +5,7 @@ import { serverTimestamp } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import moment from "moment/moment";
 import Search from "../../../assets/user/images/search1.svg";
+import locationImage from "../../../assets/admin/images/Google_Map.svg";
 import AttachImg from "../../../assets/user/images/attachemnt.svg";
 import StarImg from "../../../assets/user/images/star.svg";
 import DollarImg from "../../../assets/user/images/dollar-circle.svg";
@@ -39,7 +40,8 @@ const Page = () => {
     userId: null,
     senderId: null,
     name: "",
-    image: "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp",
+    image:
+      "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp",
   });
   const [message, setMessage] = useState("");
   const [search, setSearch] = useState("");
@@ -57,6 +59,7 @@ const Page = () => {
 
   const bookingList = async (api) => {
     const res = await ApiService.getAPIWithAccessToken(api);
+    // console.log(res.data);
     if (
       res.data.status &&
       res.data.statusCode === 200 &&
@@ -120,7 +123,10 @@ const Page = () => {
     } else {
       try {
         // const docid = userId + "-" + sendInfo.senderId;
-        const docid = ((sendInfo.senderId > userId) ? userId + '-' + sendInfo.senderId: sendInfo.senderId + '-' + userId);
+        const docid =
+          sendInfo.senderId > userId
+            ? userId + "-" + sendInfo.senderId
+            : sendInfo.senderId + "-" + userId;
         const data = {
           text: message,
           image: "",
@@ -159,7 +165,10 @@ const Page = () => {
   useEffect(() => {
     if (sendInfo.senderId) {
       // const docid = userId + "-" + sendInfo.senderId;
-      const docid = ((sendInfo.senderId > userId) ? userId + '-' + sendInfo.senderId: sendInfo.senderId + '-' + userId);
+      const docid =
+        sendInfo.senderId > userId
+          ? userId + "-" + sendInfo.senderId
+          : sendInfo.senderId + "-" + userId;
 
       const getMessage = db
         .collection("provider_chats")
@@ -414,7 +423,13 @@ const Page = () => {
                                       >
                                         <div className="message-item-chat-card">
                                           <div className="message-item-user">
-                                            <img src={data.userimage} />
+                                            {data.userimage === null ||
+                                            data.userimage === "" ||
+                                            data.userimage === undefined ? (
+                                              <img src={NoImage} />
+                                            ) : (
+                                              <img src={data.userimage} />
+                                            )}
                                           </div>
                                           <div className="message-item-chat-content">
                                             <div className="message-content">
@@ -482,7 +497,7 @@ const Page = () => {
                         <div className="providerProfile-section">
                           <div className="user-table-item">
                             <div className="row g-1 align-items-center">
-                              <div className="col-md-5">
+                              <div className="col-md-8">
                                 <div className="user-profile-item">
                                   <div className="user-profile-media">
                                     {details?.logo !== null &&
@@ -508,9 +523,9 @@ const Page = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="col-md-7">
+                              <div className="col-md-4">
                                 <div className="row g-1 align-items-center">
-                                  <div className="col-md-4">
+                                  <div className="col-md-6">
                                     <div className="user-contact-info">
                                       <div className="user-contact-info-icon">
                                         <img src={StarImg} />
@@ -525,7 +540,7 @@ const Page = () => {
                                     </div>
                                   </div>
 
-                                  <div className="col-md-4">
+                                  {/* <div className="col-md-4">
                                     <div className="user-contact-info">
                                       <div className="user-contact-info-icon">
                                         <img src={DollarImg} />
@@ -535,8 +550,9 @@ const Page = () => {
                                         <p>{details?.fee ?? "NA"}</p>
                                       </div>
                                     </div>
-                                  </div>
-                                  <div className="col-md-4">
+                                  </div> */}
+
+                                  <div className="col-md-6">
                                     <div className="user-contact-info">
                                       <div className="user-contact-info-icon">
                                         <img src={BreifImg} />
@@ -602,25 +618,17 @@ const Page = () => {
 
                           <div className="providerprofile-about">
                             <h2>Offering Services</h2>
-                            <div className="providerprofile-tag-list">
-                              {details?.offeringService?.length !== 0
-                                ? details?.offeringService.map(
-                                    (element, index) => {
-                                      return (
-                                        <div
-                                          key={index}
-                                          className="providerprofile-tag"
-                                        >
-                                          {element.category ?? "NA"}
-                                        </div>
-                                      );
-                                    }
-                                  )
-                                : null}
+                            <div>
+                              <div className="tags-item">
+                                {details?.category ?? "NA"}
+                              </div>
+                              <div className="tags-item-sub">
+                                {details?.subcategory ?? "NA"}
+                              </div>
                             </div>
                           </div>
 
-                          <div className="review-card">
+                          {/* <div className="review-card">
                             <div className="review-card-content">
                               <div className="review-card-icon">
                                 <img src={StarWhImg} />
@@ -682,7 +690,7 @@ const Page = () => {
                                   );
                                 })
                               : null}
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                     ) : (
@@ -765,72 +773,94 @@ const Page = () => {
                                   <div className="care-card-body">
                                     <div className="care-content">
                                       <div className="title-text">
-                                        {ele.profile_image === null ||
-                                        ele.profile_image === "" ||
-                                        ele.profile_image === undefined ? (
-                                          <img
-                                            src={NoImage}
-                                            className="me-3"
-                                            alt=""
-                                            width={50}
-                                            height={50}
-                                            style={{ borderRadius: "50%" }}
-                                          />
-                                        ) : (
-                                          <img
-                                            src={ele.profile_image}
-                                            className="me-3"
-                                            alt=""
-                                            width={50}
-                                            height={50}
-                                            style={{ borderRadius: "50%" }}
-                                          />
-                                        )}
                                         {ele.first_name ?? "NA"}
                                       </div>
-                                      <div className="date-text">
-                                        <img src={WhCalen} />{" "}
-                                        {moment(ele?.created_date).format(
-                                          "MM-DD-yyyy hh:mm A"
-                                        )}{" "}
+                                      <div className="row d-flex justify-content-between w-100">
+                                        <div className="col-md-8">
+                                          <div className="date-text">
+                                            <img src={WhCalen} />{" "}
+                                            {moment(ele.start_date).format(
+                                              "MM-DD-yyyy"
+                                            )}{" "}
+                                            {ele.start_time ?? "NA"}
+                                          </div>
+                                        </div>
+                                        <div className="col-md-4 mt-2">
+                                          <div class="tags-list float-end">
+                                            <div class="tags-item-sub">
+                                              {ele?.gender == "M"
+                                                ? "Male"
+                                                : "Female"}
+                                            </div>
+                                            <div class="tags-item-sub mx-2">
+                                              Age: {ele?.age ?? "NA"}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="row d-flex justify-content-between w-100">
+                                        <div className="col-md-12 d-flex justify-content-between">
+                                          <div class="jobs-details-point-item">
+                                            <h4>Prefered Contact: </h4>
+                                            <p className="text-capitalize">
+                                              {ele.prefer_contacted ?? "NA"}
+                                            </p>
+                                          </div>
+                                          <div class="jobs-details-point-item">
+                                            <h4>Best Time To Call: </h4>
+                                            <p className="text-capitalize">
+                                              {ele.best_time_to_call ?? "NA"}
+                                            </p>
+                                          </div>
+                                          <div class="jobs-details-point-item">
+                                            <h4>Relationship: </h4>
+                                            <p>{ele.relationship ?? "NA"}</p>
+                                          </div>
+                                          <div class="jobs-details-point-item">
+                                            <h4>Payment Type: </h4>
+                                            <p>{ele.payment_type ?? "NA"}</p>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
-                                    <div className="care-day-Weekly-info">
-                                      <div className="care-point-box">
-                                        <div className="care-point-icon">
-                                          <img src={RepeatImg} />
+                                    <div className="care-day-Weekly-info mt-3">
+                                      <div className="row w-100">
+                                        <div className="col-md-3">
+                                          <div className="care-point-box">
+                                            <div className="care-point-icon">
+                                              <img src={RepeatImg} />
+                                            </div>
+                                            <div className="care-point-text">
+                                              <h4>Frequency:</h4>
+                                              <p className="text-capitalize">
+                                                {ele.frequency === "O"
+                                                  ? "One Time"
+                                                  : ele.frequency === "W"
+                                                  ? "Repeat Weekly"
+                                                  : "Repeat Monthly"}
+                                              </p>
+                                            </div>
+                                          </div>
                                         </div>
-                                        <div className="care-point-text">
-                                          <h4>Frequency:</h4>
-                                          <p>
-                                            {ele.frequency === "O"
-                                              ? "One Time"
-                                              : ele.frequency === "W"
-                                              ? "Repeat Weekly"
-                                              : "Repeat Monthly"}
-                                          </p>
+                                        <div className="col-md-9">
+                                          <div className="care-point-box">
+                                            <div className="care-point-icon">
+                                              <img src={locationImage} />
+                                            </div>
+                                            <div className="care-point-text">
+                                              <h4>Location:</h4>
+                                              <p>{ele.address ?? "NA"}</p>
+                                            </div>
+                                          </div>
                                         </div>
                                       </div>
                                       <div className="care-day-list">
                                         {/* <div className="care-day-item">S</div>
-                                          <div className="care-day-item">T</div>
-                                          <div className="care-day-item">W</div> */}
+                                        <div className="care-day-item">T</div>
+                                        <div className="care-day-item">W</div> */}
                                       </div>
                                     </div>
                                   </div>
-                                  {/* <div className="care-card-foot">
-                                      <div className="care-user-info">
-                                        <div className="care-user-image">
-                                          <img src="images/user.png" />
-                                        </div>
-                                        <div className="care-user-text">
-                                          <div className="care-user-name">
-                                            Joseph Will Get Notified About Job
-                                            Confirmation
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div> */}
                                 </div>
                               );
                             })

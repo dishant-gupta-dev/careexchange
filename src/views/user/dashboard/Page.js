@@ -198,12 +198,15 @@ const Page = () => {
                     {tab == 0 ? (
                       <button
                         className="intake-btn-done"
-                        onClick={() => {
-                          navigate(
-                            `${routes.findCareHomeAss}/${location.lat}/${
-                              location.lng
-                            }/${location.address ?? null}`
-                          );
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate(routes.findCareHomeAss, {
+                            state: {
+                              lat: location.lat,
+                              lng: location.lng,
+                              address: location.address,
+                            },
+                          });
                         }}
                       >
                         <img src={Search} />
@@ -212,10 +215,15 @@ const Page = () => {
                     {tab == 1 ? (
                       <button
                         className="intake-btn-done"
-                        onClick={() => {
-                          navigate(
-                            `${routes.careNetwork}/${location.address}/${location.lat}/${location.lng}`
-                          );
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate(routes.careNetwork, {
+                            state: {
+                              lat: location.lat,
+                              lng: location.lng,
+                              address: location.address,
+                            },
+                          });
                         }}
                       >
                         <img src={Search} />
@@ -244,9 +252,17 @@ const Page = () => {
                   </div>
                   <div className="schedule-card-action">
                     <Link
-                      to={`${routes.findCare}/${location.lat ?? null}/${
-                        location.lng ?? null
-                      }/${location.address ?? null}`}
+                      to=""
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate(routes.findCare, {
+                          state: {
+                            lat: location.lat,
+                            lng: location.lng,
+                            address: location.address,
+                          },
+                        });
+                      }}
                     >
                       Book Now
                     </Link>
@@ -288,9 +304,18 @@ const Page = () => {
                   return (
                     <div key={indx} className="col-md-2">
                       <Link
-                        to={`${routes.findCareHomeAss}/${location.lat}/${
-                          location.lng
-                        }/${location.address ?? null}/${ele.id}`}
+                        to=""
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate(routes.findCareHomeAss, {
+                            state: {
+                              lat: location.lat,
+                              lng: location.lng,
+                              address: location.address,
+                              catId: ele.id,
+                            },
+                          });
+                        }}
                       >
                         <div className="careservices-card">
                           <div className="careservices-icon">

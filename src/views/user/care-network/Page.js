@@ -14,7 +14,7 @@ import moment from "moment";
 import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import { encode } from "base-64";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -24,13 +24,21 @@ import InputMask from "react-input-mask";
 import {
   CommonMiles,
   GeolocationApiKey,
+  totalPageCalculator,
   SingleFile,
+  LIMIT,
 } from "../../../utlis/common.utlis";
 
 const Page = () => {
   const inputRef = useRef(null);
+  const localData = useLocation();
+  const address = localData.state?.address;
+  const lat = localData.state?.lat;
+  const lng = localData.state?.lng;
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
+  const [pageNum, setPageNum] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const [jobRequestCount, setJobRequestCount] = useState(0);
   const [careNetwork, setCareNetwork] = useState([]);
   const [startDate, setStartDate] = useState("");
@@ -43,7 +51,6 @@ const Page = () => {
   const [selectSubCategories, setSelectSubCategory] = useState("");
   const [categories, setCategory] = useState([]);
   const [subCategories, setSubCategory] = useState([]);
-  const { address, lat, lng } = useParams();
   const [location, setLocation] = useState({
     lat: lat ?? null,
     lng: lng ?? null,
@@ -66,7 +73,9 @@ const Page = () => {
 
   const validationSchema = Yup.object().shape({
     full_name: Yup.string().required("Name is required!"),
-    mobile: Yup.string().min(14, 'Phone is invalid').required("Phone is required!"),
+    mobile: Yup.string()
+      .min(14, "Phone is invalid")
+      .required("Phone is required!"),
     email: Yup.string().email().required("Email is required!"),
   });
 
@@ -105,6 +114,7 @@ const Page = () => {
     if (response.data.status && response.data.statusCode === 200) {
       setCareNetwork(response.data.data.jobList);
       setTotal(response.data.data.total);
+      setHasMore(response.data.data.jobList.length > 0);
     } else setCareNetwork([]);
     setLoading(false);
   };
@@ -116,7 +126,10 @@ const Page = () => {
     if (date != null && date != undefined && date != "")
       date = moment(date).format("yyyy-MM-DD");
     else date = "";
-    getCareNetwork(api.careNetworkList + `?search=${name}&date=${date}`);
+    getCareNetwork(
+      api.careNetworkList +
+        `?search=${name}&date=${date}&latitude=${location.lat}&longitude=${location.lng}&radius=${CommonMiles}&page=${pageNum}&limit=${LIMIT}`
+    );
   };
 
   const applyJob = async (formValue) => {
@@ -141,7 +154,10 @@ const Page = () => {
     });
     if (response.data.status) {
       toast.success(response.data.message);
-      getCareNetwork(api.careNetworkList);
+      getCareNetwork(
+        api.careNetworkList +
+          `?latitude=${location.lat}&longitude=${location.lng}&radius=${CommonMiles}&page=${pageNum}&limit=${LIMIT}`
+      );
     } else {
       toast.error(response.data.message);
     }
@@ -154,7 +170,7 @@ const Page = () => {
     setFilter(false);
     getCareNetwork(
       api.careNetworkList +
-        `?latitude=${location.lat}&longitude=${location.lng}&categoryid=${selectCategories}&subcategoryid=${formValue.sub_category}&radius=${formValue.radius}`
+        `?latitude=${location.lat}&longitude=${location.lng}&categoryid=${selectCategories}&subcategoryid=${formValue.sub_category}&radius=${formValue.radius}&page=${pageNum}&limit=${LIMIT}`
     );
   };
 
@@ -258,7 +274,7 @@ const Page = () => {
           api.careNetworkList +
             `?latitude=${lat ?? crd.latitude}&longitude=${
               lng ?? crd.longitude
-            }&radius=${CommonMiles}`
+            }&radius=${CommonMiles}&page=${pageNum}&limit=${LIMIT}`
         );
       },
       function errorCallback(error) {
@@ -279,7 +295,7 @@ const Page = () => {
     getCategoryList(api.categoryList);
     getJobRequestCount(api.jobRequestCount);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [pageNum]);
 
   return (
     <>
@@ -513,6 +529,68 @@ const Page = () => {
                   <img width={300} src={NoData} alt="" />
                 </div>
               )}
+
+              <div className="d-flex align-items-center justify-content-center mt-3">
+                {careNetwork.length !== 0 ? (
+                  <div className="care-table-pagination">
+                    <ul className="care-pagination">
+                      {pageNum !== 1 && (
+                        <li
+                          className="disabled"
+                          id="example_previous"
+                          onClick={() => setPageNum(pageNum - 1)}
+                        >
+                          <Link
+                            to=""
+                            aria-controls="example"
+                            data-dt-idx="0"
+                            tabIndex="0"
+                            className="page-link"
+                          >
+                            Previous
+                          </Link>
+                        </li>
+                      )}
+
+                      {totalPageCalculator(total, LIMIT).length === 1
+                        ? null
+                        : totalPageCalculator(total, LIMIT).map(
+                            (pageNo, indx) => {
+                              return (
+                                <li
+                                  className={pageNo === pageNum ? "active" : ""}
+                                  key={indx}
+                                  onClick={() => setPageNum(pageNo)}
+                                >
+                                  <Link to="" className="page-link">
+                                    {pageNo}
+                                  </Link>
+                                </li>
+                              );
+                            }
+                          )}
+
+                      {pageNum !== Math.ceil(total / LIMIT) && (
+                        <li
+                          className="next"
+                          id="example_next"
+                          onClick={() => setPageNum(pageNum + 1)}
+                        >
+                          <Link
+                            to=""
+                            aria-controls="example"
+                            data-dt-idx="7"
+                            tabIndex="0"
+                            className="page-link"
+                          >
+                            Next
+                          </Link>
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
         </div>

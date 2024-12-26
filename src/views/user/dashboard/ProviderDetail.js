@@ -23,6 +23,7 @@ const ProviderDetail = () => {
   const getDetails = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data);
     } else setDetails();
@@ -41,7 +42,7 @@ const ProviderDetail = () => {
       <div class="container">
         <div class="carenetwork-section">
           <div className="care-title-header">
-            <h2 className="heading-title"></h2>
+            <h2 className="heading-title text-capitalize">{details?.user_type_text ?? ""} Detail</h2>
             <div class="search-filter">
               <div class="row g-2">
                 <div class="col-md-12">

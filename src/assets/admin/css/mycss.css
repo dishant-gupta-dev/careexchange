@@ -1579,3 +1579,31 @@ input.form-control {
 body {
   background: #eee !important;
 }
+.col-md-3 .rmdp-input {
+  position: relative !important;
+  color: var(--gray) !important;
+  border-radius: 5px !important;
+  font-weight: 400 !important;
+  font-size: 13px !important;
+  box-sizing: border-box !important;
+  padding: 13px 15px 13px 15px !important;
+  border: 1px solid var(--border) !important;
+  width: 150% !important;
+  height: 10% !important;
+  background: #fff !important;
+  box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05) !important;
+}
+.col-md-6 .rmdp-input {
+  position: relative !important;
+  color: var(--gray) !important;
+  border-radius: 5px !important;
+  font-weight: 400 !important;
+  font-size: 13px !important;
+  box-sizing: border-box !important;
+  padding: 13px 15px 13px 15px !important;
+  border: 1px solid var(--border) !important;
+  width: 317% !important;
+  height: 10% !important;
+  background: #fff !important;
+  box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05) !important;
+}
