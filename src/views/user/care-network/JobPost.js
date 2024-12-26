@@ -418,9 +418,9 @@ const JobPost = () => {
                               onChange={(e) => setJobType(e.target.value)}
                             >
                               <option value="">Select Job Type</option>
-                              <option value="full-time">Full Time</option>
-                              <option value="part-time">Part Time</option>
-                              <option value="per-diem">Per Diem</option>
+                              <option value="Full Time">Full Time</option>
+                              <option value="Part Time">Part Time</option>
+                              <option value="Per Diem">Per Diem</option>
                             </select>
                             {jobTypeErr && (
                               <div className="alert alert-danger">

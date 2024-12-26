@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Search from "../../../assets/user/images/search1.svg";
+import Map from "../../../assets/user/images/Google_Map.svg";
 import { api } from "../../../utlis/user/api.utlis";
 import { routes } from "../../../utlis/user/routes.utlis";
 import Clock from "../../../assets/user/images/clock.svg";
@@ -459,6 +460,12 @@ const Page = () => {
                                 <span>
                                   {ele.working_expirence ?? "NA"} Years
                                   Experience{" "}
+                                </span>
+                              </div>
+                              <div className="jobs-point-item">
+                                <img className="mx-1" src={Map} /> Location:
+                                <span className="job-location">
+                                  {ele.address ?? "NA"}
                                 </span>
                               </div>
                             </div>

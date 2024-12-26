@@ -21,7 +21,7 @@ const Details = () => {
   const getDetails = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    // console.log(response.data);
+    console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data.requestDetail);
     } else {
@@ -235,13 +235,11 @@ const Details = () => {
                                         </div>
                                       </div>
                                       <div>
-                                        {/* <div className="tags-item">
-                                          {ele?.care_providers_details
-                                            ?.service_type ?? "NA"}
-                                        </div> */}
+                                        <div className="tags-item">
+                                          {ele?.category ?? "NA"}
+                                        </div>
                                         <div className="tags-item-sub">
-                                          {ele?.care_providers_details
-                                            ?.service_type ?? "NA"}
+                                          {ele?.subcategory ?? "NA"}
                                         </div>
                                       </div>
                                     </div>
