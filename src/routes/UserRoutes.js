@@ -30,27 +30,22 @@ var UserRoutes = [
         component: Dashboard
     },
     {
-        path: routes.userDetail+"/:id",
+        path: routes.userDetail,
         layout: UserLayout,
         component: ProviderDetail
     },
     {
-        path: routes.advertisementDetails+"/:id",
+        path: routes.advertisementDetails,
         layout: UserLayout,
         component: AdvertisementDetails
     },
     {
-        path: routes.userDetail+"/:id",
-        layout: UserLayout,
-        component: ProviderDetail
-    },
-    {
-        path: routes.findCare+"/:lat?/:lng?/:address?",
+        path: routes.findCare,
         layout: UserLayout,
         component: FindCare
     },
     {
-        path: routes.findCareHomeAss+"/:lat?/:lng?/:address?/:cat?",
+        path: routes.findCareHomeAss,
         layout: UserLayout,
         component: FindCareHomeAss
     },
@@ -60,7 +55,7 @@ var UserRoutes = [
         component: Message
     },
     {
-        path: routes.userMessage+"/:id",
+        path: routes.userMessage,
         layout: UserLayout,
         component: ProviderChat
     },
@@ -70,17 +65,17 @@ var UserRoutes = [
         component: Jobs
     },
     {
-        path: routes.jobDetails+"/:id",
+        path: routes.jobDetails,
         layout: UserLayout,
         component: JobDetails
     },
     {
-        path: routes.careNetwork+"/:address?/:lat?/:lng?/:cat?",
+        path: routes.careNetwork,
         layout: UserLayout,
         component: CareNetwork
     },
     {
-        path: routes.careNetworkDetails+"/:id",
+        path: routes.careNetworkDetails,
         layout: UserLayout,
         component: CareNetworkDetails
     },
@@ -95,7 +90,7 @@ var UserRoutes = [
         component: AppliedJob
     },
     {
-        path: routes.addPost+"/:address?/:lat?/:lng?/:state?/:cat?",
+        path: routes.addPost,
         layout: UserLayout,
         component: JobPost
     },

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { api } from "../../../utlis/user/api.utlis";
 import WhCalen from "../../../assets/user/images/whcalendar.svg";
 import RepeatImg from "../../../assets/user/images/Repeat.svg";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Loader from "../../../layouts/loader/Loader";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import locationImage from "../../../assets/admin/images/Google_Map.svg";
@@ -15,7 +15,8 @@ const Details = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState();
-  const { id } = useParams();
+  const localData = useLocation();
+  const id = localData.state?.id;
 
   const getDetails = async (api) => {
     setLoading(true);
@@ -260,10 +261,15 @@ const Details = () => {
                                       {ele?.chatStatus == "true" ? (
                                         <Link
                                           className="viewmorebtn mx-1"
-                                          to={
-                                            routes.userMessage +
-                                            `/${encode(ele?.provider_id)}`
-                                          }
+                                          to=""
+                                          onClick={(e) => {
+                                            e.preventDefault();
+                                            navigate(routes.userMessage, {
+                                              state: {
+                                                id: encode(ele?.provider_id),
+                                              },
+                                            });
+                                          }}
                                         >
                                           <i className="fa fa-wechat"></i> gChat
                                         </Link>
@@ -271,10 +277,15 @@ const Details = () => {
 
                                       <Link
                                         className="viewmorebtn mx-1"
-                                        to={
-                                          routes.userDetail +
-                                          `/${encode(ele?.provider_id)}`
-                                        }
+                                        to=""
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          navigate(routes.userDetail, {
+                                            state: {
+                                              id: encode(ele?.provider_id),
+                                            },
+                                          });
+                                        }}
                                       >
                                         <i className="fa fa-eye"></i> View
                                         Profile

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { decode, encode } from "base-64";
 import { api } from "../../../utlis/user/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
@@ -16,7 +16,8 @@ import moment from "moment/moment";
 
 const ProviderDetail = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const localData = useLocation();
+  const id = localData.state?.id;
   const [details, setDetails] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -42,7 +43,9 @@ const ProviderDetail = () => {
       <div class="container">
         <div class="carenetwork-section">
           <div className="care-title-header">
-            <h2 className="heading-title text-capitalize">{details?.user_type_text ?? ""} Detail</h2>
+            <h2 className="heading-title text-capitalize">
+              {details?.user_type_text ?? ""} Detail
+            </h2>
             <div class="search-filter">
               <div class="row g-2">
                 <div class="col-md-12">

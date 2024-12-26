@@ -14,7 +14,7 @@ import moment from "moment";
 import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import { encode } from "base-64";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -30,6 +30,7 @@ import {
 } from "../../../utlis/common.utlis";
 
 const Page = () => {
+  const navigate = useNavigate();
   const inputRef = useRef(null);
   const localData = useLocation();
   const address = localData.state?.address;
@@ -471,9 +472,15 @@ const Page = () => {
                               </Link>
                               <Link
                                 className="btn-bl"
-                                to={`${routes.careNetworkDetails}/${encode(
-                                  ele.id
-                                )}`}
+                                to=""
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(routes.careNetworkDetails, {
+                                    state: {
+                                      id: encode(ele.id),
+                                    },
+                                  });
+                                }}
                               >
                                 View Details
                               </Link>
@@ -485,9 +492,15 @@ const Page = () => {
                               </Link>
                               <Link
                                 className="btn-bl"
-                                to={`${routes.careNetworkDetails}/${encode(
-                                  ele.id
-                                )}`}
+                                to=""
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(routes.careNetworkDetails, {
+                                    state: {
+                                      id: encode(ele.id),
+                                    },
+                                  });
+                                }}
                               >
                                 View Details
                               </Link>
@@ -504,9 +517,15 @@ const Page = () => {
                               </Link>
                               <Link
                                 className="btn-bl"
-                                to={`${routes.careNetworkDetails}/${encode(
-                                  ele.id
-                                )}`}
+                                to=""
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(routes.careNetworkDetails, {
+                                    state: {
+                                      id: encode(ele.id),
+                                    },
+                                  });
+                                }}
                               >
                                 View Details
                               </Link>

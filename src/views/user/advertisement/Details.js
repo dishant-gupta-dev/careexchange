@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../../../utlis/user/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
@@ -16,7 +16,8 @@ const Details = () => {
   const navigate = useNavigate();
   const [details, setDetails] = useState();
   const [loading, setLoading] = useState(false);
-  const { id } = useParams();
+  const localData = useLocation();
+  const id = localData.state?.id;
 
   const getAdsDetails = async (api) => {
     setLoading(true);
@@ -121,13 +122,14 @@ const Details = () => {
                     <button
                       type="button"
                       className="btn-gr"
-                      onClick={() =>
-                        navigate(
-                          routes.userDetail +
-                            "/" +
-                            encode(details?.createdBy?.provider_id)
-                        )
-                      }
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate(routes.userDetail, {
+                          state: {
+                            id: encode(details?.createdBy?.provider_id),
+                          },
+                        });
+                      }}
                     >
                       View Profile
                     </button>

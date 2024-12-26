@@ -3,7 +3,7 @@ import Clock from "../../../assets/user/images/clock.svg";
 import Dollar from "../../../assets/user/images/dollar.svg";
 import SuitCase from "../../../assets/user/images/jobs-suitcase.svg";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { decode, encode } from "base-64";
 import moment from "moment";
 import { api } from "../../../utlis/user/api.utlis";
@@ -25,7 +25,8 @@ const Details = () => {
   const [imgError, setImgError] = useState({ status: false, msg: null });
   const [apply, setApply] = useState({ status: false, id: null });
   const [loading, setLoading] = useState(false);
-  const { id } = useParams();
+  const localData = useLocation();
+  const id = localData.state?.id;
 
   let userData = JSON.parse(localStorage.getItem("careexchange"));
 
@@ -37,7 +38,9 @@ const Details = () => {
 
   const validationSchema = Yup.object().shape({
     full_name: Yup.string().required("Name is required!"),
-    mobile: Yup.string().min(14, 'Phone is invalid').required("Phone is required!"),
+    mobile: Yup.string()
+      .min(14, "Phone is invalid")
+      .required("Phone is required!"),
     email: Yup.string().email().required("Email is required!"),
   });
 

@@ -353,7 +353,11 @@ const Page = () => {
                       className="col-md-4 mb-3"
                       onClick={(e) => {
                         e.preventDefault();
-                        navigate(routes.userDetail + `/${encode(ele.id)}`);
+                        navigate(routes.userDetail, {
+                          state: {
+                            id: encode(ele.id),
+                          },
+                        });
                       }}
                     >
                       <div className="care-card">
@@ -453,9 +457,15 @@ const Page = () => {
                           <h4>{ele.title ?? "NA"}</h4>
                           <Link
                             className="viewmorebtn"
-                            to={
-                              routes.advertisementDetails + `/${encode(ele.id)}`
-                            }
+                            to=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(routes.advertisementDetails, {
+                                state: {
+                                  id: encode(ele.id),
+                                },
+                              });
+                            }}
                           >
                             View More
                           </Link>

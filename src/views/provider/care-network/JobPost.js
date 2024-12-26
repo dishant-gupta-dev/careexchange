@@ -11,6 +11,8 @@ import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { routes } from "../../../utlis/provider/routes.utlis";
 import { GeolocationApiKey } from "../../../utlis/common.utlis";
 import InputMask from "react-input-mask";
+import DatePicker from "react-multi-date-picker";
+import TimePicker from "react-multi-date-picker/plugins/time_picker";
 
 const JobPost = () => {
   const inputRef = useRef(null);
@@ -57,6 +59,8 @@ const JobPost = () => {
     description: "",
     qualification: "",
     benefit: "",
+    start_time: "",
+    end_time: "",
     pay_range: "",
     pay_range_type: "",
     name: userData.fullname ?? "",
@@ -75,9 +79,13 @@ const JobPost = () => {
     pay_range_type: Yup.string().required("Payment type is required!"),
     name: Yup.string().required("Name is required!"),
     email: Yup.string().required("Email is required!"),
-    phone: Yup.string().min(14, 'Phone is invalid').required("Phone is required!"),
+    phone: Yup.string()
+      .min(14, "Phone is invalid")
+      .required("Phone is required!"),
     experience: Yup.string().required("Working Experience is required!"),
     sub_category: Yup.string().required("Care Sub Category is required!"),
+    start_time: Yup.string().required("Start Time is required!"),
+        end_time: Yup.string().required("End Time is required!"),
   });
 
   const addPost = async (formValue) => {
@@ -89,20 +97,6 @@ const JobPost = () => {
       setJobTypeErr(true);
       return;
     } else setJobTypeErr(false);
-    if (
-      (startTime === "" || startTime === null || !startTime) &&
-      jobType !== "per-diem"
-    ) {
-      setStartTimeErr(true);
-      return;
-    } else setStartTimeErr(false);
-    if (
-      (endTime === "" || endTime === null || !endTime) &&
-      jobType !== "per-diem"
-    ) {
-      setEndTimeErr(true);
-      return;
-    } else setEndTimeErr(false);
     setLoading(true);
     let form = JSON.stringify({
       care_provider_id: null,
@@ -122,7 +116,7 @@ const JobPost = () => {
       contact_person_phone: formValue.phone,
       shift: jobType,
       working_expirence: formValue.experience,
-      working_time: `${startTime} - ${endTime}`,
+      working_time: `${formValue.start_time} - ${formValue.end_time}`,
     });
     const response = await ApiService.postAPIWithAccessToken(api.addPost, form);
     setLocation({
@@ -389,40 +383,62 @@ const JobPost = () => {
                         <div class="col-md-3">
                           <div class="form-group">
                             <h4>Start Working Timing</h4>
-                            <input
-                              type="time"
-                              className="form-control"
-                              id="appt"
-                              disabled={jobType == "per-diem" ? true : false}
+                            <Field name="start_time" className="form-control">
+                              {({ field }) => (
+                                <DatePicker
+                                  {...field}
+                                  disableDayPicker
+                                  format="hh:mm A"
+                                  placeholder="Select Start Time"
+                                  value={values.start_time || ""}
+                                  onChange={(value) =>
+                                    setFieldValue("start_time", value)
+                                  }
+                                  plugins={[
+                                    <TimePicker
+                                      hideSeconds
+                                      position="bottom"
+                                    />,
+                                  ]}
+                                />
+                              )}
+                            </Field>
+                            <ErrorMessage
                               name="start_time"
-                              defaultValue={startTime}
-                              onChange={(e) => setStartTime(e.target.value)}
+                              component="div"
+                              className="alert alert-danger"
                             />
-                            {startTimeErr && (
-                              <div className="alert alert-danger">
-                                Start Working Time is required!
-                              </div>
-                            )}
                           </div>
                         </div>
                         <div class="col-md-3">
                           <div class="form-group">
                             <h4>End Working Timing</h4>
-                            <input
-                              min={startTime}
-                              defaultValue={endTime}
-                              type="time"
-                              className="form-control"
-                              disabled={jobType == "per-diem" ? true : false}
-                              id="appt"
+                            <Field name="end_time" className="form-control">
+                              {({ field }) => (
+                                <DatePicker
+                                  {...field}
+                                  disableDayPicker
+                                  format="hh:mm A"
+                                  placeholder="Select End Time"
+                                  value={values.end_time || ""}
+                                  onChange={(value) =>
+                                    setFieldValue("end_time", value)
+                                  }
+                                  plugins={[
+                                    <TimePicker
+                                      hideSeconds
+                                      minTime={values.start_time || "15:00"}
+                                      position="bottom"
+                                    />,
+                                  ]}
+                                />
+                              )}
+                            </Field>
+                            <ErrorMessage
                               name="end_time"
-                              onChange={(e) => setEndTime(e.target.value)}
+                              component="div"
+                              className="alert alert-danger"
                             />
-                            {endTimeErr && (
-                              <div className="alert alert-danger">
-                                End Working Time is required!
-                              </div>
-                            )}
                           </div>
                         </div>
 

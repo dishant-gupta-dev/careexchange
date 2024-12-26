@@ -234,9 +234,15 @@ const PostedJob = () => {
                             </Link>
                             <Link
                               class="btn-gr"
-                              to={`${routes.careNetworkDetails}/${encode(
-                                ele.id
-                              )}`}
+                              to=""
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(routes.careNetworkDetails, {
+                                  state: {
+                                    id: encode(ele.id),
+                                  },
+                                });
+                              }}
                             >
                               View Job Detail
                             </Link>

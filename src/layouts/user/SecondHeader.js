@@ -32,7 +32,13 @@ const SecondHeader = () => {
                 <Link
                   to={routes.dashboard}
                   className={
-                    [routes.dashboard].includes(location.pathname)
+                    [
+                      routes.dashboard,
+                      routes.userDetail,
+                      routes.advertisementDetails,
+                      routes.findCare,
+                      routes.findCareHomeAss,
+                    ].includes(location.pathname)
                       ? "wshomelink active"
                       : "wshomelink"
                   }
@@ -70,7 +76,9 @@ const SecondHeader = () => {
                 <Link
                   to={routes.message}
                   className={
-                    [routes.message].includes(location.pathname)
+                    [routes.message, routes.userMessage].includes(
+                      location.pathname
+                    )
                       ? "wshomelink active"
                       : "wshomelink"
                   }
@@ -123,7 +131,9 @@ const SecondHeader = () => {
                 <Link
                   to={routes.myJobs}
                   className={
-                    [routes.myJobs].includes(location.pathname)
+                    [routes.myJobs, routes.jobDetails].includes(
+                      location.pathname
+                    )
                       ? "wshomelink active"
                       : "wshomelink"
                   }
@@ -186,7 +196,14 @@ const SecondHeader = () => {
                 <Link
                   to={routes.careNetwork}
                   className={
-                    [routes.careNetwork, routes.appliedJob, routes.jobRequest, routes.addPost, routes.postedJob].includes(location.pathname)
+                    [
+                      routes.careNetwork,
+                      routes.appliedJob,
+                      routes.jobRequest,
+                      routes.addPost,
+                      routes.postedJob,
+                      routes.careNetworkDetails,
+                    ].includes(location.pathname)
                       ? "wshomelink active"
                       : "wshomelink"
                   }
@@ -493,7 +510,18 @@ const SecondHeader = () => {
                 </Link>
               </li>
               <li aria-haspopup="true">
-                <a href="#">
+                <Link
+                  to="javascript:void(0)"
+                  className={
+                    [
+                      routes.termsCondition,
+                      routes.privacyPolicy,
+                      routes.aboutUs,
+                    ].includes(location.pathname)
+                      ? "wshomelink active"
+                      : "wshomelink"
+                  }
+                >
                   <span className="wsmenuicon">
                     <svg
                       width="24"
@@ -535,7 +563,7 @@ const SecondHeader = () => {
                   </span>
                   <span className="wsmenutext"> More</span>
                   <i className="fa fa-angle-down"></i>
-                </a>
+                </Link>
                 <ul className="sub-menu">
                   <li aria-haspopup="true">
                     <Link to={routes.aboutUs}>About US</Link>

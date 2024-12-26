@@ -11,9 +11,10 @@ import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import moment from "moment";
 import { encode } from "base-64";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Page = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [jobs, setJobs] = useState([]);
   const [status, setStatus] = useState(0);
@@ -131,9 +132,15 @@ const Page = () => {
                                       {/* Status: <span>{ele.request_status ?? "NA"}</span> */}
                                       <Link
                                         className="btn-bl"
-                                        to={`${routes.jobDetails}/${encode(
-                                          ele.id
-                                        )}`}
+                                        to=""
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          navigate(routes.jobDetails, {
+                                            state: {
+                                              id: encode(ele.id),
+                                            },
+                                          });
+                                        }}
                                       >
                                         View Job Detail
                                       </Link>

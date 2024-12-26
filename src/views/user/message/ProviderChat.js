@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "../../../firebase";
 import ApiService from "../../../core/services/ApiService";
 import { serverTimestamp } from "firebase/firestore";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import moment from "moment/moment";
 import Search from "../../../assets/user/images/search1.svg";
 import locationImage from "../../../assets/admin/images/Google_Map.svg";
@@ -26,7 +26,8 @@ import { decode } from "base-64";
 
 const ProviderChat = () => {
   let userId = JSON.parse(localStorage.getItem("careexchange")).userId;
-  const { id } = useParams();
+  const localData = useLocation();
+  const id = localData.state?.id;
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
   const [providers, setProvider] = useState([]);
