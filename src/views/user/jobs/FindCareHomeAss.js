@@ -64,7 +64,7 @@ const FindCareHomeAss = () => {
     radius: selectRadius ?? "",
     category: selectCategories ?? "",
     sub_category: selectSubCategories ?? "",
-    address: "",
+    address: address ?? "",
   };
 
   const initialSecondValues = {
@@ -419,7 +419,7 @@ const FindCareHomeAss = () => {
                                 />
                               </div>
 
-                              <div className="col-md-12">
+                              <div className="col-md-12 mt-2">
                                 <div className="form-group">
                                   <h4>Search By Miles Away</h4>
                                   <div className="choosemiles-list">

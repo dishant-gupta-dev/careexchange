@@ -83,7 +83,7 @@ const Page = () => {
                           <p>Subscribe To Our Newsletter & Stay Updated</p>
                           {newsletter ? (
                             <h5 className="mt-2">
-                              Newsletter subscription already confirmed
+                              Newsletter Subscription Already Confirmed
                             </h5>
                           ) : (
                             <Formik
