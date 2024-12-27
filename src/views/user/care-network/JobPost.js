@@ -70,6 +70,7 @@ const JobPost = () => {
     description: "",
     qualification: "",
     benefit: "",
+    address: "",
     pay_range: "",
     start_time: "",
     end_time: "",
@@ -88,6 +89,7 @@ const JobPost = () => {
     benefit: Yup.string().required("Benefits is required!"),
     pay_range: Yup.string().required("Payment amount is required!"),
     pay_range_type: Yup.string().required("Payment type is required!"),
+    address: Yup.string().required("Address is required!"),
     name: Yup.string().required("Name is required!"),
     email: Yup.string().required("Email is required!"),
     phone: Yup.string()
@@ -165,7 +167,7 @@ const JobPost = () => {
     return null;
   }
 
-  const handlePlaceChange = () => {
+  const handlePlaceChange = (setFieldValue) => {
     let [address] = inputRef.current.getPlaces();
     setLocation({
       lat: address.geometry.location.lat(),
@@ -176,6 +178,7 @@ const JobPost = () => {
         address.address_components
       ),
     });
+    setFieldValue("address", address.formatted_address);
   };
 
   useEffect(() => {
@@ -278,7 +281,9 @@ const JobPost = () => {
                             {isLoaded && (
                               <StandaloneSearchBox
                                 onLoad={(ref) => (inputRef.current = ref)}
-                                onPlacesChanged={handlePlaceChange}
+                                onPlacesChanged={() =>
+                                  handlePlaceChange(setFieldValue)
+                                }
                               >
                                 <input
                                   className="form-control"
@@ -287,15 +292,15 @@ const JobPost = () => {
                                 />
                               </StandaloneSearchBox>
                             )}
-                            {locError && (
-                              <div className="alert alert-danger">
-                                Address is required!
-                              </div>
-                            )}
                             <span class="form-group-icon">
                               <img src={MapImg} />
                             </span>
                           </div>
+                          <ErrorMessage
+                            name="address"
+                            component="div"
+                            className="alert alert-danger"
+                          />
                         </div>
                         <div class="col-md-12">
                           <div class="form-group">

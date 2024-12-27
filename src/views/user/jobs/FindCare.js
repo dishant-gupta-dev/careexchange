@@ -51,6 +51,7 @@ const FindCare = () => {
     radius: selectRadius ?? "",
     category: selectCategories ?? "",
     sub_category: selectSubCategories ?? "",
+    address: "",
   };
 
   const initialSecondValues = {
@@ -85,6 +86,7 @@ const FindCare = () => {
     radius: Yup.string().required("Radius is required!"),
     category: Yup.string().required("Category is required!"),
     sub_category: Yup.string().required("Sub Category is required!"),
+    address: Yup.string().required("Address is required!"),
   });
 
   const validationSecondSchema = Yup.object().shape({
@@ -210,13 +212,14 @@ const FindCare = () => {
     libraries: ["places"],
   });
 
-  const handlePlaceChange = () => {
+  const handlePlaceChange = (setFieldValue) => {
     let [address] = inputRef.current.getPlaces();
     setLocation({
       lat: address.geometry.location.lat(),
       lng: address.geometry.location.lng(),
       address: address.formatted_address,
     });
+    setFieldValue("address", address.formatted_address);
   };
 
   function findCategory(id) {
@@ -323,7 +326,9 @@ const FindCare = () => {
                                   {isLoaded && (
                                     <StandaloneSearchBox
                                       onLoad={(ref) => (inputRef.current = ref)}
-                                      onPlacesChanged={handlePlaceChange}
+                                      onPlacesChanged={() =>
+                                        handlePlaceChange(setFieldValue)
+                                      }
                                     >
                                       <input
                                         className="form-control"
@@ -336,6 +341,11 @@ const FindCare = () => {
                                     <img src={GmapImg} />
                                   </span>
                                 </div>
+                                <ErrorMessage
+                                  name="address"
+                                  component="div"
+                                  className="alert alert-danger"
+                                />
                               </div>
 
                               <div className="col-md-12">

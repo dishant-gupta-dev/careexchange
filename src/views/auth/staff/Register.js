@@ -94,7 +94,9 @@ const Register = () => {
 
   const initialFirstValues = {
     radius: selectRadius ?? "",
+    category: selectCategories ?? "",
     sub_category: selectSubCategories ?? "",
+    address: "",
     name: "",
     email: "",
     phone: "",
@@ -115,7 +117,9 @@ const Register = () => {
 
   const validationFirstSchema = Yup.object().shape({
     radius: Yup.string().required("Radius is required!"),
+    category: Yup.string().required("Category is required!"),
     sub_category: Yup.string().required("Sub Category is required!"),
+    address: Yup.string().required("Address is required!"),
     name: Yup.string().required("Name is required!"),
     email: Yup.string().required("Email is required!"),
     phone: Yup.string()
@@ -147,7 +151,10 @@ const Register = () => {
             return file && file.size <= MultipleFile * 1024 * 1024;
           })
           .test("fileType", "Unsupported file type", (file) => {
-            return file && ["image/jpeg", "image/png", "image/jpg"].includes(file.type);
+            return (
+              file &&
+              ["image/jpeg", "image/png", "image/jpg"].includes(file.type)
+            );
           })
       )
       .required("At least one image is required")
@@ -223,7 +230,7 @@ const Register = () => {
     form.append("latitude", location.lat);
     form.append("longitude", location.lng);
     form.append("resume", formValue.resume);
-    (formValue.files).forEach((image) => {
+    formValue.files.forEach((image) => {
       form.append("license_image", image);
     });
     const response = await ApiService.postAPIMultiPart(api.register, form);
@@ -272,7 +279,7 @@ const Register = () => {
     return null;
   }
 
-  const handlePlaceChange = () => {
+  const handlePlaceChange = (setFieldValue) => {
     let [address] = inputRef.current.getPlaces();
     // console.log(findStateCity('administrative_area_level_1', address.address_components));
     // console.log(findStateCity('locality', address.address_components));
@@ -281,6 +288,7 @@ const Register = () => {
       lng: address.geometry.location.lng(),
       address: address.formatted_address,
     });
+    setFieldValue("address", address.formatted_address);
   };
 
   const verifyUser = async () => {
@@ -473,7 +481,9 @@ const Register = () => {
                                           onLoad={(ref) =>
                                             (inputRef.current = ref)
                                           }
-                                          onPlacesChanged={handlePlaceChange}
+                                          onPlacesChanged={() =>
+                                            handlePlaceChange(setFieldValue)
+                                          }
                                         >
                                           <input
                                             className="form-control"
@@ -486,6 +496,11 @@ const Register = () => {
                                         <img src={GmapImg} />
                                       </span>
                                     </div>
+                                    <ErrorMessage
+                                      name="address"
+                                      component="div"
+                                      className="alert alert-danger"
+                                    />
                                   </div>
 
                                   <div className="col-md-12">
@@ -684,33 +699,50 @@ const Register = () => {
                                       <h4>Category</h4>
                                       <div className="row">
                                         <div className="col-md-12">
-                                          <select
-                                            className="form-control"
-                                            name="category"
-                                            defaultValue={selectCategories}
-                                            onChange={(e) => {
-                                              getSubCategoryList(
-                                                e.target.value
-                                              );
-                                              setSelectCategory(e.target.value);
-                                            }}
-                                          >
-                                            <option value="">
-                                              Select Category
-                                            </option>
-                                            {categories.length !== 0
-                                              ? categories.map((ele, indx) => {
-                                                  return (
-                                                    <option
-                                                      key={indx}
-                                                      value={ele.id}
-                                                    >
-                                                      {ele.name ?? "NA"}
-                                                    </option>
+                                          <Field name="category">
+                                            {({ field }) => (
+                                              <select
+                                                {...field}
+                                                className="form-control"
+                                                value={selectCategories}
+                                                onChange={(e) => {
+                                                  setFieldValue(
+                                                    field.name,
+                                                    e.target.value
                                                   );
-                                                })
-                                              : null}
-                                          </select>
+                                                  getSubCategoryList(
+                                                    e.target.value
+                                                  );
+                                                  setSelectCategory(
+                                                    e.target.value
+                                                  );
+                                                }}
+                                              >
+                                                <option value="">
+                                                  Select Category
+                                                </option>
+                                                {categories.length !== 0
+                                                  ? categories.map(
+                                                      (ele, indx) => {
+                                                        return (
+                                                          <option
+                                                            key={indx}
+                                                            value={ele.id}
+                                                          >
+                                                            {ele.name ?? "NA"}
+                                                          </option>
+                                                        );
+                                                      }
+                                                    )
+                                                  : null}
+                                              </select>
+                                            )}
+                                          </Field>
+                                          <ErrorMessage
+                                            name="category"
+                                            component="div"
+                                            className="alert alert-danger"
+                                          />
                                         </div>
                                       </div>
                                     </div>

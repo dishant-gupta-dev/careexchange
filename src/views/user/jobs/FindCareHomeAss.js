@@ -64,6 +64,7 @@ const FindCareHomeAss = () => {
     radius: selectRadius ?? "",
     category: selectCategories ?? "",
     sub_category: selectSubCategories ?? "",
+    address: "",
   };
 
   const initialSecondValues = {
@@ -100,6 +101,7 @@ const FindCareHomeAss = () => {
     radius: Yup.string().required("Radius is required!"),
     category: Yup.string().required("Category is required!"),
     sub_category: Yup.string().required("Sub Category is required!"),
+    address: Yup.string().required("Address is required!"),
   });
 
   const validationSecondSchema = Yup.object().shape({
@@ -260,13 +262,14 @@ const FindCareHomeAss = () => {
     libraries: ["places"],
   });
 
-  const handlePlaceChange = () => {
+  const handlePlaceChange = (setFieldValue) => {
     let [address] = inputRef.current.getPlaces();
     setLocation({
       lat: address.geometry.location.lat(),
       lng: address.geometry.location.lng(),
       address: address.formatted_address,
     });
+    setFieldValue("address", address.formatted_address);
   };
 
   function findCategory(id) {
@@ -304,7 +307,8 @@ const FindCareHomeAss = () => {
 
   useEffect(() => {
     getProviders(
-      api.providerList + `?user_type=2&latitude=${location.lat}&longitude=${location.lng}&radious=${selectRadius}&page=${pageNum}&limit=${providerLIMIT}`
+      api.providerList +
+        `?user_type=2&latitude=${location.lat}&longitude=${location.lng}&radious=${selectRadius}&page=${pageNum}&limit=${providerLIMIT}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab, pageNum]);
@@ -393,7 +397,9 @@ const FindCareHomeAss = () => {
                                   {isLoaded && (
                                     <StandaloneSearchBox
                                       onLoad={(ref) => (inputRef.current = ref)}
-                                      onPlacesChanged={handlePlaceChange}
+                                      onPlacesChanged={() =>
+                                        handlePlaceChange(setFieldValue)
+                                      }
                                     >
                                       <input
                                         className="form-control"
@@ -406,6 +412,11 @@ const FindCareHomeAss = () => {
                                     <img src={GmapImg} />
                                   </span>
                                 </div>
+                                <ErrorMessage
+                                  name="address"
+                                  component="div"
+                                  className="alert alert-danger"
+                                />
                               </div>
 
                               <div className="col-md-12">
@@ -1492,7 +1503,13 @@ const FindCareHomeAss = () => {
                                         </div>
                                       </div>
                                     </label>
-                                    <div className="text-center mt-2 w-100 provider-list-detail-btn" style={{ position: "absolute", top: "74%" }}>
+                                    <div
+                                      className="text-center mt-2 w-100 provider-list-detail-btn"
+                                      style={{
+                                        position: "absolute",
+                                        top: "74%",
+                                      }}
+                                    >
                                       <Link
                                         className="viewmorebtn mx-1"
                                         to=""
