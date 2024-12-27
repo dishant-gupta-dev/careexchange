@@ -474,7 +474,7 @@ const Register = () => {
                                   </div>
 
                                   <div className="col-md-6">
-                                    <div className="form-group search-form-group">
+                                    <div className="form-group search-form-group mb-1">
                                       <h4>Service Area</h4>
                                       {isLoaded && (
                                         <StandaloneSearchBox

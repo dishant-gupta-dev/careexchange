@@ -392,7 +392,7 @@ const FindCareHomeAss = () => {
                           <Form id="first-step-form">
                             <div className="row">
                               <div className="col-md-12">
-                                <div className="form-group search-form-group">
+                                <div className="form-group search-form-group mb-1">
                                   <h4>Job Location</h4>
                                   {isLoaded && (
                                     <StandaloneSearchBox

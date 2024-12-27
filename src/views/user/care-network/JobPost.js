@@ -79,6 +79,8 @@ const JobPost = () => {
     email: userData.email ?? "",
     phone: userData.mobile ?? "",
     experience: "",
+    shift: "",
+    category: "",
     sub_category: "",
   };
 
@@ -96,20 +98,14 @@ const JobPost = () => {
       .min(14, "Phone is invalid")
       .required("Phone is required!"),
     experience: Yup.string().required("Working Experience is required!"),
-    sub_category: Yup.string().required("Care Sub Category is required!"),
+    shift: Yup.string().required("Shift is required!"),
+    category: Yup.string().required("Category is required!"),
+    sub_category: Yup.string().required("Sub Category is required!"),
     start_time: Yup.string().required("Start Time is required!"),
     end_time: Yup.string().required("End Time is required!"),
   });
 
   const addPost = async (formValue) => {
-    if (location.lat === "" || location.lat === null || !location.lat) {
-      setLocError(true);
-      return;
-    } else setLocError(false);
-    if (jobType === "" || jobType === null || !jobType) {
-      setJobTypeErr(true);
-      return;
-    } else setJobTypeErr(false);
     setLoading(true);
     let form = JSON.stringify({
       care_provider_id: null,
@@ -127,7 +123,7 @@ const JobPost = () => {
       contact_person_name: formValue.name,
       contact_person_email: formValue.email,
       contact_person_phone: formValue.phone,
-      shift: jobType,
+      shift: formValue.shift,
       working_expirence: formValue.experience,
       working_time: `${formValue.start_time} - ${formValue.end_time}`,
     });
@@ -276,7 +272,7 @@ const JobPost = () => {
                           </div>
                         </div>
                         <div class="col-md-6">
-                          <div class="form-group search-form-group">
+                          <div class="form-group search-form-group mb-1">
                             <h4>Job Location</h4>
                             {isLoaded && (
                               <StandaloneSearchBox
@@ -327,24 +323,34 @@ const JobPost = () => {
                         <div class="col-md-6">
                           <div class="form-group">
                             <h4>Category</h4>
-                            <select
-                              className="form-control"
+                            <Field name="category">
+                              {({ field }) => (
+                                <select
+                                  {...field}
+                                  className="form-control"
+                                  onChange={(e) => {
+                                    setFieldValue(field.name, e.target.value);
+                                    getSubCategoryList(e.target.value);
+                                  }}
+                                >
+                                  <option value="">Select Category</option>
+                                  {categories.length !== 0
+                                    ? categories.map((ele, indx) => {
+                                        return (
+                                          <option key={indx} value={ele.id}>
+                                            {ele.name ?? "NA"}
+                                          </option>
+                                        );
+                                      })
+                                    : null}
+                                </select>
+                              )}
+                            </Field>
+                            <ErrorMessage
                               name="category"
-                              onChange={(e) =>
-                                getSubCategoryList(e.target.value)
-                              }
-                            >
-                              <option value="">Select Category</option>
-                              {categories.length !== 0
-                                ? categories.map((ele, indx) => {
-                                    return (
-                                      <option key={indx} value={ele.id}>
-                                        {ele.name ?? "NA"}
-                                      </option>
-                                    );
-                                  })
-                                : null}
-                            </select>
+                              component="div"
+                              className="alert alert-danger"
+                            />
                           </div>
                         </div>
 
@@ -416,22 +422,22 @@ const JobPost = () => {
                         <div class="col-md-6">
                           <div class="form-group">
                             <h4>Job Type</h4>
-                            <select
+                            <Field
+                              as="select"
                               type="text"
                               className="form-control todo-list-input"
                               name="shift"
-                              onChange={(e) => setJobType(e.target.value)}
                             >
                               <option value="">Select Job Type</option>
                               <option value="Full Time">Full Time</option>
                               <option value="Part Time">Part Time</option>
                               <option value="Per Diem">Per Diem</option>
-                            </select>
-                            {jobTypeErr && (
-                              <div className="alert alert-danger">
-                                Job Type is required!
-                              </div>
-                            )}
+                            </Field>
+                            <ErrorMessage
+                              name="shift"
+                              component="div"
+                              className="alert alert-danger"
+                            />
                           </div>
                         </div>
 
