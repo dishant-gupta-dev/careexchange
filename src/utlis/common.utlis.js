@@ -25,9 +25,9 @@ export const userType = (Id) => {
 export const LIMIT = 10;
 export const providerLIMIT = 3;
 export const adsLIMIT = 5;
-export const CommonMiles = "1000";
-export const SingleFile = 2;
-export const MultipleFile = 5;
+export const CommonMiles = "1000";  //  1000 Miles
+export const SingleFile = 2;  //  2MB
+export const MultipleFile = 5;  //  5MB
 export const GeolocationApiKey = "AIzaSyB7FaWV_op0bNaxtZPe_m7OHjBFs1C4o2A";
 
 export const totalPageCalculator = (total, limit) => {

@@ -52,9 +52,7 @@ const Register = () => {
   const [serviceId, setServiceId] = useState();
   const [startDate, setStartDate] = useState("");
   const [startError, setStartError] = useState(false);
-  const [file, setFile] = useState();
   const [multiFile, setMultiFile] = useState([]);
-  const [imgError, setImgError] = useState({ status: false, msg: null });
   const [imgMultiError, setImgMultiError] = useState({
     status: false,
     msg: null,
@@ -111,6 +109,8 @@ const Register = () => {
     payment_accepted_type: "",
     description: "",
     experience: "",
+    image: "",
+    files: "",
   };
 
   const validationFirstSchema = Yup.object().shape({
@@ -118,7 +118,9 @@ const Register = () => {
     sub_category: Yup.string().required("Sub Category is required!"),
     name: Yup.string().required("Name is required!"),
     email: Yup.string().required("Email is required!"),
-    phone: Yup.string().min(14, 'Phone is invalid').required("Phone is required!"),
+    phone: Yup.string()
+      .min(14, "Phone is invalid")
+      .required("Phone is required!"),
     free_in_home_assessment: Yup.string().required(
       "In-Home assessment is required!"
     ),
@@ -128,6 +130,30 @@ const Register = () => {
     payment_accepted_type: Yup.string().required("Payment type is required!"),
     description: Yup.string().required("Description is required!"),
     experience: Yup.string().required("Experience is required!"),
+    image: Yup.mixed()
+      .required("Please upload your profile image")
+      .test("fileSize", "File size is too large", (value) => {
+        return value && value.size <= SingleFile * 1024 * 1024;
+      })
+      .test("fileType", "Unsupported file type", (value) => {
+        return (
+          value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        );
+      }),
+    files: Yup.array()
+      .of(
+        Yup.mixed()
+          .required("License image is required")
+          .test("fileSize", "File size is too large", (file) => {
+            return file && file.size <= MultipleFile * 1024 * 1024;
+          })
+          .test("fileType", "Unsupported file type", (file) => {
+            return file && ["image/jpeg", "image/png", "image/jpg"].includes(file.type);
+          })
+      )
+      .required("At least one image is required")
+      .min(1, "At least one image is required")
+      .max(3, "You can upload a maximum of 3 images"),
   });
 
   const getCategoryList = async (api) => {
@@ -183,14 +209,6 @@ const Register = () => {
       setCityError(true);
       return;
     } else setCityError(false);
-    if (file === "" || file === null || !file) {
-      setImgError({ status: true, msg: `File not found.` });
-      return;
-    } else setImgError({ status: false, msg: null });
-    if (multiFile.length === 0) {
-      setImgMultiError({ status: true, msg: `File not found.` });
-      return;
-    } else setImgMultiError({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
     form.append("service_id", formValue.sub_category);
@@ -212,8 +230,8 @@ const Register = () => {
     form.append("business_address", location.address);
     form.append("latitude", location.lat);
     form.append("longitude", location.lng);
-    form.append("file", file);
-    multiFile.forEach((image) => {
+    form.append("file", formValue.image);
+    (formValue.files).forEach((image) => {
       form.append("license_image", image);
     });
     selectedState.forEach((ele) => {
@@ -313,55 +331,6 @@ const Register = () => {
   };
 
   const handleChange = (code) => setCode(code);
-
-  const handleImgChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const fileSizeInMB = file.size / (1024 * 1024);
-      const maxFileSize = SingleFile;
-      if (fileSizeInMB > maxFileSize) {
-        setFile();
-        setImgError({
-          status: true,
-          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
-            2
-          )} MB.`,
-        });
-      } else {
-        setFile(e.target.files[0]);
-        setImgError({ status: false, msg: null });
-      }
-    } else {
-      setImgError({ status: true, msg: `File not found.` });
-    }
-  };
-
-  const handleMultiImgChange = (e) => {
-    const files = e.target.files;
-    if (files) {
-      const maxTotalSize = MultipleFile;
-      let totalFileSize = 0;
-      for (let i = 0; i < files.length; i++) {
-        totalFileSize += files[i].size;
-      }
-      const totalFileSizeInMB = totalFileSize / (1024 * 1024);
-      if (totalFileSizeInMB > maxTotalSize) {
-        setMultiFile([]);
-        setImgMultiError({
-          status: true,
-          msg: `Total file size exceeds ${maxTotalSize} MB. Your total size is ${totalFileSizeInMB.toFixed(
-            2
-          )} MB.`,
-        });
-      } else {
-        let arr = Object.entries(files).map((e) => e[1]);
-        setMultiFile([...multiFile, ...arr]);
-        setImgMultiError({ status: false, msg: null });
-      }
-    } else {
-      setImgMultiError({ status: true, msg: `File not found.` });
-    }
-  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -948,19 +917,27 @@ const Register = () => {
 
                                   <div className="col-md-6">
                                     <div className="form-group">
-                                      <h4>Upload File</h4>
-                                      <input
-                                        type="file"
-                                        name="file"
-                                        accept="image/*"
-                                        onChange={handleImgChange}
-                                        className="form-control todo-list-input"
+                                      <h4>Upload Image</h4>
+                                      <Field name="image">
+                                        {({ field, form }) => (
+                                          <input
+                                            type="file"
+                                            accept="image/*"
+                                            className="form-control"
+                                            onChange={(event) =>
+                                              setFieldValue(
+                                                "image",
+                                                event.currentTarget.files[0]
+                                              )
+                                            }
+                                          />
+                                        )}
+                                      </Field>
+                                      <ErrorMessage
+                                        name="image"
+                                        component="div"
+                                        className="alert alert-danger"
                                       />
-                                      {imgError.status && (
-                                        <div className="alert alert-danger">
-                                          {imgError.msg ?? null}
-                                        </div>
-                                      )}
                                     </div>
                                   </div>
 
@@ -983,23 +960,30 @@ const Register = () => {
 
                                   <div className="col-md-6">
                                     <div className="form-group">
-                                      <h4>Upload License</h4>
-                                      <input
-                                        type="file"
-                                        name="license_image"
-                                        accept="image/*"
-                                        data-multiple-caption="{count} files selected"
-                                        multiple="5"
-                                        onChange={(e) =>
-                                          handleMultiImgChange(e)
-                                        }
-                                        className="form-control todo-list-input"
+                                      <h4>Upload License Images</h4>
+                                      <Field name="files">
+                                        {({ field, form }) => (
+                                          <div>
+                                            <input
+                                              type="file"
+                                              multiple
+                                              accept="image/*"
+                                              className="form-control"
+                                              onChange={(event) => {
+                                                const files = Array.from(
+                                                  event.currentTarget.files
+                                                );
+                                                setFieldValue("files", files);
+                                              }}
+                                            />
+                                          </div>
+                                        )}
+                                      </Field>
+                                      <ErrorMessage
+                                        name="files"
+                                        component="div"
+                                        className="alert alert-danger"
                                       />
-                                      {imgMultiError.status && (
-                                        <div className="alert alert-danger">
-                                          {imgMultiError.msg ?? null}
-                                        </div>
-                                      )}
                                     </div>
                                   </div>
 
@@ -1133,7 +1117,6 @@ const Register = () => {
                                           setSelectSubCategory("");
                                           setSubCategory([]);
                                           setSelectRadius("");
-                                          setFile();
                                           setStartDate("");
                                         }}
                                       >

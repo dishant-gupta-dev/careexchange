@@ -16,9 +16,7 @@ import InputMask from "react-input-mask";
 const Page = () => {
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState();
-  const [file, setFile] = useState();
   const [edit, setEdit] = useState({ status: false, id: null });
-  const [imgError, setImgError] = useState({ status: false, msg: null });
   const [editImg, setEditImg] = useState(false);
   const [deleteAcc, setDeleteAcc] = useState(false);
 
@@ -30,12 +28,27 @@ const Page = () => {
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required("Name is required!"),
-    mobile: Yup.string().min(14, 'Phone is invalid').required("Mobile is required!"),
+    mobile: Yup.string()
+      .min(14, "Phone is invalid")
+      .required("Mobile is required!"),
   });
 
   const initialValuesImg = {
     image: "",
   };
+
+  const validationSchemaImg = Yup.object().shape({
+    image: Yup.mixed()
+      .required("Please upload your profile image")
+      .test("fileSize", "File size is too large", (value) => {
+        return value && value.size <= SingleFile * 1024 * 1024;
+      })
+      .test("fileType", "Unsupported file type", (value) => {
+        return (
+          value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        );
+      }),
+  });
 
   const dispatch = useDispatch();
   const signOut = useCallback(() => {
@@ -71,19 +84,14 @@ const Page = () => {
   };
 
   const updateProfileImg = async (formvalue) => {
-    if (file === "" || file === null || !file) {
-      setImgError({ status: true, msg: `File not found.` });
-      return;
-    } else setImgError({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
-    form.append("image", file);
+    form.append("image", formvalue.image);
     const response = await ApiService.postAPIWithAccessTokenMultiPart(
       api.updateProfileImage,
       form
     );
     setEditImg(false);
-    setFile("");
     if (response.data.status) {
       toast.success(response.data.message);
       getMyProfile(api.profile);
@@ -116,28 +124,6 @@ const Page = () => {
       setDetails(response.data.data);
     } else setDetails();
     setLoading(false);
-  };
-
-  const handleImgChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const fileSizeInMB = file.size / (1024 * 1024);
-      const maxFileSize = SingleFile;
-      if (fileSizeInMB > maxFileSize) {
-        setFile();
-        setImgError({
-          status: true,
-          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
-            2
-          )} MB.`,
-        });
-      } else {
-        setFile(e.target.files[0]);
-        setImgError({ status: false, msg: null });
-      }
-    } else {
-      setImgError({ status: true, msg: `File not found.` });
-    }
   };
 
   useEffect(() => {
@@ -384,43 +370,54 @@ const Page = () => {
               <Formik
                 initialValues={initialValuesImg}
                 validateOnChange={true}
+                validationSchema={validationSchemaImg}
                 onSubmit={updateProfileImg}
               >
-                <Form>
-                  <div className="form-group">
-                    <input
-                      type="file"
-                      name="image"
-                      accept="image/*"
-                      onChange={handleImgChange}
-                      className="form-control todo-list-input"
-                    />
-                    {imgError.status && (
-                      <div className="alert alert-danger">
-                        {imgError.msg ?? null}
-                      </div>
-                    )}
-                  </div>
-                  <div className="form-group text-end">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditImg(false);
-                      }}
-                      className="btn btn-re me-2"
-                      data-bs-dismiss="modal"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="btn btn-gr me-2"
-                      data-bs-dismiss="modal"
-                    >
-                      Update
-                    </button>
-                  </div>
-                </Form>
+                {({ setFieldValue }) => (
+                  <Form>
+                    <div className="form-group">
+                      <Field name="image">
+                        {({ field, form }) => (
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="form-control"
+                            onChange={(event) =>
+                              setFieldValue(
+                                "image",
+                                event.currentTarget.files[0]
+                              )
+                            }
+                          />
+                        )}
+                      </Field>
+                      <ErrorMessage
+                        name="image"
+                        component="div"
+                        className="alert alert-danger"
+                      />
+                    </div>
+                    <div className="form-group text-end">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEditImg(false);
+                        }}
+                        className="btn btn-re me-2"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="btn btn-gr me-2"
+                        data-bs-dismiss="modal"
+                      >
+                        Update
+                      </button>
+                    </div>
+                  </Form>
+                )}
               </Formik>
             </div>
           </ModalBody>

@@ -43,9 +43,7 @@ const Page = () => {
   const [jobRequestCount, setJobRequestCount] = useState(0);
   const [careNetwork, setCareNetwork] = useState([]);
   const [startDate, setStartDate] = useState("");
-  const [file, setFile] = useState();
   const [filter, setFilter] = useState(false);
-  const [imgError, setImgError] = useState({ status: false, msg: null });
   const [apply, setApply] = useState({ status: false, id: null });
   const [selectRadius, setSelectRadius] = useState(null);
   const [selectCategories, setSelectCategory] = useState("");
@@ -65,6 +63,7 @@ const Page = () => {
     full_name: userData.fullname ?? "",
     mobile: userData.mobile ?? "",
     email: userData.email ?? "",
+    resume: "",
   };
 
   const initialValuesFilter = {
@@ -78,6 +77,14 @@ const Page = () => {
       .min(14, "Phone is invalid")
       .required("Phone is required!"),
     email: Yup.string().email().required("Email is required!"),
+    resume: Yup.mixed()
+      .required("Please upload your resume")
+      .test("fileSize", "File size is too large", (value) => {
+        return value && value.size <= SingleFile * 1024 * 1024;
+      })
+      .test("fileType", "Unsupported file type", (value) => {
+        return value && ["application/pdf"].includes(value.type);
+      }),
   });
 
   const getCategoryList = async (api) => {
@@ -133,17 +140,13 @@ const Page = () => {
   };
 
   const applyJob = async (formValue) => {
-    if (file === "" || file === null || !file) {
-      setImgError({ status: true, msg: `File not found.` });
-      return;
-    } else setImgError({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
     form.append("full_name", formValue.full_name);
     form.append("email", formValue.email);
     form.append("mobile", formValue.mobile);
     form.append("job_id", apply.id);
-    form.append("resume", file);
+    form.append("resume", formValue.resume);
     const response = await ApiService.postAPIWithAccessTokenMultiPart(
       api.applyJob,
       form
@@ -172,28 +175,6 @@ const Page = () => {
       api.careNetworkList +
         `?latitude=${location.lat}&longitude=${location.lng}&categoryid=${selectCategories}&subcategoryid=${formValue.sub_category}&radius=${formValue.radius}&page=${pageNum}&limit=${LIMIT}`
     );
-  };
-
-  const handleResumeChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const fileSizeInMB = file.size / (1024 * 1024);
-      const maxFileSize = SingleFile;
-      if (fileSizeInMB > maxFileSize) {
-        setFile();
-        setImgError({
-          status: true,
-          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
-            2
-          )} MB.`,
-        });
-      } else {
-        setFile(e.target.files[0]);
-        setImgError({ status: false, msg: null });
-      }
-    } else {
-      setImgError({ status: true, msg: `File not found.` });
-    }
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -973,18 +954,26 @@ const Page = () => {
                       />
                     </div>
                     <div className="form-group">
-                      <input
-                        type="file"
-                        className="form-control"
-                        name="file"
-                        accept="application/pdf"
-                        onChange={handleResumeChange}
+                      <Field name="resume">
+                        {({ field, form }) => (
+                          <input
+                            type="file"
+                            accept="application/pdf"
+                            className="form-control"
+                            onChange={(event) =>
+                              setFieldValue(
+                                "resume",
+                                event.currentTarget.files[0]
+                              )
+                            }
+                          />
+                        )}
+                      </Field>
+                      <ErrorMessage
+                        name="resume"
+                        component="div"
+                        className="alert alert-danger"
                       />
-                      {imgError.status && (
-                        <div className="alert alert-danger">
-                          {imgError.msg ?? null}
-                        </div>
-                      )}
                     </div>
                     <div className="form-group text-end">
                       <button

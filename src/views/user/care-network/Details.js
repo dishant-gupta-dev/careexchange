@@ -22,8 +22,6 @@ import InputMask from "react-input-mask";
 const Details = () => {
   const navigate = useNavigate();
   const [job, setJob] = useState();
-  const [file, setFile] = useState();
-  const [imgError, setImgError] = useState({ status: false, msg: null });
   const [apply, setApply] = useState({ status: false, id: null });
   const [loading, setLoading] = useState(false);
   const localData = useLocation();
@@ -35,6 +33,7 @@ const Details = () => {
     full_name: userData.fullname ?? "",
     mobile: userData.mobile ?? "",
     email: userData.email ?? "",
+    resume: "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -43,6 +42,14 @@ const Details = () => {
       .min(14, "Phone is invalid")
       .required("Phone is required!"),
     email: Yup.string().email().required("Email is required!"),
+    resume: Yup.mixed()
+      .required("Please upload your resume")
+      .test("fileSize", "File size is too large", (value) => {
+        return value && value.size <= SingleFile * 1024 * 1024;
+      })
+      .test("fileType", "Unsupported file type", (value) => {
+        return value && ["application/pdf"].includes(value.type);
+      }),
   });
 
   const getJobDetails = async (api) => {
@@ -56,17 +63,13 @@ const Details = () => {
   };
 
   const applyJob = async (formValue) => {
-    if (file === "" || file === null || !file) {
-      setImgError({ status: true, msg: `File not found.` });
-      return;
-    } else setImgError({ status: false, msg: null });
     setLoading(true);
     let form = new FormData();
     form.append("full_name", formValue.full_name);
     form.append("email", formValue.email);
     form.append("mobile", formValue.mobile);
     form.append("job_id", apply.id);
-    form.append("resume", file);
+    form.append("resume", formValue.resume);
     const response = await ApiService.postAPIWithAccessTokenMultiPart(
       api.applyJob,
       form
@@ -82,28 +85,6 @@ const Details = () => {
       toast.error(response.data.message);
     }
     setLoading(false);
-  };
-
-  const handleResumeChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const fileSizeInMB = file.size / (1024 * 1024);
-      const maxFileSize = SingleFile;
-      if (fileSizeInMB > maxFileSize) {
-        setFile();
-        setImgError({
-          status: true,
-          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
-            2
-          )} MB.`,
-        });
-      } else {
-        setFile(e.target.files[0]);
-        setImgError({ status: false, msg: null });
-      }
-    } else {
-      setImgError({ status: true, msg: `File not found.` });
-    }
   };
 
   useEffect(() => {
@@ -177,9 +158,7 @@ const Details = () => {
                         </div>
                         <div className="jobs-details-item">
                           <img src={CallImg} /> Contact Phone:
-                          <span>
-                            {job?.contact_person_phone ?? "NA"}
-                          </span>
+                          <span>{job?.contact_person_phone ?? "NA"}</span>
                         </div>
                       </div>
                       <div className="jobs-details-point-list">
@@ -202,9 +181,7 @@ const Details = () => {
                         </div>
                         <div className="jobs-details-item">
                           <img src={SuitCase} /> Shift:
-                          <span>
-                            {job?.shift_value ?? "NA"}
-                          </span>
+                          <span>{job?.shift_value ?? "NA"}</span>
                         </div>
                       </div>
                       <div className="jobs-point-item">
@@ -213,13 +190,15 @@ const Details = () => {
                           {job?.address ?? "NA"}
                         </span>
                       </div>
-                      <div className="jobs-requirement-info mt-3">
-                        <h3>Employee Benefit</h3>
-                        <p>{job?.employee_benifits ?? "NA"}</p>
-                      </div>
-                      <div className="jobs-requirement-info mt-2">
-                        <h3>Qualification Required</h3>
-                        <p>{job?.qulification_required ?? "NA"}</p>
+                      <div className="row">
+                        <div className="jobs-requirement-info mt-2 col-md-6">
+                          <h3>Employee Benefit</h3>
+                          <p>{job?.employee_benifits ?? "NA"}</p>
+                        </div>
+                        <div className="jobs-requirement-info mt-2 col-md-6">
+                          <h3>Qualification Required</h3>
+                          <p>{job?.qulification_required ?? "NA"}</p>
+                        </div>
                       </div>
                       <div className="jobs-requirement-info mt-2">
                         <h3>Description</h3>
@@ -236,14 +215,14 @@ const Details = () => {
                           Applied
                         </a>
                       ) : (
-                        <Link
+                        <button
                           onClick={() =>
                             setApply({ status: true, id: decode(id) })
                           }
                           className="btn-bl"
                         >
                           Apply
-                        </Link>
+                        </button>
                       )}
                     </div>
                   </div>
@@ -388,18 +367,26 @@ const Details = () => {
                       />
                     </div>
                     <div className="form-group">
-                      <input
-                        type="file"
-                        className="form-control"
-                        name="file"
-                        accept="application/pdf"
-                        onChange={handleResumeChange}
+                      <Field name="resume">
+                        {({ field, form }) => (
+                          <input
+                            type="file"
+                            accept="application/pdf"
+                            className="form-control"
+                            onChange={(event) =>
+                              setFieldValue(
+                                "resume",
+                                event.currentTarget.files[0]
+                              )
+                            }
+                          />
+                        )}
+                      </Field>
+                      <ErrorMessage
+                        name="resume"
+                        component="div"
+                        className="alert alert-danger"
                       />
-                      {imgError.status && (
-                        <div className="alert alert-danger">
-                          {imgError.msg ?? null}
-                        </div>
-                      )}
                     </div>
                     <div className="form-group text-end">
                       <button
