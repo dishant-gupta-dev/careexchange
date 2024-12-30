@@ -19,6 +19,7 @@ exports.routes = {
     appliedJob: `/user/care-network/applied-job`,
     postedJob: `/user/care-network/posted-job`,
     addPost: `/user/care-network/job-post`,
+    payment: `/user/care-network/job-post/payment`,
     profile: `/user/profile`,
     calendar: `/user/calendar`,
     subscriptionPlan: `/user/subscription-plan`,

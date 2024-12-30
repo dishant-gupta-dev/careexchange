@@ -22,6 +22,7 @@ import PrivacyPolicy from "../views/user/more/PrivacyPolicy.js";
 import TermCondition from "../views/user/more/TermCondition.js";
 import ProviderChat from "../views/user/message/ProviderChat.js";
 import FindCareHomeAss from "../views/user/jobs/FindCareHomeAss.js";
+import Payment from "../views/user/jobs/Payment.js";
 
 var UserRoutes = [
     {
@@ -98,6 +99,11 @@ var UserRoutes = [
         path: routes.postedJob,
         layout: UserLayout,
         component: PostedJob
+    },
+    {
+        path: routes.payment,
+        layout: UserLayout,
+        component: Payment
     },
     {
         path: routes.profile,
