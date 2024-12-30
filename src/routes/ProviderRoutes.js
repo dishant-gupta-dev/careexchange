@@ -20,6 +20,8 @@ import PrivacyPolicy from "../views/provider/more/PrivacyPolicy.js";
 import TermCondition from "../views/provider/more/TermCondition.js";
 import JobPost from "../views/provider/care-network/JobPost.js";
 import PostedJob from "../views/provider/care-network/PostedJob.js";
+import PaymentSuccess from "../views/provider/jobs/PaymentSuccess.js";
+import PaymentError from "../views/provider/jobs/PaymentError.js";
 
 var ProviderRoutes = [
     {
@@ -36,6 +38,16 @@ var ProviderRoutes = [
         path: routes.myJobs,
         layout: ProviderLayout,
         component: Jobs
+    },
+    {
+        path: routes.paymentSuccess,
+        layout: ProviderLayout,
+        component: PaymentSuccess
+    },
+    {
+        path: routes.paymentError,
+        layout: ProviderLayout,
+        component: PaymentError
     },
     {
         path: routes.lockedJobs,
