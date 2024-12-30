@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Clock from "../../../assets/user/images/clock.svg";
 import Dollar from "../../../assets/user/images/dollar.svg";
 import SuitCase from "../../../assets/user/images/jobs-suitcase.svg";
+import Map from "../../../assets/user/images/Google_Map.svg";
 import moment from "moment";
 import { encode } from "base-64";
 import DatePicker from "react-datepicker";
@@ -166,21 +167,26 @@ const AppliedJob = () => {
                             </span>
                           </div>
                         </div>
-                        <div class="care-card-body">
-                          <div class="care-content">
-                            <div class="title-text">{ele.title ?? "NA"}</div>
-                            <div class="tags-list">
-                              <div class="tags-item">
+                        <div className="care-card-body">
+                          <div className="care-content">
+                            <div className="title-text">
+                              {ele.title ?? "NA"}
+                            </div>
+                            <div className="tags-list">
+                              <div className="tags-item">
                                 {ele.categoryname ?? "NA"}
+                              </div>
+                              <div className="tags-item-sub">
+                                {ele.subcategoryname ?? "NA"}
                               </div>
                             </div>
 
-                            <div class="jobs-point">
-                              <div class="jobs-point-item">
+                            <div className="jobs-point">
+                              <div className="jobs-point-item">
                                 <img src={Clock} /> Work Timing:
                                 <span>{ele.working_time_value ?? "NA"}</span>
                               </div>
-                              <div class="jobs-point-item">
+                              <div className="jobs-point-item">
                                 <img src={Dollar} /> Salary:
                                 <span className="text-capitalize">
                                   {ele.currency ?? "$"}
@@ -188,11 +194,17 @@ const AppliedJob = () => {
                                   {ele.pay_range_type ?? ""}
                                 </span>
                               </div>
-                              <div class="jobs-point-item">
-                                <img src={SuitCase} /> Work Exp:
+                              <div className="jobs-point-item">
+                                <img src={SuitCase} /> Work Experience:
                                 <span>
                                   {ele.working_expirence ?? "NA"} Years
                                   Experience{" "}
+                                </span>
+                              </div>
+                              <div className="jobs-point-item">
+                                <img className="mx-1" src={Map} /> Location:
+                                <span className="job-location">
+                                  {ele.address ?? "NA"}
                                 </span>
                               </div>
                             </div>

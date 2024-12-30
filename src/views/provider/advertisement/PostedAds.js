@@ -446,10 +446,15 @@ const PostedAds = () => {
                               </Link>
                               <Link
                                 className="btn-bl"
-                                to={
-                                  routes.advertisementDetails +
-                                  `/${encode(ele.id)}`
-                                }
+                                to=""
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(routes.advertisementDetails, {
+                                    state: {
+                                      id: encode(ele.id),
+                                    },
+                                  });
+                                }}
                               >
                                 View Detail
                               </Link>

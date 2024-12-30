@@ -123,7 +123,13 @@ const SecondHeader = () => {
                 <Link
                   to={routes.myJobs}
                   className={
-                    [routes.myJobs].includes(location.pathname)
+                    [
+                      routes.myJobs,
+                      routes.jobDetails,
+                      routes.lockedJobs,
+                      routes.paymentSuccess,
+                      routes.paymentError,
+                    ].includes(location.pathname)
                       ? "wshomelink active"
                       : "wshomelink"
                   }
@@ -186,7 +192,12 @@ const SecondHeader = () => {
                 <Link
                   to={routes.careNetwork}
                   className={
-                    [routes.careNetwork].includes(location.pathname)
+                    [
+                      routes.careNetwork,
+                      routes.addPost,
+                      routes.postedJob,
+                      routes.careNetworkDetails,
+                    ].includes(location.pathname)
                       ? "wshomelink active"
                       : "wshomelink"
                   }
@@ -252,7 +263,10 @@ const SecondHeader = () => {
                 <Link
                   to={routes.advertisement}
                   className={
-                    [routes.advertisement].includes(location.pathname)
+                    [
+                      routes.advertisement,
+                      routes.advertisementDetails,
+                    ].includes(location.pathname)
                       ? "wshomelink active"
                       : "wshomelink"
                   }
@@ -500,7 +514,18 @@ const SecondHeader = () => {
                 </Link>
               </li>
               <li aria-haspopup="true">
-                <a href="#">
+                <Link
+                  to="javascript:void(0)"
+                  className={
+                    [
+                      routes.termsCondition,
+                      routes.privacyPolicy,
+                      routes.aboutUs,
+                    ].includes(location.pathname)
+                      ? "wshomelink active"
+                      : "wshomelink"
+                  }
+                >
                   <span className="wsmenuicon">
                     <svg
                       width="24"
@@ -542,7 +567,7 @@ const SecondHeader = () => {
                   </span>
                   <span className="wsmenutext"> More</span>
                   <i className="fa fa-angle-down"></i>
-                </a>
+                </Link>
                 <ul className="sub-menu">
                   {/* <li aria-haspopup="true">
                     <Link

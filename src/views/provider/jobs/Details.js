@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import locationImage from "../../../assets/admin/images/Google_Map.svg";
+import WhCalen from "../../../assets/user/images/whcalendar.svg";
+import RepeatImg from "../../../assets/user/images/Repeat.svg";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import { api } from "../../../utlis/provider/api.utlis";
 import { decode, encode } from "base-64";
@@ -96,36 +98,63 @@ const Details = () => {
                   </span>
                 </div>
               </div>
-              <div className="cc-care-card-body">
-                <div className="cc-care-content">
-                  <div className="cc-title-text">
-                    {details?.first_name ?? "NA"}
-                  </div>
-
-                  <div className="cc-tags-list">
-                    <button type="button" className="tags-item-sub">
-                      {details?.gender == "M" ? "Male" : "Female"}
-                    </button>
-                    <button type="button" className="tags-item-sub mx-2">
-                      Age: {details?.age ?? "NA"}
-                    </button>
-                  </div>
-
-                  <div className="date-text">
-                    <i className="mdi mdi-calendar-clock-outline"></i>{" "}
-                    <span>
-                      {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
-                      {details?.start_time}
-                    </span>
-                  </div>
-                </div>
-                <div className="cc-care-day-Weekly-info">
-                  <div className="cc-care-point-box">
-                    <div className="cc-care-point-icon">
-                      <i className="mdi mdi-calendar-sync"></i>
+              <div class="care-card-body">
+                <div class="care-content">
+                  <div class="title-text">{details?.first_name ?? "NA"}</div>
+                  <div className="row d-flex justify-content-between w-100">
+                    <div className="col-md-2">
+                      <div className="date-text">
+                        <img src={WhCalen} />{" "}
+                        {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
+                        {details?.start_time ?? "NA"}
+                      </div>
                     </div>
-                    <div className="cc-care-point-text">
-                      <h4>Frequency:</h4>
+                    <div className="col-md-6 d-flex justify-content-between">
+                      <div class="jobs-details-point-item">
+                        <h4>Email Address: </h4>
+                        <p className="text-capitalize">
+                          {details?.email_id ?? "NA"}
+                        </p>
+                      </div>
+                      <div class="jobs-details-point-item">
+                        <h4>Fax Number: </h4>
+                        <p className="text-capitalize">
+                          {details?.fax ?? "NA"}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-md-2 mt-2">
+                      <div class="tags-list float-end">
+                        <div class="tags-item-sub">
+                          {details?.gender == "M" ? "Male" : "Female"}
+                        </div>
+                        <div class="tags-item-sub mx-2">
+                          Age: {details?.age ?? "NA"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* <div class="tags-list">
+                            <div class="tags-item-sub">
+                              {details?.gender == "M" ? "Male" : "Female"}
+                            </div>
+                            <div class="tags-item-sub mx-2">
+                              Age: {details?.age ?? "NA"}
+                            </div>
+                          </div>
+                          <div class="date-text">
+                            <img src={WhCalen} />{" "}
+                            {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
+                            {details?.start_time ?? "NA"}
+                          </div> */}
+                </div>
+                <div class="care-day-Weekly-info">
+                  <div class="care-point-box">
+                    <div class="care-point-icon">
+                      <img src={RepeatImg} />
+                    </div>
+                    <div class="care-point-text">
+                      <h4>Frequency: </h4>
                       <p>
                         {details?.frequency === "O"
                           ? "One Time"
@@ -135,40 +164,60 @@ const Details = () => {
                       </p>
                     </div>
                   </div>
-                  {/* <div className="care-day-list">
-                    <div className="care-day-item">S</div>
-                    <div className="care-day-item">T</div>
-                    <div className="care-day-item">W</div>
-                  </div> */}
+                  <div class="care-point-box">
+                    <div class="care-point-text">
+                      <h4>Prefered Contact: </h4>
+                      <p className="text-capitalize">
+                        {details?.prefer_contacted ?? "NA"}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="care-point-box">
+                    <div class="care-point-text">
+                      <h4>Payment Type: </h4>
+                      <p className="text-capitalize">
+                        {details?.payment_type ?? "NA"}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="col-lg-12">
-            <div className="jobs-details-info-card">
-              <div className="jobs-details-phone">{details?.phone ?? "NA"}</div>
+          <div class="col-md-6">
+            <div class="jobs-details-info-card">
+              <div class="jobs-details-phone">{details?.phone ?? "NA"}</div>
 
-              <div className="jobs-details-point">
-                <div className="jobs-details-point-item">
-                  <h4>Best Time to Call: </h4>
-                  <p>{details?.best_time_to_call ?? "NA"}</p>
+              <div class="jobs-details-point">
+                <div class="jobs-details-point-item">
+                  <h4>Best Time To Call: </h4>
+                  <p className="text-capitalize">
+                    {details?.best_time_to_call ?? "NA"}
+                  </p>
                 </div>
-                <div className="jobs-details-point-item">
+                <div class="jobs-details-point-item">
                   <h4>Relationship: </h4>
                   <p>{details?.relationship ?? "NA"}</p>
                 </div>
               </div>
 
-              <div className="jobsdetails-location-item">
-                <div className="jobsdetails-location-item-icon">
+              <div class="jobsdetails-location-item">
+                <div class="jobsdetails-location-item-icon">
                   <img src={locationImage} />
                 </div>
-                <div className="jobsdetails-location-item-text">
+                <div class="jobsdetails-location-item-text">
                   <h4>Location:</h4>
                   <p>{details?.address ?? "NA"}</p>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="jobs-details-desc-card">
+              <h3>Description</h3>
+              <p>{details?.description ?? "NA"}</p>
             </div>
           </div>
 
@@ -205,17 +254,13 @@ const Details = () => {
               })
             : null}
 
-          <div className="col-md-12">
-            <div className="jobs-details-desc-card">
-              <h3>Description</h3>
-              <p>{details?.description ?? "NA"}</p>
-            </div>
-          </div>
-
           {details?.status == 0 ? (
             <div className="col-md-12 text-center mt-2">
               <button
-                onClick={(e) => {e.preventDefault(); makePayment(details?.id, 1);}}
+                onClick={(e) => {
+                  e.preventDefault();
+                  makePayment(details?.id, 1);
+                }}
                 className="btn btn-gr w-50"
               >
                 Make Payment $1

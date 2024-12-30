@@ -59,6 +59,7 @@ const JobPost = () => {
     description: "",
     qualification: "",
     benefit: "",
+    address: "",
     start_time: "",
     end_time: "",
     pay_range: "",
@@ -67,6 +68,8 @@ const JobPost = () => {
     email: userData.email ?? "",
     phone: userData.mobile ?? "",
     experience: "",
+    shift: "",
+    category: "",
     sub_category: "",
   };
 
@@ -77,26 +80,21 @@ const JobPost = () => {
     benefit: Yup.string().required("Benefits is required!"),
     pay_range: Yup.string().required("Payment amount is required!"),
     pay_range_type: Yup.string().required("Payment type is required!"),
+    address: Yup.string().required("Address is required!"),
     name: Yup.string().required("Name is required!"),
     email: Yup.string().required("Email is required!"),
     phone: Yup.string()
       .min(14, "Phone is invalid")
       .required("Phone is required!"),
     experience: Yup.string().required("Working Experience is required!"),
-    sub_category: Yup.string().required("Care Sub Category is required!"),
+    shift: Yup.string().required("Shift is required!"),
+    category: Yup.string().required("Category is required!"),
+    sub_category: Yup.string().required("Sub Category is required!"),
     start_time: Yup.string().required("Start Time is required!"),
-        end_time: Yup.string().required("End Time is required!"),
+    end_time: Yup.string().required("End Time is required!"),
   });
 
   const addPost = async (formValue) => {
-    if (location.lat === "" || location.lat === null || !location.lat) {
-      setLocError(true);
-      return;
-    } else setLocError(false);
-    if (jobType === "" || jobType === null || !jobType) {
-      setJobTypeErr(true);
-      return;
-    } else setJobTypeErr(false);
     setLoading(true);
     let form = JSON.stringify({
       care_provider_id: null,
@@ -114,7 +112,7 @@ const JobPost = () => {
       contact_person_name: formValue.name,
       contact_person_email: formValue.email,
       contact_person_phone: formValue.phone,
-      shift: jobType,
+      shift: formValue.shift,
       working_expirence: formValue.experience,
       working_time: `${formValue.start_time} - ${formValue.end_time}`,
     });
@@ -154,7 +152,7 @@ const JobPost = () => {
     return null;
   }
 
-  const handlePlaceChange = () => {
+  const handlePlaceChange = (setFieldValue) => {
     let [address] = inputRef.current.getPlaces();
     setLocation({
       lat: address.geometry.location.lat(),
@@ -165,6 +163,7 @@ const JobPost = () => {
         address.address_components
       ),
     });
+    setFieldValue("address", address.formatted_address);
   };
 
   useEffect(() => {
@@ -177,20 +176,29 @@ const JobPost = () => {
     <>
       {loading ? <Loader /> : null}
       <div class="container">
-        <div class="carenetwork-section">
+        <div className="messages-tab">
+          <ul className="nav nav-tabs">
+            <li>
+              <Link to={routes.careNetwork} className="btn-bl">
+                Job Requests
+              </Link>
+            </li>
+            <li>
+              <Link className="btn-wh active" to={routes.addPost}>
+                Post A Job
+              </Link>
+            </li>
+            <li>
+              <Link to={routes.postedJob} class="btn-wh">
+                Posted Job
+              </Link>
+            </li>
+          </ul>
+        </div>
+        <div class="carenetwork-section mt-4 pt-3">
           <div class="care-title-header">
             <h2 class="heading-title">
-              <Link
-                className="btn-back"
-                to=""
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate(-1);
-                }}
-              >
-                <i className="mdi mdi-arrow-left-thin"></i>
-              </Link>
-              &nbsp;Post New Job
+              Post New Job
             </h2>
           </div>
           <div class="post-newjob-content">
@@ -223,12 +231,14 @@ const JobPost = () => {
                           </div>
                         </div>
                         <div class="col-md-6">
-                          <div class="form-group search-form-group">
+                          <div class="form-group search-form-group mb-1">
                             <h4>Job Location</h4>
                             {isLoaded && (
                               <StandaloneSearchBox
                                 onLoad={(ref) => (inputRef.current = ref)}
-                                onPlacesChanged={handlePlaceChange}
+                                onPlacesChanged={() =>
+                                  handlePlaceChange(setFieldValue)
+                                }
                               >
                                 <input
                                   className="form-control"
@@ -237,15 +247,15 @@ const JobPost = () => {
                                 />
                               </StandaloneSearchBox>
                             )}
-                            {locError && (
-                              <div className="alert alert-danger">
-                                Address is required!
-                              </div>
-                            )}
                             <span class="form-group-icon">
                               <img src={MapImg} />
                             </span>
                           </div>
+                          <ErrorMessage
+                            name="address"
+                            component="div"
+                            className="alert alert-danger"
+                          />
                         </div>
                         <div class="col-md-12">
                           <div class="form-group">
@@ -272,24 +282,34 @@ const JobPost = () => {
                         <div class="col-md-6">
                           <div class="form-group">
                             <h4>Category</h4>
-                            <select
-                              className="form-control"
+                            <Field name="category">
+                              {({ field }) => (
+                                <select
+                                  {...field}
+                                  className="form-control"
+                                  onChange={(e) => {
+                                    setFieldValue(field.name, e.target.value);
+                                    getSubCategoryList(e.target.value);
+                                  }}
+                                >
+                                  <option value="">Select Category</option>
+                                  {categories.length !== 0
+                                    ? categories.map((ele, indx) => {
+                                        return (
+                                          <option key={indx} value={ele.id}>
+                                            {ele.name ?? "NA"}
+                                          </option>
+                                        );
+                                      })
+                                    : null}
+                                </select>
+                              )}
+                            </Field>
+                            <ErrorMessage
                               name="category"
-                              onChange={(e) =>
-                                getSubCategoryList(e.target.value)
-                              }
-                            >
-                              <option value="">Select Category</option>
-                              {categories.length !== 0
-                                ? categories.map((ele, indx) => {
-                                    return (
-                                      <option key={indx} value={ele.id}>
-                                        {ele.name ?? "NA"}
-                                      </option>
-                                    );
-                                  })
-                                : null}
-                            </select>
+                              component="div"
+                              className="alert alert-danger"
+                            />
                           </div>
                         </div>
 
@@ -361,22 +381,22 @@ const JobPost = () => {
                         <div class="col-md-6">
                           <div class="form-group">
                             <h4>Job Type</h4>
-                            <select
+                            <Field
+                              as="select"
                               type="text"
                               className="form-control todo-list-input"
                               name="shift"
-                              onChange={(e) => setJobType(e.target.value)}
                             >
                               <option value="">Select Job Type</option>
                               <option value="Full Time">Full Time</option>
                               <option value="Part Time">Part Time</option>
                               <option value="Per Diem">Per Diem</option>
-                            </select>
-                            {jobTypeErr && (
-                              <div className="alert alert-danger">
-                                Job Type is required!
-                              </div>
-                            )}
+                            </Field>
+                            <ErrorMessage
+                              name="shift"
+                              component="div"
+                              className="alert alert-danger"
+                            />
                           </div>
                         </div>
 

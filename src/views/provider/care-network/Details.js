@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Clock from "../../../assets/user/images/clock.svg";
 import Dollar from "../../../assets/user/images/dollar.svg";
 import SuitCase from "../../../assets/user/images/jobs-suitcase.svg";
+import Map from "../../../assets/user/images/Google_Map.svg";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { decode, encode } from "base-64";
@@ -9,6 +10,8 @@ import moment from "moment";
 import { api } from "../../../utlis/provider/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
+import CallImg from "../../../assets/user/images/call.svg";
+import SmsImg from "../../../assets/user/images/sms.svg";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -133,7 +136,22 @@ const Details = () => {
                           {job?.subcategory ?? "NA"}
                         </div>
                       </div>
-
+                      <div className="jobs-details-point-list">
+                        <div className="jobs-details-item">
+                          <img src={Clock} /> Contact Name:
+                          <span>{job?.contact_person_name ?? "NA"}</span>
+                        </div>
+                        <div className="jobs-details-item">
+                          <img src={SmsImg} /> Contact Email:
+                          <span className="text-capitalize">
+                            {job?.contact_person_email ?? "NA"}
+                          </span>
+                        </div>
+                        <div className="jobs-details-item">
+                          <img src={CallImg} /> Contact Phone:
+                          <span>{job?.contact_person_phone ?? "NA"}</span>
+                        </div>
+                      </div>
                       <div className="jobs-details-point-list">
                         <div className="jobs-details-item">
                           <img src={Clock} /> Work Timing:
@@ -143,8 +161,7 @@ const Details = () => {
                           <img src={Dollar} /> Salary:
                           <span className="text-capitalize">
                             {job?.currency ?? "$"}
-                            {job?.pay_range ?? "NA"}/
-                            {job?.pay_range_type ?? "NA"}
+                            {job?.pay_range ?? "NA"}/{job?.pay_range_type ?? ""}
                           </span>
                         </div>
                         <div className="jobs-details-item">
@@ -153,14 +170,34 @@ const Details = () => {
                             {job?.working_expirence ?? "NA"} Years Experience{" "}
                           </span>
                         </div>
+                        <div className="jobs-details-item">
+                          <img src={SuitCase} /> Shift:
+                          <span>{job?.shift_value ?? "NA"}</span>
+                        </div>
                       </div>
-
-                      <div className="jobs-requirement-info">
-                        <h3>Job Requirement</h3>
+                      <div className="jobs-point-item">
+                        <img className="mx-1" src={Map} /> Location:
+                        <span className="job-location">
+                          {job?.address ?? "NA"}
+                        </span>
+                      </div>
+                      <div className="row">
+                        <div className="jobs-requirement-info mt-2 col-md-6">
+                          <h3>Employee Benefit</h3>
+                          <p>{job?.employee_benifits ?? "NA"}</p>
+                        </div>
+                        <div className="jobs-requirement-info mt-2 col-md-6">
+                          <h3>Qualification Required</h3>
+                          <p>{job?.qulification_required ?? "NA"}</p>
+                        </div>
+                      </div>
+                      <div className="jobs-requirement-info mt-2">
+                        <h3>Description</h3>
                         <p>{job?.description ?? "NA"}</p>
                       </div>
                       <div className="Applicant-text">
-                        {job?.applicantListCount ?? 0} Applicant Applied for
+                        {job?.applicantListCount ?? 0} Applicant
+                        {job?.applicantListCount > 1 ? "s" : ""} applied for
                         this job
                       </div>
                     </div>

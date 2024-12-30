@@ -148,7 +148,7 @@ const Page = () => {
                                       {ele.first_name ?? "NA"}
                                     </div>
                                     <div className="row d-flex justify-content-between w-100">
-                                      <div className="col-md-7">
+                                      <div className="col-md-2">
                                         <div className="date-text">
                                           <img src={WhCalen} />{" "}
                                           {moment(ele.start_date).format(
@@ -157,7 +157,25 @@ const Page = () => {
                                           {ele.start_time ?? "NA"}
                                         </div>
                                       </div>
-                                      <div className="col-md-3">
+                                      <div className="col-md-6 d-flex justify-content-between">
+                                        <div class="jobs-details-point-item">
+                                          <h4>Prefered Contact: </h4>
+                                          <p className="text-capitalize">
+                                            {ele.prefer_contacted ?? "NA"}
+                                          </p>
+                                        </div>
+                                        <div class="jobs-details-point-item">
+                                          <h4>Best Time To Call: </h4>
+                                          <p className="text-capitalize">
+                                            {ele.best_time_to_call ?? "NA"}
+                                          </p>
+                                        </div>
+                                        <div class="jobs-details-point-item">
+                                          <h4>Relationship: </h4>
+                                          <p>{ele.relationship ?? "NA"}</p>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-2 mt-2">
                                         <div class="tags-list float-end">
                                           <div class="tags-item-sub">
                                             {ele?.gender == "M"
@@ -173,19 +191,29 @@ const Page = () => {
                                   </div>
                                   <div className="care-day-Weekly-info">
                                     <div className="row w-100">
-                                      <div className="col-md-4">
+                                      <div className="col-md-2">
                                         <div className="care-point-box">
                                           <div className="care-point-icon">
                                             <img src={RepeatImg} />
                                           </div>
                                           <div className="care-point-text">
                                             <h4>Frequency:</h4>
-                                            <p>
+                                            <p className="text-capitalize">
                                               {ele.frequency === "O"
                                                 ? "One Time"
                                                 : ele.frequency === "W"
                                                 ? "Repeat Weekly"
                                                 : "Repeat Monthly"}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="col-md-2">
+                                        <div className="care-point-box">
+                                          <div className="care-point-text">
+                                            <h4>Payment Type:</h4>
+                                            <p className="text-capitalize">
+                                              {ele.payment_type ?? "NA"}
                                             </p>
                                           </div>
                                         </div>

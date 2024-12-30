@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import moment from "moment/moment";
 import Search from "../../../assets/provider/images/search1.svg";
 import Searchicon from "../../../assets/provider/images/search-normal.svg";
+import locationImage from "../../../assets/admin/images/Google_Map.svg";
 import careuserprofile from "../../../assets/provider/images/user.png";
 import AttachImg from "../../../assets/provider/images/attachemnt.svg";
 import WhCalen from "../../../assets/provider/images/whcalendar.svg";
@@ -78,7 +79,10 @@ const Page = () => {
     } else {
       try {
         // const docid = sendInfo.senderId + "-" + userId;
-        const docid = ((sendInfo.senderId > userId) ? userId + '-' + sendInfo.senderId: sendInfo.senderId + '-' + userId);
+        const docid =
+          sendInfo.senderId > userId
+            ? userId + "-" + sendInfo.senderId
+            : sendInfo.senderId + "-" + userId;
         const data = {
           text: message,
           image: "",
@@ -123,7 +127,10 @@ const Page = () => {
   useEffect(() => {
     if (sendInfo.senderId) {
       // const docid = sendInfo.senderId + "-" + userId;
-      const docid = ((sendInfo.senderId > userId) ? userId + '-' + sendInfo.senderId: sendInfo.senderId + '-' + userId);
+      const docid =
+        sendInfo.senderId > userId
+          ? userId + "-" + sendInfo.senderId
+          : sendInfo.senderId + "-" + userId;
 
       const getMessage = db
         .collection("provider_chats")
@@ -320,7 +327,13 @@ const Page = () => {
                                       >
                                         <div className="message-item-chat-card">
                                           <div className="message-item-user">
-                                            <img src={data.userimage} />
+                                            {data.userimage === null ||
+                                            data.userimage === "" ||
+                                            data.userimage === undefined ? (
+                                              <img src={NoImage} />
+                                            ) : (
+                                              <img src={data.userimage} />
+                                            )}
                                           </div>
                                           <div className="message-item-chat-content">
                                             <div className="message-content">
@@ -424,56 +437,91 @@ const Page = () => {
                                   <div className="care-card-body">
                                     <div className="care-content">
                                       <div className="title-text">
-                                        {ele.profile_image === null ||
-                                        ele.profile_image === "" ||
-                                        ele.profile_image === undefined ? (
-                                          <img
-                                            src={NoImage}
-                                            className="me-3"
-                                            alt=""
-                                            width={50}
-                                            height={50}
-                                            style={{ borderRadius: "50%" }}
-                                          />
-                                        ) : (
-                                          <img
-                                            src={ele.profile_image}
-                                            className="me-3"
-                                            alt=""
-                                            width={50}
-                                            height={50}
-                                            style={{ borderRadius: "50%" }}
-                                          />
-                                        )}
                                         {ele.first_name ?? "NA"}
                                       </div>
-                                      <div className="date-text">
-                                        <img src={WhCalen} />{" "}
-                                        {moment(ele?.created_date).format(
-                                          "MM-DD-yyyy hh:mm A"
-                                        )}{" "}
+                                      <div className="row d-flex justify-content-between w-100">
+                                        <div className="col-md-8">
+                                          <div className="date-text">
+                                            <img src={WhCalen} />{" "}
+                                            {moment(ele.start_date).format(
+                                              "MM-DD-yyyy"
+                                            )}{" "}
+                                            {ele.start_time ?? "NA"}
+                                          </div>
+                                        </div>
+                                        <div className="col-md-4 mt-2">
+                                          <div class="tags-list float-end">
+                                            <div class="tags-item-sub">
+                                              {ele?.gender == "M"
+                                                ? "Male"
+                                                : "Female"}
+                                            </div>
+                                            <div class="tags-item-sub mx-2">
+                                              Age: {ele?.age ?? "NA"}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="row d-flex justify-content-between w-100">
+                                        <div className="col-md-12 d-flex justify-content-between">
+                                          <div class="jobs-details-point-item">
+                                            <h4>Prefered Contact: </h4>
+                                            <p className="text-capitalize">
+                                              {ele.prefer_contacted ?? "NA"}
+                                            </p>
+                                          </div>
+                                          <div class="jobs-details-point-item">
+                                            <h4>Best Time To Call: </h4>
+                                            <p className="text-capitalize">
+                                              {ele.best_time_to_call ?? "NA"}
+                                            </p>
+                                          </div>
+                                          <div class="jobs-details-point-item">
+                                            <h4>Relationship: </h4>
+                                            <p>{ele.relationship ?? "NA"}</p>
+                                          </div>
+                                          <div class="jobs-details-point-item">
+                                            <h4>Payment Type: </h4>
+                                            <p>{ele.payment_type ?? "NA"}</p>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
-                                    <div className="care-day-Weekly-info">
-                                      <div className="care-point-box">
-                                        <div className="care-point-icon">
-                                          <img src={RepeatImg} />
+                                    <div className="care-day-Weekly-info mt-3">
+                                      <div className="row w-100">
+                                        <div className="col-md-3">
+                                          <div className="care-point-box">
+                                            <div className="care-point-icon">
+                                              <img src={RepeatImg} />
+                                            </div>
+                                            <div className="care-point-text">
+                                              <h4>Frequency:</h4>
+                                              <p className="text-capitalize">
+                                                {ele.frequency === "O"
+                                                  ? "One Time"
+                                                  : ele.frequency === "W"
+                                                  ? "Repeat Weekly"
+                                                  : "Repeat Monthly"}
+                                              </p>
+                                            </div>
+                                          </div>
                                         </div>
-                                        <div className="care-point-text">
-                                          <h4>Frequency:</h4>
-                                          <p>
-                                            {ele.frequency === "O"
-                                              ? "One Time"
-                                              : ele.frequency === "W"
-                                              ? "Repeat Weekly"
-                                              : "Repeat Monthly"}
-                                          </p>
+                                        <div className="col-md-9">
+                                          <div className="care-point-box">
+                                            <div className="care-point-icon">
+                                              <img src={locationImage} />
+                                            </div>
+                                            <div className="care-point-text">
+                                              <h4>Location:</h4>
+                                              <p>{ele.address ?? "NA"}</p>
+                                            </div>
+                                          </div>
                                         </div>
                                       </div>
                                       <div className="care-day-list">
                                         {/* <div className="care-day-item">S</div>
-                                          <div className="care-day-item">T</div>
-                                          <div className="care-day-item">W</div> */}
+                                        <div className="care-day-item">T</div>
+                                        <div className="care-day-item">W</div> */}
                                       </div>
                                     </div>
                                   </div>
