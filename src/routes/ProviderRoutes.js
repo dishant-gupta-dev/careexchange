@@ -55,7 +55,7 @@ var ProviderRoutes = [
         component: LockedJob
     },
     {
-        path: routes.jobDetails+"/:id",
+        path: routes.jobDetails,
         layout: ProviderLayout,
         component: JobDetails
     },
@@ -65,7 +65,7 @@ var ProviderRoutes = [
         component: CareNetwork
     },
     {
-        path: routes.careNetworkDetails+"/:id",
+        path: routes.careNetworkDetails,
         layout: ProviderLayout,
         component: CareNetworkDetails
     },
@@ -90,7 +90,7 @@ var ProviderRoutes = [
         component: PostedAds
     },
     {
-        path: routes.advertisementDetails+"/:id",
+        path: routes.advertisementDetails,
         layout: ProviderLayout,
         component: AdvertisementDetails
     },

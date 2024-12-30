@@ -26,9 +26,9 @@ const PostedJob = () => {
   const getPostedJob = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    // console.log("all posted job => ", response.data);
+    console.log("all posted job => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
-      setJob(response.data.data.requestedJobs);
+      setJob(response?.data?.data?.requestedJobs);
     } else setJob([]);
     setLoading(false);
   };
@@ -206,16 +206,19 @@ const PostedJob = () => {
                             </Link>
                             <Link
                               class="btn-gr"
-                              to={`${routes.careNetworkDetails}/${encode(
-                                ele.id
-                              )}`}
+                              to=""
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(routes.careNetworkDetails, {
+                                  state: {
+                                    id: encode(ele.id),
+                                  },
+                                });
+                              }}
                             >
                               View Job Detail
                             </Link>
-                            <Link
-                              class="btn-gra"
-                              to={`${routes.careNetwork}`}
-                            >
+                            <Link class="btn-gra" to={`${routes.careNetwork}`}>
                               View All Applicants
                             </Link>
                           </div>

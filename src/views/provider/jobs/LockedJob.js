@@ -99,9 +99,15 @@ const LockedJob = () => {
                                   <div className="care-status">
                                     <Link
                                       className="btn-bl"
-                                      to={`${routes.jobDetails}/${encode(
-                                        ele.id
-                                      )}`}
+                                      to=""
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        navigate(routes.jobDetails, {
+                                          state: {
+                                            id: encode(ele.id),
+                                          },
+                                        });
+                                      }}
                                     >
                                       View Job Detail
                                     </Link>

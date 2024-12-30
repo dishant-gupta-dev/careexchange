@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import locationImage from "../../../assets/admin/images/Google_Map.svg";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import { api } from "../../../utlis/provider/api.utlis";
@@ -12,7 +12,8 @@ import moment from "moment";
 
 const Details = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const localData = useLocation();
+  const id = localData.state?.id;
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState();
 
@@ -29,14 +30,18 @@ const Details = () => {
   const makePayment = async (id, amount) => {
     setLoading(true);
     let form = JSON.stringify({
-      "request_id": id,
-      "amount": amount
+      request_id: id,
+      amount: amount,
     });
-    const response = await ApiService.postAPIWithAccessToken(api.paymentUnlockRequest, form);
+    const response = await ApiService.postAPIWithAccessToken(
+      api.paymentUnlockRequest,
+      form
+    );
     // console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       // navigate(response.data.data.approvalUrl);
-      window.open(response.data.data.approvalUrl, '_blank').focus();
+      // window.open(response.data.data.approvalUrl).focus();
+      window.location.href = response.data.data.approvalUrl;
     }
     setLoading(false);
   };
@@ -209,7 +214,10 @@ const Details = () => {
 
           {details?.status == 0 ? (
             <div className="col-md-12 text-center mt-2">
-              <button onClick={() => makePayment(details?.id, 1)} className="btn btn-gr w-50">
+              <button
+                onClick={(e) => {e.preventDefault(); makePayment(details?.id, 1);}}
+                className="btn btn-gr w-50"
+              >
                 Make Payment $1
               </button>
             </div>

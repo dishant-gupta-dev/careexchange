@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import advertisementImage from "../../../assets/provider/images/1.jpg";
 import Select from "react-select";
 import { encode } from "base-64";
@@ -24,6 +24,7 @@ import Loader from "../../../layouts/loader/Loader";
 import Searchicon from "../../../assets/provider/images/search1.svg";
 
 const Page = () => {
+  const navigate = useNavigate();
   const [advertisement, setAdvertisement] = useState([]);
   const [categories, setCategory] = useState([]);
   const [subCategories, setSubCategory] = useState([]);
@@ -450,10 +451,15 @@ const Page = () => {
                               </Link>
                               <Link
                                 className="btn-bl"
-                                to={
-                                  routes.advertisementDetails +
-                                  `/${encode(ele.id)}`
-                                }
+                                to=""
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(routes.advertisementDetails, {
+                                    state: {
+                                      id: encode(ele.id),
+                                    },
+                                  });
+                                }}
                               >
                                 View Detail
                               </Link>

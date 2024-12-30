@@ -3,7 +3,7 @@ import Clock from "../../../assets/user/images/clock.svg";
 import Dollar from "../../../assets/user/images/dollar.svg";
 import SuitCase from "../../../assets/user/images/jobs-suitcase.svg";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { decode, encode } from "base-64";
 import moment from "moment";
 import { api } from "../../../utlis/provider/api.utlis";
@@ -21,7 +21,8 @@ const Details = () => {
   const [imgError, setImgError] = useState(false);
   const [apply, setApply] = useState({ status: false, id: null });
   const [loading, setLoading] = useState(false);
-  const { id } = useParams();
+  const localData = useLocation();
+  const id = localData.state?.id;
 
   const initialValues = {
     full_name: "",
@@ -140,7 +141,11 @@ const Details = () => {
                         </div>
                         <div className="jobs-details-item">
                           <img src={Dollar} /> Salary:
-                          <span className="text-capitalize">{job?.currency ?? "$"}{job?.pay_range ?? "NA"}/{job?.pay_range_type ?? "NA"}</span>
+                          <span className="text-capitalize">
+                            {job?.currency ?? "$"}
+                            {job?.pay_range ?? "NA"}/
+                            {job?.pay_range_type ?? "NA"}
+                          </span>
                         </div>
                         <div className="jobs-details-item">
                           <img src={SuitCase} /> Work Exp:

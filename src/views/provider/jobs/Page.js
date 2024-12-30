@@ -5,7 +5,7 @@ import WhCalen from "../../../assets/provider/images/whcalendar.svg";
 import RepeatImg from "../../../assets/provider/images/Repeat.svg";
 import locationImage from "../../../assets/admin/images/Google_Map.svg";
 import Verify from "../../../assets/provider/images/verify.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { routes } from "../../../utlis/provider/routes.utlis";
 import { api } from "../../../utlis/provider/api.utlis";
 import ApiService from "../../../core/services/ApiService";
@@ -15,6 +15,7 @@ import NoData from "../../../assets/admin/images/no-data-found.svg";
 import { encode } from "base-64";
 
 const Page = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState(2);
   const [list, setList] = useState([]);
@@ -127,9 +128,15 @@ const Page = () => {
                                   <div className="care-status">
                                     <Link
                                       className="btn-bl"
-                                      to={`${routes.jobDetails}/${encode(
-                                        ele.id
-                                      )}`}
+                                      to=""
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        navigate(routes.jobDetails, {
+                                          state: {
+                                            id: encode(ele.id),
+                                          },
+                                        });
+                                      }}
                                     >
                                       View Job Detail
                                     </Link>
