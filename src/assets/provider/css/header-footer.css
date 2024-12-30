@@ -527,3 +527,69 @@ a.btn-wh {
 .main-wrapper {
   padding: 1rem;
 }
+
+/*----------------------------
+payment
+----------------------------*/
+.payment-section .container {
+  max-width: 50%;
+}
+.payment-item {
+  width: 100%;
+  background: var(--white);
+  box-shadow: 0px 8px 13px 0px rgba(35, 53, 111, 0.12);
+  border-radius: 10px;
+  position: relative;
+  text-align: center;
+  padding: 4rem;
+}
+
+.paymentsuccess {
+  background: var(--green);
+}
+.paymenterror {
+  background: var(--red);
+}
+.payment-item-image {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 1px 1px #0000001a;
+  text-align: center;
+  line-height: 70px;
+  margin: 0 auto 20px auto;
+}
+.paymentsuccess {
+  background: var(--green);
+}
+
+.payment-item-text h2 {
+  font-size: 24px;
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.payment-item-text p {
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+  color: var(--black);
+  font-weight: 400;
+}
+
+.pulse {
+  animation: pulse-animation 2s infinite;
+}
+
+@keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+  }
+}
