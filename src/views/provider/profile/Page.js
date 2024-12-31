@@ -9,7 +9,11 @@ import NoImage from "../../../assets/admin/images/no-image.jpg";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
-import { GeolocationApiKey } from "../../../utlis/common.utlis";
+import {
+  GeolocationApiKey,
+  MultipleFile,
+  SingleFile,
+} from "../../../utlis/common.utlis";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
@@ -51,7 +55,9 @@ const Page = () => {
 
   const initialValues = {
     radius: details?.service_offered_area ?? "",
+    category: findCategory(details?.category) ?? "",
     sub_category: details?.service_id ?? "",
+    address: details?.business_address ?? "",
     name: details?.fullname ?? "",
     phone: details?.mobile ?? "",
     free_in_home_assessment: details?.free_in_home_assessment.toString() ?? "",
@@ -64,13 +70,19 @@ const Page = () => {
     payment_accepted_type: details?.payment_accepted_type ?? "",
     description: details?.description ?? "",
     experience: details?.experience ?? "",
+    image: "",
+    files: "",
   };
 
   const validationSchema = Yup.object().shape({
     radius: Yup.string().required("Radius is required!"),
+    category: Yup.string().required("Category is required!"),
     sub_category: Yup.string().required("Sub Category is required!"),
+    address: Yup.string().required("Address is required!"),
     name: Yup.string().required("Name is required!"),
-    phone: Yup.string().min(14, 'Phone is invalid').required("Phone is required!"),
+    phone: Yup.string()
+      .min(14, "Phone is invalid")
+      .required("Phone is required!"),
     free_in_home_assessment: Yup.string().required(
       "In-Home assessment is required!"
     ),
@@ -80,6 +92,26 @@ const Page = () => {
     payment_accepted_type: Yup.string().required("Payment type is required!"),
     description: Yup.string().required("Description is required!"),
     experience: Yup.string().required("Experience is required!"),
+    image: Yup.mixed().test(
+      "fileSize",
+      `File size must be less than ${SingleFile} MB`,
+      (value) => !value || (value && value.size <= SingleFile)
+    ),
+    files: Yup.array()
+      .of(
+        Yup.mixed()
+          .test("fileSize", "File size is too large", (file) => {
+            return file && file.size <= MultipleFile * 1024 * 1024;
+          })
+          .test("fileType", "Unsupported file type", (file) => {
+            return (
+              file &&
+              ["image/jpeg", "image/png", "image/jpg"].includes(file.type)
+            );
+          })
+      )
+      .min(1, "At least one image is required")
+      .max(3, "You can upload a maximum of 3 images"),
   });
 
   const getCategoryList = async (api) => {
@@ -162,11 +194,11 @@ const Page = () => {
     form.append("business_address", location.address);
     form.append("latitude", location.lat);
     form.append("longitude", location.lng);
-    if (file === "" || file === null || !file) {
-      form.append("file", file);
+    if (formValue.image === "" || formValue.image === null || !formValue.image) {
+      form.append("file", formValue.image);
     }
-    if (multiFile.length === 0) {
-      multiFile.forEach((image) => {
+    if(formValue.files.length != 0){
+      formValue.files.forEach((image) => {
         form.append("license_image", image);
       });
     }
@@ -217,7 +249,7 @@ const Page = () => {
     libraries: ["places"],
   });
 
-  const handlePlaceChange = () => {
+  const handlePlaceChange = (setFieldValue) => {
     let [address] = inputRef.current.getPlaces();
     // console.log(findStateCity('administrative_area_level_1', address.address_components));
     // console.log(findStateCity('locality', address.address_components));
@@ -226,18 +258,7 @@ const Page = () => {
       lng: address.geometry.location.lng(),
       address: address.formatted_address,
     });
-  };
-
-  const handleImgChange = (e) => {
-    if (!e.target.files[0]) {
-      setImgError(true);
-    } else setImgError(false);
-    setFile(e.target.files[0]);
-  };
-
-  const handleMultiImgChange = (e) => {
-    let arr = Object.entries(e.target.files).map((e) => e[1]);
-    setMultiFile([...multiFile, ...arr]);
+    setFieldValue("address", address.formatted_address);
   };
 
   const dispatch = useDispatch();
@@ -498,12 +519,14 @@ const Page = () => {
                         </div>
                       </div>
                       <div className="col-md-6">
-                        <div className="form-group">
-                          <label>Service Area</label>
+                        <div className="form-group search-form-group mb-1">
+                          <h4>Service Area</h4>
                           {isLoaded && (
                             <StandaloneSearchBox
                               onLoad={(ref) => (inputRef.current = ref)}
-                              onPlacesChanged={handlePlaceChange}
+                              onPlacesChanged={() =>
+                                handlePlaceChange(setFieldValue)
+                              }
                             >
                               <input
                                 className="form-control"
@@ -512,7 +535,15 @@ const Page = () => {
                               />
                             </StandaloneSearchBox>
                           )}
+                          <span className="form-group-icon">
+                            <img src={googlemapIcon} />
+                          </span>
                         </div>
+                        <ErrorMessage
+                          name="address"
+                          component="div"
+                          className="alert alert-danger"
+                        />
                       </div>
                       <div className="col-md-12">
                         <div className="form-group">
@@ -697,26 +728,36 @@ const Page = () => {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>Category</label>
-                          <select
-                            className="form-control"
+                          <Field name="category">
+                            {({ field }) => (
+                              <select
+                                {...field}
+                                className="form-control"
+                                value={selectCategories}
+                                onChange={(e) => {
+                                  setFieldValue(field.name, e.target.value);
+                                  getSubCategoryList(e.target.value);
+                                  setSelectCategory(e.target.value);
+                                }}
+                              >
+                                <option value="">Select Category</option>
+                                {categories.length !== 0
+                                  ? categories.map((ele, indx) => {
+                                      return (
+                                        <option key={indx} value={ele.id}>
+                                          {ele.name ?? "NA"}
+                                        </option>
+                                      );
+                                    })
+                                  : null}
+                              </select>
+                            )}
+                          </Field>
+                          <ErrorMessage
                             name="category"
-                            defaultValue={findCategory(details?.category)}
-                            onChange={(e) => {
-                              getSubCategoryList(e.target.value);
-                              setSelectCategory(e.target.value);
-                            }}
-                          >
-                            <option value="">Select Category</option>
-                            {categories.length !== 0
-                              ? categories.map((ele, indx) => {
-                                  return (
-                                    <option key={indx} value={ele.id}>
-                                      {ele.name ?? "NA"}
-                                    </option>
-                                  );
-                                })
-                              : null}
-                          </select>
+                            component="div"
+                            className="alert alert-danger"
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -893,19 +934,24 @@ const Page = () => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Upload File</label>
-                          <input
-                            type="file"
-                            name="file"
-                            accept="image/*"
-                            onChange={handleImgChange}
-                            className="form-control todo-list-input"
+                          <label>Upload Image</label>
+                          <Field name="image">
+                            {({ field, form }) => (
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="form-control"
+                                onChange={(event) =>
+                                  setFieldValue("image", event.target.files[0])
+                                }
+                              />
+                            )}
+                          </Field>
+                          <ErrorMessage
+                            name="image"
+                            component="div"
+                            className="alert alert-danger"
                           />
-                          {imgError && (
-                            <div className="alert alert-danger">
-                              Image is required!
-                            </div>
-                          )}
                         </div>
                       </div>
                       <div className="col-md-12">
@@ -926,21 +972,30 @@ const Page = () => {
                       </div>
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label>Upload License</label>
-                          <input
-                            type="file"
-                            name="license_image"
-                            accept="image/*"
-                            data-multiple-caption="{count} files selected"
-                            multiple="5"
-                            onChange={(e) => handleMultiImgChange(e)}
-                            className="form-control todo-list-input"
+                          <label>Upload License Images</label>
+                          <Field name="files">
+                            {({ field, form }) => (
+                              <div>
+                                <input
+                                  type="file"
+                                  multiple
+                                  accept="image/*"
+                                  className="form-control"
+                                  onChange={(event) => {
+                                    const files = Array.from(
+                                      event.currentTarget.files
+                                    );
+                                    setFieldValue("files", files);
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </Field>
+                          <ErrorMessage
+                            name="files"
+                            component="div"
+                            className="alert alert-danger"
                           />
-                          {imgMultiError && (
-                            <div className="alert alert-danger">
-                              License Image is required!
-                            </div>
-                          )}
                         </div>
                       </div>
                       <div className="col-md-12">

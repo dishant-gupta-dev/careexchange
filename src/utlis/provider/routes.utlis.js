@@ -17,6 +17,7 @@ exports.routes = {
     postedAdvertisement: `/provider/advertisement/posted`,
     advertisementDetails: `/provider/advertisement/info`,
     networkDirectory: `/provider/network-directory`,
+    userDetail: `/provider/network-directory/info`,
     profile: `/provider/profile`,
     calendar: `/provider/calendar`,
     subscriptionPlan: `/provider/subscription-plan`,

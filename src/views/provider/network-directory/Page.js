@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Searchicon from "../../../assets/provider/images/search1.svg";
 import Map from "../../../assets/user/images/Google_Map.svg";
 import { api } from "../../../utlis/provider/api.utlis";
@@ -9,9 +9,12 @@ import NoData from "../../../assets/admin/images/no-data-found.svg";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import moment from "moment";
 import DatePicker from "react-datepicker";
+import { routes } from "../../../utlis/provider/routes.utlis";
+import { encode } from "base-64";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 
 const Page = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -206,7 +209,18 @@ const Page = () => {
                                 </div>
                               </div>
                               <div className="care-location-box-action">
-                                <Link className="btn-bl" to="">
+                                <Link
+                                  className="btn-bl"
+                                  to=""
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    navigate(routes.userDetail, {
+                                      state: {
+                                        id: encode(ele.id),
+                                      },
+                                    });
+                                  }}
+                                >
                                   View Details
                                 </Link>
                               </div>

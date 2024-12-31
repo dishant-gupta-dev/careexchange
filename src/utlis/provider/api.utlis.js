@@ -36,4 +36,5 @@ exports.api = {
     addPost: `job/post`,
     deletePost: `job/post/`,
     networkDirectory: `provider/List`,
+    userDetail: `provider/detail/`,
 }

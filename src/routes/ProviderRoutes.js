@@ -22,6 +22,7 @@ import JobPost from "../views/provider/care-network/JobPost.js";
 import PostedJob from "../views/provider/care-network/PostedJob.js";
 import PaymentSuccess from "../views/provider/jobs/PaymentSuccess.js";
 import PaymentError from "../views/provider/jobs/PaymentError.js";
+import ProviderDetail from "../views/provider/network-directory/ProviderDetail.js";
 
 var ProviderRoutes = [
     {
@@ -98,6 +99,11 @@ var ProviderRoutes = [
         path: routes.networkDirectory,
         layout: ProviderLayout,
         component: NetworkDirectory
+    },
+    {
+        path: routes.userDetail,
+        layout: ProviderLayout,
+        component: ProviderDetail
     },
     {
         path: routes.calendar,

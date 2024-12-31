@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import checkimage from "../../../assets/admin/images/checkimage.svg";
+import { Link } from "react-router-dom";
+import { routes } from "../../../utlis/provider/routes.utlis";
+import moment from "moment";
 
 const PaymentSuccess = () => {
+  const [transaction, setTransaction] = useState(null);
+  const [amount, setAmount] = useState(null);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const transactionValue = queryParams.get("transaction");
+    const amountValue = queryParams.get("amount");
+    setTransaction(transactionValue);
+    setAmount(amountValue);
+  }, []);
+
   return (
     <div className="payment-section">
       <div className="container">
@@ -11,11 +25,25 @@ const PaymentSuccess = () => {
               <img src={checkimage} />
             </div>
             <div className="payment-item-text">
-              <h2>Your payment was successful</h2>
-              <p>
-                Thank you for your payment. We Will be in Contact with more
-                details shortly.
+              <h2>Locked Job Payment Successful</h2>
+              <p className="mt-3">
+                Transaction ID: <span className="text-gray">{transaction}</span>
               </p>
+              <p>
+                Amount Paid: <span className="text-gray">${amount}</span>
+              </p>
+              <p>
+                Created On:{" "}
+                <span className="text-gray">
+                  {moment().format("MM-DD-YYYY")}
+                </span>
+              </p>
+              <p>
+                Payed By: <span className="text-gray">Paypal</span>
+              </p>
+              <Link className="btn-bl mt-3" to={routes.myJobs}>
+                My Jobs
+              </Link>
             </div>
           </div>
         </div>

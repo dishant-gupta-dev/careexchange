@@ -310,7 +310,7 @@ const SecondHeader = () => {
                 <Link
                   to={routes.networkDirectory}
                   className={
-                    [routes.networkDirectory].includes(location.pathname)
+                    [routes.networkDirectory, routes.userDetail].includes(location.pathname)
                       ? "wshomelink active"
                       : "wshomelink"
                   }

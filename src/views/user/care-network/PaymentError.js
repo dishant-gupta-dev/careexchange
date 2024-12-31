@@ -13,12 +13,12 @@ const PaymentError = () => {
               <img src={crossimage} />
             </div>
             <div className="payment-item-text">
-              <h2>Payment failed</h2>
+              <h2>Post Job Payment Failed</h2>
               <p>
                 There was a problem with the card you provided. Please contact
                 your card issue for further assistance.
               </p>
-              <Link className="btn-bl mt-3" to={routes.postedJob}>My Jobs</Link>
+              <Link className="btn-bl mt-3" to={routes.postedJob}>Posted Jobs</Link>
             </div>
           </div>
         </div>
