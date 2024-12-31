@@ -33,6 +33,7 @@ exports.api = {
     jobRequestSeen: `user/job/requested/seen`,
     appliedJob: `job/applied-list`,
     addPost: `job/post`,
+    addPostPayment: `payment/job-post`,
     deletePost: `job/post/`,
     postedJob: `user/posted/job`,
     newsletterSubscribe: `newsletter/subscribe`,

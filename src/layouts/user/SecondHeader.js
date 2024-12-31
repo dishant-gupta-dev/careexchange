@@ -131,7 +131,7 @@ const SecondHeader = () => {
                 <Link
                   to={routes.myJobs}
                   className={
-                    [routes.myJobs, routes.jobDetails, routes.payment].includes(
+                    [routes.myJobs, routes.jobDetails].includes(
                       location.pathname
                     )
                       ? "wshomelink active"
@@ -203,6 +203,8 @@ const SecondHeader = () => {
                       routes.addPost,
                       routes.postedJob,
                       routes.careNetworkDetails,
+                      routes.paymentSuccess,
+                      routes.paymentError,
                     ].includes(location.pathname)
                       ? "wshomelink active"
                       : "wshomelink"

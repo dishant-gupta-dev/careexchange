@@ -23,6 +23,8 @@ import TermCondition from "../views/user/more/TermCondition.js";
 import ProviderChat from "../views/user/message/ProviderChat.js";
 import FindCareHomeAss from "../views/user/jobs/FindCareHomeAss.js";
 import Payment from "../views/user/jobs/Payment.js";
+import PaymentSuccess from "../views/user/care-network/PaymentSuccess.js";
+import PaymentError from "../views/user/care-network/PaymentError.js";
 
 var UserRoutes = [
     {
@@ -104,6 +106,16 @@ var UserRoutes = [
         path: routes.payment,
         layout: UserLayout,
         component: Payment
+    },
+    {
+        path: routes.paymentSuccess,
+        layout: UserLayout,
+        component: PaymentSuccess
+    },
+    {
+        path: routes.paymentError,
+        layout: UserLayout,
+        component: PaymentError
     },
     {
         path: routes.profile,

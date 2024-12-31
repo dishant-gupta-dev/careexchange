@@ -17,6 +17,9 @@ import TimePicker from "react-multi-date-picker/plugins/time_picker";
 const JobPost = () => {
   const inputRef = useRef(null);
   const navigate = useNavigate();
+  const [tab, setTab] = useState(1);
+  const [jobId, setJobId] = useState(null);
+  const [planType, setPlanType] = useState("50");
   const [loading, setLoading] = useState(false);
   const [startTime, setStartTime] = useState("09:00");
   const [startTimeErr, setStartTimeErr] = useState(false);
@@ -84,6 +87,10 @@ const JobPost = () => {
     sub_category: "",
   };
 
+  const initialPaymentValues = {
+    amount: "50",
+  };
+
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Job title is required!"),
     description: Yup.string().required("Job description is required!"),
@@ -141,7 +148,36 @@ const JobPost = () => {
       toast.success(response.data.message);
       getCategoryList(api.categoryList);
       document.getElementById("add-post-form").reset();
-      navigate(routes.postedJob);
+      console.log(response.data.data);
+      console.log(response.data);
+      console.log(response.data.data.id);
+      setJobId(response.data.data.id);
+      setTab(2);
+      // navigate(routes.postedJob);
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
+  };
+
+  const makePayment = async (formValue) => {
+    setLoading(true);
+    let form = JSON.stringify({
+      postId: jobId,
+      amount: formValue.amount,
+      plan_type: formValue.amount == "50" ? "Monthly" : "Quarterly",
+      duration: formValue.amount == "50" ? 30 : 90,
+    });
+    console.log("Payment form => ", form);
+    const response = await ApiService.postAPIWithAccessToken(
+      api.addPostPayment,
+      form
+    );
+    if (response.data.status) {
+      toast.success(response.data.message);
+      console.log(response.data);
+      setJobId(null);
+      window.location.href = response.data.data.approvalUrl;
     } else {
       toast.error(response.data.message);
     }
@@ -187,560 +223,629 @@ const JobPost = () => {
   return (
     <>
       {loading ? <Loader /> : null}
-      <div class="container">
-        <div className="messages-tab">
-          <ul className="nav nav-tabs">
-            <li>
-              <Link class="btn-wh" to={routes.careNetwork}>
-                Find A Job
-              </Link>
-            </li>
-            <li>
-              <Link className="btn-wh active" to={routes.addPost}>
-                Post A Job
-              </Link>
-            </li>
-            <li>
-              <Link to={routes.appliedJob} class="btn-wh">
-                {" "}
-                Applied Jobs
-              </Link>
-            </li>
-            <li>
-              <Link to={routes.postedJob} class="btn-wh">
-                Posted Job
-              </Link>
-            </li>
-            <li className="position-relative">
-              <Link to={routes.jobRequest} className="btn-bl">
-                Job Requests
-              </Link>
-              {jobRequestCount != 0 &&
-              jobRequestCount != undefined &&
-              jobRequestCount != null ? (
-                <span class="bg-danger dots"></span>
-              ) : null}
-            </li>
-          </ul>
-        </div>
-        <div class="carenetwork-section mt-4 pt-3">
-          <div class="care-title-header">
-            <h2 class="heading-title">Post New Job</h2>
-            {/* <div class="search-filter ">
-              <div class="row g-2">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <Link
-                      class="btn-bl wd100"
-                      to=""
-                      onClick={() => navigate(-1)}
-                    >
-                      Back
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div> */}
+      {tab == 1 ? (
+        <div class="container">
+          <div className="messages-tab">
+            <ul className="nav nav-tabs">
+              <li>
+                <Link class="btn-wh" to={routes.careNetwork}>
+                  Find A Job
+                </Link>
+              </li>
+              <li>
+                <Link className="btn-wh active" to={routes.addPost}>
+                  Post A Job
+                </Link>
+              </li>
+              <li>
+                <Link to={routes.appliedJob} class="btn-wh">
+                  {" "}
+                  Applied Jobs
+                </Link>
+              </li>
+              <li>
+                <Link to={routes.postedJob} class="btn-wh">
+                  Posted Job
+                </Link>
+              </li>
+              <li className="position-relative">
+                <Link to={routes.jobRequest} className="btn-bl">
+                  Job Requests
+                </Link>
+                {jobRequestCount != 0 &&
+                jobRequestCount != undefined &&
+                jobRequestCount != null ? (
+                  <span class="bg-danger dots"></span>
+                ) : null}
+              </li>
+            </ul>
           </div>
-          <div class="post-newjob-content">
-            <div class="post-job-form">
-              <Formik
-                initialValues={initialValues}
-                validateOnChange={true}
-                validationSchema={validationSchema}
-                onSubmit={addPost}
-                enableReinitialize
-              >
-                {({ values, setFieldValue }) => (
-                  <Form id="add-post-form">
-                    <div class="post-job-card">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <h4>Job Title</h4>
-                            <Field
-                              type="text"
-                              className="form-control"
-                              name="title"
-                              placeholder="Enter Job Title"
-                            />
-                            <ErrorMessage
-                              name="title"
-                              component="div"
-                              className="alert alert-danger"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group search-form-group mb-1">
-                            <h4>Job Location</h4>
-                            {isLoaded && (
-                              <StandaloneSearchBox
-                                onLoad={(ref) => (inputRef.current = ref)}
-                                onPlacesChanged={() =>
-                                  handlePlaceChange(setFieldValue)
-                                }
-                              >
-                                <input
-                                  className="form-control"
-                                  placeholder="Where are you going?"
-                                  defaultValue={location.address}
-                                />
-                              </StandaloneSearchBox>
-                            )}
-                            <span class="form-group-icon">
-                              <img src={MapImg} />
-                            </span>
-                          </div>
-                          <ErrorMessage
-                            name="address"
-                            component="div"
-                            className="alert alert-danger"
-                          />
-                        </div>
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <h4>Job Description</h4>
-                            <Field
-                              type="text"
-                              as="textarea"
-                              className="form-control"
-                              name="description"
-                              placeholder="Enter Job Description"
-                            />
-                            <ErrorMessage
-                              name="description"
-                              component="div"
-                              className="alert alert-danger"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="post-job-card">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <h4>Category</h4>
-                            <Field name="category">
-                              {({ field }) => (
-                                <select
-                                  {...field}
-                                  className="form-control"
-                                  onChange={(e) => {
-                                    setFieldValue(field.name, e.target.value);
-                                    getSubCategoryList(e.target.value);
-                                  }}
-                                >
-                                  <option value="">Select Category</option>
-                                  {categories.length !== 0
-                                    ? categories.map((ele, indx) => {
-                                        return (
-                                          <option key={indx} value={ele.id}>
-                                            {ele.name ?? "NA"}
-                                          </option>
-                                        );
-                                      })
-                                    : null}
-                                </select>
-                              )}
-                            </Field>
-                            <ErrorMessage
-                              name="category"
-                              component="div"
-                              className="alert alert-danger"
-                            />
-                          </div>
-                        </div>
-
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <h4>Sub Category</h4>
-                            <Field
-                              as="select"
-                              type="text"
-                              className="form-control todo-list-input"
-                              name="sub_category"
-                            >
-                              <option value="">Select Sub Category</option>
-                              {subCategories.length !== 0
-                                ? subCategories.map((ele, indx) => {
-                                    return (
-                                      <option key={indx} value={ele.id}>
-                                        {ele.name ?? "NA"}
-                                      </option>
-                                    );
-                                  })
-                                : null}
-                            </Field>
-                            <ErrorMessage
-                              name="sub_category"
-                              component="div"
-                              className="alert alert-danger"
-                            />
-                          </div>
-                        </div>
-
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <h4>Qualifications Required</h4>
-                            <Field
-                              type="text"
-                              className="form-control"
-                              name="qualification"
-                              placeholder="Enter Job Qualification Required"
-                            />
-                            <ErrorMessage
-                              name="qualification"
-                              component="div"
-                              className="alert alert-danger"
-                            />
-                          </div>
-                        </div>
-
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <h4>
-                              Experience{" "}
-                              <span className="text-danger">(In Years)</span>
-                            </h4>
-                            <Field
-                              type="number"
-                              className="form-control"
-                              name="experience"
-                              placeholder="Eg. 1"
-                            />
-                            <ErrorMessage
-                              name="experience"
-                              component="div"
-                              className="alert alert-danger"
-                            />
-                          </div>
-                        </div>
-
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <h4>Job Type</h4>
-                            <Field
-                              as="select"
-                              type="text"
-                              className="form-control todo-list-input"
-                              name="shift"
-                            >
-                              <option value="">Select Job Type</option>
-                              <option value="Full Time">Full Time</option>
-                              <option value="Part Time">Part Time</option>
-                              <option value="Per Diem">Per Diem</option>
-                            </Field>
-                            <ErrorMessage
-                              name="shift"
-                              component="div"
-                              className="alert alert-danger"
-                            />
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="form-group">
-                            <h4>Start Working Timing</h4>
-                            <Field name="start_time" className="form-control">
-                              {({ field }) => (
-                                <DatePicker
-                                  {...field}
-                                  disableDayPicker
-                                  format="hh:mm A"
-                                  placeholder="Select Start Time"
-                                  value={values.start_time || ""}
-                                  onChange={(value) =>
-                                    setFieldValue("start_time", value)
-                                  }
-                                  plugins={[
-                                    <TimePicker
-                                      hideSeconds
-                                      position="bottom"
-                                    />,
-                                  ]}
-                                />
-                              )}
-                            </Field>
-                            <ErrorMessage
-                              name="start_time"
-                              component="div"
-                              className="alert alert-danger"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-md-3">
-                          <div class="form-group">
-                            <h4>End Working Timing</h4>
-                            <Field name="end_time" className="form-control">
-                              {({ field }) => (
-                                <DatePicker
-                                  {...field}
-                                  disableDayPicker
-                                  format="hh:mm A"
-                                  placeholder="Select End Time"
-                                  value={values.end_time || ""}
-                                  onChange={(value) =>
-                                    setFieldValue("end_time", value)
-                                  }
-                                  plugins={[
-                                    <TimePicker
-                                      hideSeconds
-                                      minTime={values.start_time || "15:00"}
-                                      position="bottom"
-                                    />,
-                                  ]}
-                                />
-                              )}
-                            </Field>
-                            <ErrorMessage
-                              name="end_time"
-                              component="div"
-                              className="alert alert-danger"
-                            />
-                          </div>
-                        </div>
-
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <h4>Employment Benefits Offered</h4>
-                            <Field
-                              type="text"
-                              as="textarea"
-                              className="form-control"
-                              name="benefit"
-                              placeholder="Employment Benefits Offered"
-                            />
-                            <ErrorMessage
-                              name="benefit"
-                              component="div"
-                              className="alert alert-danger"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="post-job-card">
-                      <h3>Payment</h3>
-                      <div class="row findcare-form">
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <h4>Type</h4>
-                            <div className="choosemiles-list">
-                              <ul>
-                                <li>
-                                  <div className="ceradio">
-                                    <Field
-                                      type="radio"
-                                      name="pay_range_type"
-                                      id="Hour"
-                                      value="hour"
-                                    />
-                                    <label for="Hour">
-                                      <span className="checkbox-text">
-                                        {" "}
-                                        Hourly
-                                      </span>
-                                    </label>
-                                  </div>
-                                </li>
-                                <li>
-                                  <div className="ceradio">
-                                    <Field
-                                      type="radio"
-                                      name="pay_range_type"
-                                      id="Daily"
-                                      value="day"
-                                    />
-                                    <label for="Daily">
-                                      <span className="checkbox-text">
-                                        {" "}
-                                        Daily
-                                      </span>
-                                    </label>
-                                  </div>
-                                </li>
-                                <li>
-                                  <div className="ceradio">
-                                    <Field
-                                      type="radio"
-                                      name="pay_range_type"
-                                      id="Week"
-                                      value="week"
-                                    />
-                                    <label for="Week">
-                                      <span className="checkbox-text">
-                                        {" "}
-                                        Weekly
-                                      </span>
-                                    </label>
-                                  </div>
-                                </li>
-                                <li>
-                                  <div className="ceradio">
-                                    <Field
-                                      type="radio"
-                                      name="pay_range_type"
-                                      id="Monthly"
-                                      value="month"
-                                    />
-                                    <label for="Monthly">
-                                      <span className="checkbox-text">
-                                        {" "}
-                                        Monthly
-                                      </span>
-                                    </label>
-                                  </div>
-                                </li>
-                                <li>
-                                  <div className="ceradio">
-                                    <Field
-                                      type="radio"
-                                      name="pay_range_type"
-                                      id="Year"
-                                      value="year"
-                                    />
-                                    <label for="Year">
-                                      <span className="checkbox-text">
-                                        {" "}
-                                        Yearly
-                                      </span>
-                                    </label>
-                                  </div>
-                                </li>
-                              </ul>
+          <div class="carenetwork-section mt-4 pt-3">
+            <div class="care-title-header">
+              <h2 class="heading-title">Post New Job</h2>
+            </div>
+            <div class="post-newjob-content">
+              <div class="post-job-form">
+                <Formik
+                  initialValues={initialValues}
+                  validateOnChange={true}
+                  validationSchema={validationSchema}
+                  onSubmit={addPost}
+                  enableReinitialize
+                >
+                  {({ values, setFieldValue }) => (
+                    <Form id="add-post-form">
+                      <div class="post-job-card">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <h4>Job Title</h4>
+                              <Field
+                                type="text"
+                                className="form-control"
+                                name="title"
+                                placeholder="Enter Job Title"
+                              />
                               <ErrorMessage
-                                name="pay_range_type"
+                                name="title"
+                                component="div"
+                                className="alert alert-danger"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group search-form-group mb-1">
+                              <h4>Job Location</h4>
+                              {isLoaded && (
+                                <StandaloneSearchBox
+                                  onLoad={(ref) => (inputRef.current = ref)}
+                                  onPlacesChanged={() =>
+                                    handlePlaceChange(setFieldValue)
+                                  }
+                                >
+                                  <input
+                                    className="form-control"
+                                    placeholder="Where are you going?"
+                                    defaultValue={location.address}
+                                  />
+                                </StandaloneSearchBox>
+                              )}
+                              <span class="form-group-icon">
+                                <img src={MapImg} />
+                              </span>
+                            </div>
+                            <ErrorMessage
+                              name="address"
+                              component="div"
+                              className="alert alert-danger"
+                            />
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <h4>Job Description</h4>
+                              <Field
+                                type="text"
+                                as="textarea"
+                                className="form-control"
+                                name="description"
+                                placeholder="Enter Job Description"
+                              />
+                              <ErrorMessage
+                                name="description"
                                 component="div"
                                 className="alert alert-danger"
                               />
                             </div>
                           </div>
                         </div>
+                      </div>
 
-                        <div class="col-md-6">
-                          <div class="form-group search-form-group-r PerHour-form-group">
-                            <h4>Amount</h4>
-                            <Field
-                              type="number"
-                              className="form-control"
-                              name="pay_range"
-                              placeholder="Enter Amount"
-                            />
-                            <span class="dollar-text">$</span>
+                      <div class="post-job-card">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <h4>Category</h4>
+                              <Field name="category">
+                                {({ field }) => (
+                                  <select
+                                    {...field}
+                                    className="form-control"
+                                    onChange={(e) => {
+                                      setFieldValue(field.name, e.target.value);
+                                      getSubCategoryList(e.target.value);
+                                    }}
+                                  >
+                                    <option value="">Select Category</option>
+                                    {categories.length !== 0
+                                      ? categories.map((ele, indx) => {
+                                          return (
+                                            <option key={indx} value={ele.id}>
+                                              {ele.name ?? "NA"}
+                                            </option>
+                                          );
+                                        })
+                                      : null}
+                                  </select>
+                                )}
+                              </Field>
+                              <ErrorMessage
+                                name="category"
+                                component="div"
+                                className="alert alert-danger"
+                              />
+                            </div>
                           </div>
-                          <ErrorMessage
-                            name="pay_range"
-                            component="div"
-                            className="alert alert-danger"
-                          />
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <h4>Sub Category</h4>
+                              <Field
+                                as="select"
+                                type="text"
+                                className="form-control todo-list-input"
+                                name="sub_category"
+                              >
+                                <option value="">Select Sub Category</option>
+                                {subCategories.length !== 0
+                                  ? subCategories.map((ele, indx) => {
+                                      return (
+                                        <option key={indx} value={ele.id}>
+                                          {ele.name ?? "NA"}
+                                        </option>
+                                      );
+                                    })
+                                  : null}
+                              </Field>
+                              <ErrorMessage
+                                name="sub_category"
+                                component="div"
+                                className="alert alert-danger"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <h4>Qualifications Required</h4>
+                              <Field
+                                type="text"
+                                className="form-control"
+                                name="qualification"
+                                placeholder="Enter Job Qualification Required"
+                              />
+                              <ErrorMessage
+                                name="qualification"
+                                component="div"
+                                className="alert alert-danger"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <h4>
+                                Experience{" "}
+                                <span className="text-danger">(In Years)</span>
+                              </h4>
+                              <Field
+                                type="number"
+                                className="form-control"
+                                name="experience"
+                                placeholder="Eg. 1"
+                              />
+                              <ErrorMessage
+                                name="experience"
+                                component="div"
+                                className="alert alert-danger"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <h4>Job Type</h4>
+                              <Field
+                                as="select"
+                                type="text"
+                                className="form-control todo-list-input"
+                                name="shift"
+                              >
+                                <option value="">Select Job Type</option>
+                                <option value="Full Time">Full Time</option>
+                                <option value="Part Time">Part Time</option>
+                                <option value="Per Diem">Per Diem</option>
+                              </Field>
+                              <ErrorMessage
+                                name="shift"
+                                component="div"
+                                className="alert alert-danger"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <h4>Start Working Timing</h4>
+                              <Field name="start_time" className="form-control">
+                                {({ field }) => (
+                                  <DatePicker
+                                    {...field}
+                                    disableDayPicker
+                                    format="hh:mm A"
+                                    placeholder="Select Start Time"
+                                    value={values.start_time || ""}
+                                    onChange={(value) =>
+                                      setFieldValue("start_time", value)
+                                    }
+                                    plugins={[
+                                      <TimePicker
+                                        hideSeconds
+                                        position="bottom"
+                                      />,
+                                    ]}
+                                  />
+                                )}
+                              </Field>
+                              <ErrorMessage
+                                name="start_time"
+                                component="div"
+                                className="alert alert-danger"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <h4>End Working Timing</h4>
+                              <Field name="end_time" className="form-control">
+                                {({ field }) => (
+                                  <DatePicker
+                                    {...field}
+                                    disableDayPicker
+                                    format="hh:mm A"
+                                    placeholder="Select End Time"
+                                    value={values.end_time || ""}
+                                    onChange={(value) =>
+                                      setFieldValue("end_time", value)
+                                    }
+                                    plugins={[
+                                      <TimePicker
+                                        hideSeconds
+                                        minTime={values.start_time || "15:00"}
+                                        position="bottom"
+                                      />,
+                                    ]}
+                                  />
+                                )}
+                              </Field>
+                              <ErrorMessage
+                                name="end_time"
+                                component="div"
+                                className="alert alert-danger"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <h4>Employment Benefits Offered</h4>
+                              <Field
+                                type="text"
+                                as="textarea"
+                                className="form-control"
+                                name="benefit"
+                                placeholder="Employment Benefits Offered"
+                              />
+                              <ErrorMessage
+                                name="benefit"
+                                component="div"
+                                className="alert alert-danger"
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div class="post-job-card">
-                      <h3>Contact Person For This Job Posting</h3>
-                      <div class="row">
-                        <div class="col-md-4">
-                          <div class="form-group">
-                            <h4>Full Name</h4>
-                            <Field
-                              type="text"
-                              className="form-control"
-                              name="name"
-                              placeholder="Enter Full Name"
-                            />
-                            <ErrorMessage
-                              name="name"
-                              component="div"
-                              className="alert alert-danger"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="form-group">
-                            <h4>Email Id</h4>
-                            <Field
-                              type="text"
-                              className="form-control"
-                              name="email"
-                              placeholder="Enter Email Id"
-                            />
-                            <ErrorMessage
-                              name="email"
-                              component="div"
-                              className="alert alert-danger"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-md-4">
-                          <div class="form-group">
-                            <h4>Phone</h4>
-                            <Field name="phone">
-                              {({ field }) => (
-                                <InputMask
-                                  {...field}
-                                  mask="(999) 999-9999"
-                                  className="form-control"
-                                  maskChar=""
-                                  onChange={(e) => {
-                                    setFieldValue(field.name, e.target.value);
-                                  }}
-                                  placeholder="Enter phone"
+                      <div class="post-job-card">
+                        <h3>Payment</h3>
+                        <div class="row findcare-form">
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <h4>Type</h4>
+                              <div className="choosemiles-list">
+                                <ul>
+                                  <li>
+                                    <div className="ceradio">
+                                      <Field
+                                        type="radio"
+                                        name="pay_range_type"
+                                        id="Hour"
+                                        value="hour"
+                                      />
+                                      <label for="Hour">
+                                        <span className="checkbox-text">
+                                          {" "}
+                                          Hourly
+                                        </span>
+                                      </label>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <div className="ceradio">
+                                      <Field
+                                        type="radio"
+                                        name="pay_range_type"
+                                        id="Daily"
+                                        value="day"
+                                      />
+                                      <label for="Daily">
+                                        <span className="checkbox-text">
+                                          {" "}
+                                          Daily
+                                        </span>
+                                      </label>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <div className="ceradio">
+                                      <Field
+                                        type="radio"
+                                        name="pay_range_type"
+                                        id="Week"
+                                        value="week"
+                                      />
+                                      <label for="Week">
+                                        <span className="checkbox-text">
+                                          {" "}
+                                          Weekly
+                                        </span>
+                                      </label>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <div className="ceradio">
+                                      <Field
+                                        type="radio"
+                                        name="pay_range_type"
+                                        id="Monthly"
+                                        value="month"
+                                      />
+                                      <label for="Monthly">
+                                        <span className="checkbox-text">
+                                          {" "}
+                                          Monthly
+                                        </span>
+                                      </label>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <div className="ceradio">
+                                      <Field
+                                        type="radio"
+                                        name="pay_range_type"
+                                        id="Year"
+                                        value="year"
+                                      />
+                                      <label for="Year">
+                                        <span className="checkbox-text">
+                                          {" "}
+                                          Yearly
+                                        </span>
+                                      </label>
+                                    </div>
+                                  </li>
+                                </ul>
+                                <ErrorMessage
+                                  name="pay_range_type"
+                                  component="div"
+                                  className="alert alert-danger"
                                 />
-                              )}
-                            </Field>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group search-form-group-r PerHour-form-group">
+                              <h4>Amount</h4>
+                              <Field
+                                type="number"
+                                className="form-control"
+                                name="pay_range"
+                                placeholder="Enter Amount"
+                              />
+                              <span class="dollar-text">$</span>
+                            </div>
                             <ErrorMessage
-                              name="phone"
+                              name="pay_range"
                               component="div"
                               className="alert alert-danger"
                             />
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div class="post-job-card">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div class="form-group d-flex justify-content-end">
-                            <button
-                              type="button"
-                              class="btn-bl mx-2"
-                              onClick={() => {
-                                setLocation({
-                                  lat: null,
-                                  lng: null,
-                                  address: null,
-                                  state: null,
-                                });
-                                setStartTime("09:00");
-                                setEndTime("21:00");
-                                setJobType("");
-                                document
-                                  .getElementById("add-post-form")
-                                  .reset();
-                              }}
-                            >
-                              Clear All
-                            </button>
-                            <button class="btn-gr" type="submit">
-                              Post New Job
-                            </button>
+                      <div class="post-job-card">
+                        <h3>Contact Person For This Job Posting</h3>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <h4>Full Name</h4>
+                              <Field
+                                type="text"
+                                className="form-control"
+                                name="name"
+                                placeholder="Enter Full Name"
+                              />
+                              <ErrorMessage
+                                name="name"
+                                component="div"
+                                className="alert alert-danger"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <h4>Email Id</h4>
+                              <Field
+                                type="text"
+                                className="form-control"
+                                name="email"
+                                placeholder="Enter Email Id"
+                              />
+                              <ErrorMessage
+                                name="email"
+                                component="div"
+                                className="alert alert-danger"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <h4>Phone</h4>
+                              <Field name="phone">
+                                {({ field }) => (
+                                  <InputMask
+                                    {...field}
+                                    mask="(999) 999-9999"
+                                    className="form-control"
+                                    maskChar=""
+                                    onChange={(e) => {
+                                      setFieldValue(field.name, e.target.value);
+                                    }}
+                                    placeholder="Enter phone"
+                                  />
+                                )}
+                              </Field>
+                              <ErrorMessage
+                                name="phone"
+                                component="div"
+                                className="alert alert-danger"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </Form>
-                )}
-              </Formik>
+
+                      <div class="post-job-card">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group d-flex justify-content-end">
+                              <button
+                                type="button"
+                                class="btn-bl mx-2"
+                                onClick={() => {
+                                  setLocation({
+                                    lat: null,
+                                    lng: null,
+                                    address: null,
+                                    state: null,
+                                  });
+                                  setStartTime("09:00");
+                                  setEndTime("21:00");
+                                  setJobType("");
+                                  document
+                                    .getElementById("add-post-form")
+                                    .reset();
+                                }}
+                              >
+                                Clear All
+                              </button>
+                              <button class="btn-gr" type="submit">
+                                Next
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </Form>
+                  )}
+                </Formik>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : null}
+
+      {tab == 2 ? (
+        <div className="payment-page-section">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-4 mb-2">
+                <div className="subscription-card">
+                  <div className="subscription-info">
+                    <div className="planname-text">Job Opportunity Posting</div>
+                    <p>
+                      Post your job openings and solicit for qualified
+                      candidates
+                    </p>
+                  </div>
+                  <div className="subscription-price-info">
+                    <div className="plan-price-text">
+                      ${planType ?? "0"} USD
+                    </div>
+                    <div className="plan-persave-content">
+                      <div className="plan-per-text">
+                        {planType == "50" ? "30" : "90"} days
+                      </div>
+                    </div>
+                  </div>
+                  <div className="subscription-point-info">
+                    <Formik
+                      initialValues={initialPaymentValues}
+                      onSubmit={makePayment}
+                      enableReinitialize
+                    >
+                      {({ values, setFieldValue }) => (
+                        <Form>
+                          <div className="cc-plan-point-list">
+                            <div className="ccradiobox">
+                              <Field
+                                type="radio"
+                                id="Postedjob1"
+                                name="amount"
+                                onChange={(e) => {
+                                  setPlanType(e.target.value);
+                                  setFieldValue("amount", e.target.value);
+                                }}
+                                value="50"
+                              />
+                              <label for="Postedjob1">
+                                $50 per Job Opportunity Posted/month (30 days)
+                              </label>
+                            </div>
+                          </div>
+                          <div className="cc-plan-point-list">
+                            <div className="ccradiobox">
+                              <Field
+                                type="radio"
+                                id="Postedjob2"
+                                name="amount"
+                                onChange={(e) => {
+                                  setPlanType(e.target.value);
+                                  setFieldValue("amount", e.target.value);
+                                }}
+                                value="100"
+                              />
+                              <label for="Postedjob2">
+                                $100 per Job Opportunity Posted/3 months (90
+                                days)
+                              </label>
+                            </div>
+                          </div>
+                          <div className="plan-action">
+                            <button type="submit" className="btn-bl w-100">
+                              Make Payment
+                            </button>
+                          </div>
+                        </Form>
+                      )}
+                    </Formik>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </>
   );
 };
