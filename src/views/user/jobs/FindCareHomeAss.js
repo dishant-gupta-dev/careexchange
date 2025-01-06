@@ -133,7 +133,9 @@ const FindCareHomeAss = () => {
         providerData.push(itemData);
       }
       setProvider((prevData) => [...prevData, ...providerData]);
-      if (providerData.length < providerLIMIT) {
+      console.log(providerData.length);
+      
+      if (pageNum == response.data.data.lastPage) {
         setHasMore(false);
       }
       setTotal(response.data.data.total);
@@ -232,6 +234,7 @@ const FindCareHomeAss = () => {
     });
     if (user_id.length == 0) {
       toast.error("Please select any provider");
+      setLoading(false);
       return;
     }
     const form = JSON.stringify({
