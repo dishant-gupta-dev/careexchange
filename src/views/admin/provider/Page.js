@@ -74,7 +74,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getProviderList(api.providerList + `?page=${pageNum}&limit=${LIMIT}`);
     getCategoryList(api.categoryList);
     getStateList(api.stateList + `?country_id=231`);
@@ -97,7 +97,8 @@ const Page = () => {
                 navigate(routes.providerRegistration);
               }}
             >
-            <i className="fa fa-eye"></i> &nbsp; Pending Approval Request &nbsp; <span class="badge badge-light">{totalPending}</span>
+              <i className="fa fa-eye"></i> &nbsp; Pending Approval Request
+              &nbsp; <span class="badge badge-light">{totalPending}</span>
             </button>
           </div>
         </div>
@@ -220,6 +221,7 @@ const Page = () => {
               <thead>
                 <tr>
                   <th> Name </th>
+                  <th> Business Name </th>
                   <th> Type </th>
                   <th> Contact no. </th>
                   <th> Email ID </th>
@@ -235,10 +237,10 @@ const Page = () => {
                     return (
                       <tr key={indx}>
                         <td className="text-capitalize">
-                          {ele.logo !== null &&
-                          ele.logo !== "" &&
-                          ele.logo !== undefined ? (
-                            <img src={ele.logo} alt="" className="me-3" />
+                          {ele.profile_image === null ||
+                          ele.profile_image === "" ||
+                          ele.profile_image === undefined ? (
+                            <img src={NoImage} alt="" className="me-3" />
                           ) : (
                             <img
                               src={ele.profile_image}
@@ -246,9 +248,9 @@ const Page = () => {
                               className="me-3"
                             />
                           )}
-                          {ele?.business_name ? ele?.business_name : ele?.name}
+                          {ele?.name ?? "NA"}
                         </td>
-                        {/* <td className="text-capitalize">
+                        <td className="text-capitalize">
                           {ele.logo === null ||
                           ele.logo === "" ||
                           ele.logo === undefined ? (
@@ -261,7 +263,7 @@ const Page = () => {
                             />
                           )}
                           {ele.business_name ?? "NA"}
-                        </td> */}
+                        </td>
                         <td> {ele.user_type == 3 ? "Staff" : "Provider"} </td>
                         <td> {ele.mobile ?? "NA"} </td>
                         <td className="text-lowercase">{ele.email ?? "NA"}</td>

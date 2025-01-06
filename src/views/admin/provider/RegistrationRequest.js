@@ -55,7 +55,7 @@ const RegistrationRequest = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getRegistrationList(api.registrationList);
     getCategoryList(api.categoryList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -148,10 +148,12 @@ const RegistrationRequest = () => {
               <thead>
                 <tr>
                   <th> Name </th>
+                  <th> Business Name </th>
+                  <th> Type </th>
+                  <th> Contact no. </th>
                   <th> Email ID </th>
-                  <th> Contact Number </th>
                   <th> Category </th>
-                  <th> Account Created on </th>
+                  <th> Registered on </th>
                   <th> Action </th>
                 </tr>
               </thead>
@@ -160,7 +162,7 @@ const RegistrationRequest = () => {
                   registration.map((ele, indx) => {
                     return (
                       <tr key={indx}>
-                        <td className="care-for-profile-img text-capitalize">
+                        <td className="text-capitalize">
                           {ele.profile_image === null ||
                           ele.profile_image === "" ||
                           ele.profile_image === undefined ? (
@@ -172,21 +174,23 @@ const RegistrationRequest = () => {
                               className="me-3"
                             />
                           )}
-                          {ele.name ?? "NA"}
+                          {ele?.name ?? "NA"}
                         </td>
-                        <td className="text-lowercase">
-                          {" "}
-                          {ele.email ?? "NA"}{" "}
+                        <td className="text-capitalize">
+                          {ele.logo === null ||
+                          ele.logo === "" ||
+                          ele.logo === undefined ? (
+                            <img src={NoImage} alt="" className="me-3" />
+                          ) : (
+                            <img src={ele.logo} alt="" className="me-3" />
+                          )}
+                          {ele.business_name ?? "NA"}
                         </td>
-                        <td className="text-lowercase">
-                          {" "}
-                          {ele.mobile ?? "NA"}{" "}
-                        </td>
+                        <td> {ele.user_type == 3 ? "Staff" : "Provider"} </td>
+                        <td> {ele.mobile ?? "NA"} </td>
+                        <td className="text-lowercase">{ele.email ?? "NA"}</td>
                         <td> {ele.category ?? "NA"} </td>
-                        <td>
-                          {" "}
-                          {moment(ele.created_date).format("MM-DD-yyyy")}{" "}
-                        </td>
+                        <td>{moment(ele.created_date).format("MM-DD-yyyy")}</td>
                         <td>
                           <Link
                             to={`${routes.providerDetails}/${encode(ele.id)}`}
