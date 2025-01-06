@@ -50,8 +50,6 @@ const FindCareHomeAss = () => {
   const [selectCategories, setSelectCategory] = useState(cat ?? "");
   const [selectSubCategories, setSelectSubCategory] = useState("");
   const [serviceId, setServiceId] = useState();
-  const [startDate, setStartDate] = useState("");
-  const [startError, setStartError] = useState(false);
   const [location, setLocation] = useState({
     lat: lat ?? null,
     lng: lng ?? null,
@@ -186,10 +184,6 @@ const FindCareHomeAss = () => {
   };
 
   const secondStep = async (formValue) => {
-    if (startDate === "" || startDate === null || !startDate) {
-      setStartError(true);
-      return;
-    } else setStartError(false);
     setLoading(true);
     let form = new FormData();
     form.append("service_type", selectSubCategories);
@@ -221,6 +215,7 @@ const FindCareHomeAss = () => {
       toast.success(response.data.message);
       setServiceId(response?.data?.data?.requestDetails?.id);
       setTab(3);
+      setProvider([]);
     } else {
       toast.error(response.data.message);
     }
@@ -1363,7 +1358,6 @@ const FindCareHomeAss = () => {
                                     document
                                       .getElementById("second-step-form")
                                       .reset();
-                                    setStartDate("");
                                   }}
                                 >
                                   Clear All
