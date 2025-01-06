@@ -23,7 +23,7 @@ const LockedJob = () => {
   const getJobList = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log("all locked jobs list => ", response.data);
+    // console.log("all locked jobs list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setList(response.data.data.requestedJobs);
     } else setList([]);

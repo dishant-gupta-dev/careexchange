@@ -124,7 +124,7 @@ const FindCareHomeAss = () => {
   const getProviders = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log("all providers list => ", response.data);
+    // console.log("all providers list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       const providerData = [];
       for (const key in response.data.data.ProviderList) {
@@ -133,8 +133,6 @@ const FindCareHomeAss = () => {
         providerData.push(itemData);
       }
       setProvider((prevData) => [...prevData, ...providerData]);
-      console.log(providerData.length);
-      
       if (pageNum == response.data.data.lastPage) {
         setHasMore(false);
       }

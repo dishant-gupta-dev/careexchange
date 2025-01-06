@@ -135,7 +135,7 @@ const Page = () => {
     else date = "";
     getCareNetwork(
       api.careNetworkList +
-        `?search=${name}&date=${date}&latitude=${location.lat}&longitude=${location.lng}&radius=${CommonMiles}&page=${pageNum}&limit=${LIMIT}`
+        `?search=${name}&date=${date}&latitude=${location.lat}&categoryid=${selectCategories}&subcategoryid=${selectSubCategories}&longitude=${location.lng}&radius=${selectRadius}&page=${pageNum}&limit=${LIMIT}`
     );
   };
 
@@ -159,7 +159,7 @@ const Page = () => {
       toast.success(response.data.message);
       getCareNetwork(
         api.careNetworkList +
-          `?latitude=${location.lat}&longitude=${location.lng}&radius=${CommonMiles}&page=${pageNum}&limit=${LIMIT}`
+          `?latitude=${location.lat}&longitude=${location.lng}&categoryid=${selectCategories}&subcategoryid=${selectSubCategories}&radius=${selectRadius}&page=${pageNum}&limit=${LIMIT}`
       );
     } else {
       toast.error(response.data.message);
@@ -255,7 +255,7 @@ const Page = () => {
           api.careNetworkList +
             `?latitude=${lat ?? crd.latitude}&longitude=${
               lng ?? crd.longitude
-            }&radius=${CommonMiles}&page=${pageNum}&limit=${LIMIT}`
+            }&categoryid=${selectCategories}&subcategoryid=${selectSubCategories}&radius=${CommonMiles}&page=${pageNum}&limit=${LIMIT}`
         );
       },
       function errorCallback(error) {
@@ -272,9 +272,17 @@ const Page = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     getCurrentAddress();
-    // getCareNetwork(api.careNetworkList);
     getCategoryList(api.categoryList);
     getJobRequestCount(api.jobRequestCount);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getCareNetwork(
+      api.careNetworkList +
+        `?latitude=${location.lat}&longitude=${location.lng}&categoryid=${selectCategories}&subcategoryid=${selectSubCategories}&radius=${selectRadius ?? CommonMiles}&page=${pageNum}&limit=${LIMIT}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNum]);
 
@@ -543,17 +551,16 @@ const Page = () => {
                         <li
                           className="disabled"
                           id="example_previous"
-                          onClick={() => setPageNum(pageNum - 1)}
+                          onClick={(e) => {e.preventDefault(); setPageNum(pageNum - 1);}}
                         >
-                          <Link
-                            to=""
+                          <button
                             aria-controls="example"
                             data-dt-idx="0"
                             tabIndex="0"
                             className="page-link"
                           >
                             Previous
-                          </Link>
+                          </button>
                         </li>
                       )}
 
@@ -565,11 +572,11 @@ const Page = () => {
                                 <li
                                   className={pageNo === pageNum ? "active" : ""}
                                   key={indx}
-                                  onClick={() => setPageNum(pageNo)}
+                                  onClick={(e) => {e.preventDefault(); setPageNum(pageNo);}}
                                 >
-                                  <Link to="" className="page-link">
+                                  <button className="page-link">
                                     {pageNo}
-                                  </Link>
+                                  </button>
                                 </li>
                               );
                             }
@@ -579,17 +586,16 @@ const Page = () => {
                         <li
                           className="next"
                           id="example_next"
-                          onClick={() => setPageNum(pageNum + 1)}
+                          onClick={(e) => {e.preventDefault(); setPageNum(pageNum + 1);}}
                         >
-                          <Link
-                            to=""
+                          <button
                             aria-controls="example"
                             data-dt-idx="7"
                             tabIndex="0"
                             className="page-link"
                           >
                             Next
-                          </Link>
+                          </button>
                         </li>
                       )}
                     </ul>
