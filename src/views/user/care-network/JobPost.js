@@ -175,7 +175,6 @@ const JobPost = () => {
     );
     if (response.data.status) {
       toast.success(response.data.message);
-      console.log(response.data);
       setJobId(null);
       window.location.href = response.data.data.approvalUrl;
     } else {

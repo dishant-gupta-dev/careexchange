@@ -1382,7 +1382,7 @@ const FindCareHomeAss = () => {
               >
                 <div className="findcare-form">
                   <div className="d-flex justify-content-between">
-                    <h2>Choose from {total ?? 0} Care Provider</h2>
+                    <h2>Choose from {providers.length}/{total ?? 0} Care Provider</h2>
                     {providers.length === 0 ? (
                       <button
                         type="button"

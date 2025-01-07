@@ -22,6 +22,8 @@ import JobPost from "../views/provider/care-network/JobPost.js";
 import PostedJob from "../views/provider/care-network/PostedJob.js";
 import PaymentSuccess from "../views/provider/jobs/PaymentSuccess.js";
 import PaymentError from "../views/provider/jobs/PaymentError.js";
+import SubscriptionPaymentSuccess from "../views/provider/subscription-plan/PaymentSuccess.js";
+import SubscriptionPaymentError from "../views/provider/subscription-plan/PaymentError.js";
 import ProviderDetail from "../views/provider/network-directory/ProviderDetail.js";
 
 var ProviderRoutes = [
@@ -124,6 +126,16 @@ var ProviderRoutes = [
         path: routes.subscriptionPlan,
         layout: ProviderLayout,
         component: SubscriptionPlan
+    },
+    {
+        path: routes.subscriptionPaymentSuccess,
+        layout: ProviderLayout,
+        component: SubscriptionPaymentSuccess
+    },
+    {
+        path: routes.subscriptionPaymentError,
+        layout: ProviderLayout,
+        component: SubscriptionPaymentError
     },
     {
         path: routes.aboutUs,
