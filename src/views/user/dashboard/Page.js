@@ -299,7 +299,7 @@ const Page = () => {
             </h2>
             <div className="search-filter wd30"></div>
           </div>
-          <div className="row">
+          <div className="row g-3">
             {dashboard?.category.length !== 0
               ? dashboard?.category.map((ele, indx) => {
                   return (
@@ -345,13 +345,13 @@ const Page = () => {
             <h2 className="heading-title">Featured</h2>
             <div className="search-filter wd30"></div>
           </div>
-          <div className="row">
+          <div className="row g-3">
             {dashboard?.ProviderList.length !== 0
               ? dashboard?.ProviderList.map((ele, indx) => {
                   return (
                     <div
                       key={indx}
-                      className="col-md-4 mb-3"
+                      className="col-md-4"
                       onClick={(e) => {
                         e.preventDefault();
                         navigate(routes.userDetail, {
@@ -361,7 +361,7 @@ const Page = () => {
                         });
                       }}
                     >
-                      <div className="care-card">
+                      <div className="care-card mb-0">
                         <div className="care-card-head">
                           <div className="care-user-info">
                             <div className="care-user-image">
@@ -398,7 +398,7 @@ const Page = () => {
                           </div>
                         </div>
                         <div className="care-card-body">
-                          <div className="d-flex flex-column align-items-start">
+                          <div className="care-pointtags-list">
                             <div className="care-price-text">
                               {/* <div className="pricehour-text">
                                 {ele.fee ?? "NA"}
@@ -407,11 +407,11 @@ const Page = () => {
                                 {ele.experience ?? 0} Years Experience
                               </div>
                             </div>
-                            <div>
-                              <div className="tags-item">
+                            <div className="pointtags-list">
+                              <div className="tags-item1">
                                 {ele.category ?? "NA"}
                               </div>
-                              <div className="tags-item-sub">
+                              <div className="tags-item-sub1">
                                 {ele.subcategory ?? "NA"}
                               </div>
                             </div>
@@ -439,7 +439,7 @@ const Page = () => {
             <h2 className="heading-title">Advertisement</h2>
             <div className="search-filter wd30"></div>
           </div>
-          <div className="row">
+          <div className="row g-3">
             {dashboard?.advertisementList.length !== 0
               ? dashboard?.advertisementList.map((ele, indx) => {
                   return (

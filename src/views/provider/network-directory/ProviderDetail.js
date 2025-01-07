@@ -156,7 +156,7 @@ const ProviderDetail = () => {
                 </div>
 
                 <div class="providerprofile-overview">
-                  <div class="row">
+                  <div class="row g-2">
                     <div class="col-md-4">
                       <div class="overview-card">
                         <div class="overview-content">

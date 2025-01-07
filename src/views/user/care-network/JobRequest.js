@@ -40,15 +40,15 @@ const JobRequest = () => {
     } else setMyJob([]);
   };
 
-   const getJobRequestSeen = async (api) => {
-      setLoading(true);
-      const response = await ApiService.getAPIWithAccessToken(api);
-      // console.log("job request count => ", response.data);
-      if (response.data.status && response.data.statusCode === 200) {
-        // toast.success(response.data.message);
-      }
-      setLoading(false);
-    };
+  const getJobRequestSeen = async (api) => {
+    setLoading(true);
+    const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log("job request count => ", response.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      // toast.success(response.data.message);
+    }
+    setLoading(false);
+  };
 
   const handleFilter = (e, fromDate = null, toDate = null) => {
     e.persist();
@@ -62,7 +62,10 @@ const JobRequest = () => {
     if (toDate != null && toDate != undefined && toDate != "")
       toDate = moment(toDate).format("yyyy-MM-DD");
     else toDate = "";
-    getJobRequest(api.jobRequest + `?search=${name}&from_date=${fromDate}&to_date=${toDate}&postedJobId=${postedJobId}`);
+    getJobRequest(
+      api.jobRequest +
+        `?search=${name}&from_date=${fromDate}&to_date=${toDate}&postedJobId=${postedJobId}`
+    );
   };
 
   useEffect(() => {
@@ -179,12 +182,12 @@ const JobRequest = () => {
             </div>
           </div>
           <div class="carenetwork-content">
-            <div class="row">
+            <div class="row g-3">
               {job.length !== 0 ? (
                 job.map((ele, indx) => {
                   return (
                     <div key={indx} class="col-md-4">
-                      <div class="care-card">
+                      <div class="care-card mb-0">
                         <div class="care-card-head">
                           <div class="care-id">
                             Job ID: <span>{ele.job_id ?? "NA"}</span>
@@ -193,9 +196,7 @@ const JobRequest = () => {
                           <div class="care-date">
                             Applied On:{" "}
                             <span>
-                              {moment(ele.apply_date).format(
-                                "MM-DD-yyyy"
-                              )}
+                              {moment(ele.apply_date).format("MM-DD-yyyy")}
                             </span>
                           </div>
                         </div>

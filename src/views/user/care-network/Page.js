@@ -389,12 +389,12 @@ const Page = () => {
               : `"${location.address}"`}
           </p>
           <div className="carenetwork-content">
-            <div className="row">
+            <div className="row g-3">
               {careNetwork.length !== 0 ? (
                 careNetwork.map((ele, indx) => {
                   return (
                     <div key={indx} className="col-md-6">
-                      <div className="care-card">
+                      <div className="care-card mb-0">
                         <div className="care-card-head">
                           <div className="care-id">
                             Job ID: <span>{ele.job_id ?? "NA"}</span>
@@ -412,7 +412,7 @@ const Page = () => {
                             <div className="title-text">
                               {ele.title ?? "NA"}
                             </div>
-                            <div className="tags-list">
+                            <div className="pointtags-list">
                               <div className="tags-item">
                                 {ele.categoryname ?? "NA"}
                               </div>

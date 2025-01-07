@@ -11,6 +11,7 @@ import { api } from "../../../utlis/provider/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import CallImg from "../../../assets/user/images/call.svg";
+import UserImg from "../../../assets/user/images/UserImg.svg";
 import SmsImg from "../../../assets/user/images/sms.svg";
 import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -136,51 +137,114 @@ const Details = () => {
                           {job?.subcategory ?? "NA"}
                         </div>
                       </div>
-                      <div className="jobs-details-point-list">
-                        <div className="jobs-details-item">
-                          <img src={Clock} /> Contact Name:
-                          <span>{job?.contact_person_name ?? "NA"}</span>
-                        </div>
-                        <div className="jobs-details-item">
-                          <img src={SmsImg} /> Contact Email:
-                          <span className="text-capitalize">
-                            {job?.contact_person_email ?? "NA"}
-                          </span>
-                        </div>
-                        <div className="jobs-details-item">
-                          <img src={CallImg} /> Contact Phone:
-                          <span>{job?.contact_person_phone ?? "NA"}</span>
+                      <div className="jobs-details-point-list1">
+                        <div className="row g-1">
+                          <div className="col-md-4">
+                            <div className="jobs-details-item1">
+                              <div className="jobs-details-icon">
+                                <img src={UserImg} />
+                              </div>
+                              <div className="jobs-details-text">
+                                <h2>Contact Name:</h2>
+                                <p>{job?.contact_person_name ?? "NA"}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-md-4">
+                            <div className="jobs-details-item1">
+                              <div className="jobs-details-icon">
+                                <img src={SmsImg} />
+                              </div>
+                              <div className="jobs-details-text">
+                                <h2>Contact Email:</h2>
+                                <p>{job?.contact_person_email ?? "NA"}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-md-4">
+                            <div className="jobs-details-item1">
+                              <div className="jobs-details-icon">
+                                <img src={CallImg} />
+                              </div>
+                              <div className="jobs-details-text">
+                                <h2>Contact Phone:</h2>
+                                <p>{job?.contact_person_phone ?? "NA"}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-md-4">
+                            <div className="jobs-details-item1">
+                              <div className="jobs-details-icon">
+                                <img src={Clock} />
+                              </div>
+                              <div className="jobs-details-text">
+                                <h2>Work Timing:</h2>
+                                <p>{job?.working_time_value ?? "NA"}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-md-4">
+                            <div className="jobs-details-item1">
+                              <div className="jobs-details-icon">
+                                <img src={Dollar} />
+                              </div>
+                              <div className="jobs-details-text">
+                                <h2>Salary</h2>
+                                <p>
+                                  {job?.currency ?? "$"}
+                                  {job?.pay_range ?? "NA"}/
+                                  {job?.pay_range_type ?? ""}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-md-4">
+                            <div className="jobs-details-item1">
+                              <div className="jobs-details-icon">
+                                <img src={SuitCase} />
+                              </div>
+                              <div className="jobs-details-text">
+                                <h2> Work Exp:</h2>
+                                <p>
+                                  {" "}
+                                  {job?.working_expirence ?? "NA"} Years
+                                  Experience{" "}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-md-4">
+                            <div className="jobs-details-item1">
+                              <div className="jobs-details-icon">
+                                <img src={Clock} />
+                              </div>
+                              <div className="jobs-details-text">
+                                <h2> Shift:</h2>
+                                <p>{job?.shift_value ?? "NA"}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="col-md-4">
+                            <div className="jobs-details-item1">
+                              <div className="jobs-details-icon">
+                                <img className="mx-1" src={Map} />
+                              </div>
+                              <div className="jobs-details-text">
+                                <h2> Location:</h2>
+                                <p>{job?.address ?? "NA"}</p>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <div className="jobs-details-point-list">
-                        <div className="jobs-details-item">
-                          <img src={Clock} /> Work Timing:
-                          <span>{job?.working_time_value ?? "NA"}</span>
-                        </div>
-                        <div className="jobs-details-item">
-                          <img src={Dollar} /> Salary:
-                          <span className="text-capitalize">
-                            {job?.currency ?? "$"}
-                            {job?.pay_range ?? "NA"}/{job?.pay_range_type ?? ""}
-                          </span>
-                        </div>
-                        <div className="jobs-details-item">
-                          <img src={SuitCase} /> Work Exp:
-                          <span>
-                            {job?.working_expirence ?? "NA"} Years Experience{" "}
-                          </span>
-                        </div>
-                        <div className="jobs-details-item">
-                          <img src={SuitCase} /> Shift:
-                          <span>{job?.shift_value ?? "NA"}</span>
-                        </div>
-                      </div>
-                      <div className="jobs-point-item">
-                        <img className="mx-1" src={Map} /> Location:
-                        <span className="job-location">
-                          {job?.address ?? "NA"}
-                        </span>
-                      </div>
+
                       <div className="row">
                         <div className="jobs-requirement-info mt-2 col-md-6">
                           <h3>Employee Benefit</h3>

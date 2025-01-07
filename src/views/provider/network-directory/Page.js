@@ -130,12 +130,12 @@ const Page = () => {
 
             <div className="messages-tabs-content-info tab-content">
               <div className="tab-pane active" id="showall">
-                <div className="row mt-4">
+                <div className="row mt-2 g-3">
                   {list.length !== 0 ? (
                     list.map((ele, indx) => {
                       return (
                         <div className="col-md-4">
-                          <div className="care-card">
+                          <div className="care-card mb-0">
                             <div className="care-card-head">
                               <div className="care-user-info">
                                 <div className="care-user-image">
@@ -175,16 +175,15 @@ const Page = () => {
                                   </div>
                                 </div>
                               </div>
+                              <div className="strip-text mt-2">
+                                {ele.user_type == 3 ? "Staff" : "Provider"}
+                              </div>
                             </div>
                             <div className="care-card-body">
-                              <div className="care-pricetag-content">
-                                <div className="care-price-text d-flex align-items-center">
-                                  <div className="strip-text mt-2">
-                                    {ele.user_type == 3 ? "Staff" : "Provider"}
-                                  </div>
-                                </div>
+                              <div className="exp-text mb-2">
+                                {ele.experience ?? 0} Years Experience
                               </div>
-                              <div className="tags-list mb-0">
+                              <div className="pointtags-list">
                                 <div className="tags-item">
                                   {ele.category ?? "NA"}
                                 </div>
@@ -192,13 +191,7 @@ const Page = () => {
                                   {ele.subcategory ?? "NA"}
                                 </div>
                               </div>
-                              <div className="care-pricetag-content">
-                                <div className="care-price-text">
-                                  <div className="exp-text">
-                                    {ele.experience ?? 0} Years Experience
-                                  </div>
-                                </div>
-                              </div>
+
                               <div className="care-location-box">
                                 <div className="care-point-icon">
                                   <img src={Map} />
