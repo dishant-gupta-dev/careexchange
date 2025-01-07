@@ -39,7 +39,7 @@ var AdminRoutes = [
         component: UserManagement
     },
     {
-        path: routes.userManagementDetail+"/:id",
+        path: routes.userManagementDetail,
         layout: AdminLayout,
         component: UserManagementDetails
     },

@@ -67,7 +67,7 @@ const Details = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getProviderDetails(
       api.providerDetail + `${decode(id)}?status=${jobStatus}`
     );
@@ -224,13 +224,16 @@ const Details = () => {
                         <p>{provider?.mobile ?? "NA"}</p>
                       </div>
                       <div className="form-group col-md-4 mb-0">
-                        <label for="add1">{provider?.user_type == "2" ? "Provider" : null } Address</label>
+                        <label for="add1">
+                          {provider?.user_type == "2" ? "Provider" : null}{" "}
+                          Address
+                        </label>
                         <p className="text-capitalize">
                           <i className="mdi mdi-map-outline"></i>{" "}
                           {provider?.business_address ?? "NA"}
                         </p>
                       </div>
-                      
+
                       <div className="form-group col-md-4 mb-0">
                         <label for="add1">Rating</label>
                         <p>
@@ -238,7 +241,7 @@ const Details = () => {
                           {provider?.avarageRating?.average_rating ?? "MNA"}
                         </p>
                       </div>
-                      
+
                       <div className="form-group col-md-4 mb-0">
                         <label for="add1">Experience</label>
                         <p>{provider?.experience ?? "NA"} Year(s)</p>
@@ -580,14 +583,19 @@ const Details = () => {
                                               <button
                                                 type="button"
                                                 className="btn-gr"
-                                                onClick={() =>
+                                                onClick={(e) => {
+                                                  e.preventDefault();
                                                   navigate(
-                                                    routes.userManagementDetail +
-                                                      `/${encode(
-                                                        element.userid
-                                                      )}`
-                                                  )
-                                                }
+                                                    routes.userManagementDetail,
+                                                    {
+                                                      state: {
+                                                        id: encode(
+                                                          element.userid
+                                                        ),
+                                                      },
+                                                    }
+                                                  );
+                                                }}
                                               >
                                                 View User Detail
                                               </button>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ActiveJob from "../../../assets/admin/images/activejobs.png";
 import Face1 from "../../../assets/admin/images/face1.jpg";
 import PendingRequest from "../../../assets/admin/images/pendingrequest.png";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../../../utlis/admin/routes.utlis";
 import { api } from "../../../utlis/admin/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
@@ -30,8 +30,9 @@ const Details = () => {
     confirmProviders: [],
   });
   const [loading, setLoading] = useState(false);
-  const { id } = useParams();
-
+  const localData = useLocation();
+  const id = localData.state?.id;
+  
   const getUserDetails = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
@@ -76,7 +77,7 @@ const Details = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getUserDetails(api.userDetail + `${decode(id)}?status=${jobStatus}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jobStatus]);
@@ -202,7 +203,9 @@ const Details = () => {
                         <div className="user-contact-info-icon"></div>
                         <div className="user-contact-info-content">
                           <h2>Email Address :</h2>
-                          <p className="text-lowercase">{users?.user?.email ?? "NA"}</p>
+                          <p className="text-lowercase">
+                            {users?.user?.email ?? "NA"}
+                          </p>
                         </div>
                       </div>
                     </div>

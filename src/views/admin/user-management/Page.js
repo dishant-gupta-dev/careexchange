@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { api } from "../../../utlis/admin/api.utlis";
 import { routes } from "../../../utlis/admin/routes.utlis";
 import ApiService from "../../../core/services/ApiService";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
@@ -13,6 +13,7 @@ import NoImage from "../../../assets/admin/images/no-image.jpg";
 import { totalPageCalculator, LIMIT } from "../../../utlis/common.utlis";
 
 const Page = () => {
+  const navigate = useNavigate();
   const [users, setUser] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [total, setTotal] = useState(0);
@@ -46,7 +47,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getUserList(api.userList + `?page=${pageNum}&limit=${LIMIT}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNum]);
@@ -157,9 +158,15 @@ const Page = () => {
                           <td> {ele.status} </td>
                           <td>
                             <Link
-                              to={`${routes.userManagementDetail}/${encode(
-                                ele.userid
-                              )}`}
+                              to=""
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(routes.userManagementDetail, {
+                                  state: {
+                                    id: ele.userid,
+                                  },
+                                });
+                              }}
                             >
                               <label
                                 style={{ cursor: "pointer" }}
