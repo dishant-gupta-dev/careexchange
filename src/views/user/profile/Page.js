@@ -208,7 +208,7 @@ const Page = () => {
                 </div>
 
                 <div className="providerprofile-overview">
-                  <div className="row">
+                  <div className="row g-3">
                     <div className="col-md-5">
                       <div className="overview-card">
                         <div className="overview-content text-center mb-3">

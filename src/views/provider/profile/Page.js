@@ -194,10 +194,14 @@ const Page = () => {
     form.append("business_address", location.address);
     form.append("latitude", location.lat);
     form.append("longitude", location.lng);
-    if (formValue.image === "" || formValue.image === null || !formValue.image) {
+    if (
+      formValue.image === "" ||
+      formValue.image === null ||
+      !formValue.image
+    ) {
       form.append("file", formValue.image);
     }
-    if(formValue.files.length != 0){
+    if (formValue.files.length != 0) {
       formValue.files.forEach((image) => {
         form.append("license_image", image);
       });
@@ -310,7 +314,7 @@ const Page = () => {
               <div className="providerProfile-section">
                 <div className="user-table-item">
                   <div className="row g-1 align-items-center">
-                    <div className="col-md-4">
+                    <div className="col-md-8">
                       <div className="user-profile-item">
                         <div className="user-profile-media">
                           {details?.logo !== null &&
@@ -344,7 +348,7 @@ const Page = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-md-8">
+                    <div className="col-md-4">
                       <div className="user-profile-action">
                         <Link
                           className="btn-gr"
@@ -360,7 +364,7 @@ const Page = () => {
                 </div>
 
                 <div className="providerprofile-overview">
-                  <div className="row">
+                  <div className="row g-3">
                     <div className="col-md-4">
                       <div className="overview-card">
                         <div className="overview-content">

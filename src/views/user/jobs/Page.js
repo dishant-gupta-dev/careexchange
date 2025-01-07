@@ -128,7 +128,7 @@ const Page = () => {
                                       Job ID:<span> {ele.job_id ?? "NA"}</span>
                                     </div>
 
-                                    <div className="care-status">
+                                    <div className="care-action1">
                                       {/* Status: <span>{ele.request_status ?? "NA"}</span> */}
                                       <Link
                                         className="btn-bl"
@@ -151,93 +151,90 @@ const Page = () => {
                                       <div className="title-text">
                                         {ele.first_name ?? "NA"}
                                       </div>
-                                      <div className="row d-flex justify-content-between w-100">
-                                        <div className="col-md-2">
-                                          <div className="date-text">
-                                            <img src={WhCalen} />{" "}
-                                            {moment(ele.start_date).format(
-                                              "MM-DD-yyyy"
-                                            )}{" "}
-                                            {ele.start_time ?? "NA"}
-                                          </div>
+                                      <div className="date-text">
+                                        <img src={WhCalen} />{" "}
+                                        {moment(ele.start_date).format(
+                                          "MM-DD-yyyy"
+                                        )}{" "}
+                                        {ele.start_time ?? "NA"}
+                                      </div>
+                                      <div class="tags-list float-end">
+                                        <div class="tags-item-sub">
+                                          {ele?.gender == "M"
+                                            ? "Male"
+                                            : "Female"}
                                         </div>
-                                        <div className="col-md-6 d-flex justify-content-between">
-                                          <div class="jobs-details-point-item">
-                                            <h4>Prefered Contact: </h4>
-                                            <p className="text-capitalize">
-                                              {ele.prefer_contacted ?? "NA"}
-                                            </p>
-                                          </div>
-                                          <div class="jobs-details-point-item">
-                                            <h4>Best Time To Call: </h4>
-                                            <p className="text-capitalize">
-                                              {ele.best_time_to_call ?? "NA"}
-                                            </p>
-                                          </div>
-                                          <div class="jobs-details-point-item">
-                                            <h4>Relationship: </h4>
-                                            <p>{ele.relationship ?? "NA"}</p>
-                                          </div>
+                                        <div class="tags-item-sub mx-2">
+                                          Age: {ele?.age ?? "NA"}
                                         </div>
-                                        <div className="col-md-2 mt-2">
-                                          <div class="tags-list float-end">
-                                            <div class="tags-item-sub">
-                                              {ele?.gender == "M"
-                                                ? "Male"
-                                                : "Female"}
+                                      </div>
+                                      <div className="care-point-list">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <div class="jobs-details-point-item">
+                                              <h4>Prefered Contact: </h4>
+                                              <p className="text-capitalize">
+                                                {ele.prefer_contacted ?? "NA"}
+                                              </p>
                                             </div>
-                                            <div class="tags-item-sub mx-2">
-                                              Age: {ele?.age ?? "NA"}
+                                          </div>
+                                          <div className="col-md-4">
+                                            <div class="jobs-details-point-item">
+                                              <h4>Best Time To Call: </h4>
+                                              <p className="text-capitalize">
+                                                {ele.best_time_to_call ?? "NA"}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div className="col-md-4">
+                                            <div class="jobs-details-point-item">
+                                              <h4>Relationship: </h4>
+                                              <p>{ele.relationship ?? "NA"}</p>
                                             </div>
                                           </div>
                                         </div>
                                       </div>
-                                    </div>
-                                    <div className="care-day-Weekly-info">
-                                      <div className="row w-100">
-                                        <div className="col-md-2">
-                                          <div className="care-point-box">
-                                            <div className="care-point-icon">
-                                              <img src={RepeatImg} />
+                                      <div className="care-day-Weekly1-info">
+                                        <div className="row">
+                                          <div className="col-md-4">
+                                            <div className="care-point-box">
+                                              <div className="care-point-icon">
+                                                <img src={RepeatImg} />
+                                              </div>
+                                              <div className="care-point-text">
+                                                <h4>Frequency:</h4>
+                                                <p className="text-capitalize">
+                                                  {ele.frequency === "O"
+                                                    ? "One Time"
+                                                    : ele.frequency === "W"
+                                                    ? "Repeat Weekly"
+                                                    : "Repeat Monthly"}
+                                                </p>
+                                              </div>
                                             </div>
-                                            <div className="care-point-text">
-                                              <h4>Frequency:</h4>
-                                              <p className="text-capitalize">
-                                                {ele.frequency === "O"
-                                                  ? "One Time"
-                                                  : ele.frequency === "W"
-                                                  ? "Repeat Weekly"
-                                                  : "Repeat Monthly"}
-                                              </p>
+                                          </div>
+                                          <div className="col-md-4">
+                                            <div className="care-point-box">
+                                              <div className="care-point-text">
+                                                <h4>Payment Type:</h4>
+                                                <p className="text-capitalize">
+                                                  {ele.payment_type ?? "NA"}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="col-md-4">
+                                            <div className="care-point-box">
+                                              <div className="care-point-icon">
+                                                <img src={locationImage} />
+                                              </div>
+                                              <div className="care-point-text">
+                                                <h4>Location:</h4>
+                                                <p>{ele.address ?? "NA"}</p>
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
-                                        <div className="col-md-2">
-                                          <div className="care-point-box">
-                                            <div className="care-point-text">
-                                              <h4>Payment Type:</h4>
-                                              <p className="text-capitalize">
-                                                {ele.payment_type ?? "NA"}
-                                              </p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="col-md-8">
-                                          <div className="care-point-box">
-                                            <div className="care-point-icon">
-                                              <img src={locationImage} />
-                                            </div>
-                                            <div className="care-point-text">
-                                              <h4>Location:</h4>
-                                              <p>{ele.address ?? "NA"}</p>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="care-day-list">
-                                        {/* <div className="care-day-item">S</div>
-                                        <div className="care-day-item">T</div>
-                                        <div className="care-day-item">W</div> */}
                                       </div>
                                     </div>
                                   </div>

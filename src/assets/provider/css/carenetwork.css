@@ -650,3 +650,12 @@ button.intake-btn-done {
   border: 1px solid var(--green);
   display: none;
 }
+
+.jobs-details-item1 {
+  padding: 0;
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}

@@ -149,12 +149,12 @@ const AppliedJob = () => {
             </div>
           </div>
           <div class="carenetwork-content">
-            <div class="row">
+            <div class="row g-3">
               {appliedJob.length !== 0 ? (
                 appliedJob.map((ele, indx) => {
                   return (
                     <div key={indx} class="col-md-6">
-                      <div class="care-card">
+                      <div class="care-card mb-0">
                         <div class="care-card-head">
                           <div class="care-id">
                             Job ID: <span>{ele.job_id ?? "NA"}</span>
@@ -172,7 +172,7 @@ const AppliedJob = () => {
                             <div className="title-text">
                               {ele.title ?? "NA"}
                             </div>
-                            <div className="tags-list">
+                            <div className="pointtags-list">
                               <div className="tags-item">
                                 {ele.categoryname ?? "NA"}
                               </div>

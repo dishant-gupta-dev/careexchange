@@ -63,9 +63,9 @@ const Details = () => {
               </div>
 
               <div class="myjobs-details-section">
-                <div class="row">
+                <div class="row g-3">
                   <div class="col-md-12">
-                    <div class="care-card">
+                    <div class="care-card mb-0">
                       <div class="care-card-head">
                         <div class="care-id">
                           Job ID: <span>{details?.job_id ?? "NA"}</span>
@@ -80,37 +80,72 @@ const Details = () => {
                           <div class="title-text">
                             {details?.first_name ?? "NA"}
                           </div>
-                          <div className="row d-flex justify-content-between w-100">
-                            <div className="col-md-2">
-                              <div className="date-text">
-                                <img src={WhCalen} />{" "}
-                                {moment(details?.start_date).format(
-                                  "MM-DD-yyyy"
-                                )}{" "}
-                                {details?.start_time ?? "NA"}
-                              </div>
+                          <div className="date-text">
+                            <img src={WhCalen} />{" "}
+                            {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
+                            {details?.start_time ?? "NA"}
+                          </div>
+                          <div class="tags-list float-end">
+                            <div class="tags-item-sub">
+                              {details?.gender == "M" ? "Male" : "Female"}
                             </div>
-                            <div className="col-md-6 d-flex justify-content-between">
-                              <div class="jobs-details-point-item">
-                                <h4>Email Address: </h4>
-                                <p className="text-capitalize">
-                                  {details?.email_id ?? "NA"}
-                                </p>
-                              </div>
-                              <div class="jobs-details-point-item">
-                                <h4>Fax Number: </h4>
-                                <p className="text-capitalize">
-                                  {details?.fax ?? "NA"}
-                                </p>
-                              </div>
+                            <div class="tags-item-sub mx-2">
+                              Age: {details?.age ?? "NA"}
                             </div>
-                            <div className="col-md-2 mt-2">
-                              <div class="tags-list float-end">
-                                <div class="tags-item-sub">
-                                  {details?.gender == "M" ? "Male" : "Female"}
+                          </div>
+                          <div className="care-point-list1">
+                            <div className="row">
+                              <div className="col-md-3">
+                                <div class="jobs-details-point-item">
+                                  <h4>Email Address: </h4>
+                                  <p className="text-capitalize">
+                                    {details?.email_id ?? "NA"}
+                                  </p>
                                 </div>
-                                <div class="tags-item-sub mx-2">
-                                  Age: {details?.age ?? "NA"}
+                              </div>
+                              <div className="col-md-2">
+                                <div class="jobs-details-point-item">
+                                  <h4>Fax Number: </h4>
+                                  <p className="text-capitalize">
+                                    {details?.fax ?? "NA"}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="col-md-2">
+                                <div class="care-point-box">
+                                  <div class="care-point-icon">
+                                    <img src={RepeatImg} />
+                                  </div>
+                                  <div class="care-point-text">
+                                    <h4>Frequency: </h4>
+                                    <p>
+                                      {details?.frequency === "O"
+                                        ? "One Time"
+                                        : details?.frequency === "W"
+                                        ? "Repeat Weekly"
+                                        : "Repeat Monthly"}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-md-2">
+                                <div class="care-point-box">
+                                  <div class="care-point-text">
+                                    <h4>Prefered Contact: </h4>
+                                    <p className="text-capitalize">
+                                      {details?.prefer_contacted ?? "NA"}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-md-3">
+                                <div class="care-point-box">
+                                  <div class="care-point-text">
+                                    <h4>Payment Type: </h4>
+                                    <p className="text-capitalize">
+                                      {details?.payment_type ?? "NA"}
+                                    </p>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -129,50 +164,17 @@ const Details = () => {
                             {details?.start_time ?? "NA"}
                           </div> */}
                         </div>
-                        <div class="care-day-Weekly-info">
-                          <div class="care-point-box">
-                            <div class="care-point-icon">
-                              <img src={RepeatImg} />
-                            </div>
-                            <div class="care-point-text">
-                              <h4>Frequency: </h4>
-                              <p>
-                                {details?.frequency === "O"
-                                  ? "One Time"
-                                  : details?.frequency === "W"
-                                  ? "Repeat Weekly"
-                                  : "Repeat Monthly"}
-                              </p>
-                            </div>
-                          </div>
-                          <div class="care-point-box">
-                            <div class="care-point-text">
-                              <h4>Prefered Contact: </h4>
-                              <p className="text-capitalize">
-                                {details?.prefer_contacted ?? "NA"}
-                              </p>
-                            </div>
-                          </div>
-                          <div class="care-point-box">
-                            <div class="care-point-text">
-                              <h4>Payment Type: </h4>
-                              <p className="text-capitalize">
-                                {details?.payment_type ?? "NA"}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
 
                   <div class="col-md-12">
-                    <div class="row">
+                    <div class="row g-3">
                       {details?.requestedProviderList?.length !== 0
                         ? details?.requestedProviderList?.map((ele, indx) => {
                             return (
                               <div key={indx} class="col-md-4">
-                                <div class="care-card">
+                                <div class="care-card mb-0">
                                   <div class="care-card-head">
                                     <div class="care-user-info">
                                       <div class="care-user-image">
@@ -226,7 +228,7 @@ const Details = () => {
                                     </div>
                                   </div>
                                   <div class="care-card-body">
-                                    <div className="d-flex flex-column align-items-start">
+                                    <div className="care-pointtags-list">
                                       <div className="care-price-text">
                                         <div className="exp-text mb-1">
                                           {ele?.care_providers_details
@@ -234,12 +236,12 @@ const Details = () => {
                                           Years Experience
                                         </div>
                                       </div>
-                                      <div>
-                                        <div className="tags-item">
-                                          {ele?.category ?? "NA"}
+                                      <div className="pointtags-list">
+                                        <div className="tags-item1">
+                                          {ele.category ?? "NA"}
                                         </div>
-                                        <div className="tags-item-sub">
-                                          {ele?.subcategory ?? "NA"}
+                                        <div className="tags-item-sub1">
+                                          {ele.subcategory ?? "NA"}
                                         </div>
                                       </div>
                                     </div>
@@ -255,7 +257,7 @@ const Details = () => {
                                         </p>
                                       </div>
                                     </div>
-                                    <div className="text-center mt-2 w-100">
+                                    <div className="">
                                       {ele?.chatStatus == "true" ? (
                                         <Link
                                           className="viewmorebtn mx-1"
@@ -298,8 +300,8 @@ const Details = () => {
                     </div>
                   </div>
 
-                  <div class="col-md-6">
-                    <div class="jobs-details-info-card">
+                  <div class="col-md-12">
+                    <div class="jobs-details-info-card mb-0">
                       <div class="jobs-details-phone">
                         {details?.phone ?? "NA"}
                       </div>
@@ -315,22 +317,21 @@ const Details = () => {
                           <h4>Relationship: </h4>
                           <p>{details?.relationship ?? "NA"}</p>
                         </div>
-                      </div>
-
-                      <div class="jobsdetails-location-item">
-                        <div class="jobsdetails-location-item-icon">
-                          <img src={locationImage} />
-                        </div>
-                        <div class="jobsdetails-location-item-text">
-                          <h4>Location:</h4>
-                          <p>{details?.address ?? "NA"}</p>
+                        <div class="jobsdetails-location-item">
+                          <div class="jobsdetails-location-item-icon">
+                            <img src={locationImage} />
+                          </div>
+                          <div class="jobsdetails-location-item-text">
+                            <h4>Location:</h4>
+                            <p>{details?.address ?? "NA"}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="col-md-6">
-                    <div class="jobs-details-desc-card">
+                  <div class="col-md-12">
+                    <div class="jobs-details-desc-card mb-0">
                       <h3>Description</h3>
                       <p>{details?.description ?? "NA"}</p>
                     </div>

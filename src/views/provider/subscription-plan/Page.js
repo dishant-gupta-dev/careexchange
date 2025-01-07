@@ -83,11 +83,11 @@ const Page = () => {
             </div>
           </div>
 
-          <div className="row">
+          <div className="row g-3">
             {plans.length !== 0 ? (
               plans.map((ele, indx) => {
                 return (
-                  <div key={indx} className="col-md-4 mb-2">
+                  <div key={indx} className="col-md-4 ">
                     <div className="subscription-card">
                       <div className="subscription-info">
                         <div className="planname-text">{ele.name ?? "NA"}</div>
