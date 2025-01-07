@@ -98,7 +98,7 @@ const Details = () => {
                               <div className="col-md-3">
                                 <div class="jobs-details-point-item">
                                   <h4>Email Address: </h4>
-                                  <p className="text-capitalize">
+                                  <p className="text-lowercase">
                                     {details?.email_id ?? "NA"}
                                   </p>
                                 </div>

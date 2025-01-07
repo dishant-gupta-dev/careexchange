@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { api } from "../../../utlis/admin/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
@@ -16,7 +16,8 @@ const Details = () => {
   const [stat, setStat] = useState({ status: false, value: null, name: null });
   const [details, setDetails] = useState();
   const [loading, setLoading] = useState(false);
-  const { id } = useParams();
+  const localData = useLocation();
+  const id = localData.state?.id;
 
   const getAdsDetails = async (api) => {
     setLoading(true);
@@ -45,7 +46,7 @@ const Details = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getAdsDetails(api.advertisementDetail + `${decode(id)}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -121,13 +122,14 @@ const Details = () => {
                           <button
                             type="button"
                             className="btn-gr"
-                            onClick={() =>
-                              navigate(
-                                routes.providerDetails +
-                                  "/" +
-                                  encode(details?.createdBy?.provider_id)
-                              )
-                            }
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(routes.providerDetails, {
+                                state: {
+                                  id: encode(details?.createdBy?.provider_id),
+                                },
+                              });
+                            }}
                           >
                             View Profile
                           </button>

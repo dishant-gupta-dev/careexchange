@@ -52,7 +52,7 @@ const Sidebar = () => {
           </li>
           <li
             className={
-              [routes.provider].includes(location.pathname)
+              [routes.provider, routes.providerDetails, routes.providerRegistration].includes(location.pathname)
                 ? "nav-item active"
                 : "nav-item"
             }
@@ -64,7 +64,7 @@ const Sidebar = () => {
           </li>
           <li
             className={
-              [routes.jobOpportunities].includes(location.pathname)
+              [routes.jobOpportunities, routes.jobOpportunityDetail].includes(location.pathname)
                 ? "nav-item active"
                 : "nav-item"
             }
@@ -76,7 +76,7 @@ const Sidebar = () => {
           </li>
           <li
             className={
-              [routes.advertisement].includes(location.pathname)
+              [routes.advertisement, routes.advertisementDetails].includes(location.pathname)
                 ? "nav-item active"
                 : "nav-item"
             }
@@ -88,7 +88,7 @@ const Sidebar = () => {
           </li>
           <li
             className={
-              [routes.careJob].includes(location.pathname)
+              [routes.careJob, routes.careJobDetails].includes(location.pathname)
                 ? "nav-item active"
                 : "nav-item"
             }
@@ -100,7 +100,7 @@ const Sidebar = () => {
           </li>
           <li
             className={
-              [routes.careAssessment].includes(location.pathname)
+              [routes.careAssessment, routes.careAssessmentRequest, routes.careAssessmentDetail].includes(location.pathname)
                 ? "nav-item active"
                 : "nav-item"
             }

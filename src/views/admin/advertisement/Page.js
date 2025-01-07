@@ -18,12 +18,13 @@ import {
   SingleFile,
 } from "../../../utlis/common.utlis";
 import moment from "moment";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { routes } from "../../../utlis/admin/routes.utlis";
 import Select from "react-select";
 import { encode } from "base-64";
 
 const Page = () => {
+  const navigate = useNavigate();
   const [advertisement, setAdvertisement] = useState([]);
   const [categories, setCategory] = useState([]);
   const [subCategories, setSubCategory] = useState([]);
@@ -349,26 +350,26 @@ const Page = () => {
   };
 
   const handleEditImgChange = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const fileSizeInMB = file.size / (1024 * 1024);
-        const maxFileSize = SingleFile;
-        if (fileSizeInMB > maxFileSize) {
-          setEditFile();
-          setImgError1({
-            status: true,
-            msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
-              2
-            )} MB.`,
-          });
-        } else {
-          setEditFile(e.target.files[0]);
-          setImgError1({ status: false, msg: null });
-        }
+    const file = e.target.files[0];
+    if (file) {
+      const fileSizeInMB = file.size / (1024 * 1024);
+      const maxFileSize = SingleFile;
+      if (fileSizeInMB > maxFileSize) {
+        setEditFile();
+        setImgError1({
+          status: true,
+          msg: `File size limit exceeds ${maxFileSize} MB. Your file size is ${fileSizeInMB.toFixed(
+            2
+          )} MB.`,
+        });
       } else {
-        setImgError1({ status: true, msg: `File not found.` });
+        setEditFile(e.target.files[0]);
+        setImgError1({ status: false, msg: null });
       }
-    };
+    } else {
+      setImgError1({ status: true, msg: `File not found.` });
+    }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -470,9 +471,15 @@ const Page = () => {
                           </Link>
                           <Link
                             className="btn-bl"
-                            to={
-                              routes.advertisementDetails + `/${encode(ele.id)}`
-                            }
+                            to=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(routes.advertisementDetails, {
+                                state: {
+                                  id: encode(ele.id),
+                                },
+                              });
+                            }}
                           >
                             View Detail
                           </Link>
@@ -580,9 +587,15 @@ const Page = () => {
                             2 ? (
                             <Link
                               className="btn-bl"
-                              to={`${routes.providerDetails}/${encode(
-                                ele?.user?.provider_id
-                              )}`}
+                              to=""
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(routes.providerDetails, {
+                                  state: {
+                                    id: encode(ele?.user?.provider_id),
+                                  },
+                                });
+                              }}
                             >
                               View Profile
                             </Link>

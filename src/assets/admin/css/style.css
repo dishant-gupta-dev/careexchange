@@ -14800,7 +14800,7 @@ code {
 
 /* Footer */
 .footer {
-  background: #292b56;
+  background: var(--darkblue) !important;
   color: color(dark);
   border-top: 1px solid #e7dee9;
   padding: 14px 1rem;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { api } from "../../../utlis/admin/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
@@ -15,7 +15,8 @@ const Details = () => {
   const navigate = useNavigate();
   const [details, setDetails] = useState();
   const [loading, setLoading] = useState(false);
-  const { id } = useParams();
+  const localData = useLocation();
+  const id = localData.state?.id;
 
   const getJobDetails = async (api) => {
     setLoading(true);
@@ -27,7 +28,7 @@ const Details = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getJobDetails(api.careJobDetails + `${decode(id)}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -98,7 +99,9 @@ const Details = () => {
                       </div>
                       <div className="form-group col-md-4 mb-0">
                         <label for="add1">Preferred Date</label>
-                        <p>{moment(details?.start_date).format("MM-DD-yyyy")}</p>
+                        <p>
+                          {moment(details?.start_date).format("MM-DD-yyyy")}
+                        </p>
                       </div>
                       <div className="form-group col-md-4 mb-0">
                         <label for="add1">Preferred Time</label>
@@ -107,7 +110,7 @@ const Details = () => {
 
                       <div className="form-group col-md-4 mb-0">
                         <label>Type of Care</label>
-                        <p> {details?.in_home_assist ?? 'NA'}</p>
+                        <p> {details?.in_home_assist ?? "NA"}</p>
                       </div>
                       <div className="form-group col-md-4 mb-0">
                         <label for="lname">Who Needs Care</label>
@@ -157,13 +160,14 @@ const Details = () => {
                                 <button
                                   type="button"
                                   className="btn btn-view-profile"
-                                  onClick={() =>
-                                    navigate(
-                                      `${routes.providerDetails}/${encode(
-                                        ele.provider_id
-                                      )}`
-                                    )
-                                  }
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    navigate(routes.providerDetails, {
+                                      state: {
+                                        id: encode(ele.provider_id),
+                                      },
+                                    });
+                                  }}
                                 >
                                   View Care-Provider Profile
                                 </button>

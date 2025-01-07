@@ -177,9 +177,11 @@ const Page = () => {
                         <div className="user-profile-text">
                           <h2>{details?.fullname ?? "NA"}</h2>
                           <div className="email-text m-0">
+                          <i className="fa fa-envelope ms-2"></i>{" "}
                             {details?.email ?? "NA"}
                           </div>
                           <div className="email-text">
+                          <i className="fa fa-phone ms-2"></i>{" "}
                             {details?.mobile ?? "NA"}
                           </div>
                         </div>

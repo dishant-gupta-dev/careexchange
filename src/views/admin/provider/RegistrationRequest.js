@@ -193,7 +193,15 @@ const RegistrationRequest = () => {
                         <td>{moment(ele.created_date).format("MM-DD-yyyy")}</td>
                         <td>
                           <Link
-                            to={`${routes.providerDetails}/${encode(ele.id)}`}
+                            to=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(routes.providerDetails, {
+                                state: {
+                                  id: encode(ele.id),
+                                },
+                              });
+                            }}
                           >
                             <label
                               style={{ cursor: "pointer" }}

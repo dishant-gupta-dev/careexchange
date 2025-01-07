@@ -163,7 +163,7 @@ const Page = () => {
                                 e.preventDefault();
                                 navigate(routes.userManagementDetail, {
                                   state: {
-                                    id: ele.userid,
+                                    id: encode(ele.userid),
                                   },
                                 });
                               }}

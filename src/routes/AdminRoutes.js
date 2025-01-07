@@ -54,7 +54,7 @@ var AdminRoutes = [
         component: RegistrationRequest
     },
     {
-        path: routes.providerDetails+"/:id",
+        path: routes.providerDetails,
         layout: AdminLayout,
         component: ProviderDetails
     },
@@ -64,7 +64,7 @@ var AdminRoutes = [
         component: JobOpportunities
     },
     {
-        path: routes.jobOpportunityDetail+"/:id",
+        path: routes.jobOpportunityDetail,
         layout: AdminLayout,
         component: JobOpportunityDetails
     },
@@ -74,7 +74,7 @@ var AdminRoutes = [
         component: Advertisement
     },
     {
-        path: routes.advertisementDetails+"/:id",
+        path: routes.advertisementDetails,
         layout: AdminLayout,
         component: AdvertisementDetails
     },
@@ -84,7 +84,7 @@ var AdminRoutes = [
         component: CareJob
     },
     {
-        path: routes.careJobDetails+"/:id",
+        path: routes.careJobDetails,
         layout: AdminLayout,
         component: CareJobDetails
     },
@@ -94,7 +94,7 @@ var AdminRoutes = [
         component: CareAssessment
     },
     {
-        path: routes.careAssessmentDetail+"/:id",
+        path: routes.careAssessmentDetail,
         layout: AdminLayout,
         component: CareAssessmentDetails
     },

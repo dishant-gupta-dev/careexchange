@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../../../utlis/admin/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
@@ -16,7 +16,8 @@ const JobDetails = () => {
   const [stat, setStat] = useState({ status: false, value: null, name: null });
   const [job, setJob] = useState();
   const [loading, setLoading] = useState(false);
-  const { id } = useParams();
+  const localData = useLocation();
+  const id = localData.state?.id;
 
   const getJobDetails = async (api) => {
     setLoading(true);
@@ -45,7 +46,7 @@ const JobDetails = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getJobDetails(api.postedJobDetail + `${decode(id)}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -182,12 +183,14 @@ const JobDetails = () => {
                                 <button
                                   type="button"
                                   className="btn-gr"
-                                  onClick={() =>
-                                    navigate(
-                                      routes.providerDetails +
-                                        `/${encode(job?.care_provider_id)}`
-                                    )
-                                  }
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    navigate(routes.providerDetails, {
+                                      state: {
+                                        id: encode(job?.care_provider_id),
+                                      },
+                                    });
+                                  }}
                                 >
                                   View Profile
                                 </button>
@@ -215,7 +218,8 @@ const JobDetails = () => {
                     className="btn-bl"
                     style={{ cursor: "default" }}
                   >
-                    {job?.applicantListCount ?? 0} Applicant Applied for this Job
+                    {job?.applicantListCount ?? 0} Applicant Applied for this
+                    Job
                   </button>
                 </div>
               </div>

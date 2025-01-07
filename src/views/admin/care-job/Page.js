@@ -13,6 +13,7 @@ import { encode } from "base-64";
 import { totalPageCalculator, LIMIT } from "../../../utlis/common.utlis";
 
 const Page = () => {
+  const navigate = useNavigate();
   const [jobs, setJob] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [categories, setCategory] = useState([]);
@@ -73,7 +74,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getJobList(api.careJobList + `?page=${pageNum}&limit=${LIMIT}`);
     getCategoryList(api.categoryList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -190,13 +191,15 @@ const Page = () => {
                           {ele.first_name ?? "NA"}
                         </td>
                         <td>{ele.job_id ?? "NA"}</td>
-                        <td>{ele.category ?? 'NA'}</td>
+                        <td>{ele.category ?? "NA"}</td>
                         <td>{moment(ele.start_date).format("MM-DD-yyyy")}</td>
+                        <td>{ele.start_time}</td>
                         <td>
-                          {ele.start_time}
-                        </td>
-                        <td>
-                          {ele.frequency === "O" ? "One Time" : (ele.frequency === "W" ? "Repeat Weekly" : "Repeat Monthly")}
+                          {ele.frequency === "O"
+                            ? "One Time"
+                            : ele.frequency === "W"
+                            ? "Repeat Weekly"
+                            : "Repeat Monthly"}
                         </td>
                         <td>{status(ele.status)}</td>
                         {/* <td>Joseph Phill Will Take Care</td>
@@ -208,7 +211,15 @@ const Page = () => {
                                 </td> */}
                         <td>
                           <Link
-                            to={`${routes.careJobDetails}/${encode(ele.id)}`}
+                            to=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(routes.careJobDetails, {
+                                state: {
+                                  id: encode(ele.id),
+                                },
+                              });
+                            }}
                           >
                             <label
                               className="badge badge-gradient-success"

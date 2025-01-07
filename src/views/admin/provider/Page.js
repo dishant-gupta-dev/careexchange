@@ -256,11 +256,7 @@ const Page = () => {
                           ele.logo === undefined ? (
                             <img src={NoImage} alt="" className="me-3" />
                           ) : (
-                            <img
-                              src={ele.logo}
-                              alt=""
-                              className="me-3"
-                            />
+                            <img src={ele.logo} alt="" className="me-3" />
                           )}
                           {ele.business_name ?? "NA"}
                         </td>
@@ -272,7 +268,15 @@ const Page = () => {
                         <td> {ele.status} </td>
                         <td>
                           <Link
-                            to={`${routes.providerDetails}/${encode(ele.id)}`}
+                            to=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(routes.providerDetails, {
+                                state: {
+                                  id: encode(ele.id),
+                                },
+                              });
+                            }}
                           >
                             <label
                               style={{ cursor: "pointer" }}

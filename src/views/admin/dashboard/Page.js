@@ -182,9 +182,15 @@ const Page = () => {
                                 <td>
                                   <Link
                                     title="View Detail"
-                                    to={`${routes.careJobDetails}/${encode(
-                                      ele.id
-                                    )}`}
+                                    to=""
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      navigate(routes.careJobDetails, {
+                                        state: {
+                                          id: encode(ele.id),
+                                        },
+                                      });
+                                    }}
                                   >
                                     <label
                                       style={{ cursor: "pointer" }}
@@ -320,9 +326,15 @@ const Page = () => {
                           <td>
                             <Link
                               title="View Detail"
-                              to={`${routes.jobOpportunityDetail}/${encode(
-                                ele.id
-                              )}`}
+                              to=""
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(routes.jobOpportunityDetail, {
+                                  state: {
+                                    id: encode(ele.id),
+                                  },
+                                });
+                              }}
                             >
                               <label
                                 style={{ cursor: "pointer" }}
@@ -402,9 +414,15 @@ const Page = () => {
                         <div className="advertisement-content">
                           <h4>{ele.title ?? "NA"}</h4>
                           <Link
-                            to={
-                              routes.advertisementDetails + `/${encode(ele.id)}`
-                            }
+                            to=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(routes.advertisementDetails, {
+                                state: {
+                                  id: encode(ele.id),
+                                },
+                              });
+                            }}
                             className="viewmorebtn mb-3"
                           >
                             View More

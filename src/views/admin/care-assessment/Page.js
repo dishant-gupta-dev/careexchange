@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { api } from "../../../utlis/admin/api.utlis";
 import { routes } from "../../../utlis/admin/routes.utlis";
 import ApiService from "../../../core/services/ApiService";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
@@ -14,6 +14,7 @@ import { encode } from "base-64";
 import toast from "react-hot-toast";
 
 const Page = () => {
+  const navigate = useNavigate();
   const [selectAll, setSelectAll] = useState(false);
   const [send, setSend] = useState(false);
   const [categories, setCategory] = useState([]);
@@ -113,7 +114,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getAssessmentList(api.assessmentList + `?page=${pageNum}&limit=${LIMIT}`);
     getCategoryList(api.categoryList);
     setSelectAll(false);
@@ -266,9 +267,15 @@ const Page = () => {
                         <td> {ele.address ?? "NA"} </td>
                         <td>
                           <Link
-                            to={`${routes.careAssessmentDetail}/${encode(
-                              ele.id
-                            )}`}
+                            to=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(routes.careAssessmentDetail, {
+                                state: {
+                                  id: encode(ele.id),
+                                },
+                              });
+                            }}
                           >
                             <label
                               style={{ cursor: "pointer" }}

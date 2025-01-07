@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ActiveJob from "../../../assets/admin/images/activejobs.png";
 import PendingRequest from "../../../assets/admin/images/pendingrequest.png";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../../../utlis/admin/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
@@ -25,7 +25,8 @@ const Details = () => {
   const [jobStatus, setStatus] = useState(0);
   const [tab, setTab] = useState(1);
   const [loading, setLoading] = useState(false);
-  const { id } = useParams();
+  const localData = useLocation();
+  const id = localData.state?.id;
 
   const getProviderDetails = async (api) => {
     setLoading(true);

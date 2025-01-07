@@ -32,7 +32,7 @@ const Details = () => {
   const [loading, setLoading] = useState(false);
   const localData = useLocation();
   const id = localData.state?.id;
-  
+
   const getUserDetails = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
@@ -451,14 +451,19 @@ const Details = () => {
                                                   <button
                                                     type="button"
                                                     className="btn-view-profile"
-                                                    onClick={() =>
+                                                    onClick={(e) => {
+                                                      e.preventDefault();
                                                       navigate(
-                                                        routes.careJobDetails +
-                                                          `/${encode(
-                                                            element.request_id
-                                                          )}`
-                                                      )
-                                                    }
+                                                        routes.careJobDetails,
+                                                        {
+                                                          state: {
+                                                            id: encode(
+                                                              element.request_id
+                                                            ),
+                                                          },
+                                                        }
+                                                      );
+                                                    }}
                                                   >
                                                     View Job Detail
                                                   </button>
@@ -525,10 +530,6 @@ const Details = () => {
                                 <button
                                   type="button"
                                   className="btn btn-view-profile mx-1"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    navigate(routes.providerDetails + "/" + 1);
-                                  }}
                                 >
                                   View Care-Provider Profile
                                 </button>

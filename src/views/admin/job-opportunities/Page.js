@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { api } from "../../../utlis/admin/api.utlis";
 import { routes } from "../../../utlis/admin/routes.utlis";
 import ApiService from "../../../core/services/ApiService";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { encode } from "base-64";
 import DatePicker from "react-datepicker";
 import moment from "moment";
@@ -13,6 +13,7 @@ import { status } from "../../../utlis/common.utlis";
 import { totalPageCalculator, LIMIT } from "../../../utlis/common.utlis";
 
 const Page = () => {
+  const navigate = useNavigate();
   const [jobs, setJob] = useState([]);
   const [categories, setCategory] = useState([]);
   const [startDate, setStartDate] = useState("");
@@ -57,7 +58,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     getJobList(api.postedJobList + `?page=${pageNum}&limit=${LIMIT}`);
     getCategoryList(api.categoryList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -158,15 +159,21 @@ const Page = () => {
                         <td>{ele.title ?? "NA"}</td>
                         <td> {ele.job_id ?? "NA"} </td>
                         {/* <td>{ele.description ?? "NA"}</td> */}
-                        <td>{ele.working_expirence +' year(s)' ?? "NA"}</td>
+                        <td>{ele.working_expirence + " year(s)" ?? "NA"}</td>
                         <td>{ele.pay_range ?? "$0"}</td>
                         <td>{ele.working_time_value ?? "NA"}</td>
                         <td>{status(ele.status)}</td>
                         <td>
                           <Link
-                            to={`${routes.jobOpportunityDetail}/${encode(
-                              ele.id
-                            )}`}
+                            to=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(routes.jobOpportunityDetail, {
+                                state: {
+                                  id: encode(ele.id),
+                                },
+                              });
+                            }}
                           >
                             <label
                               className="badge badge-gradient-success"
@@ -177,12 +184,20 @@ const Page = () => {
                           </Link>
                         </td>
                         <td>{ele.address ?? "NA"}</td>
-                        <td>{moment(ele.posted_date).format("MM-DD-yyyy hh:mm A")}</td>
+                        <td>
+                          {moment(ele.posted_date).format("MM-DD-yyyy hh:mm A")}
+                        </td>
                         <td>
                           <Link
-                            to={`${routes.providerDetails}/${encode(
-                              ele.care_provider_id
-                            )}`}
+                            to=""
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(routes.providerDetails, {
+                                state: {
+                                  id: encode(ele.care_provider_id),
+                                },
+                              });
+                            }}
                           >
                             <label
                               className="badge badge-gradient-success"
