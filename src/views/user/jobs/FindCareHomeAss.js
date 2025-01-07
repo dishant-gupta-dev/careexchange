@@ -124,7 +124,7 @@ const FindCareHomeAss = () => {
   const getProviders = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log("all providers list => ", response.data);
+    // console.log("all providers list => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       const providerData = [];
       for (const key in response.data.data.ProviderList) {
@@ -133,7 +133,7 @@ const FindCareHomeAss = () => {
         providerData.push(itemData);
       }
       setProvider((prevData) => [...prevData, ...providerData]);
-      if (providerData.length < providerLIMIT) {
+      if (pageNum == response.data.data.lastPage) {
         setHasMore(false);
       }
       setTotal(response.data.data.total);
@@ -232,6 +232,7 @@ const FindCareHomeAss = () => {
     });
     if (user_id.length == 0) {
       toast.error("Please select any provider");
+      setLoading(false);
       return;
     }
     const form = JSON.stringify({
@@ -1381,7 +1382,7 @@ const FindCareHomeAss = () => {
               >
                 <div className="findcare-form">
                   <div className="d-flex justify-content-between">
-                    <h2>Choose from {total ?? 0} Care Provider</h2>
+                    <h2>Choose from {providers.length}/{total ?? 0} Care Provider</h2>
                     {providers.length === 0 ? (
                       <button
                         type="button"

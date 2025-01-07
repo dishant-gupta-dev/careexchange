@@ -15,6 +15,7 @@ exports.api = {
     newsletterSubscribe: `newsletter/subscribe`,
     addNewsletter: `newsletter/add`,
     planList: `admin/plan`,
+    subscriptionPayment: `plan/subscribe`,
     profile: `user/profile`,
     updateProfile: `provider/update/`,
     deleteAccount: `delete`,

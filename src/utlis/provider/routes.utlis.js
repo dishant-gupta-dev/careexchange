@@ -21,6 +21,8 @@ exports.routes = {
     profile: `/provider/profile`,
     calendar: `/provider/calendar`,
     subscriptionPlan: `/provider/subscription-plan`,
+    subscriptionPaymentSuccess: `/provider/subscription-plan/payment-success`,
+    subscriptionPaymentError: `/provider/subscription-plan/payment-error`,
     newsletter: `/provider/newsletter`,
     aboutUs: `/provider/about-us`,
     privacyPolicy: `/provider/privacy-policy`,

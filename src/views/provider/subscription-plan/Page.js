@@ -4,6 +4,7 @@ import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import SearchImg from "../../../assets/provider/images/search1.svg";
+import toast from "react-hot-toast";
 
 const Page = () => {
   const [plans, setPlan] = useState([]);
@@ -30,6 +31,23 @@ const Page = () => {
     let name = "";
     if (e.target.name === "name") name = e.target.value;
     getPlanList(api.planList + `?search=${name}`);
+  };
+
+  const makePayment = async (id) => {
+    setLoading(true);
+    let form = JSON.stringify({
+      planId: id,
+    });
+    const response = await ApiService.postAPIWithAccessToken(
+      api.subscriptionPayment,
+      form
+    );
+    if (response.data.status && response.data.statusCode === 200) {
+      window.location.href = response.data.data.approvalUrl;
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -89,7 +107,15 @@ const Page = () => {
                           {renderHTML(ele.description)}
                         </div>
                         <div className="plan-action">
-                          <a href="">Buy Now</a>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              makePayment(ele.id);
+                            }}
+                            className="btn-gr w-100"
+                          >
+                            Buy Now
+                          </button>
                         </div>
                         {/* <p>No credit card required</p> */}
                       </div>

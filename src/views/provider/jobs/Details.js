@@ -11,6 +11,7 @@ import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import { status } from "../../../utlis/common.utlis";
 import moment from "moment";
+import toast from "react-hot-toast";
 
 const Details = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Details = () => {
   const getJobDetails = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    // console.log(response.data);
+    console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data);
     } else setDetails();
@@ -39,11 +40,10 @@ const Details = () => {
       api.paymentUnlockRequest,
       form
     );
-    // console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
-      // navigate(response.data.data.approvalUrl);
-      // window.open(response.data.data.approvalUrl).focus();
       window.location.href = response.data.data.approvalUrl;
+    } else {
+      toast.error(response.data.message);
     }
     setLoading(false);
   };
@@ -222,7 +222,7 @@ const Details = () => {
             </div>
           </div>
 
-          {details?.providers?.length !== 0
+          {/* {details?.providers?.length !== 0
             ? details?.providers?.map((ele, indx) => {
                 return (
                   <div className="col-md-12" key={indx}>
@@ -253,9 +253,9 @@ const Details = () => {
                   </div>
                 );
               })
-            : null}
+            : null} */}
 
-          {details?.status == 0 ? (
+          {!details?.makePaymentStatus ? (
             <div className="col-md-12 text-center mt-2">
               <button
                 onClick={(e) => {

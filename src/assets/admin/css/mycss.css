@@ -92,7 +92,7 @@ ul.care-pagination {
   list-style: none;
   margin: 0;
 }
-ul.care-pagination li a.page-link {
+ul.care-pagination li .page-link {
   color: #fff;
   background: var(--darkblue);
   position: relative;
@@ -103,12 +103,12 @@ ul.care-pagination li a.page-link {
   border-radius: 5px;
   border: 1px solid var(--darkblue);
 }
-ul.care-pagination li.active a.page-link {
+ul.care-pagination li.active .page-link {
   color: #292b56;
   background: #fff;
   border: 1px solid #292b56;
 }
-ul.care-pagination li.disabled a.page-link {
+ul.care-pagination li.disabled .page-link {
   color: #fff;
   pointer-events: none;
   background: #292b56;
