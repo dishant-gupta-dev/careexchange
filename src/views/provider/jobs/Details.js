@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import locationImage from "../../../assets/admin/images/Google_Map.svg";
 import WhCalen from "../../../assets/user/images/whcalendar.svg";
 import RepeatImg from "../../../assets/user/images/Repeat.svg";
+import lockedIcon from "../../../assets/user/images/lockedIcon.svg";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import { api } from "../../../utlis/provider/api.utlis";
 import { decode, encode } from "base-64";
@@ -73,103 +74,111 @@ const Details = () => {
             &nbsp;Care Job Details
           </h3>
         </div>
-        <div className="row">
-          <div className="col-lg-12">
-            <div className="cc-care-card">
-              <div className="cc-care-card-head">
-                <div className="cc-care-id">
-                  Job ID: <span>{details?.job_id ?? "NA"}</span>
-                </div>
+        <div className="Care-locked-detail" readonly>
+          <div className="Care-locked-detail-shape">
+            <div className="locked-icon">
+              <img src={lockedIcon} />
+            </div>
+            <h3>Client Contact Information Locked</h3>
+            <p>To Unlock Contact Information Please Make Payment Of $ 1.00</p>
+          </div>
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="cc-care-card">
+                <div className="cc-care-card-head">
+                  <div className="cc-care-id">
+                    Job ID: <span>{details?.job_id ?? "NA"}</span>
+                  </div>
 
-                <div className="cc-care-status">
-                  Status:{" "}
-                  <span
-                    style={{ cursor: "default" }}
-                    type="button"
-                    className={
-                      details?.status == 1 || details?.status == 4
-                        ? "btn-status btn-view-active px-4"
-                        : details?.status == 0
-                        ? "btn-status btn-view-pending px-4"
-                        : "btn-status btn-view-inactive px-4"
-                    }
-                  >
-                    {status(details?.status)}
-                  </span>
+                  <div className="cc-care-status">
+                    Status:{" "}
+                    <span
+                      style={{ cursor: "default" }}
+                      type="button"
+                      className={
+                        details?.status == 1 || details?.status == 4
+                          ? "btn-status btn-view-active px-4"
+                          : details?.status == 0
+                          ? "btn-status btn-view-pending px-4"
+                          : "btn-status btn-view-inactive px-4"
+                      }
+                    >
+                      {status(details?.status)}
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <div class="care-card-body">
-                <div class="care-content">
-                  <div class="title-text">{details?.first_name ?? "NA"}</div>
-                  <div className="date-text">
-                    <img src={WhCalen} />{" "}
-                    {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
-                    {details?.start_time ?? "NA"}
-                  </div>
-                  <div class="tags-list float-end">
-                    <div class="tags-item-sub">
-                      {details?.gender == "M" ? "Male" : "Female"}
+                <div class="care-card-body">
+                  <div class="care-content">
+                    <div class="title-text">{details?.first_name ?? "NA"}</div>
+                    <div className="date-text">
+                      <img src={WhCalen} />{" "}
+                      {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
+                      {details?.start_time ?? "NA"}
                     </div>
-                    <div class="tags-item-sub mx-2">
-                      Age: {details?.age ?? "NA"}
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-3">
-                      <div class="jobs-details-point-item">
-                        <h4>Email Address: </h4>
-                        <p className="text-capitalize">
-                          {details?.email_id ?? "NA"}
-                        </p>
+                    <div class="tags-list float-end">
+                      <div class="tags-item-sub">
+                        {details?.gender == "M" ? "Male" : "Female"}
+                      </div>
+                      <div class="tags-item-sub mx-2">
+                        Age: {details?.age ?? "NA"}
                       </div>
                     </div>
-                    <div className="col-md-2">
-                      <div class="jobs-details-point-item">
-                        <h4>Fax Number: </h4>
-                        <p className="text-capitalize">
-                          {details?.fax ?? "NA"}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-md-2">
-                      <div class="care-point-box">
-                        <div class="care-point-icon">
-                          <img src={RepeatImg} />
-                        </div>
-                        <div class="care-point-text">
-                          <h4>Frequency: </h4>
-                          <p>
-                            {details?.frequency === "O"
-                              ? "One Time"
-                              : details?.frequency === "W"
-                              ? "Repeat Weekly"
-                              : "Repeat Monthly"}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-2">
-                      <div class="care-point-box">
-                        <div class="care-point-text">
-                          <h4>Prefered Contact: </h4>
+                    <div className="row">
+                      <div className="col-md-3">
+                        <div class="jobs-details-point-item">
+                          <h4>Email Address: </h4>
                           <p className="text-capitalize">
-                            {details?.prefer_contacted ?? "NA"}
+                            {details?.email_id ?? "NA"}
                           </p>
                         </div>
                       </div>
-                    </div>
-                    <div className="col-md-3">
-                      <div class="care-point-box">
-                        <div class="care-point-text">
-                          <h4>Payment Type: </h4>
+                      <div className="col-md-2">
+                        <div class="jobs-details-point-item">
+                          <h4>Fax Number: </h4>
                           <p className="text-capitalize">
-                            {details?.payment_type ?? "NA"}
+                            {details?.fax ?? "NA"}
                           </p>
                         </div>
                       </div>
+                      <div className="col-md-2">
+                        <div class="care-point-box">
+                          <div class="care-point-icon">
+                            <img src={RepeatImg} />
+                          </div>
+                          <div class="care-point-text">
+                            <h4>Frequency: </h4>
+                            <p>
+                              {details?.frequency === "O"
+                                ? "One Time"
+                                : details?.frequency === "W"
+                                ? "Repeat Weekly"
+                                : "Repeat Monthly"}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-2">
+                        <div class="care-point-box">
+                          <div class="care-point-text">
+                            <h4>Prefered Contact: </h4>
+                            <p className="text-capitalize">
+                              {details?.prefer_contacted ?? "NA"}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-3">
+                        <div class="care-point-box">
+                          <div class="care-point-text">
+                            <h4>Payment Type: </h4>
+                            <p className="text-capitalize">
+                              {details?.payment_type ?? "NA"}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  {/* <div class="tags-list">
+                    {/* <div class="tags-list">
                             <div class="tags-item-sub">
                               {details?.gender == "M" ? "Male" : "Female"}
                             </div>
@@ -182,47 +191,48 @@ const Details = () => {
                             {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
                             {details?.start_time ?? "NA"}
                           </div> */}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-12">
-            <div class="jobs-details-info-card">
-              <div class="jobs-details-phone">{details?.phone ?? "NA"}</div>
-
-              <div class="jobs-details-point">
-                <div class="jobs-details-point-item">
-                  <h4>Best Time To Call: </h4>
-                  <p className="text-capitalize">
-                    {details?.best_time_to_call ?? "NA"}
-                  </p>
-                </div>
-                <div class="jobs-details-point-item">
-                  <h4>Relationship: </h4>
-                  <p>{details?.relationship ?? "NA"}</p>
-                </div>
-                <div class="jobsdetails-location-item">
-                  <div class="jobsdetails-location-item-icon">
-                    <img src={locationImage} />
-                  </div>
-                  <div class="jobsdetails-location-item-text">
-                    <h4>Location:</h4>
-                    <p>{details?.address ?? "NA"}</p>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="col-md-12">
-            <div class="jobs-details-desc-card">
-              <h3>Description</h3>
-              <p>{details?.description ?? "NA"}</p>
+            <div class="col-md-12">
+              <div class="jobs-details-info-card">
+                <div class="jobs-details-phone">{details?.phone ?? "NA"}</div>
+
+                <div class="jobs-details-point">
+                  <div class="jobs-details-point-item">
+                    <h4>Best Time To Call: </h4>
+                    <p className="text-capitalize">
+                      {details?.best_time_to_call ?? "NA"}
+                    </p>
+                  </div>
+                  <div class="jobs-details-point-item">
+                    <h4>Relationship: </h4>
+                    <p>{details?.relationship ?? "NA"}</p>
+                  </div>
+                  <div class="jobsdetails-location-item">
+                    <div class="jobsdetails-location-item-icon">
+                      <img src={locationImage} />
+                    </div>
+                    <div class="jobsdetails-location-item-text">
+                      <h4>Location:</h4>
+                      <p>{details?.address ?? "NA"}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="jobs-details-desc-card">
+                <h3>Description</h3>
+                <p>{details?.description ?? "NA"}</p>
+              </div>
             </div>
           </div>
-
-          {/* {details?.providers?.length !== 0
+        </div>
+        {/* {details?.providers?.length !== 0
             ? details?.providers?.map((ele, indx) => {
                 return (
                   <div className="col-md-12" key={indx}>
@@ -254,7 +264,7 @@ const Details = () => {
                 );
               })
             : null} */}
-
+        <div className="row">
           {!details?.makePaymentStatus ? (
             <div className="col-md-12 text-center mt-2">
               <button

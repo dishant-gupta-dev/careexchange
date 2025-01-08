@@ -1027,3 +1027,37 @@ button.search-btn {
   display: flex;
   gap: 5px;
 }
+
+.Care-locked-detail {
+  position: relative;
+}
+
+.Care-locked-detail-shape {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: hsl(209deg 46% 21% / 60%);
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  backdrop-filter: blur(5px);
+}
+
+.Care-locked-detail-shape h3 {
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 1rem;
+  padding: 0;
+  font-weight: 600;
+}
+.Care-locked-detail-shape p {
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 0rem;
+  padding: 0;
+  font-weight: 500;
+}
