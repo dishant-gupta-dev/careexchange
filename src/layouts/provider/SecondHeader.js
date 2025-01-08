@@ -416,7 +416,7 @@ const SecondHeader = () => {
                 <Link
                   to={routes.subscriptionPlan}
                   className={
-                    [routes.subscriptionPlan].includes(location.pathname)
+                    [routes.subscriptionPlan, routes.subscriptionPaymentSuccess, routes.subscriptionPaymentError].includes(location.pathname)
                       ? "wshomelink active"
                       : "wshomelink"
                   }

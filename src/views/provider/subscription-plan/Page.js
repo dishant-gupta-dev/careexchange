@@ -43,7 +43,7 @@ const Page = () => {
       form
     );
     if (response.data.status && response.data.statusCode === 200) {
-      window.location.href = response.data.data.approvalUrl;
+      window.location.href = response.data.data.approvalLink;
     } else {
       toast.error(response.data.message);
     }
@@ -89,6 +89,9 @@ const Page = () => {
                 return (
                   <div key={indx} className="col-md-4 ">
                     <div className="subscription-card">
+                      {ele.isCurrentPlan && (
+                        <div class="badge">Current Plan</div>
+                      )}
                       <div className="subscription-info">
                         <div className="planname-text">{ele.name ?? "NA"}</div>
                         {/* <p>Care Referrals Monthly Plan</p> */}
@@ -103,20 +106,33 @@ const Page = () => {
                         </div> */}
                       </div>
                       <div className="subscription-point-info">
-                        <div className="cc-plan-point-list">
+                        <div className="plan-action mb-3">
+                          {!ele.isCurrentPlan ? (
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                makePayment(ele.id);
+                              }}
+                              className="btn-gr w-100"
+                            >
+                              Buy Now
+                            </button>
+                          ) : (
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                makePayment(ele.id);
+                              }}
+                              className="btn-re w-100"
+                            >
+                              Cancel Plan
+                            </button>
+                          )}
+                        </div>
+                        <div className="cc-plan-point-list px-3">
                           {renderHTML(ele.description)}
                         </div>
-                        <div className="plan-action">
-                          <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              makePayment(ele.id);
-                            }}
-                            className="btn-gr w-100"
-                          >
-                            Buy Now
-                          </button>
-                        </div>
+
                         {/* <p>No credit card required</p> */}
                       </div>
                     </div>

@@ -18,6 +18,7 @@ import { routes } from "../../../utlis/provider/routes.utlis";
 
 const Page = () => {
   const options = [];
+  const navigate = useNavigate();
   const [dashboard, setDashboard] = useState();
   const [loading, setLoading] = useState(false);
   const [state, setState] = useState([]);
@@ -39,6 +40,15 @@ const Page = () => {
     } else setDashboard();
     setLoading(false);
   };
+
+  const subscribtionAuth = async (api) => {
+    const response = await ApiService.getAPIWithAccessToken(api);
+    if (response.data.status && response.data.statusCode === 200) {
+      if(!(response.data.data.isSubscribed)) {
+        navigate(routes.subscriptionPlan);
+      }
+    }
+  }
 
   const getStateList = async (api) => {
     const response = await ApiService.getAPI(api);
@@ -139,6 +149,7 @@ const Page = () => {
     window.scrollTo(0, 0);
     getDashboardData(api.dashboard);
     getCurrentAddress();
+    subscribtionAuth(api.subscriptionAuth);
     getStateList(api.stateList + `?country_id=231`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

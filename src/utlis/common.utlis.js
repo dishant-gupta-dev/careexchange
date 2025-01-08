@@ -29,6 +29,7 @@ export const CommonMiles = "1000";  //  1000 Miles
 export const SingleFile = 2;  //  2MB
 export const MultipleFile = 5;  //  5MB
 export const GeolocationApiKey = "AIzaSyB7FaWV_op0bNaxtZPe_m7OHjBFs1C4o2A";
+export const DefaultMoney = 1;  //  1$
 
 export const totalPageCalculator = (total, limit) => {
     const pages = [];

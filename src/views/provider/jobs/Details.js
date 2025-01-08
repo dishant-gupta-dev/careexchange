@@ -10,7 +10,7 @@ import { decode, encode } from "base-64";
 import { routes } from "../../../utlis/provider/routes.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
-import { status } from "../../../utlis/common.utlis";
+import { DefaultMoney, status } from "../../../utlis/common.utlis";
 import moment from "moment";
 import toast from "react-hot-toast";
 
@@ -75,13 +75,18 @@ const Details = () => {
           </h3>
         </div>
         <div className="Care-locked-detail" readonly>
-          <div className="Care-locked-detail-shape">
-            <div className="locked-icon">
-              <img src={lockedIcon} />
+          {!details?.makePaymentStatus ? (
+            <div className="Care-locked-detail-shape">
+              <div className="locked-icon">
+                <img src={lockedIcon} />
+              </div>
+              <h3>Client Contact Information Locked</h3>
+              <p>
+                To Unlock Contact Information Please Make Payment Of $
+                {DefaultMoney}
+              </p>
             </div>
-            <h3>Client Contact Information Locked</h3>
-            <p>To Unlock Contact Information Please Make Payment Of $ 1.00</p>
-          </div>
+          ) : null}
           <div className="row">
             <div className="col-lg-12">
               <div className="cc-care-card">
@@ -270,11 +275,11 @@ const Details = () => {
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  makePayment(details?.id, 1);
+                  makePayment(details?.id, DefaultMoney);
                 }}
                 className="btn btn-gr w-50"
               >
-                Make Payment $1
+                Make Payment ${DefaultMoney}
               </button>
             </div>
           ) : null}

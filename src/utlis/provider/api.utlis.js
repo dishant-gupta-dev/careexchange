@@ -38,4 +38,5 @@ exports.api = {
     deletePost: `job/post/`,
     networkDirectory: `provider/List`,
     userDetail: `provider/detail/`,
+    subscriptionAuth: `plan/subscribed`,
 }
