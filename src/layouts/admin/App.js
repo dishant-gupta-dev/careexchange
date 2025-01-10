@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import Footer from "./Footer";
 import "../../assets/admin/css/style.css";
+import "../../assets/admin/css/coupon.css";
 import "../../assets/admin/css/mycss.css";
 import "../../assets/admin/vendors/mdi/css/materialdesignicons.min.css";
 import "../../assets/admin/vendors/ti-icons/css/themify-icons.css";

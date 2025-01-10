@@ -158,6 +158,18 @@ const Sidebar = () => {
               <i className="mdi mdi-email-open-multiple-outline menu-icon"></i>
             </Link>
           </li>
+          <li
+            className={
+              [routes.manageCoupon].includes(location.pathname)
+                ? "nav-item active"
+                : "nav-item"
+            }
+          >
+            <Link className="nav-link" to={routes.manageCoupon}>
+              <span className="menu-title">Manage Coupon </span>
+              <i className="mdi mdi-email-open-multiple-outline menu-icon"></i>
+            </Link>
+          </li>
         </ul>
       </nav>
     </>

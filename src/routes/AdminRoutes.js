@@ -19,6 +19,7 @@ import SubscriptionPlan from "../views/admin/manage-subscription-plan/Page.js";
 import PaymentLog from "../views/admin/payment-logs/Page.js";
 import Master from "../views/admin/master/Page.js";
 import Newsletter from "../views/admin/manage-newsletter/Page.js";
+import Coupon from "../views/admin/coupons/Page.js";
 import { routes } from "../utlis/admin/routes.utlis.js";
 
 
@@ -122,6 +123,11 @@ var AdminRoutes = [
         path: routes.manageNewsletter,
         layout: AdminLayout,
         component: Newsletter
+    },
+    {
+        path: routes.manageCoupon,
+        layout: AdminLayout,
+        component: Coupon
     },
 ];
 

@@ -27,4 +27,5 @@ exports.routes = {
     aboutUs: `/provider/about-us`,
     privacyPolicy: `/provider/privacy-policy`,
     termsCondition: `/provider/terms-condition`,
+    transactionList: `/transaction-history`,
 }

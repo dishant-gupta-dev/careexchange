@@ -40,4 +40,5 @@ exports.api = {
     userDetail: `provider/detail/`,
     subscriptionAuth: `plan/subscribed`,
     subscriptionCancel: `plan/cancel`,
+    transactionList: `transaction/history`,
 }

@@ -20,4 +20,5 @@ exports.routes = {
     paymentLogs: `/admin/payment-logs`,
     master: `/admin/cms`,
     manageNewsletter: `/admin/manage-newsletter`,
+    manageCoupon: `/admin/manage-coupon`,
 }

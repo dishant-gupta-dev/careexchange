@@ -1,14 +1,16 @@
-import React from "react";
-import Searchicon from "../../../assets/provider/images/search1.svg";
-import DatePicker from "../../../assets/provider/images/Date-Picker.png";
-import Repeat from "../../../assets/provider/images/Repeat.svg";
-import whcalendar from "../../../assets/provider/images/whcalendar.svg";
-import careuserprofile from "../../../assets/provider/images/user.png";
-import SuitcaseIcon from "../../../assets/provider/images/jobs-suitcase.svg";
-import DollarIcon from "../../../assets/provider/images/dollar.svg";
-import StarIcon from "../../../assets/provider/images/star1.svg";
+import React, { useState } from "react";
+import DollarImg from "../../../assets/user/images/dollar-circle.svg";
+import StarImg from "../../../assets/user/images/star1.svg";
+import SuitcaseImg from "../../../assets/user/images/jobs-suitcase.svg";
+import WhcalenImg from "../../../assets/user/images/whcalendar.svg";
+import SearchImg from "../../../assets/user/images/search1.svg";
+import RepeatImg from "../../../assets/user/images/Repeat.svg";
+import UserImg from "../../../assets/user/images/user.png";
+import Calendar from "react-calendar";
 
 const Page = () => {
+  const [dateVal, setDate] = useState("");
+
   return (
     <>
       <div className="container">
@@ -25,7 +27,7 @@ const Page = () => {
                     placeholder="Search "
                   />
                   <span className="search-icon">
-                    <img src={Searchicon} alt="" />
+                    <img src={SearchImg} />
                   </span>
                 </div>
               </div>
@@ -34,16 +36,18 @@ const Page = () => {
 
           <div className="row">
             <div className="col-md-4">
-              <div className="calendar-card">
-                <img src={DatePicker} alt="" />
-              </div>
+              <Calendar
+                onChange={(e) => setDate(e)}
+                defaultView="month"
+                value={dateVal}
+              />
             </div>
 
             <div className="col-md-8">
               <div className="care-card">
                 <div className="care-card-head">
                   <div className="care-id">
-                    Job ID:<span>7983489</span>
+                    Job ID: <span>7983489</span>
                   </div>
 
                   <div className="care-status">
@@ -54,14 +58,14 @@ const Page = () => {
                   <div className="care-content">
                     <div className="title-text">Care For Marry Lane</div>
                     <div className="date-text">
-                      <img src={whcalendar} alt="" />
-                      Next Mon, 25 Jul, 09:00 Am- 05:00 PM
+                      <img src={WhcalenImg} /> Next Mon, 25 Jul, 09:00 Am- 05:00
+                      PM
                     </div>
                   </div>
                   <div className="care-day-Weekly-info">
                     <div className="care-point-box">
                       <div className="care-point-icon">
-                        <img src={Repeat} alt="" />
+                        <img src={RepeatImg} />
                       </div>
                       <div className="care-point-text">
                         <h4>Repeat Weekly:</h4>
@@ -78,7 +82,7 @@ const Page = () => {
                 <div className="care-card-foot">
                   <div className="care-user-info">
                     <div className="care-user-image">
-                      <img src={careuserprofile} alt="" />
+                      <img src={UserImg} />
                     </div>
                     <div className="care-user-text">
                       <div className="care-user-name">
@@ -86,14 +90,14 @@ const Page = () => {
                       </div>
                       <div className="care-user-info-list">
                         <div className="Exp-text">
-                          <img src={SuitcaseIcon} alt="" /> 3+ Years Exp
+                          <img src={SuitcaseImg} /> 3+ Years Exp
                         </div>
                         <div className="rating-text">
-                          <img src={StarIcon} alt="" />
+                          <img src={StarImg} />
                           4.2
                         </div>
                         <div className="rate-text">
-                          <img src={DollarIcon} alt="" />
+                          <img src={DollarImg} />
                           $20-30/Hr
                         </div>
                       </div>

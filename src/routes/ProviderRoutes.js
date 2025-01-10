@@ -25,6 +25,7 @@ import PaymentError from "../views/provider/jobs/PaymentError.js";
 import SubscriptionPaymentSuccess from "../views/provider/subscription-plan/PaymentSuccess.js";
 import SubscriptionPaymentError from "../views/provider/subscription-plan/PaymentError.js";
 import ProviderDetail from "../views/provider/network-directory/ProviderDetail.js";
+import TransactionHistory from "../views/provider/transaction/Page.js";
 
 var ProviderRoutes = [
     {
@@ -121,6 +122,11 @@ var ProviderRoutes = [
         path: routes.profile,
         layout: ProviderLayout,
         component: Profile
+    },
+    {
+        path: routes.transactionList,
+        layout: ProviderLayout,
+        component: TransactionHistory
     },
     {
         path: routes.subscriptionPlan,
