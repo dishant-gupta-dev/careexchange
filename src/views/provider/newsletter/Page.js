@@ -7,8 +7,11 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import InputMask from "react-input-mask";
+import { subscribtionAuth } from "../../../utlis/common.utlis";
+import { useNavigate } from "react-router-dom";
 
 const Page = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [newsletter, setNewsletter] = useState(false);
   let userData = JSON.parse(localStorage.getItem("careexchange"));
@@ -58,6 +61,7 @@ const Page = () => {
 
   useEffect(() => {
     getNewsletterSubscribe(api.newsletterSubscribe);
+    subscribtionAuth(api.subscriptionAuth, navigate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

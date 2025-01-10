@@ -11,6 +11,7 @@ import {
   status,
   totalPageCalculator,
   adsLIMIT,
+  subscribtionAuth,
 } from "../../../utlis/common.utlis";
 import moment from "moment";
 import { routes } from "../../../utlis/provider/routes.utlis";
@@ -331,6 +332,7 @@ const Page = () => {
     getAdvertisementList(api.postedAdvertisement);
     getCategoryList(api.categoryList);
     getTagsList(api.tagsList);
+    subscribtionAuth(api.subscriptionAuth, navigate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNum]);
 

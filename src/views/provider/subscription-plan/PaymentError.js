@@ -18,7 +18,9 @@ const PaymentError = () => {
                 There was a problem with the card you provided. Please contact
                 your card issue for further assistance.
               </p>
-              <Link className="btn-bl mt-3" to={routes.myJobs}>My Jobs</Link>
+              <Link className="btn-bl mt-3" to={routes.subscriptionPlan}>
+                Subscription Plan
+              </Link>
             </div>
           </div>
         </div>

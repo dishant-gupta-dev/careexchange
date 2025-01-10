@@ -12,6 +12,7 @@ import DatePicker from "react-datepicker";
 import { routes } from "../../../utlis/provider/routes.utlis";
 import { encode } from "base-64";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
+import { subscribtionAuth } from "../../../utlis/common.utlis";
 
 const Page = () => {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const Page = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     getDirectoryList(api.networkDirectory + `?user_type=${tab}`);
+    subscribtionAuth(api.subscriptionAuth, navigate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab]);
   return (

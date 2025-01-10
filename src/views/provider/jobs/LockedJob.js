@@ -13,6 +13,7 @@ import moment from "moment";
 import Loader from "../../../layouts/loader/Loader";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import { encode } from "base-64";
+import { subscribtionAuth } from "../../../utlis/common.utlis";
 
 const LockedJob = () => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const LockedJob = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    subscribtionAuth(api.subscriptionAuth, navigate);
     getJobList(api.lockedJobs);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab]);

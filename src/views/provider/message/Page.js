@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "../../../firebase";
 import ApiService from "../../../core/services/ApiService";
 import { serverTimestamp } from "firebase/firestore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import moment from "moment/moment";
 import Search from "../../../assets/provider/images/search1.svg";
 import Searchicon from "../../../assets/provider/images/search-normal.svg";
@@ -15,8 +15,10 @@ import NoImage from "../../../assets/admin/images/no-image.jpg";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import { api } from "../../../utlis/provider/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
+import { subscribtionAuth } from "../../../utlis/common.utlis";
 
 const Page = () => {
+  const navigate = useNavigate();
   let userId = JSON.parse(localStorage.getItem("careexchange")).userId;
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(1);
@@ -122,6 +124,7 @@ const Page = () => {
 
   useEffect(() => {
     getUsers(api.userChatList);
+    subscribtionAuth(api.subscriptionAuth, navigate);
   }, []);
 
   useEffect(() => {

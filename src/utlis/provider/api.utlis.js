@@ -39,4 +39,5 @@ exports.api = {
     networkDirectory: `provider/List`,
     userDetail: `provider/detail/`,
     subscriptionAuth: `plan/subscribed`,
+    subscriptionCancel: `plan/cancel`,
 }

@@ -22,6 +22,7 @@ import { userLogout } from "../../../store/slices/Auth";
 import LocImg from "../../../assets/user/images/location.svg";
 import InputMask from "react-input-mask";
 import Select from "react-select";
+import { routes } from "../../../utlis/provider/routes.utlis";
 
 const Page = () => {
   const options = [];
@@ -161,6 +162,7 @@ const Page = () => {
   const getMyProfile = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
+    console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setSelectCategory(response?.data?.data?.categoryid);
       getSubCategoryList(response?.data?.data?.categoryid);
@@ -290,14 +292,24 @@ const Page = () => {
           <div className="row">
             <div className="col-md-12">
               <div className="care-title-header">
-                <div className="care-title-header-1">
-                  <h6 className="heading-name-title p-0">
-                    Hello,{" "}
-                    {details?.business_name
-                      ? details?.business_name
-                      : details?.fullname}
-                  </h6>
-                  <h2 className="heading-title">Your Profile Looks Great !</h2>
+                <div className="d-flex">
+                  <div className="user-profile-media">
+                    {details?.logo !== null &&
+                    details?.logo !== "" &&
+                    details?.logo !== undefined ? (
+                      <img src={details?.logo} alt="" />
+                    ) : (
+                      <img src={NoImage} alt="" />
+                    )}
+                  </div>
+                  <div className="care-title-header-1">
+                    <h6 className="heading-name-title p-0">
+                      Hello, {details?.business_name ?? "NA"}
+                    </h6>
+                    <h2 className="heading-title">
+                      Your Profile Looks Great !
+                    </h2>
+                  </div>
                 </div>
                 <div>
                   <div className="">
@@ -317,24 +329,16 @@ const Page = () => {
                     <div className="col-md-8">
                       <div className="user-profile-item">
                         <div className="user-profile-media">
-                          {details?.logo !== null &&
-                          details?.logo !== "" &&
-                          details?.logo !== undefined ? (
-                            <img src={details?.logo} alt="" />
-                          ) : details?.profile_image === null ||
-                            details?.profile_image === "" ||
-                            details?.profile_image === undefined ? (
-                            <img src={NoImage} alt="" />
-                          ) : (
+                          {details?.profile_image !== null &&
+                          details?.profile_image !== "" &&
+                          details?.profile_image !== undefined ? (
                             <img src={details?.profile_image} alt="" />
+                          ) : (
+                            <img src={NoImage} alt="" />
                           )}
                         </div>
                         <div className="user-profile-text">
-                          <h2>
-                            {details?.business_name
-                              ? details?.business_name
-                              : details?.fullname}
-                          </h2>
+                          <h2>{details?.fullname ?? "NA"}</h2>
                           <div className="d-flex">
                             <div className="email-text">
                               <i className="fa fa-envelope ms-2"></i>{" "}
@@ -358,6 +362,43 @@ const Page = () => {
                         >
                           <i class="fa fa-edit ms-2"></i> Edit Profile
                         </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="providerprofile-overview">
+                  <div className="row g-3">
+                    <div className="col-md-4">
+                      <div className="overview-card">
+                        <div className="overview-content">
+                          <h2>Category</h2>
+                          <h4 style={{ fontSize: "0.9rem" }}>
+                            {details?.category ?? 0}
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="overview-card">
+                        <div className="overview-content">
+                          <h2>Sub Category</h2>
+                          <h4 style={{ fontSize: "0.9rem" }}>
+                            {details?.subcategory ?? 0}
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="overview-card">
+                        <div className="overview-content">
+                          <h2>Service Offered Area</h2>
+                          <h4 style={{ fontSize: "0.9rem" }}>
+                            {details?.service_offered_area ?? 0} Miles
+                          </h4>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -394,43 +435,133 @@ const Page = () => {
                   </div>
                 </div>
 
+                <div className="providerprofile-overview">
+                  <div className="row g-3">
+                    <div className="col-md-4">
+                      <div className="overview-card">
+                        <div className="overview-content">
+                          <h2>Repeat Client</h2>
+                          <h4>{details?.repeatClient ?? 0}</h4>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="overview-card">
+                        <div className="overview-content">
+                          <h2>Response Rate</h2>
+                          <h4>{details?.responseRate ?? 0}</h4>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="overview-card">
+                        <div className="overview-content">
+                          <h2>Response Time</h2>
+                          <h4>{details?.responseTime ?? 0}</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="providerprofile-about d-flex justify-content-between align-items-center">
                   <div className="d-flex align-items-center">
                     <img className="me-3" src={caresuccessful} alt="" />
                     <h2 className="m-0">
-                      Want To Get Featured on The Home Page Listing ?
+                      {details?.currentPlan?.name ?? "No Active Plan"}
                     </h2>
                   </div>
-                  <a className="btn-plan" href="#">
-                    @ Just $59/Monthly
-                  </a>
+                  {details?.currentPlan?.name && (
+                    <Link className="btn-plan" to={routes.subscriptionPlan}>
+                      ${details?.currentPlan?.cost ?? "0"}/
+                      {details?.currentPlan?.cost_period ?? "NA"}
+                    </Link>
+                  )}
                 </div>
 
                 <div className="Address-card">
-                  <div className="care-location-box d-flex justify-content-between mt-3">
-                    <div className="care-location-text">
+                  <div className="row mt-3">
+                    <div className="care-location-text col-md-4">
                       <h4>Payment Accepted</h4>
                       <p>{details?.payment_accepted_type ?? "NA"}</p>
                     </div>
-                    <div className="care-location-text">
+                    <div className="care-location-text col-md-4">
                       <h4>Experience </h4>
                       <p>{details?.experience ?? 0} Years</p>
                     </div>
-                    <div className="care-location-text">
-                      <h4>Fees </h4>
-                      <p>{details?.fee ?? "NA"}</p>
+                    <div className="care-location-text col-md-4">
+                      <h4>Slogan </h4>
+                      <p>{details?.slogan ?? "NA"}</p>
                     </div>
                   </div>
-
                   <div className="divider col-md-12"></div>
-
+                  <div className="row mt-3">
+                    <div className="care-location-text col-md-4">
+                      <h4>Fees Per Hour</h4>
+                      <p>
+                        {details?.currency ?? "$"}
+                        {details?.fee_per_hour ?? "0"}
+                      </p>
+                    </div>
+                    <div className="care-location-text col-md-4">
+                      <h4>Fees Per Week</h4>
+                      <p>
+                        {details?.currency ?? "$"}
+                        {details?.fee_per_week ?? "0"}
+                      </p>
+                    </div>
+                    <div className="care-location-text col-md-4">
+                      <h4>Fees Per Month</h4>
+                      <p>
+                        {details?.currency ?? "$"}
+                        {details?.fee_per_month ?? "0"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="divider col-md-12"></div>
+                  <div className="row mt-3">
+                    <div className="care-location-text col-md-5">
+                      <h4>States</h4>
+                      {details?.providerStates?.length !== 0
+                        ? details?.providerStates?.map((ele, indx) => {
+                            return (
+                              <div
+                                key={indx}
+                                className="strip-text text-capitalize"
+                                style={{ marginRight: "4px" }}
+                              >
+                                {ele.name ?? "NA"}
+                              </div>
+                            );
+                          })
+                        : null}
+                    </div>
+                    <div className="care-location-text col-md-7">
+                      <h4>Cities</h4>
+                      {details?.providerCities?.length !== 0
+                        ? details?.providerCities?.map((ele, indx) => {
+                            return (
+                              <div
+                                key={indx}
+                                className="strip-text text-capitalize"
+                                style={{ marginRight: "4px" }}
+                              >
+                                {ele.name ?? "NA"}
+                              </div>
+                            );
+                          })
+                        : null}
+                    </div>
+                  </div>
+                  <div className="divider col-md-12"></div>
                   <div className="care-location-text">
-                    <h4>Best Info</h4>
+                    <h4>Description</h4>
                     <p>{details?.description ?? "NA"}</p>
                   </div>
-
                   <div className="divider col-md-12"></div>
-                  <div className="care-location-text mb-3">
+                  <div className="care-location-text mb-2">
                     <h4>Address</h4>
                   </div>
                   <div className="full-address-detail">

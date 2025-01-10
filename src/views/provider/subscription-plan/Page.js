@@ -4,12 +4,14 @@ import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import SearchImg from "../../../assets/provider/images/search1.svg";
+import { Modal, ModalBody } from "react-bootstrap";
 import toast from "react-hot-toast";
 
 const Page = () => {
   const [plans, setPlan] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [cancelPlan, setCancelPlan] = useState({ status: false, id: null });
   const renderHTML = (rawHTML: string) =>
     React.createElement("div", {
       dangerouslySetInnerHTML: { __html: rawHTML },
@@ -44,6 +46,28 @@ const Page = () => {
     );
     if (response.data.status && response.data.statusCode === 200) {
       window.location.href = response.data.data.approvalLink;
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
+  };
+
+  const cancelSubscription = async (id) => {
+    setLoading(true);
+    let form = JSON.stringify({
+      subscriptionId: id,
+    });
+    const response = await ApiService.postAPIWithAccessToken(
+      api.subscriptionCancel,
+      form
+    );
+    setCancelPlan({
+      status: false,
+      id: null,
+    });
+    if (response.data.status && response.data.statusCode === 200) {
+      getPlanList(api.planList);
+      toast.success(response.data.message);
     } else {
       toast.error(response.data.message);
     }
@@ -90,7 +114,7 @@ const Page = () => {
                   <div key={indx} className="col-md-4 ">
                     <div className="subscription-card">
                       {ele.isCurrentPlan && (
-                        <div class="badge">Current Plan</div>
+                        <div class="badge">Active Plan</div>
                       )}
                       <div className="subscription-info">
                         <div className="planname-text">{ele.name ?? "NA"}</div>
@@ -121,7 +145,10 @@ const Page = () => {
                             <button
                               onClick={(e) => {
                                 e.preventDefault();
-                                makePayment(ele.id);
+                                setCancelPlan({
+                                  status: true,
+                                  id: ele.subscriptionId,
+                                });
                               }}
                               className="btn-re w-100"
                             >
@@ -154,6 +181,49 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={cancelPlan.status}
+        onHide={() => {
+          setCancelPlan({
+            status: false,
+            id: null,
+          });
+        }}
+        className="cc-modal-form"
+      >
+        <div className="modal-content">
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <h5 className="text-center">Are you sure?</h5>
+              <p className="text-center">You want to cancel subscription</p>
+              <div className="form-group text-center mb-0">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setCancelPlan({
+                      status: false,
+                      id: null,
+                    })
+                  }
+                  className="btn-re me-2"
+                  data-bs-dismiss="modal"
+                >
+                  No
+                </button>
+                <button
+                  type="submit"
+                  className="btn-gr"
+                  data-bs-dismiss="modal"
+                  onClick={() => cancelSubscription(cancelPlan.id)}
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
     </>
   );
 };

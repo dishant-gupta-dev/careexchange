@@ -10,7 +10,7 @@ import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { Link, useNavigate } from "react-router-dom";
-import { GeolocationApiKey } from "../../../utlis/common.utlis";
+import { GeolocationApiKey, subscribtionAuth } from "../../../utlis/common.utlis";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
@@ -40,15 +40,6 @@ const Page = () => {
     } else setDashboard();
     setLoading(false);
   };
-
-  const subscribtionAuth = async (api) => {
-    const response = await ApiService.getAPIWithAccessToken(api);
-    if (response.data.status && response.data.statusCode === 200) {
-      if(!(response.data.data.isSubscribed)) {
-        navigate(routes.subscriptionPlan);
-      }
-    }
-  }
 
   const getStateList = async (api) => {
     const response = await ApiService.getAPI(api);
@@ -149,7 +140,7 @@ const Page = () => {
     window.scrollTo(0, 0);
     getDashboardData(api.dashboard);
     getCurrentAddress();
-    subscribtionAuth(api.subscriptionAuth);
+    subscribtionAuth(api.subscriptionAuth, navigate);
     getStateList(api.stateList + `?country_id=231`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
