@@ -33,9 +33,9 @@ const Page = () => {
   const [total, setTotal] = useState(0);
   const [pageNum, setPageNum] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [date, setDate] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [date, setDate] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [selectedTag, setSelectedTag] = useState([]);
   const [selectedEditTag, setSelectedEditTag] = useState([]);
   const [selectedDelTag, setSelectedDelTag] = useState([]);

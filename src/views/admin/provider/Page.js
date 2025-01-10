@@ -16,7 +16,7 @@ const Page = () => {
   const [providers, setProvider] = useState([]);
   const [categories, setCategory] = useState([]);
   const [states, setState] = useState([]);
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
   const [total, setTotal] = useState(0);
   const [pageNum, setPageNum] = useState(1);
   const [loading, setLoading] = useState(false);

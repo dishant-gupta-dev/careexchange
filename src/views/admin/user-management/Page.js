@@ -15,7 +15,7 @@ import { totalPageCalculator, LIMIT } from "../../../utlis/common.utlis";
 const Page = () => {
   const navigate = useNavigate();
   const [users, setUser] = useState([]);
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
   const [total, setTotal] = useState(0);
   const [pageNum, setPageNum] = useState(1);
   const [loading, setLoading] = useState(false);

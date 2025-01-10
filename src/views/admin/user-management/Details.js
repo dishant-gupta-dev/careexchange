@@ -21,7 +21,7 @@ const Details = () => {
   const navigate = useNavigate();
   const [stat, setStat] = useState({ status: false, value: null, name: null });
   const [jobStatus, setStatus] = useState(0);
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
   const [users, setUser] = useState({
     user: null,
     activeJob: null,
@@ -106,7 +106,7 @@ const Details = () => {
             {users?.user?.status == 0 ? (
               <div>
                 <button
-                  className="btn btn-gradient-primary me-2"
+                  className="btn btn-gr me-2"
                   onClick={(e) =>
                     setStat({ status: true, value: 1, name: "Approve" })
                   }
@@ -114,7 +114,7 @@ const Details = () => {
                   Approve
                 </button>
                 <button
-                  className="btn btn-gradient-danger"
+                  className="btn btn-re"
                   onClick={(e) =>
                     setStat({ status: true, value: 3, name: "Reject" })
                   }

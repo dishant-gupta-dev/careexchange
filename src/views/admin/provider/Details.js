@@ -21,7 +21,7 @@ const Details = () => {
   const navigate = useNavigate();
   const [stat, setStat] = useState({ status: false, value: null, name: null });
   const [provider, setProvider] = useState();
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
   const [jobStatus, setStatus] = useState(0);
   const [tab, setTab] = useState(1);
   const [loading, setLoading] = useState(false);

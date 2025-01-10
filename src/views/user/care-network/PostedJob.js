@@ -21,7 +21,7 @@ const PostedJob = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [job, setJob] = useState([]);
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
   const [jobRequestCount, setJobRequestCount] = useState(0);
   const [deletePost, setDeletePost] = useState({ status: false, id: null });
 

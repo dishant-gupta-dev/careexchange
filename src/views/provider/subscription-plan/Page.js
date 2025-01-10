@@ -114,7 +114,7 @@ const Page = () => {
                   <div key={indx} className="col-md-4 ">
                     <div className="subscription-card">
                       {ele.isCurrentPlan && (
-                        <div class="badge">Active Plan</div>
+                        <div class="current-plan">Active Plan</div>
                       )}
                       <div className="subscription-info">
                         <div className="planname-text">{ele.name ?? "NA"}</div>

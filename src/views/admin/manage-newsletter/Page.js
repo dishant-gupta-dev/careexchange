@@ -22,7 +22,7 @@ const Page = () => {
   const [sendText, setText] = useState(false);
   const [sendNewEmail, setSendNewEmail] = useState(false);
   const [sendNewText, setNewText] = useState(false);
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
   const [total, setTotal] = useState(0);
   const [fullContent, setFullContent] = useState("");
   const [formError, setFormError] = useState(false);

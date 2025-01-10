@@ -19,7 +19,7 @@ const Page = () => {
   const [send, setSend] = useState(false);
   const [categories, setCategory] = useState([]);
   const [assessment, setAssessment] = useState([]);
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
   const [total, setTotal] = useState(0);
   const [pageNum, setPageNum] = useState(1);
   const [loading, setLoading] = useState(false);

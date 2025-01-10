@@ -1624,7 +1624,7 @@ body {
   box-shadow: 0px 8px 13px 0px rgba(0, 0, 0, 0.05) !important;
 }
 
-.badge {
+.current-plan {
   position: absolute;
   border-radius: 30px;
   border-bottom-right-radius: 0;

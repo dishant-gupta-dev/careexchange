@@ -42,7 +42,7 @@ const Page = () => {
   const [pageNum, setPageNum] = useState(1);
   const [jobRequestCount, setJobRequestCount] = useState(0);
   const [careNetwork, setCareNetwork] = useState([]);
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
   const [filter, setFilter] = useState(false);
   const [apply, setApply] = useState({ status: false, id: null });
   const [selectRadius, setSelectRadius] = useState(null);

@@ -18,7 +18,7 @@ const Page = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState("");
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
   const [list, setList] = useState([]);
 
   const getDirectoryList = async (api) => {

@@ -19,7 +19,7 @@ const AppliedJob = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [appliedJob, setAppliedJob] = useState([]);
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(null);
   const [jobRequestCount, setJobRequestCount] = useState(0);
 
   const getAppliedJob = async (api) => {
