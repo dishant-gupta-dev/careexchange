@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MailImg from "../../../assets/user/images/mail-sent-pana.svg";
+import NewsletterImg from "../../../assets/user/images/newsletter1.svg";
 import { api } from "../../../utlis/user/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
@@ -7,6 +8,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import InputMask from "react-input-mask";
+import { Link } from "react-router-dom";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
@@ -71,8 +73,22 @@ const Page = () => {
           <div class="row">
             <div class="col-md-12">
               {newsletter ? (
-                <div>
-                  New Design Code
+                <div class="container">
+                  <div className="newsletter-card">
+                    <div className="newsletter-image">
+                      <img src={NewsletterImg} alt="logo" />
+                    </div>
+                    <div className="newsletter-content">
+                      <h2>Are you sure about unsubscribing?</h2>
+                      <p>
+                        If you unsubscribe now, you might miss nice deals and
+                        useful hints form signnow!
+                      </p>
+                      <div className="newsletter-action">
+                        <Link className="btn-bl">Unsubscribe</Link>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <div class="auth-content-card">

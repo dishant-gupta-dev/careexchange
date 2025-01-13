@@ -40,60 +40,96 @@ const Page = () => {
 
   return (
     <>
-      <div class="container">
-        <div class="carenetwork-section">
-          <div class="care-title-header my-3">
-            <h2 class="heading-title">Transaction History</h2>
+      <div className="container">
+        <div className="carenetwork-section">
+          <div className="care-title-header">
+            <h2 className="heading-title">Transaction History</h2>
+            <div className="search-filter">
+              <div className="row g-2">
+                <div className="col-md-6 ">
+                  <div className="form-group mb-0">
+                    <DatePicker
+                      toggleCalendarOnIconClick
+                      showIcon
+                      dateFormat={"MM-dd-yyyy"}
+                      className="form-control"
+                      style={{ padding: "15px 40px" }}
+                      isClearable
+                      autoComplete="off"
+                      name="date"
+                      placeholderText="To Date"
+                    />
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <div className="form-group mb-0 search-form-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Search"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                      name="name"
+                    />
+                    <span class="search-icon">
+                      <img src={SearchImg} />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="carenetwork-content">
-            <div class="row g-3">
-              {transaction.length !== 0 ? (
-                transaction.map((ele, indx) => {
-                  return (
-                    <div key={indx} class="col-md-4">
-                      <div class="care-card mb-0">
-                        <div class="care-card-head">
-                          <div class="care-date">
-                            Payment Status:{" "}
-                            <span>{ele.payment_status ?? "NA"}</span>
-                          </div>
-
-                          <div class="care-date">
-                            Payment Date:{" "}
-                            <span>{ele.payment_date ?? "NA"}</span>
-                          </div>
-                        </div>
-                        <div class="care-card-body">
-                          <div class="care-content">
-                            <div class="title-text">{ele.transaction_id ?? "NA"}</div>
-
-                            <div class="jobs-point">
-                              <div class="jobs-point-item">
-                                {ele.fullname ?? "NA"}
-                              </div>
-                              <div class="jobs-point-item">
+          <div className="carenetwork-content">
+            <div className="transaction-card care-card">
+              <div className="transactiontable table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Sr No.</th>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Transaction Id</th>
+                      <th>Payment Status</th>
+                      <th>Payment Date:</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {transaction.length !== 0 ? (
+                      transaction.map((ele, indx) => {
+                        return (
+                          <tr key={indx}>
+                            <td>
+                              <div className="sno">1</div>
+                            </td>
+                            <td> {ele.fullname ?? "NA"}</td>
+                            <td>
+                              <div className="jobs-point-item">
                                 <img src={AmountImg} />{" "}
                                 <span>${ele.amount ?? "0"}</span>
                               </div>
-                            </div>
-                          </div>
-                        </div>
+                            </td>
+                            <td>{ele.transaction_id ?? "NA"}</td>
+                            <td>{ele.payment_status ?? "NA"}</td>
+                            <td>{ele.payment_date ?? "NA"}</td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          margin: "5% 0",
+                        }}
+                      >
+                        <img width={300} src={NoData} alt="" />
                       </div>
-                    </div>
-                  );
-                })
-              ) : (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    margin: "5% 0",
-                  }}
-                >
-                  <img width={300} src={NoData} alt="" />
-                </div>
-              )}
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
