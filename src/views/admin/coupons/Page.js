@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { Link } from "react-router-dom";
 import bgcoupon from "../../../assets/admin/images/couponbg.svg";
+import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 const Page = () => {
+  const [addCoupon, setAddCoupon] = useState({ status: false });
+
   return (
     <>
       <div className="content-wrapper">
@@ -46,7 +51,7 @@ const Page = () => {
               </div>
               <div className="col-md-3">
                 <div className="form-group">
-                  <button type="button" className="btn-gr">
+                  <button type="button" className="btn-gr" onClick={() => setAddCoupon({ status: true })}>
                     Add New Coupon
                   </button>
                 </div>
@@ -211,6 +216,95 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={addCoupon.status}
+        onHide={() => {
+          setAddCoupon({
+            status: false,
+          });
+        }}
+        className="cc-modal-form"
+      >
+        <div className="modal-content">
+          <ModalHeader>
+            <h5 className="mb-0">Add New Coupon</h5>
+          </ModalHeader>
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <Formik
+              >
+                <Form>
+                  <div className="form-group">
+                    <Field
+                      type="text"
+                      className="form-control todo-list-input"
+                      name="name"
+                      placeholder="Enter Name"
+                    />
+                    <ErrorMessage
+                      name="name"
+                      component="div"
+                      className="alert alert-danger"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Field
+                      as="select"
+                      type="text"
+                      className="form-control todo-list-input"
+                      name="status"
+                    >
+                      <option value="">Select Status</option>
+                      <option value="1">Active</option>
+                      <option value="2">Inactive</option>
+                    </Field>
+                    <ErrorMessage
+                      name="status"
+                      component="div"
+                      className="alert alert-danger"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Field
+                      as="textarea"
+                      className="form-control todo-list-input"
+                      name="description"
+                      placeholder="Enter Description"
+                    />
+                    <ErrorMessage
+                      name="description"
+                      component="div"
+                      className="alert alert-danger"
+                    />
+                  </div>
+                  <div className="form-group text-end mb-0">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAddCoupon({
+                          status: false,
+                        });
+                      }}
+                      className="btn-re me-2"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="btn-gr"
+                      data-bs-dismiss="modal"
+                    >
+                      Add
+                    </button>
+                  </div>
+                </Form>
+              </Formik>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
     </>
   );
 };
