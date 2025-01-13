@@ -21,7 +21,9 @@ const Page = () => {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required!"),
-    phone: Yup.string().min(14, 'Phone is invalid').required("Mobile is required!"),
+    phone: Yup.string()
+      .min(14, "Phone is invalid")
+      .required("Mobile is required!"),
     email_address: Yup.string().email().required("Email address is required!"),
   });
 
@@ -68,24 +70,24 @@ const Page = () => {
         <div class="newsletter-section">
           <div class="row">
             <div class="col-md-12">
-              <div class="auth-content-card">
-                <div class="container">
-                  <div class="auth-card">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="auth-content1">
-                          <img src={MailImg} alt="logo" />
+              {newsletter ? (
+                <div>
+                  New Design Code
+                </div>
+              ) : (
+                <div class="auth-content-card">
+                  <div class="container">
+                    <div class="auth-card">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="auth-content1">
+                            <img src={MailImg} alt="logo" />
+                          </div>
                         </div>
-                      </div>
-                      <div class="col-md-6 auth-form-info">
-                        <div class="auth-form">
-                          <h2>Subscribe</h2>
-                          <p>Subscribe To Our Newsletter & Stay Updated</p>
-                          {newsletter ? (
-                            <h5 className="mt-2">
-                              Newsletter Subscription Already Confirmed
-                            </h5>
-                          ) : (
+                        <div class="col-md-6 auth-form-info">
+                          <div class="auth-form">
+                            <h2>Subscribe</h2>
+                            <p>Subscribe To Our Newsletter & Stay Updated</p>
                             <Formik
                               initialValues={initialValues}
                               validateOnChange={true}
@@ -153,13 +155,13 @@ const Page = () => {
                                 </Form>
                               )}
                             </Formik>
-                          )}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
