@@ -12539,7 +12539,7 @@ textarea.form-control-lg {
   top: 0;
   right: 0;
   left: 0;
-  z-index: 1030;
+  z-index: 9;
 }
 
 .fixed-bottom {
@@ -17985,7 +17985,11 @@ button.auth-form-btn {
   backdrop-filter: blur(5px);
 }
 
-.loading span, .auth-loading span, .admin-loading span{animation: loading 1s infinite ease-in-out;}
+.loading span,
+.auth-loading span,
+.admin-loading span {
+  animation: loading 1s infinite ease-in-out;
+}
 
 @keyframes loading {
   0% {

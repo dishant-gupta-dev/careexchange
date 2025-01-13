@@ -51,7 +51,11 @@ const Page = () => {
               </div>
               <div className="col-md-3">
                 <div className="form-group">
-                  <button type="button" className="btn-gr" onClick={() => setAddCoupon({ status: true })}>
+                  <button
+                    type="button"
+                    className="btn-gr"
+                    onClick={() => setAddCoupon({ status: true })}
+                  >
                     Add New Coupon
                   </button>
                 </div>
@@ -232,52 +236,157 @@ const Page = () => {
           </ModalHeader>
           <ModalBody className="">
             <div className="add-items d-flex row">
-              <Formik
-              >
+              <Formik>
                 <Form>
-                  <div className="form-group">
-                    <Field
-                      type="text"
-                      className="form-control todo-list-input"
-                      name="name"
-                      placeholder="Enter Name"
-                    />
-                    <ErrorMessage
-                      name="name"
-                      component="div"
-                      className="alert alert-danger"
-                    />
+                  <div className="row g-2">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <Field
+                          type="text"
+                          className="form-control todo-list-input"
+                          name="name"
+                          placeholder="Coupon Title"
+                        />
+                        <ErrorMessage
+                          name="name"
+                          component="div"
+                          className="alert alert-danger"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <Field
+                          as="textarea"
+                          className="form-control todo-list-input"
+                          name="description"
+                          placeholder="Enter Description"
+                        />
+                        <ErrorMessage
+                          name="name"
+                          component="div"
+                          className="alert alert-danger"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <Field
+                          as="select"
+                          type="text"
+                          className="form-control todo-list-input"
+                          name="status"
+                        >
+                          <option value="">Coupon Type</option>
+                          <option value="1">Offer & Discounts</option>
+                          <option value="2">Subscription Plans</option>
+                          <option value="3">Giveaways</option>
+                          <option value="4">Contests</option>
+                        </Field>
+                        <ErrorMessage
+                          name="name"
+                          component="div"
+                          className="alert alert-danger"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <Field
+                          as="select"
+                          type="text"
+                          className="form-control todo-list-input"
+                          name="status"
+                        >
+                          <option value="">Select Offers Type</option>
+                          <option value="1">Care Lead</option>
+                          <option value="2">Care Network</option>
+                          <option value="3">Featured Profile</option>
+                          <option value="4">Featured Advertisement</option>
+                          <option value="4">Care-Staff Registry</option>
+                          <option value="4">Subscription</option>
+                        </Field>
+                        <ErrorMessage
+                          name="name"
+                          component="div"
+                          className="alert alert-danger"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <Field
+                          type="text"
+                          className="form-control todo-list-input"
+                          name="name"
+                          placeholder="Coupon Code"
+                        />
+                        <ErrorMessage
+                          name="name"
+                          component="div"
+                          className="alert alert-danger"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <Field
+                          type="text"
+                          className="form-control todo-list-input"
+                          name="name"
+                          placeholder="Enter Value"
+                        />
+                        <ErrorMessage
+                          name="name"
+                          component="div"
+                          className="alert alert-danger"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <DatePicker
+                          toggleCalendarOnIconClick
+                          showIcon
+                          className="DatePicker-control"
+                          isClearable
+                          autoComplete="off"
+                          name="date"
+                          placeholderText="Coupon Valid From"
+                        />
+                        <ErrorMessage
+                          name="name"
+                          component="div"
+                          className="alert alert-danger"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <DatePicker
+                          toggleCalendarOnIconClick
+                          showIcon
+                          className="DatePicker-control"
+                          isClearable
+                          autoComplete="off"
+                          name="date"
+                          placeholderText="Coupon Valid Up-to"
+                        />
+                        <ErrorMessage
+                          name="name"
+                          component="div"
+                          className="alert alert-danger"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="form-group">
-                    <Field
-                      as="select"
-                      type="text"
-                      className="form-control todo-list-input"
-                      name="status"
-                    >
-                      <option value="">Select Status</option>
-                      <option value="1">Active</option>
-                      <option value="2">Inactive</option>
-                    </Field>
-                    <ErrorMessage
-                      name="status"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <Field
-                      as="textarea"
-                      className="form-control todo-list-input"
-                      name="description"
-                      placeholder="Enter Description"
-                    />
-                    <ErrorMessage
-                      name="description"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
+
                   <div className="form-group text-end mb-0">
                     <button
                       type="button"
@@ -296,7 +405,7 @@ const Page = () => {
                       className="btn-gr"
                       data-bs-dismiss="modal"
                     >
-                      Add
+                      Save & Create New Coupon
                     </button>
                   </div>
                 </Form>
