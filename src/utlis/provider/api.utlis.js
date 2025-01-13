@@ -41,4 +41,5 @@ exports.api = {
     subscriptionAuth: `plan/subscribed`,
     subscriptionCancel: `plan/cancel`,
     transactionList: `transaction/history`,
+    calendarData: `provider/calenders`,
 }

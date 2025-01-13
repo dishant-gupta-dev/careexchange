@@ -29,4 +29,5 @@ exports.routes = {
     aboutUs: `/user/about-us`,
     privacyPolicy: `/user/privacy-policy`,
     termsCondition: `/user/terms-condition`,
+    transactionList: `/transaction-history`,
 }

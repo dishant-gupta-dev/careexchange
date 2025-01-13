@@ -40,4 +40,5 @@ exports.api = {
     addNewsletter: `newsletter/add`,
     planList: `admin/plan`,
     categoryList: `category/list`,
+    transactionList: `transaction/history`,
 }

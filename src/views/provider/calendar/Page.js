@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DollarImg from "../../../assets/user/images/dollar-circle.svg";
 import StarImg from "../../../assets/user/images/star1.svg";
 import SuitcaseImg from "../../../assets/user/images/jobs-suitcase.svg";
@@ -7,9 +7,20 @@ import SearchImg from "../../../assets/user/images/search1.svg";
 import RepeatImg from "../../../assets/user/images/Repeat.svg";
 import UserImg from "../../../assets/user/images/user.png";
 import Calendar from "react-calendar";
+import { api } from "../../../utlis/provider/api.utlis";
 
 const Page = () => {
   const [dateVal, setDate] = useState("");
+  const [event, setEvent] = useState([]);
+
+  const getCalendarData = async (api) => {
+    setLoading(true);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    getCalendarData(api.calendarData);
+  }, []);
 
   return (
     <>

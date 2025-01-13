@@ -420,7 +420,7 @@ const SecondHeader = () => {
                 </Link>
               </li>
 
-              <li aria-haspopup="true">
+              {/* <li aria-haspopup="true">
                 <Link
                   to={routes.profile}
                   className={
@@ -463,7 +463,7 @@ const SecondHeader = () => {
                   </span>
                   <span className="wsmenutext"> Profile</span>
                 </Link>
-              </li>
+              </li> */}
 
               <li aria-haspopup="true">
                 <Link
@@ -531,7 +531,7 @@ const SecondHeader = () => {
                 </Link>
               </li>
 
-              <li aria-haspopup="true">
+              {/* <li aria-haspopup="true">
                 <Link
                   to={routes.newsletter}
                   className={
@@ -569,7 +569,7 @@ const SecondHeader = () => {
                   </span>
                   <span className="wsmenutext"> Newsletter</span>
                 </Link>
-              </li>
+              </li> */}
               <li aria-haspopup="true">
                 <Link
                   to="javascript:void(0)"
@@ -578,7 +578,8 @@ const SecondHeader = () => {
                       routes.termsCondition,
                       routes.privacyPolicy,
                       routes.aboutUs,
-                      routes.calendar
+                      routes.calendar,
+                      routes.newsletter,
                     ].includes(location.pathname)
                       ? "wshomelink active"
                       : "wshomelink"
@@ -627,6 +628,18 @@ const SecondHeader = () => {
                   <i className="fa fa-angle-down"></i>
                 </Link>
                 <ul className="sub-menu">
+                  <li aria-haspopup="true">
+                    <Link
+                      to={routes.newsletter}
+                      className={
+                        [routes.newsletter].includes(location.pathname)
+                          ? "wshomelink active"
+                          : "wshomelink"
+                      }
+                    >
+                      Newsletter
+                    </Link>
+                  </li>
                   <li aria-haspopup="true">
                     <Link
                       to={routes.calendar}
