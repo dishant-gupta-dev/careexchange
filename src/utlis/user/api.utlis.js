@@ -41,4 +41,5 @@ exports.api = {
     planList: `admin/plan`,
     categoryList: `category/list`,
     transactionList: `transaction/history`,
+    calendarData: `provider/calenders`,
 }

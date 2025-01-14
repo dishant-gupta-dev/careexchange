@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MailImg from "../../../assets/user/images/mail-sent-pana.svg";
+import NewsletterImg from "../../../assets/user/images/newsletter1.svg";
 import { api } from "../../../utlis/provider/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
@@ -8,7 +9,7 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 import InputMask from "react-input-mask";
 import { subscribtionAuth } from "../../../utlis/common.utlis";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Page = () => {
   const navigate = useNavigate();
@@ -24,7 +25,9 @@ const Page = () => {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required!"),
-    phone: Yup.string().min(14, 'Phone is invalid').required("Mobile is required!"),
+    phone: Yup.string()
+      .min(14, "Phone is invalid")
+      .required("Mobile is required!"),
     email_address: Yup.string().email().required("Email address is required!"),
   });
 
@@ -72,24 +75,38 @@ const Page = () => {
         <div class="newsletter-section">
           <div class="row">
             <div class="col-md-12">
-              <div class="auth-content-card">
+              {newsletter ? (
                 <div class="container">
-                  <div class="auth-card">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="auth-content1">
-                          <img src={MailImg} alt="logo" />
-                        </div>
+                  <div className="newsletter-card">
+                    <div className="newsletter-image">
+                      <img src={NewsletterImg} alt="logo" />
+                    </div>
+                    <div className="newsletter-content">
+                      <h2>Are you sure about unsubscribing?</h2>
+                      <p>
+                        If you unsubscribe now, you might miss nice deals and
+                        useful hints form signnow!
+                      </p>
+                      <div className="newsletter-action">
+                        <Link className="btn-bl">Unsubscribe</Link>
                       </div>
-                      <div class="col-md-6 auth-form-info">
-                        <div class="auth-form">
-                          <h2>Subscribe</h2>
-                          <p>Subscribe To Our Newsletter & Stay Updated</p>
-                          {newsletter ? (
-                            <h5 className="mt-2">
-                              Newsletter Subscription Already Confirmed
-                            </h5>
-                          ) : (
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div class="auth-content-card">
+                  <div class="container">
+                    <div class="auth-card">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="auth-content1">
+                            <img src={MailImg} alt="logo" />
+                          </div>
+                        </div>
+                        <div class="col-md-6 auth-form-info">
+                          <div class="auth-form">
+                            <h2>Subscribe</h2>
+                            <p>Subscribe To Our Newsletter & Stay Updated</p>
                             <Formik
                               initialValues={initialValues}
                               validateOnChange={true}
@@ -157,13 +174,13 @@ const Page = () => {
                                 </Form>
                               )}
                             </Formik>
-                          )}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

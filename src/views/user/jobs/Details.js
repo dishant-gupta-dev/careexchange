@@ -271,7 +271,7 @@ const Details = () => {
                                             });
                                           }}
                                         >
-                                          <i className="fa fa-wechat"></i> gChat
+                                          <i className="fa fa-wechat"></i> Chat
                                         </Link>
                                       ) : null}
 

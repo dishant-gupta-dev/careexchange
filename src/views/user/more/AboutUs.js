@@ -1,14 +1,64 @@
-import React from 'react'
+import React from "react";
 
 const AboutUs = () => {
   return (
-    <div className='container-fluid'>
-        <h4 className='text-center'>About US</h4>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio doloremque inventore commodi qui modi ad expedita? Nulla in eum totam ipsum doloribus magni autem harum, ducimus repellendus ratione tempora velit rem cupiditate eveniet voluptas vel atque facilis, accusamus voluptatum laudantium quis repellat, quae eaque? Dolor illo ab rem dicta commodi explicabo, ratione in sint architecto nam, eius voluptatum nostrum inventore asperiores. Totam numquam magnam officiis officia autem magni recusandae repellendus itaque ipsam voluptatibus eligendi, exercitationem, ex consequatur rem esse aspernatur atque. Fugiat quibusdam ea, sit aliquam deleniti adipisci illo consectetur. Debitis veritatis amet similique soluta, aperiam officia est optio molestiae magni ullam? Aspernatur debitis veritatis hic esse sed mollitia asperiores quis libero enim itaque deserunt assumenda in accusantium quas perferendis ab quae aliquid, consequuntur reprehenderit corrupti illo eos. Voluptatibus facere sunt reprehenderit tempore nemo quas cupiditate cum ipsam repellendus, dicta, ad dignissimos placeat architecto, provident magni inventore minima et unde.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta dolorum, reiciendis animi consequuntur reprehenderit, minus blanditiis aspernatur ratione distinctio dolorem consectetur accusantium officia hic corporis accusamus cumque atque ex ut saepe eveniet alias. Adipisci hic nesciunt, aut, provident ipsum ipsam excepturi aliquam doloribus deserunt harum, maxime molestiae perferendis ducimus commodi consequuntur sapiente nihil ut dolore? Fugit, ut. Unde, animi incidunt eveniet culpa voluptatum et sed tempora deserunt facere molestiae ipsum eum in fuga recusandae doloribus quisquam inventore similique necessitatibus quis maxime nihil. Assumenda reprehenderit quibusdam magnam aut officiis illum, quia rerum porro veniam ipsum voluptatum nihil, doloribus necessitatibus non incidunt.</p>
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo voluptate saepe asperiores minus beatae molestias culpa rerum voluptates voluptatem ut, exercitationem dolore obcaecati repellendus itaque alias magni nobis temporibus totam quis, nihil laboriosam. Mollitia ea nihil dignissimos rem impedit. Harum tempora voluptates excepturi voluptatibus doloribus reiciendis ex ducimus, provident odit temporibus magnam nobis suscipit beatae illo dignissimos ullam velit blanditiis maxime quasi error possimus fugit at! Facere ex eveniet magni sequi voluptas ab temporibus at quis minus, est nulla possimus nam illo dolores, praesentium voluptates cum cupiditate ipsum corporis sed consectetur debitis amet rem? Molestias recusandae laborum temporibus libero, rerum itaque ducimus minima enim molestiae reprehenderit harum dolorum quaerat ullam sed quo ipsam laboriosam ad sit iure magnam natus tenetur.</p>
-    </div>
-  )
-}
+    <div className="container-fluid">
+      <h4 className="text-center" style={{ color: "black", fontWeight: "600" }}>
+        About US
+      </h4>
+      <p>
+        Our management team developed Care-Exchange.com as a free search
+        application service to provide people seeking care and/or job
+        opportunities with real time care provider listings and updated job
+        alerts via email, text or phone. Our strategic recruiting technology
+        along with our years of experience and resources has helped thousands of
+        consumers find care providers for their loved ones as well as help for
+        those searching for a job.
+      </p>
 
-export default AboutUs
+      <h6 style={{ color: "black", fontWeight: "600" }}>Find Care</h6>
+      <p>
+        Care-Exchange.com is a platform which promotes and facilitates
+        connections between persons (clients) seeking care services for their
+        loved ones and care providers and caregivers. Start by searching for
+        your ideal care provider in your area today!
+      </p>
+
+      <h6 style={{ color: "black", fontWeight: "600" }}>Find Jobs</h6>
+      <p>
+        Care-Exchange.com is a free job alert and career network that focuses on
+        matching employers (Care Providers) to potential applicants (Care Staff)
+        through our easy-to-use job search service (Find Jobs). Our initiative
+        is to build a free job network that helps put the unemployed back to
+        work and/or help others change careers to better their lives. Start by
+        joining our Care Staff Registry and searching for your ideal dream job
+        today!
+      </p>
+
+      <h6 style={{ color: "black", fontWeight: "600" }}>
+        Post Job Opportunities & Hire Confidently
+      </h6>
+      <ul>
+        <li>Health Care / Nursing</li>
+        <li>Caregivers</li>
+        <li>Administrative & Office Staff</li>
+      </ul>
+      <p>
+        Our Platform’s Dashboard allows you to find and hire the right person
+        for your business
+      </p>
+
+      <h6 style={{ color: "black", fontWeight: "600" }}>
+        Manage Your Hiring from Start to Finish
+      </h6>
+      <ul>
+        <li>Post a Job – Advertise / Job Opportunity Registry</li>
+        <li>Find Quality Applicants – Care Staff Registry</li>
+        <li>Make Connections with Applicants</li>
+        <li>Hire Confidently</li>
+      </ul>
+    </div>
+  );
+};
+
+export default AboutUs;

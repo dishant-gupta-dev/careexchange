@@ -1643,5 +1643,12 @@ body {
   box-shadow: -5px 6px 20px 0px rgba(51, 51, 51, 0.4);
 }
 
-.coupon-card-coupon-name {
+.react-calendar__tile.highlight {
+  background: rgb(226, 95, 117);
+  color: white;
+  border-radius: 5px;
+}
+
+.react-calendar__tile.highlight:hover {
+  color: black;
 }
