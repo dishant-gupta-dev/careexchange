@@ -10,7 +10,10 @@ import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { Link, useNavigate } from "react-router-dom";
-import { GeolocationApiKey, subscribtionAuth } from "../../../utlis/common.utlis";
+import {
+  GeolocationApiKey,
+  subscribtionAuth,
+} from "../../../utlis/common.utlis";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
@@ -183,13 +186,39 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
-                <div className="align-items-center justify-content-center d-flex" style={{height: "100px !important"}}>
+                <div
+                  className="align-items-center justify-content-center d-flex"
+                  style={{ height: "100px !important" }}
+                >
                   <div className="strip-text">Provider</div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-lg-6">
+            <div className="network-schedule-card">
+              <div className="network-schedule-card-content">
+                <div className="network-schedule-card-text">
+                  Network Directory
+                </div>
+              </div>
+              <div className="network-dropdown-select dropdown-select">
+                <select className="form-control text-capitalize">
+                  <option value="">Select State</option>
+                  {state.length !== 0
+                    ? state.map((ele, indx) => {
+                        return (
+                          <option key={indx} value={ele.value}>
+                            {ele.label}
+                          </option>
+                        );
+                      })
+                    : null}
+                </select>
+              </div>
+            </div>
+          </div>
+          {/* <div className="col-md-6">
             <div className="find-location-section">
               <div className="search-section">
                 <div className="search-location-card-1">
@@ -219,43 +248,151 @@ const Page = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="row">
           <div className="col-md-7">
             <div className="row">
               <div className="col-lg-12">
-                <div className=" schedule-card-1">
-                  <div className="schedule-card-content">
-                    <div className="schedule-card-text">Network Directory</div>
-                  </div>
-                  <div className="dropdown-select">
-                    <select className="form-control text-capitalize">
-                      <option value="">Select State</option>
-                      {state.length !== 0
-                        ? state.map((ele, indx) => {
-                            return (
-                              <option key={indx} value={ele.value}>
-                                {ele.label}
-                              </option>
-                            );
-                          })
-                        : null}
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-12  mt-4">
                 <div className="careservices-section">
                   <div className="care-title-header">
-                    <h2 className="heading-title">
-                      Care Services You Are Looking For?
-                    </h2>
+                    <h2 className="heading-title">Ongoing Jobs</h2>
                   </div>
                   <div className="row g-2">
-                    <div className="col-md-6">
-                      <div className="careservices-card">
+                    <div className="col-md-12">
+                      <div className="job-table-content">
+                        <div className="job-table-box">
+                          <div className="job-table-item">
+                            <div className="job-table-col-3">
+                              <div className="job-task-item">
+                                <p>Job ID</p>
+                                <h4>0114202547</h4>
+                              </div>
+                            </div>
+                            <div className="job-table-col-3">
+                              <div className="job-task-item">
+                                <p>Name</p>
+                                <h4>Larry Davidson </h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-2">
+                              <div className="job-task-item">
+                                <p>Date</p>
+                                <h4>01-22-2025 04:30 PM</h4>
+                              </div>
+                            </div>
+                            <div className="job-table-col-2">
+                              <div className="job-task-item">
+                                <p>Gender</p>
+                                <h4>Male</h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-1">
+                              <div className="job-task-item">
+                                <p>Age</p>
+                                <h4>34</h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-1">
+                              <div className="action-btn-info">
+                                <Link className="action-btn">
+                                  <img src={Arrowicon} alt="" />
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="job-table-item">
+                            <div className="job-table-col-3">
+                              <div className="job-task-item">
+                                <p>Job ID</p>
+                                <h4>0114202547</h4>
+                              </div>
+                            </div>
+                            <div className="job-table-col-3">
+                              <div className="job-task-item">
+                                <p>Name</p>
+                                <h4>Larry Davidson </h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-2">
+                              <div className="job-task-item">
+                                <p>Date</p>
+                                <h4>01-22-2025 04:30 PM</h4>
+                              </div>
+                            </div>
+                            <div className="job-table-col-2">
+                              <div className="job-task-item">
+                                <p>Gender</p>
+                                <h4>Male</h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-1">
+                              <div className="job-task-item">
+                                <p>Age</p>
+                                <h4>34</h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-1">
+                              <div className="action-btn-info">
+                                <Link className="action-btn">
+                                  <img src={Arrowicon} alt="" />
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="job-table-item">
+                            <div className="job-table-col-3">
+                              <div className="job-task-item">
+                                <p>Job ID</p>
+                                <h4>0114202547</h4>
+                              </div>
+                            </div>
+                            <div className="job-table-col-3">
+                              <div className="job-task-item">
+                                <p>Name</p>
+                                <h4>Larry Davidson </h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-2">
+                              <div className="job-task-item">
+                                <p>Date</p>
+                                <h4>01-22-2025 04:30 PM</h4>
+                              </div>
+                            </div>
+                            <div className="job-table-col-2">
+                              <div className="job-task-item">
+                                <p>Gender</p>
+                                <h4>Male</h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-1">
+                              <div className="job-task-item">
+                                <p>Age</p>
+                                <h4>34</h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-1">
+                              <div className="action-btn-info">
+                                <Link className="action-btn">
+                                  <img src={Arrowicon} alt="" />
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {/* <div className="careservices-card">
                         <div className="careservices-icon m-0">
                           <img src={careservicesicon1} alt="" />
                         </div>
@@ -269,10 +406,153 @@ const Page = () => {
                           </h2>
                           <h3>{dashboard?.activeJobCount ?? 0}</h3>
                         </Link>
+                      </div> */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-lg-12  mt-2">
+                <div className="careservices-section">
+                  <div className="care-title-header">
+                    <h2 className="heading-title">Locked Jobs Request </h2>
+                  </div>
+                  <div className="row g-2">
+                    <div className="col-md-12">
+                      <div className="job-table-content">
+                        <div className="job-table-box">
+                          <div className="job-table-item">
+                            <div className="job-table-col-3">
+                              <div className="job-task-item">
+                                <p>Job ID</p>
+                                <h4>0114202547</h4>
+                              </div>
+                            </div>
+                            <div className="job-table-col-3">
+                              <div className="job-task-item">
+                                <p>Name</p>
+                                <h4>Larry Davidson </h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-2">
+                              <div className="job-task-item">
+                                <p>Date</p>
+                                <h4>01-22-2025 04:30 PM</h4>
+                              </div>
+                            </div>
+                            <div className="job-table-col-2">
+                              <div className="job-task-item">
+                                <p>Gender</p>
+                                <h4>Male</h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-1">
+                              <div className="job-task-item">
+                                <p>Age</p>
+                                <h4>34</h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-1">
+                              <div className="action-btn-info">
+                                <Link className="action-btn">
+                                  <img src={Arrowicon} alt="" />
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="job-table-item">
+                            <div className="job-table-col-3">
+                              <div className="job-task-item">
+                                <p>Job ID</p>
+                                <h4>0114202547</h4>
+                              </div>
+                            </div>
+                            <div className="job-table-col-3">
+                              <div className="job-task-item">
+                                <p>Name</p>
+                                <h4>Larry Davidson </h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-2">
+                              <div className="job-task-item">
+                                <p>Date</p>
+                                <h4>01-22-2025 04:30 PM</h4>
+                              </div>
+                            </div>
+                            <div className="job-table-col-2">
+                              <div className="job-task-item">
+                                <p>Gender</p>
+                                <h4>Male</h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-1">
+                              <div className="job-task-item">
+                                <p>Age</p>
+                                <h4>34</h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-1">
+                              <div className="action-btn-info">
+                                <Link className="action-btn">
+                                  <img src={Arrowicon} alt="" />
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="job-table-item">
+                            <div className="job-table-col-3">
+                              <div className="job-task-item">
+                                <p>Job ID</p>
+                                <h4>0114202547</h4>
+                              </div>
+                            </div>
+                            <div className="job-table-col-3">
+                              <div className="job-task-item">
+                                <p>Name</p>
+                                <h4>Larry Davidson </h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-2">
+                              <div className="job-task-item">
+                                <p>Date</p>
+                                <h4>01-22-2025 04:30 PM</h4>
+                              </div>
+                            </div>
+                            <div className="job-table-col-2">
+                              <div className="job-task-item">
+                                <p>Gender</p>
+                                <h4>Male</h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-1">
+                              <div className="job-task-item">
+                                <p>Age</p>
+                                <h4>34</h4>
+                              </div>
+                            </div>
+
+                            <div className="job-table-col-1">
+                              <div className="action-btn-info">
+                                <Link className="action-btn">
+                                  <img src={Arrowicon} alt="" />
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <div className="careservices-card">
                         <div className="careservices-icon m-0">
                           <img src={careservicesicon2} alt="" />
@@ -291,7 +571,7 @@ const Page = () => {
                           <h3>{dashboard?.lockedJobCount ?? 0}</h3>
                         </Link>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -299,12 +579,130 @@ const Page = () => {
           </div>
 
           <div className="col-md-5">
+            <div className="care-title-header">
+              <h2 className="heading-title">Calender</h2>
+            </div>
             <div className="calender-card">
               <Calendar
                 onChange={(e) => setDate(e)}
                 defaultView="month"
                 value={dateVal}
               />
+            </div>
+
+            <div className="care-title-header mt-3">
+              <h2 className="heading-title">Today's Schedule Jobs</h2>
+            </div>
+
+            <div className="job-table-content">
+              <div className="job-table-box">
+                <div className="job-table-item">
+                  <div className="job-table-col-3">
+                    <div className="job-task-item">
+                      <p>Job ID</p>
+                      <h4>0114202547</h4>
+                    </div>
+                  </div>
+                  <div className="job-table-col-3">
+                    <div className="job-task-item">
+                      <p>Name</p>
+                      <h4>Jorden Leo</h4>
+                    </div>
+                  </div>
+
+                  <div className="job-table-col-3">
+                    <div className="job-task-item">
+                      <p>Date</p>
+                      <h4>01-06-2025</h4>
+                    </div>
+                  </div>
+                  <div className="job-table-col-2">
+                    <div className="job-task-item">
+                      <p>Status</p>
+                      <h4>Active</h4>
+                    </div>
+                  </div>
+
+                  <div className="job-table-col-1">
+                    <div className="action-btn-info">
+                      <Link className="action-btn">
+                        <img src={Arrowicon} alt="" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="job-table-item">
+                  <div className="job-table-col-3">
+                    <div className="job-task-item">
+                      <p>Job ID</p>
+                      <h4>0114202547</h4>
+                    </div>
+                  </div>
+                  <div className="job-table-col-3">
+                    <div className="job-task-item">
+                      <p>Name</p>
+                      <h4>Jorden Leo</h4>
+                    </div>
+                  </div>
+
+                  <div className="job-table-col-3">
+                    <div className="job-task-item">
+                      <p>Date</p>
+                      <h4>01-06-2025</h4>
+                    </div>
+                  </div>
+                  <div className="job-table-col-2">
+                    <div className="job-task-item">
+                      <p>Status</p>
+                      <h4>Active</h4>
+                    </div>
+                  </div>
+
+                  <div className="job-table-col-1">
+                    <div className="action-btn-info">
+                      <Link className="action-btn">
+                        <img src={Arrowicon} alt="" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="job-table-item">
+                  <div className="job-table-col-3">
+                    <div className="job-task-item">
+                      <p>Job ID</p>
+                      <h4>0114202547</h4>
+                    </div>
+                  </div>
+                  <div className="job-table-col-3">
+                    <div className="job-task-item">
+                      <p>Name</p>
+                      <h4>Jorden Leo</h4>
+                    </div>
+                  </div>
+
+                  <div className="job-table-col-3">
+                    <div className="job-task-item">
+                      <p>Date</p>
+                      <h4>01-06-2025</h4>
+                    </div>
+                  </div>
+                  <div className="job-table-col-2">
+                    <div className="job-task-item">
+                      <p>Status</p>
+                      <h4>Active</h4>
+                    </div>
+                  </div>
+
+                  <div className="job-table-col-1">
+                    <div className="action-btn-info">
+                      <Link className="action-btn">
+                        <img src={Arrowicon} alt="" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

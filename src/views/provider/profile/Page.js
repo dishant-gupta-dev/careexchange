@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from "react";
 import googlemapIcon from "../../../assets/provider/images/Google_Map.svg";
 import careuserprofile from "../../../assets/provider/images/user.png";
 import caresuccessful from "../../../assets/provider/images/successful.svg";
+import deleteaccountImg from "../../../assets/user/images/delete-account.svg";
 import { api } from "../../../utlis/provider/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
@@ -1283,8 +1284,13 @@ const Page = () => {
         <div className="modal-content">
           <ModalBody className="">
             <div className="add-items d-flex row">
-              <h5 className="text-center pb-0">Are you sure</h5>
-              <p className="text-center">You want to delete your account?</p>
+              <div className="deleteaccount-Img">
+                <img src={deleteaccountImg} />
+              </div>
+              <div className="deleteaccount-text">
+                <h5 className="text-center pb-0">Are you sure!</h5>
+                <p className="text-center">You want to delete your account?</p>
+              </div>
               <div className="form-group text-center mb-2">
                 <button
                   type="button"

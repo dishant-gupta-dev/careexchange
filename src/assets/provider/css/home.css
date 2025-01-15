@@ -1532,3 +1532,144 @@ a.auth-gr-btn {
   padding-top: 10px;
   align-items: center;
 }
+
+.job-table-item {
+  margin-bottom: 10px;
+  margin-left: -5px;
+  margin-right: -5px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  background: var(--white);
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 0 8px 13px rgb(0 0 0 / 5%);
+}
+.job-table-col-1 {
+  flex: 0 0 auto;
+  width: 8.33333333%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.job-table-col-2 {
+  flex: 0 0 auto;
+  width: 16.66666667%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.job-table-col-3 {
+  flex: 0 0 auto;
+  width: 25%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.job-table-col-4 {
+  flex: 0 0 auto;
+  width: 33.33333333%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.job-table-col-5 {
+  flex: 0 0 auto;
+  width: 41.66666667%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.job-table-col-6 {
+  flex: 0 0 auto;
+  width: 50%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.job-table-col-7 {
+  flex: 0 0 auto;
+  width: 58.33333333%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.job-table-col-8 {
+  flex: 0 0 auto;
+  width: 66.66666667%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.job-table-col-9 {
+  flex: 0 0 auto;
+  width: 75%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.job-table-col-10 {
+  flex: 0 0 auto;
+  width: 83.33333333%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.job-table-col-11 {
+  flex: 0 0 auto;
+  width: 91.66666667%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.job-table-col-12 {
+  flex: 0 0 auto;
+  width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.job-task-item h4 {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+  color: var(--black);
+}
+
+.job-task-item p {
+  font-size: 13px;
+  margin: 0;
+  color: var(--gray);
+  line-height: 24px;
+  font-weight: normal;
+}
+
+.action-btn-info {
+  text-align: right;
+}
+
+a.action-btn {
+  width: 32px;
+  padding: 0px;
+  height: 32px;
+  min-height: 32px;
+  display: inline-block;
+  text-align: center;
+  background: var(--green);
+  border: 1px solid var(--green);
+  border-radius: 5px;
+  position: relative;
+  z-index: 1;
+}
+
+.network-schedule-card {
+  background: var(--blue) url(../images/waveline.svg) no-repeat;
+  background-size: contain;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 0 8px 13px rgb(0 0 0 / 5%);
+}
+.network-schedule-card-text {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+  color: var(--white);
+}
+
+.network-dropdown-select select.form-control {
+  padding: 9px 15px 9px 15px !important;
+}

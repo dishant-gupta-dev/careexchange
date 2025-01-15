@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { userLogout } from "../../../store/slices/Auth";
 import { SingleFile } from "../../../utlis/common.utlis";
 import InputMask from "react-input-mask";
+import deleteaccountImg from "../../../assets/user/images/delete-account.svg";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
@@ -177,11 +178,11 @@ const Page = () => {
                         <div className="user-profile-text">
                           <h2>{details?.fullname ?? "NA"}</h2>
                           <div className="email-text m-0">
-                          <i className="fa fa-envelope ms-2"></i>{" "}
+                            <i className="fa fa-envelope ms-2"></i>{" "}
                             {details?.email ?? "NA"}
                           </div>
                           <div className="email-text">
-                          <i className="fa fa-phone ms-2"></i>{" "}
+                            <i className="fa fa-phone ms-2"></i>{" "}
                             {details?.mobile ?? "NA"}
                           </div>
                         </div>
@@ -436,8 +437,13 @@ const Page = () => {
         <div className="modal-content">
           <ModalBody className="">
             <div className="add-items d-flex row">
-              <h5 className="text-center pb-0">Are you sure</h5>
-              <p className="text-center">You want to delete your account?</p>
+              <div className="deleteaccount-Img">
+                <img src={deleteaccountImg} />
+              </div>
+              <div className="deleteaccount-text">
+                <h5 className="text-center pb-0">Are you sure!</h5>
+                <p className="text-center">You want to delete your account?</p>
+              </div>
               <div className="form-group text-center mb-2">
                 <button
                   type="button"
