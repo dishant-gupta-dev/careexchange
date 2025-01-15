@@ -6,10 +6,13 @@ import NoData from "../../../assets/admin/images/no-data-found.svg";
 import SearchImg from "../../../assets/provider/images/search1.svg";
 import { Modal, ModalBody } from "react-bootstrap";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+import { billingType } from "../../../utlis/common.utlis";
 
 const Page = () => {
   const [plans, setPlan] = useState([]);
   const [total, setTotal] = useState(0);
+  const [tab, setTab] = useState({ state: 1, type: "MONTHLY" });
   const [loading, setLoading] = useState(false);
   const [cancelPlan, setCancelPlan] = useState({ status: false, id: null });
   const renderHTML = (rawHTML: string) =>
@@ -39,9 +42,29 @@ const Page = () => {
     setLoading(true);
     let form = JSON.stringify({
       planId: id,
+      billingCycle: tab.type,
     });
     const response = await ApiService.postAPIWithAccessToken(
       api.subscriptionPayment,
+      form
+    );
+    if (response.data.status && response.data.statusCode === 200) {
+      window.location.href = response.data.data.approvalLink;
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
+  };
+
+  const changePlan = async (id) => {
+    setLoading(true);
+    let form = JSON.stringify({
+      currentPlanId: id,
+      newPlanId: id,
+      billingCycle: tab.type,
+    });
+    const response = await ApiService.postAPIWithAccessToken(
+      api.changeSubscription,
       form
     );
     if (response.data.status && response.data.statusCode === 200) {
@@ -84,6 +107,50 @@ const Page = () => {
     <>
       {loading ? <Loader /> : null}
       <div className="container">
+        <div className="messages-tab">
+          <ul className="nav nav-tabs">
+            <li>
+              <Link
+                className={tab.state == 1 ? "active" : ""}
+                onClick={() => setTab({ state: 1, type: "MONTHLY" })}
+                to=""
+                data-bs-toggle="tab"
+              >
+                Monthly
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={tab.state == 2 ? "active" : ""}
+                onClick={() => setTab({ state: 2, type: "QUARTERLY" })}
+                to=""
+                data-bs-toggle="tab"
+              >
+                Quarterly
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={tab.state == 3 ? "active" : ""}
+                onClick={() => setTab({ state: 3, type: "HALF_YEARLY" })}
+                to=""
+                data-bs-toggle="tab"
+              >
+                Half Yearly
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={tab.state == 4 ? "active" : ""}
+                onClick={() => setTab({ state: 4, type: "YEARLY" })}
+                to=""
+                data-bs-toggle="tab"
+              >
+                Yearly
+              </Link>
+            </li>
+          </ul>
+        </div>
         <div className="subscription-section">
           <div className="care-title-header">
             <h2 className="heading-title">Subscription Plan</h2>
@@ -113,35 +180,49 @@ const Page = () => {
                 return (
                   <div key={indx} className="col-md-4 ">
                     <div className="subscription-card">
-                      {ele.isCurrentPlan && (
+                      {ele.isCurrentPlan && ele.planType == tab.type ? (
                         <div class="current-plan">Active Plan</div>
-                      )}
+                      ) : null}
                       <div className="subscription-info">
                         <div className="planname-text">{ele.name ?? "NA"}</div>
                         {/* <p>Care Referrals Monthly Plan</p> */}
                       </div>
                       <div className="subscription-price-info">
                         <div className="plan-price-text">
-                          ${ele.cost ?? "NA"}
+                          $
+                          {tab.state == 1
+                            ? ele.monthly_commit
+                            : tab.state == 2
+                            ? ele.quarterly_commit
+                            : tab.state == 3
+                            ? ele.half_yearly_commit
+                            : ele.yearly_commit}
+                          <span className="plan-per-text">
+                            /
+                            {tab.state == 1
+                              ? "Month"
+                              : tab.state == 2
+                              ? "Quarter"
+                              : tab.state == 3
+                              ? "Half Year"
+                              : "Year"}
+                          </span>
                         </div>
-                        {/* <div className="plan-persave-content">
-                          <div className="plan-per-text">Per Month</div>
-                          <div className="plan-save-text">Save 33%</div>
-                        </div> */}
+                        {ele.cost_period == "Featured" ? (
+                          <div>
+                            <span className="text-dark">
+                              Required Deposit : ${ele.required_deposit ?? 0}
+                            </span>
+                          </div>
+                        ) : (
+                          <div>
+                            <span className="text-dark">&nbsp;</span>
+                          </div>
+                        )}
                       </div>
                       <div className="subscription-point-info">
                         <div className="plan-action mb-3">
-                          {!ele.isCurrentPlan ? (
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                makePayment(ele.id);
-                              }}
-                              className="btn-gr w-100"
-                            >
-                              Buy Now
-                            </button>
-                          ) : (
+                          {ele.isCurrentPlan && ele.planType == tab.type ? (
                             <button
                               onClick={(e) => {
                                 e.preventDefault();
@@ -153,6 +234,26 @@ const Page = () => {
                               className="btn-re w-100"
                             >
                               Cancel Plan
+                            </button>
+                          ) : ele.isCurrentPlan ? (
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                changePlan(ele.id);
+                              }}
+                              className="btn-gr w-100"
+                            >
+                              {billingType(ele.planType) > tab.state ? "Downgrade" : "Upgrade"} Plan
+                            </button>
+                          ) : (
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                makePayment(ele.id);
+                              }}
+                              className="btn-gr w-100"
+                            >
+                              Buy Now
                             </button>
                           )}
                         </div>

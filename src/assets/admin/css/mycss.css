@@ -1642,13 +1642,18 @@ body {
   transition: all 0.25s ease;
   box-shadow: -5px 6px 20px 0px rgba(51, 51, 51, 0.4);
 }
-
+.react-calendar__tile{
+  border: 2px solid white !important;
+}
 .react-calendar__tile.highlight {
   background: rgb(226, 95, 117);
   color: white;
   border-radius: 5px;
 }
-
 .react-calendar__tile.highlight:hover {
   color: black;
+}
+.subscription-price-info .plan-price-text .plan-per-text{
+  color: var(--blue);
+  font-size: 1.1rem;
 }

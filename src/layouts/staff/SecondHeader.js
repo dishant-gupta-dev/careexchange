@@ -178,7 +178,7 @@ const SecondHeader = () => {
                       />{" "}
                     </svg>
                   </span>
-                  <span className="wsmenutext"> My jobs</span>
+                  <span className="wsmenutext"> My Jobs</span>
                 </Link>
               </li>
 

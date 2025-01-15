@@ -72,7 +72,7 @@ export const verifyOtp = createAsyncThunk(
           const body = response.data;
           const localData = {
             token: body.data.token,
-            userId: body.data.user.userid,
+            userId: (body.data.user.user_type == 2 || body.data.user.user_type == 3) ? body.data.user.provider_id : body.data.user.userid,
             email: body.data.user.email,
             fullname: body.data.user.fullname,
             mobile: body.data.user.mobile,

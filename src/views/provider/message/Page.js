@@ -23,6 +23,7 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(1);
   const [users, setUser] = useState([]);
+  const [myDetails, setMyDetails] = useState();
   const [details, setDetails] = useState();
   const [list, setList] = useState([]);
   const [sendInfo, setSenderData] = useState({
@@ -122,9 +123,20 @@ const Page = () => {
     );
   };
 
+  const getMyProfile = async (api) => {
+    setLoading(true);
+    const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log(response.data.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setMyDetails(response.data.data);
+    } else setMyDetails();
+    setLoading(false);
+  };
+
   useEffect(() => {
     getUsers(api.userChatList);
     subscribtionAuth(api.subscriptionAuth, navigate);
+    getMyProfile(api.profile);
   }, []);
 
   useEffect(() => {
@@ -330,12 +342,28 @@ const Page = () => {
                                       >
                                         <div className="message-item-chat-card">
                                           <div className="message-item-user">
-                                            {data.userimage === null ||
-                                            data.userimage === "" ||
-                                            data.userimage === undefined ? (
-                                              <img src={NoImage} />
+                                            {parseInt(data.sendBy) ===
+                                            userId ? (
+                                              myDetails?.logo !== null &&
+                                              myDetails?.logo !== "" &&
+                                              myDetails?.logo !== undefined ? (
+                                                <img
+                                                  src={myDetails?.logo}
+                                                  alt=""
+                                                />
+                                              ) : myDetails?.image === null ||
+                                                myDetails?.image === "" ||
+                                                myDetails?.image ===
+                                                  undefined ? (
+                                                <img src={NoImage} alt="" />
+                                              ) : (
+                                                <img
+                                                  src={myDetails?.image}
+                                                  alt=""
+                                                />
+                                              )
                                             ) : (
-                                              <img src={data.userimage} />
+                                              <img src={sendInfo.image} />
                                             )}
                                           </div>
                                           <div className="message-item-chat-content">
@@ -393,6 +421,13 @@ const Page = () => {
                                   >
                                     Send
                                   </button>
+                                </div>
+                                <div className="col-md-12">
+                                  <p
+                                    className="text-danger mt-3"
+                                    style={{ fontSize: "0.8rem" }}
+                                  >
+                                  </p>
                                 </div>
                               </div>
                             </div>

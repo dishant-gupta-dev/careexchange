@@ -4,10 +4,12 @@ import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import SearchImg from "../../../assets/provider/images/search1.svg";
+import { Link } from "react-router-dom";
 
 const Page = () => {
   const [plans, setPlan] = useState([]);
   const [total, setTotal] = useState(0);
+  const [tab, setTab] = useState(1);
   const [loading, setLoading] = useState(false);
   const renderHTML = (rawHTML: string) =>
     React.createElement("div", {
@@ -42,6 +44,50 @@ const Page = () => {
     <>
       {loading ? <Loader /> : null}
       <div className="container">
+        <div className="messages-tab">
+          <ul className="nav nav-tabs">
+            <li>
+              <Link
+                className={tab == 1 ? "active" : ""}
+                onClick={() => setTab(1)}
+                to=""
+                data-bs-toggle="tab"
+              >
+                Monthly
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={tab == 2 ? "active" : ""}
+                onClick={() => setTab(2)}
+                to=""
+                data-bs-toggle="tab"
+              >
+                Quarterly
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={tab == 3 ? "active" : ""}
+                onClick={() => setTab(3)}
+                to=""
+                data-bs-toggle="tab"
+              >
+                Half Yearly
+              </Link>
+            </li>
+            <li>
+              <Link
+                className={tab == 4 ? "active" : ""}
+                onClick={() => setTab(4)}
+                to=""
+                data-bs-toggle="tab"
+              >
+                Yearly
+              </Link>
+            </li>
+          </ul>
+        </div>
         <div className="subscription-section">
           <div className="care-title-header">
             <h2 className="heading-title">Subscription Plan</h2>
@@ -77,7 +123,24 @@ const Page = () => {
                       </div>
                       <div className="subscription-price-info">
                         <div className="plan-price-text">
-                          ${ele.cost ?? "NA"}
+                          $
+                          {tab == 1
+                            ? ele.monthly_commit
+                            : tab == 2
+                            ? ele.quarterly_commit
+                            : tab == 3
+                            ? ele.half_yearly_commit
+                            : ele.yearly_commit}
+                          <span className="plan-per-text">
+                            /
+                            {tab == 1
+                              ? "Month"
+                              : tab == 2
+                              ? "Quarter"
+                              : tab == 3
+                              ? "Half Year"
+                              : "Year"}
+                          </span>
                         </div>
                         {/* <div className="plan-persave-content">
                           <div className="plan-per-text">Per Month</div>

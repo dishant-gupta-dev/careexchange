@@ -26,6 +26,14 @@ export const userType = (Id) => {
   else if (statusId === 3) return "Staff";
 };
 
+export const billingType = (Id) => {
+  let statusId = Id;
+  if (statusId == "MONTHLY") return 1;
+  else if (statusId == "QUARTERLY") return 2;
+  else if (statusId == "HALF_YEARLY") return 3;
+  else if (statusId == "YEARLY") return 4;
+};
+
 export const LIMIT = 10;
 export const providerLIMIT = 3;
 export const adsLIMIT = 5;

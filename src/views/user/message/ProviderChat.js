@@ -31,6 +31,7 @@ const ProviderChat = () => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
   const [providers, setProvider] = useState([]);
+  const [myDetails, setMyDetails] = useState();
   const [details, setDetails] = useState();
   const [bookingStatus, setBookingStatus] = useState({
     open: false,
@@ -182,9 +183,20 @@ const ProviderChat = () => {
     );
   };
 
+  const getMyProfile = async (api) => {
+    setLoading(true);
+    const response = await ApiService.getAPIWithAccessToken(api);
+    // console.log(response.data.data);
+    if (response.data.status && response.data.statusCode === 200) {
+      setMyDetails(response.data.data);
+    } else setMyDetails();
+    setLoading(false);
+  };
+
   useEffect(() => {
     getProviders(api.providerChatList);
     userDetails();
+    getMyProfile(api.profile);
   }, []);
 
   useEffect(() => {
@@ -448,12 +460,28 @@ const ProviderChat = () => {
                                       >
                                         <div className="message-item-chat-card">
                                           <div className="message-item-user">
-                                            {data.userimage === null ||
-                                            data.userimage === "" ||
-                                            data.userimage === undefined ? (
-                                              <img src={NoImage} />
+                                            {parseInt(data.sendBy) ===
+                                            userId ? (
+                                              myDetails?.logo !== null &&
+                                              myDetails?.logo !== "" &&
+                                              myDetails?.logo !== undefined ? (
+                                                <img
+                                                  src={myDetails?.logo}
+                                                  alt=""
+                                                />
+                                              ) : myDetails?.image === null ||
+                                                myDetails?.image === "" ||
+                                                myDetails?.image ===
+                                                  undefined ? (
+                                                <img src={NoImage} alt="" />
+                                              ) : (
+                                                <img
+                                                  src={myDetails?.image}
+                                                  alt=""
+                                                />
+                                              )
                                             ) : (
-                                              <img src={data.userimage} />
+                                              <img src={sendInfo.image} />
                                             )}
                                           </div>
                                           <div className="message-item-chat-content">
@@ -511,6 +539,45 @@ const ProviderChat = () => {
                                   >
                                     Send
                                   </button>
+                                </div>
+                                <div className="col-md-12">
+                                  <p
+                                    className="text-danger mt-3"
+                                    style={{ fontSize: "0.8rem" }}
+                                  >
+                                    <svg
+                                      width="24"
+                                      height="24"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                                        stroke="#292D32"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                      />
+                                      <path
+                                        d="M12 8V13"
+                                        stroke="red"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                      />
+                                      <path
+                                        d="M11.9946 16H12.0036"
+                                        stroke="red"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                      />
+                                    </svg>
+                                    &nbsp; You can confirm the care job by
+                                    navigating to the Booking tab and clicking
+                                    on the confirmation option.
+                                  </p>
                                 </div>
                               </div>
                             </div>
