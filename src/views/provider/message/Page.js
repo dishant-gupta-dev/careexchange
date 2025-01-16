@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { db } from "../../../firebase";
 import ApiService from "../../../core/services/ApiService";
 import { serverTimestamp } from "firebase/firestore";
@@ -19,6 +19,7 @@ import { subscribtionAuth } from "../../../utlis/common.utlis";
 
 const Page = () => {
   const navigate = useNavigate();
+  const bottomRef = useRef(null);
   let userId = JSON.parse(localStorage.getItem("careexchange")).userId;
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(1);
@@ -163,6 +164,10 @@ const Page = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sendInfo, message]);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messagesData]);
 
   return (
     <>
@@ -386,6 +391,7 @@ const Page = () => {
                                   </div>
                                 )}
                               </div>
+                              <div ref={bottomRef} />
                             </div>
                           </div>
                           <div className="chat-panel-chat-footer pb-0">
@@ -426,8 +432,7 @@ const Page = () => {
                                   <p
                                     className="text-danger mt-3"
                                     style={{ fontSize: "0.8rem" }}
-                                  >
-                                  </p>
+                                  ></p>
                                 </div>
                               </div>
                             </div>

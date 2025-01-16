@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { db } from "../../../firebase";
 import ApiService from "../../../core/services/ApiService";
 import { serverTimestamp } from "firebase/firestore";
@@ -24,6 +24,7 @@ import { Modal, ModalBody } from "react-bootstrap";
 import toast from "react-hot-toast";
 
 const Page = () => {
+  const bottomRef = useRef(null);
   let userId = JSON.parse(localStorage.getItem("careexchange")).userId;
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
@@ -198,6 +199,10 @@ const Page = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sendInfo, message]);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messagesData]);
 
   return (
     <>
@@ -489,6 +494,7 @@ const Page = () => {
                                   </div>
                                 )}
                               </div>
+                              <div ref={bottomRef} />
                             </div>
                           </div>
                           <div className="chat-panel-chat-footer pb-0">
