@@ -122,17 +122,27 @@ const Details = () => {
                           <div class="title-text">
                             {details?.first_name ?? "NA"}
                           </div>
-                          <div className="date-text">
-                            <img src={WhCalen} />{" "}
-                            {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
-                            {details?.start_time ?? "NA"}
-                          </div>
-                          <div class="tags-list float-end">
-                            <div class="tags-item-sub">
-                              {details?.gender == "M" ? "Male" : "Female"}
+                          <div className="d-flex justify-content-between">
+                            <div className="date-text">
+                              <img src={WhCalen} />{" "}
+                              {moment(details?.start_date).format("MM-DD-yyyy")}{" "}
+                              {details?.start_time ?? "NA"}
                             </div>
-                            <div class="tags-item-sub mx-2">
-                              Age: {details?.age ?? "NA"}
+                            <div className="pointtags-list">
+                              <div className="tags-item1">
+                                {details?.category ?? "NA"}
+                              </div>
+                              <div className="tags-item-sub1">
+                                {details?.subcategory ?? "NA"}
+                              </div>
+                            </div>
+                            <div class="tags-list float-end">
+                              <div class="tags-item-sub">
+                                {details?.gender == "M" ? "Male" : "Female"}
+                              </div>
+                              <div class="tags-item-sub mx-2">
+                                Age: {details?.age ?? "NA"}
+                              </div>
                             </div>
                           </div>
                           <div className="care-point-list1">
