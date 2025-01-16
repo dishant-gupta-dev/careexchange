@@ -133,3 +133,56 @@
   margin: 0;
   padding: 0;
 }
+
+.subscription-card-1 {
+  padding: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 8px 24px;
+  position: relative;
+  background: var(--white);
+  border-radius: 10px;
+  border-bottom: 3px solid var(--green);
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.planname-text-1 {
+  background: #f1f1f1;
+  font-size: 16px;
+  display: inline-block;
+  padding: 5px 20px;
+  border-radius: 5px;
+  color: var(--darkblue);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.subscription-info-1 p {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--black);
+  margin: 0;
+  padding: 0;
+}
+
+.plan-price-text-1 {
+  font-size: 50px;
+  font-weight: 600;
+  color: var(--black);
+  margin: 0;
+  padding: 0;
+  line-height: 70px;
+}
+
+.plan-per-text-1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--green);
+  margin: 0;
+  padding: 0;
+}
+.cc-planpoint-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
