@@ -28,7 +28,10 @@ import moment from "moment/moment";
 
 const Page = () => {
   const options = [];
+  const editOptions = [];
+  const stateArray = [];
   const cityOptions = [];
+  const editCityOptions = [];
   const inputRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState();
@@ -38,9 +41,11 @@ const Page = () => {
   const [edit, setEdit] = useState({ status: false, id: null });
   const [editImg, setEditImg] = useState(false);
   const [state, setState] = useState([]);
+  const [editState, setEditState] = useState([]);
   const [selectedState, setSelectedState] = useState([]);
   const [stateError, setStateError] = useState(false);
   const [city, setCity] = useState([]);
+  const [editCity, setEditCity] = useState([]);
   const [selectedCity, setSelectedCity] = useState([]);
   const [cityError, setCityError] = useState(false);
   const [categories, setCategory] = useState([]);
@@ -75,7 +80,6 @@ const Page = () => {
     description: details?.description ?? "",
     experience: details?.experience ?? "",
     image: "",
-    files: "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -99,23 +103,8 @@ const Page = () => {
     image: Yup.mixed().test(
       "fileSize",
       `File size must be less than ${SingleFile} MB`,
-      (value) => !value || (value && value.size <= SingleFile)
+      (value) => !value || (value && value.size <= SingleFile * 1024 * 1024)
     ),
-    files: Yup.array()
-      .of(
-        Yup.mixed()
-          .test("fileSize", "File size is too large", (file) => {
-            return file && file.size <= MultipleFile * 1024 * 1024;
-          })
-          .test("fileType", "Unsupported file type", (file) => {
-            return (
-              file &&
-              ["image/jpeg", "image/png", "image/jpg"].includes(file.type)
-            );
-          })
-      )
-      .min(1, "At least one image is required")
-      .max(3, "You can upload a maximum of 3 images"),
   });
 
   const getCategoryList = async (api) => {
@@ -165,7 +154,7 @@ const Page = () => {
   const getMyProfile = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log(response.data);
+    // console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setSelectCategory(response?.data?.data?.categoryid);
       getSubCategoryList(response?.data?.data?.categoryid);
@@ -175,6 +164,26 @@ const Page = () => {
         address: response?.data?.data?.business_address,
       });
       setDetails(response.data.data);
+      response?.data?.data?.providerStates.forEach((element) => {
+        editOptions.push({
+          value: element.id,
+          label: element.name,
+        });
+      });
+      response?.data?.data?.providerStates.forEach((element) => {
+        stateArray.push({
+          value: element.id,
+        });
+      });
+      response?.data?.data?.providerCities.forEach((element) => {
+        editCityOptions.push({
+          value: element.id,
+          label: element.name,
+        });
+      });
+      setEditState(editOptions);
+      setEditCity(editCityOptions);
+      setSelectedState(stateArray);
     } else setDetails();
     setLoading(false);
   };
@@ -200,16 +209,11 @@ const Page = () => {
     form.append("latitude", location.lat);
     form.append("longitude", location.lng);
     if (
-      formValue.image === "" ||
-      formValue.image === null ||
-      !formValue.image
+      formValue.image !== "" &&
+      formValue.image !== null &&
+      formValue.image
     ) {
       form.append("file", formValue.image);
-    }
-    if (formValue.files.length != 0) {
-      formValue.files.forEach((image) => {
-        form.append("license_image", image);
-      });
     }
     const response = await ApiService.putAPIWithAccessTokenMultiPart(
       api.updateProfile + edit.id,
@@ -909,6 +913,7 @@ const Page = () => {
                             className="form-control text-capitalize todo-list-input"
                             placeholder="Select states"
                             isMulti={true}
+                            defaultValue={editState}
                             options={state}
                             onChange={(ans) => {
                               setSelectedState(ans);
@@ -929,6 +934,7 @@ const Page = () => {
                             className="form-control text-capitalize todo-list-input"
                             placeholder="Select cities"
                             isMulti={true}
+                            defaultValue={editCity}
                             options={city}
                             onChange={(ans) => {
                               setSelectedCity(ans);
@@ -1181,34 +1187,6 @@ const Page = () => {
                           />
                           <ErrorMessage
                             name="license_number"
-                            component="div"
-                            className="alert alert-danger"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label>Upload License Images</label>
-                          <Field name="files">
-                            {({ field, form }) => (
-                              <div>
-                                <input
-                                  type="file"
-                                  multiple
-                                  accept="image/*"
-                                  className="form-control"
-                                  onChange={(event) => {
-                                    const files = Array.from(
-                                      event.currentTarget.files
-                                    );
-                                    setFieldValue("files", files);
-                                  }}
-                                />
-                              </div>
-                            )}
-                          </Field>
-                          <ErrorMessage
-                            name="files"
                             component="div"
                             className="alert alert-danger"
                           />

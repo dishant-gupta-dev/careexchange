@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import advertisementImage from "../../../assets/provider/images/1.jpg";
+import deleteaccountImg from "../../../assets/user/images/delete-account.svg";
 import Select from "react-select";
 import { encode } from "base-64";
 import { Formik, Field, Form, ErrorMessage } from "formik";
@@ -956,10 +957,16 @@ const Page = () => {
           <div className="modal-content">
             <ModalBody className="">
               <div className="add-items d-flex row">
-                <h5 className="text-center">Are you sure</h5>
-                <p className="text-center">
-                  You want to delete this advertisement?
-                </p>
+                <div className="deleteaccount-Img">
+                  <img src={deleteaccountImg} />
+                </div>
+                <div className="deleteaccount-text mb-4">
+                  <h5 className="text-center pb-0">Delete Advertisement</h5>
+                  <p className="text-center">
+                    This action can't be undone. Do you really want to delete
+                    your advertisement ?
+                  </p>
+                </div>
                 <div className="form-group text-center">
                   <button
                     type="button"

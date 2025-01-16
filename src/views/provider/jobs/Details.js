@@ -10,7 +10,7 @@ import { decode, encode } from "base-64";
 import { routes } from "../../../utlis/provider/routes.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
-import { DefaultMoney, status } from "../../../utlis/common.utlis";
+import { status } from "../../../utlis/common.utlis";
 import moment from "moment";
 import toast from "react-hot-toast";
 
@@ -24,7 +24,7 @@ const Details = () => {
   const getJobDetails = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log(response.data);
+    // console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data);
     } else setDetails();
@@ -43,6 +43,24 @@ const Details = () => {
     );
     if (response.data.status && response.data.statusCode === 200) {
       window.location.href = response.data.data.approvalUrl;
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
+  };
+
+  const unlockJob = async (id) => {
+    setLoading(true);
+    let form = JSON.stringify({
+      status: 1,
+    });
+    const response = await ApiService.putAPIWithAccessToken(
+      api.providerDealStatus + `${id}`,
+      form
+    );
+    if (response.data.status && response.data.statusCode === 200) {
+      getJobDetails(api.jobDetails + `${decode(id)}`);
+      toast.success(response.data.message);
     } else {
       toast.error(response.data.message);
     }
@@ -81,10 +99,12 @@ const Details = () => {
                 <img src={lockedIcon} />
               </div>
               <h3>Client Contact Information Locked</h3>
-              <p>
-                To Unlock Contact Information Please Make Payment Of $
-                {DefaultMoney}
-              </p>
+              {details?.leadUnlockedLimitExpired ? (
+                <p>
+                  To Unlock Contact Information Please Make Payment Of $
+                  {details?.unlockRequestPrice}
+                </p>
+              ) : null}
             </div>
           ) : null}
           <div className="row">
@@ -271,17 +291,31 @@ const Details = () => {
             : null} */}
         <div className="row">
           {!details?.makePaymentStatus ? (
-            <div className="col-md-12 text-center mt-2">
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  makePayment(details?.id, DefaultMoney);
-                }}
-                className="btn btn-gr w-50"
-              >
-                Make Payment ${DefaultMoney}
-              </button>
-            </div>
+            details?.leadUnlockedLimitExpired ? (
+              <div className="col-md-12 text-center mt-2">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    makePayment(details?.id, details?.unlockRequestPrice);
+                  }}
+                  className="btn btn-gr w-50"
+                >
+                  Make Payment ${details?.unlockRequestPrice}
+                </button>
+              </div>
+            ) : (
+              <div className="col-md-12 text-center mt-2">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    unlockJob(details?.id);
+                  }}
+                  className="btn btn-gr w-50"
+                >
+                  Unlock Job
+                </button>
+              </div>
+            )
           ) : null}
         </div>
       </div>

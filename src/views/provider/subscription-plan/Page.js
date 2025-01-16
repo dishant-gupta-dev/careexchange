@@ -189,35 +189,31 @@ const Page = () => {
                         {/* <p>Care Referrals Monthly Plan</p> */}
                       </div>
                       <div className="subscription-price-info">
-                        <div className="plan-price-text">
-                          $
-                          {tab.state == 1
-                            ? ele.monthly_commit
-                            : tab.state == 2
-                            ? ele.quarterly_commit
-                            : tab.state == 3
-                            ? ele.half_yearly_commit
-                            : ele.yearly_commit}
-                          <span className="plan-per-text">
-                            /
-                            {tab.state == 1
-                              ? "Month"
-                              : tab.state == 2
-                              ? "Quarter"
-                              : tab.state == 3
-                              ? "Half Year"
-                              : "Year"}
-                          </span>
-                        </div>
                         {ele.cost_period == "Featured" ? (
-                          <div>
-                            <span className="text-dark">
-                              Required Deposit : ${ele.required_deposit ?? 0}
-                            </span>
+                          <div className="plan-price-text">
+                            ${ele.required_deposit ?? "0"}
+                            <span className="plan-per-text"> Deposit</span>
                           </div>
                         ) : (
-                          <div>
-                            <span className="text-dark">&nbsp;</span>
+                          <div className="plan-price-text">
+                            $
+                            {tab.state == 1
+                              ? ele.monthly_commit
+                              : tab.state == 2
+                              ? ele.quarterly_commit
+                              : tab.state == 3
+                              ? ele.half_yearly_commit
+                              : ele.yearly_commit}
+                            <span className="plan-per-text">
+                              /
+                              {tab.state == 1
+                                ? "Month"
+                                : tab.state == 2
+                                ? "Quarter"
+                                : tab.state == 3
+                                ? "Half Year"
+                                : "Year"}
+                            </span>
                           </div>
                         )}
                       </div>

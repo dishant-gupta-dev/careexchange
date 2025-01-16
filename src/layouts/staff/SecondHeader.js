@@ -288,7 +288,7 @@ const SecondHeader = () => {
                       </defs>
                     </svg>
                   </span>
-                  <span class="wsmenutext">Advertisement</span>
+                  <span class="wsmenutext"> Advertisement</span>
                 </Link>
               </li>
 

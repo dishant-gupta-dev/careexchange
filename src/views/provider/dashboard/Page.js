@@ -1,14 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import careuserprofile from "../../../assets/provider/images/user.png";
-import googlemap from "../../../assets/provider/images/Google_Map.svg";
-import Searchicon from "../../../assets/provider/images/search-normal.svg";
 import Arrowicon from "../../../assets/provider/images/arrow-right.svg";
-import careservicesicon1 from "../../../assets/provider/images/ss-care.svg";
-import careservicesicon2 from "../../../assets/provider/images/ch-care.svg";
 import { api } from "../../../utlis/provider/api.utlis";
 import ApiService from "../../../core/services/ApiService";
 import Loader from "../../../layouts/loader/Loader";
-import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
+import { useJsApiLoader } from "@react-google-maps/api";
 import { Link, useNavigate } from "react-router-dom";
 import {
   GeolocationApiKey,
@@ -19,6 +14,7 @@ import "react-calendar/dist/Calendar.css";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import { routes } from "../../../utlis/provider/routes.utlis";
 import moment from "moment";
+import { encode } from "base-64";
 let events = [];
 
 const Page = () => {
@@ -244,6 +240,10 @@ const Page = () => {
                     <h2 className="heading-title">
                       Ongoing Jobs ({dashboard?.activeJobCount ?? 0})
                     </h2>
+                    <Link className="btn-gr" to={routes.myJobs}>
+                      {" "}
+                      View All{" "}
+                    </Link>
                   </div>
                   <div className="row g-2">
                     <div className="col-md-12">
@@ -295,7 +295,17 @@ const Page = () => {
 
                                     <div className="job-table-col-1">
                                       <div className="action-btn-info">
-                                        <Link className="action-btn">
+                                        <Link
+                                          className="action-btn"
+                                          onClick={(e) => {
+                                            e.preventDefault();
+                                            navigate(routes.jobDetails, {
+                                              state: {
+                                                id: encode(ele.id),
+                                              },
+                                            });
+                                          }}
+                                        >
                                           <img src={Arrowicon} alt="" />
                                         </Link>
                                       </div>
@@ -317,6 +327,10 @@ const Page = () => {
                     <h2 className="heading-title">
                       Locked Jobs Request ({dashboard?.lockedJobCount ?? 0})
                     </h2>
+                    <Link className="btn-gr" to={routes.lockedJobs}>
+                      {" "}
+                      View All{" "}
+                    </Link>
                   </div>
                   <div className="row g-2">
                     <div className="col-md-12">
@@ -368,7 +382,17 @@ const Page = () => {
 
                                     <div className="job-table-col-1">
                                       <div className="action-btn-info">
-                                        <Link className="action-btn">
+                                        <Link
+                                          className="action-btn"
+                                          onClick={(e) => {
+                                            e.preventDefault();
+                                            navigate(routes.jobDetails, {
+                                              state: {
+                                                id: encode(ele.id),
+                                              },
+                                            });
+                                          }}
+                                        >
                                           <img src={Arrowicon} alt="" />
                                         </Link>
                                       </div>
@@ -442,14 +466,6 @@ const Page = () => {
                                   ? "Repeat Weekly"
                                   : "Repeat Monthly"}
                               </h4>
-                            </div>
-                          </div>
-
-                          <div className="job-table-col-1">
-                            <div className="action-btn-info">
-                              <Link className="action-btn">
-                                <img src={Arrowicon} alt="" />
-                              </Link>
                             </div>
                           </div>
                         </div>

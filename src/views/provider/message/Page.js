@@ -461,6 +461,9 @@ const Page = () => {
                               return (
                                 <div key={indx} className="care-card">
                                   <div className="care-card-head">
+                                    <div className="care-id">
+                                      Job ID: <span>{ele.job_id ?? "NA"}</span>
+                                    </div>
                                     <div className="care-status">
                                       Status:{" "}
                                       <span>
