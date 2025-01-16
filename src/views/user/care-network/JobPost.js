@@ -17,7 +17,7 @@ import TimePicker from "react-multi-date-picker/plugins/time_picker";
 const JobPost = () => {
   const inputRef = useRef(null);
   const navigate = useNavigate();
-  const [tab, setTab] = useState(1);
+  const [tab, setTab] = useState(2);
   const [jobId, setJobId] = useState(null);
   const [planType, setPlanType] = useState("50");
   const [loading, setLoading] = useState(false);

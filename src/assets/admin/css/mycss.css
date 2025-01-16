@@ -1657,3 +1657,7 @@ body {
   color: var(--blue);
   font-size: 1.1rem;
 }
+.plan-persave-content .plan-per-text{
+  color: var(--blue);
+  font-size: 1.1rem;
+}

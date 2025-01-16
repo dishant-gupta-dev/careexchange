@@ -78,7 +78,8 @@
   padding: 0;
 }
 .cc-plan-point-list {
-  min-height: 175px !important;
+  min-height: 75px !important;
+  max-height: 175px !important;
 }
 .plan-point-list ul {
   list-style: none;

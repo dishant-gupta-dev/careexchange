@@ -603,6 +603,7 @@ payment
   line-height: 1.5;
   cursor: pointer;
   font-size: 14px;
+  color: #000;
 }
 .ccradiobox label::before,
 .ccradiobox label::after {
