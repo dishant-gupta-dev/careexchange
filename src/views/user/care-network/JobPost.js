@@ -768,26 +768,29 @@ const JobPost = () => {
         <div className="payment-page-section">
           <div className="container">
             <div className="row">
-              <div className="col-md-4 mb-2">
-                <div className="subscription-card">
-                  <div className="subscription-info">
-                    <div className="planname-text">Job Opportunity Posting</div>
+              <div className="col-md-12 mb-2">
+                <div className="subscription-card-1">
+                  <div className="subscription-info-1">
+                    <div className="planname-text-1">
+                      Job Opportunity Posting
+                    </div>
                     <p>
                       Post your job openings and solicit for qualified
                       candidates
                     </p>
-                  </div>
-                  <div className="subscription-price-info">
-                    <div className="plan-price-text">
-                      ${planType ?? "0"} USD
-                    </div>
-                    <div className="plan-persave-content">
-                      <div className="plan-per-text">
-                        {planType == "50" ? "30" : "90"} days
+                    <div className="subscription-price-info-1">
+                      <div className="plan-price-text-1">
+                        ${planType ?? "0"} USD
+                      </div>
+                      <div className="plan-persave-content-1">
+                        <div className="plan-per-text-1">
+                          {planType == "50" ? "30" : "90"} days
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="subscription-point-info">
+
+                  <div className="subscription-point-info-1">
                     <Formik
                       initialValues={initialPaymentValues}
                       onSubmit={makePayment}
@@ -795,45 +798,50 @@ const JobPost = () => {
                     >
                       {({ values, setFieldValue }) => (
                         <Form>
-                          <div className="cc-plan-point-list">
-                            <div className="ccradiobox">
-                              <Field
-                                type="radio"
-                                id="Postedjob1"
-                                name="amount"
-                                onChange={(e) => {
-                                  setPlanType(e.target.value);
-                                  setFieldValue("amount", e.target.value);
-                                }}
-                                value="50"
-                              />
-                              <label for="Postedjob1">
-                                $50 per Job Opportunity Posted/month (30 days)
-                              </label>
+                          <div className="cc-planpoint-content">
+                            <div className="cc-planpoint-content-inner">
+                              <div className="cc-plan-point-list-1">
+                                <div className="ccradiobox">
+                                  <Field
+                                    type="radio"
+                                    id="Postedjob1"
+                                    name="amount"
+                                    onChange={(e) => {
+                                      setPlanType(e.target.value);
+                                      setFieldValue("amount", e.target.value);
+                                    }}
+                                    value="50"
+                                  />
+                                  <label for="Postedjob1">
+                                    $50 per Job Opportunity Posted/month (30
+                                    days)
+                                  </label>
+                                </div>
+                              </div>
+                              <div className="cc-plan-point-list-1">
+                                <div className="ccradiobox">
+                                  <Field
+                                    type="radio"
+                                    id="Postedjob2"
+                                    name="amount"
+                                    onChange={(e) => {
+                                      setPlanType(e.target.value);
+                                      setFieldValue("amount", e.target.value);
+                                    }}
+                                    value="100"
+                                  />
+                                  <label for="Postedjob2">
+                                    $100 per Job Opportunity Posted/3 months (90
+                                    days)
+                                  </label>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                          <div className="cc-plan-point-list">
-                            <div className="ccradiobox">
-                              <Field
-                                type="radio"
-                                id="Postedjob2"
-                                name="amount"
-                                onChange={(e) => {
-                                  setPlanType(e.target.value);
-                                  setFieldValue("amount", e.target.value);
-                                }}
-                                value="100"
-                              />
-                              <label for="Postedjob2">
-                                $100 per Job Opportunity Posted/3 months (90
-                                days)
-                              </label>
+                            <div className="plan-action">
+                              <button type="submit" className="btn-bl w-100">
+                                Make Payment
+                              </button>
                             </div>
-                          </div>
-                          <div className="plan-action">
-                            <button type="submit" className="btn-bl w-100">
-                              Make Payment
-                            </button>
                           </div>
                         </Form>
                       )}

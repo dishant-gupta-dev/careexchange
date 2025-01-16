@@ -1673,3 +1673,30 @@ a.action-btn {
 .network-dropdown-select select.form-control {
   padding: 9px 15px 9px 15px !important;
 }
+
+.subscription-price-info {
+  border-top: 2px solid #778695;
+  border-bottom: 2px solid #778695;
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.plan-price-text {
+  font-size: 50px;
+  font-weight: 600;
+  color: var(--black);
+  margin: 0;
+  padding: 0;
+  line-height: 70px;
+}
+
+.plan-persave-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.plan-persave-content .plan-per-text {
+  color: var(--blue);
+  font-size: 1.1rem;
+}
