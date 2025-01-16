@@ -23,8 +23,9 @@ const Page = () => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1;
     const currentYear = currentDate.getFullYear();
+    const currentDay = moment().format("DD");
     const response = await ApiService.getAPIWithAccessToken(
-      api + `?month=${monthVal ?? currentMonth}&year=${yearVal ?? currentYear}`
+      api + `?day=${dateVal ?? currentDay}&month=${monthVal ?? currentMonth}&year=${yearVal ?? currentYear}`
     );
     // console.log("all calendar list data => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
@@ -48,7 +49,7 @@ const Page = () => {
 
   useEffect(() => {
     getCalendarData(api.calendarData);
-  }, [monthVal]);
+  }, [dateVal]);
 
   return (
     <>
@@ -63,7 +64,7 @@ const Page = () => {
             <div className="col-md-4">
               <Calendar
                 onChange={(e) => {
-                  setDate(e);
+                  setDate(moment(e).format("DD"));
                   setMonth(moment(e).format("MM"));
                   setYear(moment(e).format("yyyy"));
                 }}

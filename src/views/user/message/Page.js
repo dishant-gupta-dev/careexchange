@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { db } from "../../../firebase";
 import ApiService from "../../../core/services/ApiService";
 import { serverTimestamp } from "firebase/firestore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import moment from "moment/moment";
 import Search from "../../../assets/user/images/search1.svg";
 import locationImage from "../../../assets/admin/images/Google_Map.svg";
@@ -20,11 +20,13 @@ import { api } from "../../../utlis/user/api.utlis";
 import WhCalen from "../../../assets/user/images/whcalendar.svg";
 import RepeatImg from "../../../assets/user/images/Repeat.svg";
 import Loader from "../../../layouts/loader/Loader";
+import { routes } from "../../../utlis/user/routes.utlis";
 import { Modal, ModalBody } from "react-bootstrap";
 import toast from "react-hot-toast";
 
 const Page = () => {
   const bottomRef = useRef(null);
+  const navigate = useNavigate();
   let userId = JSON.parse(localStorage.getItem("careexchange")).userId;
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(0);
@@ -170,6 +172,29 @@ const Page = () => {
     setLoading(false);
   };
 
+  const completeJob = async (id, userId) => {
+    setLoading(true);
+    let form = JSON.stringify({
+      status: 4,
+      userid: userId,
+    });
+    const response = await ApiService.putAPIWithAccessToken(
+      api.serviceRequest + `${id}`,
+      form
+    );
+    if (response.data.status && response.data.statusCode === 200) {
+      toast.success(response.data.message);
+      navigate(routes.myJobs, {
+        state: {
+          tab: 4,
+        },
+      });
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     getProviders(api.providerChatList);
     getMyProfile(api.profile);
@@ -256,6 +281,7 @@ const Page = () => {
                       type="text"
                       name=""
                       className="form-control"
+                      id="searchInput"
                       placeholder="Search by Name"
                       onChange={(e) => setSearch(e.target.value)}
                     />
@@ -267,6 +293,44 @@ const Page = () => {
                       }
                     >
                       <img src={SearchImg} />
+                    </button>
+                    <button
+                      className="search-btn"
+                      type="button"
+                      onClick={() => {
+                        getProviders(api.providerChatList);
+                        document.getElementById("searchInput").value = "";
+                      }}
+                    >
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                          stroke="#ffffff"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M9.16992 14.83L14.8299 9.16998"
+                          stroke="#ffffff"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M14.8299 14.83L9.16992 9.16998"
+                          stroke="#ffffff"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
                     </button>
                   </div>
                   <div className="chat-userlist-info">
@@ -853,6 +917,19 @@ const Page = () => {
                                           Reject
                                         </Link>
                                       </div>
+                                    ) : ele.request_status == 2 ? (
+                                      <Link
+                                        className="btn-gr"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          completeJob(
+                                            ele?.id,
+                                            ele?.provider_userid
+                                          );
+                                        }}
+                                      >
+                                        Mark As Complete
+                                      </Link>
                                     ) : (
                                       <div className="care-status text-capitalize">
                                         Status:{" "}

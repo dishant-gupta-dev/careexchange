@@ -31,18 +31,23 @@ const Details = () => {
     setLoading(false);
   };
 
-  const completeJob = async (id) => {
+  const completeJob = async (id, userId) => {
     setLoading(true);
     let form = JSON.stringify({
       status: 4,
+      userid: userId,
     });
     const response = await ApiService.putAPIWithAccessToken(
       api.serviceRequest + `${id}`,
       form
     );
     if (response.data.status && response.data.statusCode === 200) {
-      getDetails(api.jobDetail + `?service_request_id=${decode(id)}`);
       toast.success(response.data.message);
+      navigate(routes.myJobs, {
+        state: {
+          tab: 4,
+        },
+      });
     } else {
       toast.error(response.data.message);
     }
@@ -96,7 +101,10 @@ const Details = () => {
                               className="btn-gr"
                               onClick={(e) => {
                                 e.preventDefault();
-                                completeJob(details?.id);
+                                completeJob(
+                                  details?.id,
+                                  details?.provider_userid
+                                );
                               }}
                             >
                               Mark As Complete
