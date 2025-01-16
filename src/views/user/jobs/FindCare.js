@@ -164,7 +164,11 @@ const FindCare = () => {
     if (response.data.status) {
       toast.success(response.data.message);
       setServiceId(response?.data?.data?.requestDetails?.id);
-      navigate(routes.myJobs);
+      navigate(routes.myJobs, {
+        state: {
+          tab: 0,
+        },
+      });
     } else {
       toast.error(response.data.message);
     }
@@ -193,7 +197,11 @@ const FindCare = () => {
     );
     if (response.data.status) {
       toast.success(response.data.message);
-      navigate(routes.myJobs);
+      navigate(routes.myJobs, {
+        state: {
+          tab: 0,
+        },
+      });
     } else {
       toast.error(response.data.message);
     }
@@ -262,8 +270,8 @@ const FindCare = () => {
       <div className="container">
         <div className="carenetwork-section">
           <div className="care-title-header">
-            <h2 className="heading-title">Find Care</h2>
-            <div className="search-filter ">
+            <h2 className="heading-title my-3">Find Care</h2>
+            {/* <div className="search-filter ">
               <div className="row g-2">
                 <div className="col-md-12">
                   <div className="form-group">
@@ -300,7 +308,7 @@ const FindCare = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="ce-step-list">
@@ -1232,6 +1240,7 @@ const FindCare = () => {
                                     <DatePicker
                                       {...field}
                                       format="MM/DD/YYYY"
+                                      minDate={new Date()}
                                       placeholder="Select Preferred Date"
                                       value={values.start_date || ""}
                                       onChange={(value) =>

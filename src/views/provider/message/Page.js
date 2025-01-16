@@ -413,9 +413,9 @@ const Page = () => {
                                         setMessage(e.target.value)
                                       }
                                     />
-                                    <span className="form-attachemnt-icon">
+                                    {/* <span className="form-attachemnt-icon">
                                       <img src={AttachImg} />
-                                    </span>
+                                    </span> */}
                                   </div>
                                 </div>
                                 <div className="col-md-2">

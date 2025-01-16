@@ -10,6 +10,7 @@ import ApiService from "../../../core/services/ApiService";
 import moment from "moment";
 import { decode, encode } from "base-64";
 import { routes } from "../../../utlis/user/routes.utlis";
+import toast from "react-hot-toast";
 
 const Details = () => {
   const navigate = useNavigate();
@@ -21,11 +22,29 @@ const Details = () => {
   const getDetails = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
-    console.log(response.data);
+    // console.log(response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setDetails(response.data.data.requestDetail);
     } else {
       setDetails();
+    }
+    setLoading(false);
+  };
+
+  const completeJob = async (id) => {
+    setLoading(true);
+    let form = JSON.stringify({
+      status: 4,
+    });
+    const response = await ApiService.putAPIWithAccessToken(
+      api.serviceRequest + `${id}`,
+      form
+    );
+    if (response.data.status && response.data.statusCode === 200) {
+      getDetails(api.jobDetail + `?service_request_id=${decode(id)}`);
+      toast.success(response.data.message);
+    } else {
+      toast.error(response.data.message);
     }
     setLoading(false);
   };
@@ -72,7 +91,22 @@ const Details = () => {
                         </div>
 
                         <div class="care-status">
-                          Status: <span>{details?.request_status ?? "NA"}</span>
+                          {details?.status == "1" ? (
+                            <Link
+                              className="btn-gr"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                completeJob(details?.id);
+                              }}
+                            >
+                              Mark As Complete
+                            </Link>
+                          ) : (
+                            <div>
+                              Status:{" "}
+                              <span>{details?.request_status ?? "NA"}</span>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div class="care-card-body">

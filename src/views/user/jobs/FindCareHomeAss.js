@@ -240,7 +240,11 @@ const FindCareHomeAss = () => {
       );
       if (responsePro.data.status && responsePro.data.statusCode === 200) {
         toast.success(responsePro.data.message);
-        navigate(routes.myJobs);
+        navigate(routes.myJobs, {
+          state: {
+            tab: 0,
+          },
+        });
       } else {
         toast.error(responsePro.data.message);
       }
@@ -320,8 +324,8 @@ const FindCareHomeAss = () => {
       <div className="container">
         <div className="carenetwork-section">
           <div className="care-title-header">
-            <h2 className="heading-title">Find Care</h2>
-            <div className="search-filter ">
+            <h2 className="heading-title my-3">Find Care</h2>
+            {/* <div className="search-filter ">
               <div className="row g-2">
                 <div className="col-md-12">
                   <div className="form-group">
@@ -358,7 +362,7 @@ const FindCareHomeAss = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="ce-step-list">
@@ -1303,6 +1307,7 @@ const FindCareHomeAss = () => {
                                     <DatePicker
                                       {...field}
                                       format="MM/DD/YYYY"
+                                      minDate={new Date()}
                                       placeholder="Select Preferred Date"
                                       value={values.start_date || ""}
                                       onChange={(value) =>

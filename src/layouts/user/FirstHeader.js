@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useEffect } from "react";
 import Logo from "../../assets/user/images/logo.svg";
 import NotificationSvg from "../../assets/user/images/notification.svg";
+import deleteaccountImg from "../../assets/user/images/delete-account.svg";
 import NoData from "../../assets/admin/images/no-data-found.svg";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../../store/slices/Auth";
@@ -271,10 +272,15 @@ const FirstHeader = () => {
         <div className="modal-content">
           <ModalBody className="">
             <div className="add-items d-flex row">
-              <h5 className="text-center mb-0">Are you sure</h5>
-              <p className="text-center">
-                You want to clear all notifications?
-              </p>
+              <div className="deleteaccount-Img">
+                <img src={deleteaccountImg} />
+              </div>
+              <div className="deleteaccount-text mb-4">
+                <h5 className="text-center pb-0">Clear Notification</h5>
+                <p className="text-center">
+                  This action can't be undone. Do you really want to clear all notifications ?
+                </p>
+              </div>
               <div className="form-group text-center mb-2">
                 <button
                   type="button"

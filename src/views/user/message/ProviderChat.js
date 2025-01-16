@@ -541,9 +541,9 @@ const ProviderChat = () => {
                                         setMessage(e.target.value)
                                       }
                                     />
-                                    <span className="form-attachemnt-icon">
+                                    {/* <span className="form-attachemnt-icon">
                                       <img src={AttachImg} />
-                                    </span>
+                                    </span> */}
                                   </div>
                                 </div>
                                 <div className="col-md-2">
@@ -1027,11 +1027,14 @@ const ProviderChat = () => {
         <div className="modal-content">
           <ModalBody className="">
             <div className="add-items d-flex row">
-              <h5 className="text-center mb-0">Are you sure</h5>
-              <p className="text-center">
-                You want to {bookingStatus.status == 2 ? "confirm" : "reject"}{" "}
-                this booking?
-              </p>
+              <div className="deleteaccount-text my-4">
+                <h5 className="text-center pb-0">Change Booking Status</h5>
+                <p className="text-center">
+                  Do you really want to{" "}
+                  {bookingStatus.status == 2 ? "confirm" : "reject"} this
+                  booking ?
+                </p>
+              </div>
               <div className="form-group text-center mb-2">
                 <button
                   type="button"

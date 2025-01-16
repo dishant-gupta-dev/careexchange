@@ -11,6 +11,7 @@ import Map from "../../../assets/user/images/Google_Map.svg";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
+import deleteaccountImg from "../../../assets/user/images/delete-account.svg";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import { Modal, ModalBody } from "react-bootstrap";
 import toast from "react-hot-toast";
@@ -297,8 +298,16 @@ const PostedJob = () => {
         <div className="modal-content">
           <ModalBody className="">
             <div className="add-items d-flex row">
-              <h5 className="text-center mb-0">Are you sure</h5>
-              <p className="text-center">You want to delete this post?</p>
+              <div className="deleteaccount-Img">
+                <img src={deleteaccountImg} />
+              </div>
+              <div className="deleteaccount-text mb-4">
+                <h5 className="text-center pb-0">Delete Job</h5>
+                <p className="text-center">
+                  This action can't be undone. Do you really want to delete your
+                  job ?
+                </p>
+              </div>
               <div className="form-group text-center mb-2">
                 <button
                   type="button"

@@ -13,7 +13,7 @@ import { Modal, ModalBody } from "react-bootstrap";
 import ApiService from "../../../core/services/ApiService";
 import moment from "moment";
 import { encode } from "base-64";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Page = () => {
@@ -21,7 +21,9 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [deleteJob, setDeleteJob] = useState({ status: false, id: null });
   const [jobs, setJobs] = useState([]);
-  const [status, setStatus] = useState(0);
+  const localData = useLocation();
+  const tab = localData.state?.tab;
+  const [status, setStatus] = useState(tab ?? 1);
 
   const getJobs = async (api) => {
     setLoading(true);
@@ -71,16 +73,6 @@ const Page = () => {
                 <ul className="nav nav-tabs">
                   <li>
                     <Link
-                      className={status === 0 ? "active" : ""}
-                      to=""
-                      onClick={() => setStatus(0)}
-                      data-bs-toggle="tab"
-                    >
-                      Pending
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
                       className={status === 1 ? "active" : ""}
                       to=""
                       onClick={() => setStatus(1)}
@@ -89,6 +81,17 @@ const Page = () => {
                       Ongoing
                     </Link>
                   </li>
+                  <li>
+                    <Link
+                      className={status === 0 ? "active" : ""}
+                      to=""
+                      onClick={() => setStatus(0)}
+                      data-bs-toggle="tab"
+                    >
+                      Pending
+                    </Link>
+                  </li>
+
                   <li>
                     <Link
                       className={status === 3 ? "active" : ""}
@@ -169,7 +172,10 @@ const Page = () => {
                                             to=""
                                             onClick={(e) => {
                                               e.preventDefault();
-                                              setDeleteJob({status: true, id: ele.id})
+                                              setDeleteJob({
+                                                status: true,
+                                                id: ele.id,
+                                              });
                                             }}
                                           >
                                             Delete

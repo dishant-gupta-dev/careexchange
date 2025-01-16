@@ -7,14 +7,16 @@ import { Modal, ModalBody, ModalHeader, ModalFooter } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../../../store/slices/Auth";
 import { SingleFile } from "../../../utlis/common.utlis";
 import InputMask from "react-input-mask";
 import deleteaccountImg from "../../../assets/user/images/delete-account.svg";
+import { routes } from "../../../utlis/user/routes.utlis";
 
 const Page = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState();
   const [edit, setEdit] = useState({ status: false, id: null });
@@ -220,11 +222,19 @@ const Page = () => {
                         <div className="d-flex justify-content-around">
                           <div className="overview-content text-center">
                             <h2>Posted Jobs</h2>
-                            <h4>{details?.postedJobCount ?? 0}</h4>
+                            <h4>
+                              <Link to={routes.postedJob}>
+                                {details?.postedJobCount ?? 0}
+                              </Link>
+                            </h4>
                           </div>
                           <div className="overview-content text-center">
                             <h2>Applied Jobs</h2>
-                            <h4>{details?.appliedJobCount ?? 0}</h4>
+                            <h4>
+                              <Link to={routes.appliedJob}>
+                                {details?.appliedJobCount ?? 0}
+                              </Link>
+                            </h4>
                           </div>
                         </div>
                       </div>
@@ -238,15 +248,47 @@ const Page = () => {
                         <div className="d-flex justify-content-around">
                           <div className="overview-content text-center">
                             <h2>Pending Jobs</h2>
-                            <h4>{details?.carePendingCount ?? 0}</h4>
+                            <h4>
+                              <Link
+                                to=""
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(routes.myJobs, {
+                                    state: {
+                                      tab: 0,
+                                    },
+                                  });
+                                }}
+                              >
+                                {details?.carePendingCount ?? 0}
+                              </Link>
+                            </h4>
                           </div>
                           <div className="overview-content text-center">
                             <h2>Ongoing Jobs</h2>
-                            <h4>{details?.careOngoingCount ?? 0}</h4>
+                            <h4>
+                              <Link to={routes.myJobs}>
+                                {details?.careOngoingCount ?? 0}
+                              </Link>
+                            </h4>
                           </div>
                           <div className="overview-content text-center">
                             <h2>Completed Jobs</h2>
-                            <h4>{details?.careCompleteCount ?? 0}</h4>
+                            <h4>
+                              <Link
+                                to=""
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(routes.myJobs, {
+                                    state: {
+                                      tab: 4,
+                                    },
+                                  });
+                                }}
+                              >
+                                {details?.careCompleteCount ?? 0}
+                              </Link>
+                            </h4>
                           </div>
                         </div>
                       </div>
@@ -442,7 +484,10 @@ const Page = () => {
               </div>
               <div className="deleteaccount-text mb-4">
                 <h5 className="text-center pb-0">Delete Account</h5>
-                <p className="text-center">This action can't be undone. Do you really want to delete your account ?</p>
+                <p className="text-center">
+                  This action can't be undone. Do you really want to delete your
+                  account ?
+                </p>
               </div>
               <div className="form-group text-center mb-2">
                 <button
