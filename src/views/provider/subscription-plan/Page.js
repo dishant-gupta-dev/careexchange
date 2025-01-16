@@ -4,6 +4,7 @@ import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import NoData from "../../../assets/admin/images/no-data-found.svg";
 import SearchImg from "../../../assets/provider/images/search1.svg";
+import deleteaccountImg from "../../../assets/user/images/delete-account.svg";
 import { Modal, ModalBody } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
@@ -221,8 +222,8 @@ const Page = () => {
                         )}
                       </div>
                       <div className="subscription-point-info">
-                        <div className="plan-action mb-3">
-                          {ele.isCurrentPlan && ele.planType == tab.type ? (
+                        {ele.cost_period == "Featured" ? (
+                          <div className="plan-action mb-3">
                             <button
                               onClick={(e) => {
                                 e.preventDefault();
@@ -235,28 +236,48 @@ const Page = () => {
                             >
                               Cancel Plan
                             </button>
-                          ) : ele.isCurrentPlan ? (
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                changePlan(ele.id);
-                              }}
-                              className="btn-gr w-100"
-                            >
-                              {billingType(ele.planType) > tab.state ? "Downgrade" : "Upgrade"} Plan
-                            </button>
-                          ) : (
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                makePayment(ele.id);
-                              }}
-                              className="btn-gr w-100"
-                            >
-                              Buy Now
-                            </button>
-                          )}
-                        </div>
+                          </div>
+                        ) : (
+                          <div className="plan-action mb-3">
+                            {ele.isCurrentPlan && ele.planType == tab.type ? (
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setCancelPlan({
+                                    status: true,
+                                    id: ele.subscriptionId,
+                                  });
+                                }}
+                                className="btn-re w-100"
+                              >
+                                Cancel Plan
+                              </button>
+                            ) : ele.isCurrentPlan ? (
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  changePlan(ele.id);
+                                }}
+                                className="btn-gr w-100"
+                              >
+                                {billingType(ele.planType) > tab.state
+                                  ? "Downgrade"
+                                  : "Upgrade"}{" "}
+                                Plan
+                              </button>
+                            ) : (
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  makePayment(ele.id);
+                                }}
+                                className="btn-gr w-100"
+                              >
+                                Buy Now
+                              </button>
+                            )}
+                          </div>
+                        )}
                         <div className="cc-plan-point-list px-3">
                           {renderHTML(ele.description)}
                         </div>
@@ -296,8 +317,15 @@ const Page = () => {
         <div className="modal-content">
           <ModalBody className="">
             <div className="add-items d-flex row">
-              <h5 className="text-center">Are you sure?</h5>
-              <p className="text-center">You want to cancel subscription</p>
+              <div className="deleteaccount-Img">
+                <img src={deleteaccountImg} />
+              </div>
+              <div className="deleteaccount-text mb-4">
+                <h5 className="text-center pb-0">Subscription Cancel</h5>
+                <p className="text-center">
+                  Are you sure you'd like to cancel your subscription ?
+                </p>
+              </div>
               <div className="form-group text-center mb-0">
                 <button
                   type="button"

@@ -8,14 +8,18 @@ import RepeatImg from "../../../assets/user/images/Repeat.svg";
 import VerifyImg from "../../../assets/user/images/verify.svg";
 import locationImage from "../../../assets/admin/images/Google_Map.svg";
 import Loader from "../../../layouts/loader/Loader";
+import deleteaccountImg from "../../../assets/user/images/delete-account.svg";
+import { Modal, ModalBody } from "react-bootstrap";
 import ApiService from "../../../core/services/ApiService";
 import moment from "moment";
 import { encode } from "base-64";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Page = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [deleteJob, setDeleteJob] = useState({ status: false, id: null });
   const [jobs, setJobs] = useState([]);
   const [status, setStatus] = useState(0);
 
@@ -34,6 +38,21 @@ const Page = () => {
     let name = "";
     if (e.target.name === "name") name = e.target.value;
     getJobs(api.myJobs + `?status=${status}&search=${name}`);
+  };
+
+  const deleteCareJob = async () => {
+    setLoading(true);
+    const response = await ApiService.deleteAPIWithAccessToken(
+      api.jobDelete + `${deleteJob.id}`
+    );
+    setDeleteJob(false);
+    if (response.data.status) {
+      toast.success(response.data.message);
+      getJobs(api.myJobs + `?status=${status}`);
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -129,7 +148,35 @@ const Page = () => {
                                     </div>
 
                                     <div className="care-action1">
-                                      {/* Status: <span>{ele.request_status ?? "NA"}</span> */}
+                                      {ele.is_editable && (
+                                        <>
+                                          {/* <Link
+                                            className="btn-gr"
+                                            to=""
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              navigate(routes.jobDetails, {
+                                                state: {
+                                                  id: encode(ele.id),
+                                                },
+                                              });
+                                            }}
+                                          >
+                                            Edit
+                                          </Link> */}
+                                          <Link
+                                            className="btn-re mx-2"
+                                            to=""
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              setDeleteJob({status: true, id: ele.id})
+                                            }}
+                                          >
+                                            Delete
+                                          </Link>
+                                        </>
+                                      )}
+
                                       <Link
                                         className="btn-bl"
                                         to=""
@@ -312,6 +359,49 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={deleteJob.status}
+        onHide={() => {
+          setDeleteJob({ status: false, id: null });
+        }}
+        className="cc-modal-form"
+      >
+        <div className="modal-content">
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <div className="deleteaccount-Img">
+                <img src={deleteaccountImg} />
+              </div>
+              <div className="deleteaccount-text mb-4">
+                <h5 className="text-center pb-0">Delete Care Job</h5>
+                <p className="text-center">
+                  Deleting this care job cannot be undone. Are you sure you want
+                  to proceed ?
+                </p>
+              </div>
+              <div className="form-group text-center mb-2">
+                <button
+                  type="button"
+                  onClick={() => setDeleteJob({ status: false, id: null })}
+                  className="btn-re me-2"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-gr"
+                  data-bs-dismiss="modal"
+                  onClick={() => deleteCareJob()}
+                >
+                  Yes! Delete
+                </button>
+              </div>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
     </>
   );
 };

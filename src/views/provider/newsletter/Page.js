@@ -5,6 +5,7 @@ import { api } from "../../../utlis/provider/api.utlis";
 import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Modal, ModalBody } from "react-bootstrap";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import InputMask from "react-input-mask";
@@ -14,6 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Page = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [unsubscribe, setUnsubscribe] = useState(false);
   const [newsletter, setNewsletter] = useState(false);
   let userData = JSON.parse(localStorage.getItem("careexchange"));
 
@@ -40,6 +42,24 @@ const Page = () => {
     } else setNewsletter(false);
     setLoading(false);
   };
+
+  const unsubscribeNewsletter = async () => {
+    setLoading(true);
+    const form = JSON.stringify({
+      email_address: userData.email ?? "",
+    });
+    const response = await ApiService.postAPIWithAccessToken(
+      api.newsletterUnsubscribe,
+      form
+    );
+    if (response.data.status) {
+      getNewsletterSubscribe(api.newsletterSubscribe);
+      toast.success(response.data.message);
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
+  }
 
   const addNewsLetter = async (formvalue) => {
     setLoading(true);
@@ -88,7 +108,7 @@ const Page = () => {
                         useful hints form signnow!
                       </p>
                       <div className="newsletter-action">
-                        <Link className="btn-bl">Unsubscribe</Link>
+                        <Link onClick={() => setUnsubscribe(true)} className="btn-bl">Unsubscribe</Link>
                       </div>
                     </div>
                   </div>
@@ -185,6 +205,49 @@ const Page = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        show={unsubscribe}
+        onHide={() => {
+          setUnsubscribe(false);
+        }}
+        className="cc-modal-form"
+      >
+        <div className="modal-content">
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <div className="deleteaccount-Img p-5">
+                <img width={190} src={NewsletterImg} />
+              </div>
+              <div className="deleteaccount-text mb-4">
+                <h5 className="text-center pb-0">Newsletter Unsubscribe</h5>
+                <p className="text-center">
+                  If you unsubscribe, you'll miss great deals and handy tips we
+                  share!
+                </p>
+              </div>
+              <div className="form-group text-center mb-2">
+                <button
+                  type="button"
+                  onClick={() => setUnsubscribe(false)}
+                  className="btn-re me-2"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-gr"
+                  data-bs-dismiss="modal"
+                  onClick={() => unsubscribeNewsletter()}
+                >
+                  Yes! Unsubscribe
+                </button>
+              </div>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
     </>
   );
 };

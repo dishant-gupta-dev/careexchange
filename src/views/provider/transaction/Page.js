@@ -6,6 +6,7 @@ import Loader from "../../../layouts/loader/Loader";
 import ApiService from "../../../core/services/ApiService";
 import DatePicker from "react-datepicker";
 import "../../../../node_modules/react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 import {
   LIMIT,
   subscribtionAuth,
@@ -32,6 +33,22 @@ const Page = () => {
     setLoading(false);
   };
 
+  const handleFilter = (e, fromDate = null, toDate = null) => {
+    e.persist();
+    let name = "";
+    if (e.target.name === "name") name = e.target.value;
+    if (fromDate != null && fromDate != undefined && fromDate != "")
+      fromDate = moment(fromDate).format("yyyy-MM-DD");
+    else fromDate = "";
+    if (toDate != null && toDate != undefined && toDate != "")
+      toDate = moment(toDate).format("yyyy-MM-DD");
+    else toDate = "";
+    getTransactionList(
+      api.transactionList +
+        `?page=${pageNum}&limit=${LIMIT}&search=${name}&startDate=${fromDate}&endDate=${toDate}`
+    );
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
     getTransactionList(api.transactionList + `?page=${pageNum}&limit=${LIMIT}`);
@@ -46,14 +63,40 @@ const Page = () => {
         <div className="carenetwork-section">
           <div className="care-title-header">
             <h2 className="heading-title">Transaction History</h2>
-            <div className="search-filter">
+            <div className="search-filter wd70">
               <div className="row g-2">
-                <div className="col-md-6 ">
-                  <div className="form-group mb-0">
+                <div class="col-md-3">
+                  <div class="form-group">
                     <DatePicker
                       toggleCalendarOnIconClick
                       showIcon
                       dateFormat={"MM-dd-yyyy"}
+                      selected={fromDate}
+                      onChange={(date, e) => {
+                        setFromDate(date);
+                        handleFilter(e, date, toDate ?? "");
+                      }}
+                      className="form-control"
+                      style={{ padding: "15px 40px" }}
+                      isClearable
+                      autoComplete="off"
+                      name="date"
+                      placeholderText="From Date"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <DatePicker
+                      toggleCalendarOnIconClick
+                      showIcon
+                      dateFormat={"MM-dd-yyyy"}
+                      selected={toDate}
+                      onChange={(date, e) => {
+                        setToDate(date);
+                        handleFilter(e, fromDate, date);
+                      }}
                       className="form-control"
                       style={{ padding: "15px 40px" }}
                       isClearable
@@ -64,19 +107,22 @@ const Page = () => {
                   </div>
                 </div>
 
-                <div className="col-md-6">
-                  <div className="form-group mb-0 search-form-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Search"
-                      aria-label="Username"
-                      aria-describedby="basic-addon1"
-                      name="name"
-                    />
-                    <span class="search-icon">
-                      <img src={SearchImg} />
-                    </span>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="search-form-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search"
+                        aria-label="Username"
+                        aria-describedby="basic-addon1"
+                        onChange={(e) => handleFilter(e)}
+                        name="name"
+                      />
+                      <span class="search-icon">
+                        <img src={SearchImg} />
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -24,6 +24,7 @@ import LocImg from "../../../assets/user/images/location.svg";
 import InputMask from "react-input-mask";
 import Select from "react-select";
 import { routes } from "../../../utlis/provider/routes.utlis";
+import moment from "moment/moment";
 
 const Page = () => {
   const options = [];
@@ -31,6 +32,7 @@ const Page = () => {
   const inputRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [details, setDetails] = useState();
+  const [cancelPlan, setCancelPlan] = useState({ status: false, id: null });
   const [deleteAcc, setDeleteAcc] = useState(false);
   const [file, setFile] = useState();
   const [edit, setEdit] = useState({ status: false, id: null });
@@ -220,6 +222,28 @@ const Page = () => {
     if (response.data.status) {
       toast.success(response.data.message);
       getMyProfile(api.profile);
+    } else {
+      toast.error(response.data.message);
+    }
+    setLoading(false);
+  };
+
+  const cancelSubscription = async (id) => {
+    setLoading(true);
+    let form = JSON.stringify({
+      subscriptionId: id,
+    });
+    const response = await ApiService.postAPIWithAccessToken(
+      api.subscriptionCancel,
+      form
+    );
+    setCancelPlan({
+      status: false,
+      id: null,
+    });
+    if (response.data.status && response.data.statusCode === 200) {
+      getMyProfile(api.profile);
+      toast.success(response.data.message);
     } else {
       toast.error(response.data.message);
     }
@@ -467,20 +491,76 @@ const Page = () => {
                   </div>
                 </div>
 
-                <div className="providerprofile-about d-flex justify-content-between align-items-center">
-                  <div className="d-flex align-items-center">
-                    <img className="me-3" src={caresuccessful} alt="" />
-                    <h2 className="m-0">
-                      {details?.currentPlan?.name ?? "No Active Plan"}
-                    </h2>
-                  </div>
-                  {details?.currentPlan?.name && (
-                    <Link className="btn-plan" to={routes.subscriptionPlan}>
-                      ${details?.currentPlan?.cost ?? "0"}/
-                      {details?.currentPlan?.cost_period ?? "NA"}
-                    </Link>
-                  )}
-                </div>
+                {details?.currentPlan?.length !== 0
+                  ? details?.currentPlan?.map((ele, indx) => {
+                      return (
+                        <div key={indx}>
+                          <div className="providerprofile-about d-flex justify-content-between align-items-center">
+                            <div className="d-flex align-items-center">
+                              <img
+                                className="me-3"
+                                src={caresuccessful}
+                                alt=""
+                              />
+                              <h2 className="m-0">{ele.name ?? "NA"}</h2>
+                            </div>
+                            {ele.cost_period == "Featured" ? (
+                              <div>
+                                <Link
+                                  className="btn-plan mx-2"
+                                  to={routes.subscriptionPlan}
+                                >
+                                  ${ele.wallet_balance} Wallet Balance
+                                </Link>
+                                <Link
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    setCancelPlan({
+                                      status: true,
+                                      id: ele.subscriptionId,
+                                    });
+                                  }}
+                                  className="btn-re"
+                                >
+                                  Cancel Plan
+                                </Link>
+                              </div>
+                            ) : (
+                              <>
+                                <div style={{ color: "#000" }}>
+                                  <p>
+                                    <b>
+                                      Next Billing : {ele.nextbilling ?? "NA"}
+                                    </b>{" "}
+                                  </p>
+                                </div>
+                                <div>
+                                  <Link
+                                    className="btn-plan mx-2"
+                                    to={routes.subscriptionPlan}
+                                  >
+                                    ${ele.amount}/{ele.plan_type}
+                                  </Link>
+                                  <Link
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      setCancelPlan({
+                                        status: true,
+                                        id: ele.subscriptionId,
+                                      });
+                                    }}
+                                    className="btn-re"
+                                  >
+                                    Cancel Plan
+                                  </Link>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })
+                  : null}
 
                 <div className="Address-card">
                   <div className="row mt-3">
@@ -1287,9 +1367,12 @@ const Page = () => {
               <div className="deleteaccount-Img">
                 <img src={deleteaccountImg} />
               </div>
-              <div className="deleteaccount-text">
-                <h5 className="text-center pb-0">Are you sure!</h5>
-                <p className="text-center">You want to delete your account?</p>
+              <div className="deleteaccount-text mb-4">
+                <h5 className="text-center pb-0">Delete Account</h5>
+                <p className="text-center">
+                  This action can't be undone. Do you really want to delete your
+                  account ?
+                </p>
               </div>
               <div className="form-group text-center mb-2">
                 <button
@@ -1307,6 +1390,56 @@ const Page = () => {
                   onClick={() => deleteAccount()}
                 >
                   Yes! Delete
+                </button>
+              </div>
+            </div>
+          </ModalBody>
+        </div>
+      </Modal>
+
+      <Modal
+        show={cancelPlan.status}
+        onHide={() => {
+          setCancelPlan({
+            status: false,
+            id: null,
+          });
+        }}
+        className="cc-modal-form"
+      >
+        <div className="modal-content">
+          <ModalBody className="">
+            <div className="add-items d-flex row">
+              <div className="deleteaccount-Img">
+                <img src={deleteaccountImg} />
+              </div>
+              <div className="deleteaccount-text mb-4">
+                <h5 className="text-center pb-0">Subscription Cancel</h5>
+                <p className="text-center">
+                  Are you sure you'd like to cancel your subscription ?
+                </p>
+              </div>
+              <div className="form-group text-center mb-0">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setCancelPlan({
+                      status: false,
+                      id: null,
+                    })
+                  }
+                  className="btn-re me-2"
+                  data-bs-dismiss="modal"
+                >
+                  No
+                </button>
+                <button
+                  type="submit"
+                  className="btn-gr"
+                  data-bs-dismiss="modal"
+                  onClick={() => cancelSubscription(cancelPlan.id)}
+                >
+                  Yes
                 </button>
               </div>
             </div>

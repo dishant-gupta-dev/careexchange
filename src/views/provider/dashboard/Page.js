@@ -18,6 +18,8 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import NoImage from "../../../assets/admin/images/no-image.jpg";
 import { routes } from "../../../utlis/provider/routes.utlis";
+import moment from "moment";
+let events = [];
 
 const Page = () => {
   const options = [];
@@ -34,12 +36,25 @@ const Page = () => {
     state: null,
   });
 
+  const hasEvent = (date) => {
+    return events.some(
+      (event) => event.date === moment(date).format("yyyy-MM-DD")
+    );
+  };
+
   const getDashboardData = async (api) => {
     setLoading(true);
     const response = await ApiService.getAPIWithAccessToken(api);
     // console.log("all dashboard => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setDashboard(response.data.data);
+      events = [];
+      response.data.data.calendarEvents.days.map((element) => {
+        events.push({
+          date: moment(element.start_date).format("yyyy-MM-DD"),
+          title: element.job_id ?? "NA",
+        });
+      });
     } else setDashboard();
     setLoading(false);
   };
@@ -218,37 +233,6 @@ const Page = () => {
               </div>
             </div>
           </div>
-          {/* <div className="col-md-6">
-            <div className="find-location-section">
-              <div className="search-section">
-                <div className="search-location-card-1">
-                  <div className="search-input-info d-flex align-items-center">
-                    <span className="ms-2">
-                      <img src={googlemap} alt="" />
-                    </span>
-                    {isLoaded && (
-                      <StandaloneSearchBox
-                        onLoad={(ref) => (inputRef.current = ref)}
-                        onPlacesChanged={handlePlaceChange}
-                      >
-                        <input
-                          className="form-control"
-                          placeholder="Where are you going?"
-                          style={{ width: "220%", padding: "10px 11px" }}
-                          defaultValue={location.address}
-                        />
-                      </StandaloneSearchBox>
-                    )}
-                  </div>
-                  <div className="search-btn-info">
-                    <button className="intake-btn-done">
-                      <img src={Arrowicon} alt="" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
         </div>
 
         <div className="row">
@@ -257,156 +241,71 @@ const Page = () => {
               <div className="col-lg-12">
                 <div className="careservices-section">
                   <div className="care-title-header">
-                    <h2 className="heading-title">Ongoing Jobs</h2>
+                    <h2 className="heading-title">
+                      Ongoing Jobs ({dashboard?.activeJobCount ?? 0})
+                    </h2>
                   </div>
                   <div className="row g-2">
                     <div className="col-md-12">
                       <div className="job-table-content">
                         <div className="job-table-box">
-                          <div className="job-table-item">
-                            <div className="job-table-col-3">
-                              <div className="job-task-item">
-                                <p>Job ID</p>
-                                <h4>0114202547</h4>
-                              </div>
-                            </div>
-                            <div className="job-table-col-3">
-                              <div className="job-task-item">
-                                <p>Name</p>
-                                <h4>Larry Davidson </h4>
-                              </div>
-                            </div>
+                          {dashboard?.activeJobs.length !== 0
+                            ? dashboard?.activeJobs.map((ele, indx) => {
+                                return (
+                                  <div key={indx} className="job-table-item">
+                                    <div className="job-table-col-3">
+                                      <div className="job-task-item">
+                                        <p>Job ID</p>
+                                        <h4>{ele.job_id ?? "NA"}</h4>
+                                      </div>
+                                    </div>
+                                    <div className="job-table-col-3">
+                                      <div className="job-task-item">
+                                        <p>Name</p>
+                                        <h4>{ele.first_name ?? "NA"}</h4>
+                                      </div>
+                                    </div>
 
-                            <div className="job-table-col-2">
-                              <div className="job-task-item">
-                                <p>Date</p>
-                                <h4>01-22-2025 04:30 PM</h4>
-                              </div>
-                            </div>
-                            <div className="job-table-col-2">
-                              <div className="job-task-item">
-                                <p>Gender</p>
-                                <h4>Male</h4>
-                              </div>
-                            </div>
+                                    <div className="job-table-col-2">
+                                      <div className="job-task-item">
+                                        <p>Date</p>
+                                        <h4>
+                                          {ele.start_date ?? "NA"}{" "}
+                                          {ele.start_time ?? ""}
+                                        </h4>
+                                      </div>
+                                    </div>
+                                    <div className="job-table-col-2">
+                                      <div className="job-task-item">
+                                        <p>Gender</p>
+                                        <h4>
+                                          {ele.gender == "M"
+                                            ? "Male"
+                                            : "Female"}
+                                        </h4>
+                                      </div>
+                                    </div>
 
-                            <div className="job-table-col-1">
-                              <div className="job-task-item">
-                                <p>Age</p>
-                                <h4>34</h4>
-                              </div>
-                            </div>
+                                    <div className="job-table-col-1">
+                                      <div className="job-task-item">
+                                        <p>Age</p>
+                                        <h4>{ele.age ?? "NA"}</h4>
+                                      </div>
+                                    </div>
 
-                            <div className="job-table-col-1">
-                              <div className="action-btn-info">
-                                <Link className="action-btn">
-                                  <img src={Arrowicon} alt="" />
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="job-table-item">
-                            <div className="job-table-col-3">
-                              <div className="job-task-item">
-                                <p>Job ID</p>
-                                <h4>0114202547</h4>
-                              </div>
-                            </div>
-                            <div className="job-table-col-3">
-                              <div className="job-task-item">
-                                <p>Name</p>
-                                <h4>Larry Davidson </h4>
-                              </div>
-                            </div>
-
-                            <div className="job-table-col-2">
-                              <div className="job-task-item">
-                                <p>Date</p>
-                                <h4>01-22-2025 04:30 PM</h4>
-                              </div>
-                            </div>
-                            <div className="job-table-col-2">
-                              <div className="job-task-item">
-                                <p>Gender</p>
-                                <h4>Male</h4>
-                              </div>
-                            </div>
-
-                            <div className="job-table-col-1">
-                              <div className="job-task-item">
-                                <p>Age</p>
-                                <h4>34</h4>
-                              </div>
-                            </div>
-
-                            <div className="job-table-col-1">
-                              <div className="action-btn-info">
-                                <Link className="action-btn">
-                                  <img src={Arrowicon} alt="" />
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="job-table-item">
-                            <div className="job-table-col-3">
-                              <div className="job-task-item">
-                                <p>Job ID</p>
-                                <h4>0114202547</h4>
-                              </div>
-                            </div>
-                            <div className="job-table-col-3">
-                              <div className="job-task-item">
-                                <p>Name</p>
-                                <h4>Larry Davidson </h4>
-                              </div>
-                            </div>
-
-                            <div className="job-table-col-2">
-                              <div className="job-task-item">
-                                <p>Date</p>
-                                <h4>01-22-2025 04:30 PM</h4>
-                              </div>
-                            </div>
-                            <div className="job-table-col-2">
-                              <div className="job-task-item">
-                                <p>Gender</p>
-                                <h4>Male</h4>
-                              </div>
-                            </div>
-
-                            <div className="job-table-col-1">
-                              <div className="job-task-item">
-                                <p>Age</p>
-                                <h4>34</h4>
-                              </div>
-                            </div>
-
-                            <div className="job-table-col-1">
-                              <div className="action-btn-info">
-                                <Link className="action-btn">
-                                  <img src={Arrowicon} alt="" />
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
+                                    <div className="job-table-col-1">
+                                      <div className="action-btn-info">
+                                        <Link className="action-btn">
+                                          <img src={Arrowicon} alt="" />
+                                        </Link>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })
+                            : null}
                         </div>
                       </div>
-                      {/* <div className="careservices-card">
-                        <div className="careservices-icon m-0">
-                          <img src={careservicesicon1} alt="" />
-                        </div>
-                        <Link
-                          to={routes.myJobs}
-                          className="careservices-text d-flex justify-content-between align-items-end"
-                        >
-                          <h2>
-                            Ongoing Jobs{" "}
-                            <i className="mdi mdi-arrow-right ms-2"></i>
-                          </h2>
-                          <h3>{dashboard?.activeJobCount ?? 0}</h3>
-                        </Link>
-                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -415,163 +314,72 @@ const Page = () => {
               <div className="col-lg-12  mt-2">
                 <div className="careservices-section">
                   <div className="care-title-header">
-                    <h2 className="heading-title">Locked Jobs Request </h2>
+                    <h2 className="heading-title">
+                      Locked Jobs Request ({dashboard?.lockedJobCount ?? 0})
+                    </h2>
                   </div>
                   <div className="row g-2">
                     <div className="col-md-12">
                       <div className="job-table-content">
                         <div className="job-table-box">
-                          <div className="job-table-item">
-                            <div className="job-table-col-3">
-                              <div className="job-task-item">
-                                <p>Job ID</p>
-                                <h4>0114202547</h4>
-                              </div>
-                            </div>
-                            <div className="job-table-col-3">
-                              <div className="job-task-item">
-                                <p>Name</p>
-                                <h4>Larry Davidson </h4>
-                              </div>
-                            </div>
+                          {dashboard?.lockedJobs.length !== 0
+                            ? dashboard?.lockedJobs.map((ele, indx) => {
+                                return (
+                                  <div key={indx} className="job-table-item">
+                                    <div className="job-table-col-3">
+                                      <div className="job-task-item">
+                                        <p>Job ID</p>
+                                        <h4>{ele.job_id ?? "NA"}</h4>
+                                      </div>
+                                    </div>
+                                    <div className="job-table-col-3">
+                                      <div className="job-task-item">
+                                        <p>Name</p>
+                                        <h4>{ele.first_name ?? "NA"}</h4>
+                                      </div>
+                                    </div>
 
-                            <div className="job-table-col-2">
-                              <div className="job-task-item">
-                                <p>Date</p>
-                                <h4>01-22-2025 04:30 PM</h4>
-                              </div>
-                            </div>
-                            <div className="job-table-col-2">
-                              <div className="job-task-item">
-                                <p>Gender</p>
-                                <h4>Male</h4>
-                              </div>
-                            </div>
+                                    <div className="job-table-col-2">
+                                      <div className="job-task-item">
+                                        <p>Date</p>
+                                        <h4>
+                                          {ele.start_date ?? "NA"}{" "}
+                                          {ele.start_time ?? ""}
+                                        </h4>
+                                      </div>
+                                    </div>
+                                    <div className="job-table-col-2">
+                                      <div className="job-task-item">
+                                        <p>Gender</p>
+                                        <h4>
+                                          {ele.gender == "M"
+                                            ? "Male"
+                                            : "Female"}
+                                        </h4>
+                                      </div>
+                                    </div>
 
-                            <div className="job-table-col-1">
-                              <div className="job-task-item">
-                                <p>Age</p>
-                                <h4>34</h4>
-                              </div>
-                            </div>
+                                    <div className="job-table-col-1">
+                                      <div className="job-task-item">
+                                        <p>Age</p>
+                                        <h4>{ele.age ?? "NA"}</h4>
+                                      </div>
+                                    </div>
 
-                            <div className="job-table-col-1">
-                              <div className="action-btn-info">
-                                <Link className="action-btn">
-                                  <img src={Arrowicon} alt="" />
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="job-table-item">
-                            <div className="job-table-col-3">
-                              <div className="job-task-item">
-                                <p>Job ID</p>
-                                <h4>0114202547</h4>
-                              </div>
-                            </div>
-                            <div className="job-table-col-3">
-                              <div className="job-task-item">
-                                <p>Name</p>
-                                <h4>Larry Davidson </h4>
-                              </div>
-                            </div>
-
-                            <div className="job-table-col-2">
-                              <div className="job-task-item">
-                                <p>Date</p>
-                                <h4>01-22-2025 04:30 PM</h4>
-                              </div>
-                            </div>
-                            <div className="job-table-col-2">
-                              <div className="job-task-item">
-                                <p>Gender</p>
-                                <h4>Male</h4>
-                              </div>
-                            </div>
-
-                            <div className="job-table-col-1">
-                              <div className="job-task-item">
-                                <p>Age</p>
-                                <h4>34</h4>
-                              </div>
-                            </div>
-
-                            <div className="job-table-col-1">
-                              <div className="action-btn-info">
-                                <Link className="action-btn">
-                                  <img src={Arrowicon} alt="" />
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="job-table-item">
-                            <div className="job-table-col-3">
-                              <div className="job-task-item">
-                                <p>Job ID</p>
-                                <h4>0114202547</h4>
-                              </div>
-                            </div>
-                            <div className="job-table-col-3">
-                              <div className="job-task-item">
-                                <p>Name</p>
-                                <h4>Larry Davidson </h4>
-                              </div>
-                            </div>
-
-                            <div className="job-table-col-2">
-                              <div className="job-task-item">
-                                <p>Date</p>
-                                <h4>01-22-2025 04:30 PM</h4>
-                              </div>
-                            </div>
-                            <div className="job-table-col-2">
-                              <div className="job-task-item">
-                                <p>Gender</p>
-                                <h4>Male</h4>
-                              </div>
-                            </div>
-
-                            <div className="job-table-col-1">
-                              <div className="job-task-item">
-                                <p>Age</p>
-                                <h4>34</h4>
-                              </div>
-                            </div>
-
-                            <div className="job-table-col-1">
-                              <div className="action-btn-info">
-                                <Link className="action-btn">
-                                  <img src={Arrowicon} alt="" />
-                                </Link>
-                              </div>
-                            </div>
-                          </div>
+                                    <div className="job-table-col-1">
+                                      <div className="action-btn-info">
+                                        <Link className="action-btn">
+                                          <img src={Arrowicon} alt="" />
+                                        </Link>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })
+                            : null}
                         </div>
                       </div>
                     </div>
-
-                    {/* <div className="col-md-6">
-                      <div className="careservices-card">
-                        <div className="careservices-icon m-0">
-                          <img src={careservicesicon2} alt="" />
-                        </div>
-                        <Link
-                          data-bs-toggle="modal"
-                          data-bs-target="#locked-job-requests"
-                          data-bs-dismiss="modal"
-                          to={routes.lockedJobs}
-                          className="careservices-text d-flex justify-content-between align-items-end"
-                        >
-                          <h2>
-                            Locked Jobs Request{" "}
-                            <i className="mdi mdi-arrow-right ms-2"></i>
-                          </h2>
-                          <h3>{dashboard?.lockedJobCount ?? 0}</h3>
-                        </Link>
-                      </div>
-                    </div> */}
                   </div>
                 </div>
               </div>
@@ -587,6 +395,9 @@ const Page = () => {
                 onChange={(e) => setDate(e)}
                 defaultView="month"
                 value={dateVal}
+                tileClassName={({ date, view }) =>
+                  view === "month" && hasEvent(date) ? "highlight" : null
+                }
               />
             </div>
 
@@ -596,112 +407,55 @@ const Page = () => {
 
             <div className="job-table-content">
               <div className="job-table-box">
-                <div className="job-table-item">
-                  <div className="job-table-col-3">
-                    <div className="job-task-item">
-                      <p>Job ID</p>
-                      <h4>0114202547</h4>
-                    </div>
-                  </div>
-                  <div className="job-table-col-3">
-                    <div className="job-task-item">
-                      <p>Name</p>
-                      <h4>Jorden Leo</h4>
-                    </div>
-                  </div>
+                {dashboard?.calendarEvents?.days.length !== 0
+                  ? dashboard?.calendarEvents?.days.map((ele, indx) => {
+                      return (
+                        <div key={indx} className="job-table-item">
+                          <div className="job-table-col-3">
+                            <div className="job-task-item">
+                              <p>Job ID</p>
+                              <h4>{ele.job_id ?? "NA"}</h4>
+                            </div>
+                          </div>
+                          <div className="job-table-col-3">
+                            <div className="job-task-item">
+                              <p>Name</p>
+                              <h4>{ele.first_name ?? "NA"}</h4>
+                            </div>
+                          </div>
 
-                  <div className="job-table-col-3">
-                    <div className="job-task-item">
-                      <p>Date</p>
-                      <h4>01-06-2025</h4>
-                    </div>
-                  </div>
-                  <div className="job-table-col-2">
-                    <div className="job-task-item">
-                      <p>Status</p>
-                      <h4>Active</h4>
-                    </div>
-                  </div>
+                          <div className="job-table-col-3">
+                            <div className="job-task-item">
+                              <p>Date</p>
+                              <h4>
+                                {moment(ele.start_date).format("MM-DD-yyyy")}
+                              </h4>
+                            </div>
+                          </div>
+                          <div className="job-table-col-2">
+                            <div className="job-task-item">
+                              <p>Frequency</p>
+                              <h4>
+                                {ele.frequency === "O"
+                                  ? "One Time"
+                                  : ele.frequency === "W"
+                                  ? "Repeat Weekly"
+                                  : "Repeat Monthly"}
+                              </h4>
+                            </div>
+                          </div>
 
-                  <div className="job-table-col-1">
-                    <div className="action-btn-info">
-                      <Link className="action-btn">
-                        <img src={Arrowicon} alt="" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="job-table-item">
-                  <div className="job-table-col-3">
-                    <div className="job-task-item">
-                      <p>Job ID</p>
-                      <h4>0114202547</h4>
-                    </div>
-                  </div>
-                  <div className="job-table-col-3">
-                    <div className="job-task-item">
-                      <p>Name</p>
-                      <h4>Jorden Leo</h4>
-                    </div>
-                  </div>
-
-                  <div className="job-table-col-3">
-                    <div className="job-task-item">
-                      <p>Date</p>
-                      <h4>01-06-2025</h4>
-                    </div>
-                  </div>
-                  <div className="job-table-col-2">
-                    <div className="job-task-item">
-                      <p>Status</p>
-                      <h4>Active</h4>
-                    </div>
-                  </div>
-
-                  <div className="job-table-col-1">
-                    <div className="action-btn-info">
-                      <Link className="action-btn">
-                        <img src={Arrowicon} alt="" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-                <div className="job-table-item">
-                  <div className="job-table-col-3">
-                    <div className="job-task-item">
-                      <p>Job ID</p>
-                      <h4>0114202547</h4>
-                    </div>
-                  </div>
-                  <div className="job-table-col-3">
-                    <div className="job-task-item">
-                      <p>Name</p>
-                      <h4>Jorden Leo</h4>
-                    </div>
-                  </div>
-
-                  <div className="job-table-col-3">
-                    <div className="job-task-item">
-                      <p>Date</p>
-                      <h4>01-06-2025</h4>
-                    </div>
-                  </div>
-                  <div className="job-table-col-2">
-                    <div className="job-task-item">
-                      <p>Status</p>
-                      <h4>Active</h4>
-                    </div>
-                  </div>
-
-                  <div className="job-table-col-1">
-                    <div className="action-btn-info">
-                      <Link className="action-btn">
-                        <img src={Arrowicon} alt="" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+                          <div className="job-table-col-1">
+                            <div className="action-btn-info">
+                              <Link className="action-btn">
+                                <img src={Arrowicon} alt="" />
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  : null}
               </div>
             </div>
           </div>

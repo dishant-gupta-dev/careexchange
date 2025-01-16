@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
-import DollarImg from "../../../assets/user/images/dollar-circle.svg";
-import StarImg from "../../../assets/user/images/star1.svg";
-import SuitcaseImg from "../../../assets/user/images/jobs-suitcase.svg";
 import locationImage from "../../../assets/admin/images/Google_Map.svg";
-import SearchImg from "../../../assets/user/images/search1.svg";
 import RepeatImg from "../../../assets/user/images/Repeat.svg";
-import UserImg from "../../../assets/user/images/user.png";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { api } from "../../../utlis/provider/api.utlis";
@@ -14,10 +9,12 @@ import NoData from "../../../assets/admin/images/no-data-found.svg";
 import WhCalen from "../../../assets/provider/images/whcalendar.svg";
 import Loader from "../../../layouts/loader/Loader";
 import moment from "moment";
-const events = [];
+let events = [];
 
 const Page = () => {
-  const [dateVal, setDate] = useState("");
+  const [dateVal, setDate] = useState(null);
+  const [monthVal, setMonth] = useState(null);
+  const [yearVal, setYear] = useState(null);
   const [event, setEvent] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -27,11 +24,12 @@ const Page = () => {
     const currentMonth = currentDate.getMonth() + 1;
     const currentYear = currentDate.getFullYear();
     const response = await ApiService.getAPIWithAccessToken(
-      api + `?month=${currentMonth}&year=${currentYear}`
+      api + `?month=${monthVal ?? currentMonth}&year=${yearVal ?? currentYear}`
     );
     // console.log("all calendar list data => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
       setEvent(response.data.data.days);
+      events = [];
       response.data.data.days.map((element) => {
         events.push({
           date: moment(element.start_date).format("yyyy-MM-DD"),
@@ -44,42 +42,31 @@ const Page = () => {
 
   const hasEvent = (date) => {
     return events.some(
-      (event) => event.date === moment(date).format('yyyy-MM-DD')
+      (event) => event.date === moment(date).format("yyyy-MM-DD")
     );
   };
 
   useEffect(() => {
     getCalendarData(api.calendarData);
-  }, []);
+  }, [monthVal]);
 
   return (
     <>
       {loading ? <Loader /> : null}
       <div className="container">
         <div className="subscription-section">
-          <div className="care-title-header">
+          <div className="care-title-header my-3">
             <h2 className="heading-title">Calendar</h2>
-            <div className="search-filter wd30">
-              <div className="form-group">
-                <div className="search-form-group">
-                  <input
-                    type="text"
-                    name=""
-                    className="form-control"
-                    placeholder="Search "
-                  />
-                  <span className="search-icon">
-                    <img src={SearchImg} />
-                  </span>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div className="row">
             <div className="col-md-4">
               <Calendar
-                onChange={(e) => setDate(e)}
+                onChange={(e) => {
+                  setDate(e);
+                  setMonth(moment(e).format("MM"));
+                  setYear(moment(e).format("yyyy"));
+                }}
                 defaultView="month"
                 value={dateVal}
                 tileClassName={({ date, view }) =>

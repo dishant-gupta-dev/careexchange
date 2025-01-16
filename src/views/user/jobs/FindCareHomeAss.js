@@ -43,13 +43,13 @@ const FindCareHomeAss = () => {
   const [tab, setTab] = useState(1);
   const inputRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [allFormvalues, setFormValues] = useState();
   const [categories, setCategory] = useState([]);
   const [subCategories, setSubCategory] = useState([]);
   const [providers, setProvider] = useState([]);
   const [selectRadius, setSelectRadius] = useState(cat ? "200" : "");
   const [selectCategories, setSelectCategory] = useState(cat ?? "");
   const [selectSubCategories, setSelectSubCategory] = useState("");
-  const [serviceId, setServiceId] = useState();
   const [location, setLocation] = useState({
     lat: lat ?? null,
     lng: lng ?? null,
@@ -62,7 +62,7 @@ const FindCareHomeAss = () => {
     radius: selectRadius ?? "",
     category: selectCategories ?? "",
     sub_category: selectSubCategories ?? "",
-    address: address ?? "",
+    address: address ?? location.address,
   };
 
   const initialSecondValues = {
@@ -185,40 +185,9 @@ const FindCareHomeAss = () => {
 
   const secondStep = async (formValue) => {
     setLoading(true);
-    let form = new FormData();
-    form.append("service_type", selectSubCategories);
-    form.append("first_name", formValue.fname);
-    form.append("last_name", formValue.lname);
-    form.append("email_id", formValue.email);
-    form.append("phone", formValue.phone);
-    form.append("description", formValue.description);
-    form.append("fax", formValue.fax);
-    form.append("best_time_to_call", formValue.best_time_to_call);
-    form.append("gender", formValue.gender);
-    form.append("age", formValue.age);
-    form.append("relationship", formValue.relationship);
-    form.append("frequency", formValue.frequency);
-    form.append("prefer_contacted", formValue.prefer);
-    form.append("payment_type", formValue.payment_type);
-    form.append("in_home_assist", 0);
-    form.append("address", location.address);
-    form.append("latitude", location.lat);
-    form.append("longitude", location.lng);
-    form.append("start_date", formValue.start_date);
-    form.append("start_time", formValue.start_time);
-    const response = await ApiService.postAPIWithAccessTokenMultiPart(
-      api.addServiceRequest,
-      form
-    );
-    // console.log("Add service request => ", response.data);
-    if (response.data.status) {
-      toast.success(response.data.message);
-      setServiceId(response?.data?.data?.requestDetails?.id);
-      setTab(3);
-      setProvider([]);
-    } else {
-      toast.error(response.data.message);
-    }
+    setFormValues(formValue);
+    setTab(3);
+    setProvider([]);
     setLoading(false);
   };
 
@@ -235,17 +204,46 @@ const FindCareHomeAss = () => {
       setLoading(false);
       return;
     }
-    const form = JSON.stringify({
-      request_id: serviceId,
-      user_id: user_id,
-    });
-    const response = await ApiService.postAPIWithAccessToken(
-      api.sendRequest,
+    let form = new FormData();
+    form.append("service_type", selectSubCategories);
+    form.append("first_name", allFormvalues.fname);
+    form.append("last_name", allFormvalues.lname);
+    form.append("email_id", allFormvalues.email);
+    form.append("phone", allFormvalues.phone);
+    form.append("description", allFormvalues.description);
+    form.append("fax", allFormvalues.fax);
+    form.append("best_time_to_call", allFormvalues.best_time_to_call);
+    form.append("gender", allFormvalues.gender);
+    form.append("age", allFormvalues.age);
+    form.append("relationship", allFormvalues.relationship);
+    form.append("frequency", allFormvalues.frequency);
+    form.append("prefer_contacted", allFormvalues.prefer);
+    form.append("payment_type", allFormvalues.payment_type);
+    form.append("in_home_assist", 0);
+    form.append("address", location.address);
+    form.append("latitude", location.lat);
+    form.append("longitude", location.lng);
+    form.append("start_date", allFormvalues.start_date);
+    form.append("start_time", allFormvalues.start_time);
+    const response = await ApiService.postAPIWithAccessTokenMultiPart(
+      api.addServiceRequest,
       form
     );
-    if (response.data.status) {
-      toast.success(response.data.message);
-      navigate(routes.myJobs);
+    if (response.data.status && response.data.statusCode === 200) {
+      const formPro = JSON.stringify({
+        request_id: response?.data?.data?.requestDetails?.id,
+        user_id: user_id,
+      });
+      const responsePro = await ApiService.postAPIWithAccessToken(
+        api.sendRequest,
+        formPro
+      );
+      if (responsePro.data.status && responsePro.data.statusCode === 200) {
+        toast.success(responsePro.data.message);
+        navigate(routes.myJobs);
+      } else {
+        toast.error(responsePro.data.message);
+      }
     } else {
       toast.error(response.data.message);
     }
@@ -332,7 +330,30 @@ const FindCareHomeAss = () => {
                       to=""
                       onClick={() => navigate(-1)}
                     >
-                      Back
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        {" "}
+                        <path
+                          d="M9.02 2.83998L3.63 7.03998C2.73 7.73998 2 9.22998 2 10.36V17.77C2 20.09 3.89 21.99 6.21 21.99H17.79C20.11 21.99 22 20.09 22 17.78V10.5C22 9.28998 21.19 7.73998 20.2 7.04998L14.02 2.71998C12.62 1.73998 10.37 1.78998 9.02 2.83998Z"
+                          stroke="#ffffff"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />{" "}
+                        <path
+                          d="M12 17.99V14.99"
+                          stroke="#ffffff"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />{" "}
+                      </svg>{" "}
+                      &nbsp; Home
                     </Link>
                   </div>
                 </div>
@@ -1364,7 +1385,7 @@ const FindCareHomeAss = () => {
                                   Clear All
                                 </button>
                                 <button className="btn-gr" type="submit">
-                                  Submit & Find Care Provider
+                                  Next
                                 </button>
                               </div>
                             </div>
@@ -1381,17 +1402,17 @@ const FindCareHomeAss = () => {
                 id="tab3"
               >
                 <div className="findcare-form">
-                  <div className="d-flex justify-content-between">
-                    <h2>Choose from {providers.length}/{total ?? 0} Care Provider</h2>
-                    {providers.length === 0 ? (
-                      <button
-                        type="button"
-                        className="btn-gr"
-                        onClick={() => setTab(2)}
-                      >
-                        Change
-                      </button>
-                    ) : null}
+                  <div className="d-flex justify-content-between mb-3">
+                    <h2>
+                      Choose from {providers.length}/{total ?? 0} Care Provider
+                    </h2>
+                    <button
+                      type="button"
+                      className="btn-gr"
+                      onClick={() => setTab(2)}
+                    >
+                      Change
+                    </button>
                   </div>
                   <div className="findcare-card">
                     <Formik

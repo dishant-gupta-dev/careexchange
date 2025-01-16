@@ -440,9 +440,9 @@ const Page = () => {
               <div className="deleteaccount-Img">
                 <img src={deleteaccountImg} />
               </div>
-              <div className="deleteaccount-text">
-                <h5 className="text-center pb-0">Are you sure!</h5>
-                <p className="text-center">You want to delete your account?</p>
+              <div className="deleteaccount-text mb-4">
+                <h5 className="text-center pb-0">Delete Account</h5>
+                <p className="text-center">This action can't be undone. Do you really want to delete your account ?</p>
               </div>
               <div className="form-group text-center mb-2">
                 <button

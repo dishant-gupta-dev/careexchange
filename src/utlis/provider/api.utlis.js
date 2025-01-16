@@ -13,6 +13,7 @@ exports.api = {
     userChatList: `provider/chat/user-list`,
     userBookingList: `provider/booking/list`,
     newsletterSubscribe: `newsletter/subscribe`,
+    newsletterUnsubscribe: `newsletter/un-subscribe`,
     addNewsletter: `newsletter/add`,
     planList: `admin/plan`,
     subscriptionPayment: `plan/subscribe`,

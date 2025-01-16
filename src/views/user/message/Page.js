@@ -407,7 +407,13 @@ const Page = () => {
                           <div className="chat-panel-chat-header">
                             <div className="chat-panel-user-item">
                               <div className="chat-panel-user-item-image">
-                                <img src={sendInfo.image} />
+                                {sendInfo.image !== null &&
+                                sendInfo.image !== "" &&
+                                sendInfo.image !== undefined ? (
+                                  <img src={sendInfo.image} />
+                                ) : (
+                                  <img src={NoImage} alt="" />
+                                )}
                               </div>
                               <div className="chat-panel-user-item-text">
                                 <h4>{sendInfo.name ?? "NA"}</h4>
@@ -455,8 +461,12 @@ const Page = () => {
                                                   alt=""
                                                 />
                                               )
-                                            ) : (
+                                            ) : sendInfo.image !== null &&
+                                              sendInfo.image !== "" &&
+                                              sendInfo.image !== undefined ? (
                                               <img src={sendInfo.image} />
+                                            ) : (
+                                              <img src={NoImage} alt="" />
                                             )}
                                           </div>
                                           <div className="message-item-chat-content">
@@ -570,11 +580,24 @@ const Page = () => {
                                     {details?.logo !== null &&
                                     details?.logo !== "" &&
                                     details?.logo !== undefined ? (
-                                      <img src={details?.logo} alt="" />
+                                      <img
+                                        src={details?.logo}
+                                        alt=""
+                                        className="me-3"
+                                      />
+                                    ) : details?.profile_image === null ||
+                                      details?.profile_image === "" ||
+                                      details?.profile_image === undefined ? (
+                                      <img
+                                        src={NoImage}
+                                        alt=""
+                                        className="me-3"
+                                      />
                                     ) : (
                                       <img
                                         src={details?.profile_image}
                                         alt=""
+                                        className="me-3"
                                       />
                                     )}
                                   </div>
@@ -787,19 +810,8 @@ const Page = () => {
                               return (
                                 <div key={indx} className="care-card">
                                   <div className="care-card-head">
-                                    <div className="care-status text-capitalize">
-                                      Status:{" "}
-                                      <span
-                                        className={
-                                          ele.request_status == 1
-                                            ? "text-warning"
-                                            : ele.request_status == 2
-                                            ? ""
-                                            : "text-danger"
-                                        }
-                                      >
-                                        {ele.request_status_text ?? "NA"}
-                                      </span>
+                                    <div className="care-id">
+                                      Job ID: <span>{ele.job_id ?? "NA"}</span>
                                     </div>
 
                                     {ele.request_status == 1 ? (
@@ -835,7 +847,22 @@ const Page = () => {
                                           Reject
                                         </Link>
                                       </div>
-                                    ) : null}
+                                    ) : (
+                                      <div className="care-status text-capitalize">
+                                        Status:{" "}
+                                        <span
+                                          className={
+                                            ele.request_status == 1
+                                              ? "text-warning"
+                                              : ele.request_status == 2
+                                              ? ""
+                                              : "text-danger"
+                                          }
+                                        >
+                                          {ele.request_status_text ?? "NA"}
+                                        </span>
+                                      </div>
+                                    )}
                                   </div>
                                   <div className="care-card-body">
                                     <div className="care-content">
