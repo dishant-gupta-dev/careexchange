@@ -411,7 +411,7 @@ const Page = () => {
                           <div className="care-date">
                             Posted On:{" "}
                             <span>
-                              {moment(ele.posted_date).format("MM-DD-yyyy")}
+                              {moment(ele.created_date).format("MM-DD-yyyy")}
                             </span>
                           </div>
                         </div>
