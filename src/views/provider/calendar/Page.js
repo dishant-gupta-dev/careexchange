@@ -9,9 +9,13 @@ import NoData from "../../../assets/admin/images/no-data-found.svg";
 import WhCalen from "../../../assets/provider/images/whcalendar.svg";
 import Loader from "../../../layouts/loader/Loader";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { subscribtionAuth } from "../../../utlis/common.utlis";
 let events = [];
 
 const Page = () => {
+  const navigate = useNavigate();
+  const [date, setDateVal] = useState(null);
   const [dateVal, setDate] = useState(null);
   const [monthVal, setMonth] = useState(null);
   const [yearVal, setYear] = useState(null);
@@ -23,8 +27,12 @@ const Page = () => {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1;
     const currentYear = currentDate.getFullYear();
+    const currentDay = moment().format("DD");
     const response = await ApiService.getAPIWithAccessToken(
-      api + `?month=${monthVal ?? currentMonth}&year=${yearVal ?? currentYear}`
+      api +
+        `?day=${dateVal ?? currentDay}&month=${monthVal ?? currentMonth}&year=${
+          yearVal ?? currentYear
+        }`
     );
     // console.log("all calendar list data => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
@@ -48,7 +56,8 @@ const Page = () => {
 
   useEffect(() => {
     getCalendarData(api.calendarData);
-  }, [monthVal]);
+    subscribtionAuth(api.subscriptionAuth, navigate);
+  }, [dateVal]);
 
   return (
     <>
@@ -63,12 +72,13 @@ const Page = () => {
             <div className="col-md-4">
               <Calendar
                 onChange={(e) => {
-                  setDate(e);
+                  setDateVal(e);
+                  setDate(moment(e).format("DD"));
                   setMonth(moment(e).format("MM"));
                   setYear(moment(e).format("yyyy"));
                 }}
                 defaultView="month"
-                value={dateVal}
+                value={date}
                 tileClassName={({ date, view }) =>
                   view === "month" && hasEvent(date) ? "highlight" : null
                 }

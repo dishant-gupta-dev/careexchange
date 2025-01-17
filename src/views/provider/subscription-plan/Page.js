@@ -218,7 +218,7 @@ const Page = () => {
                         )}
                       </div>
                       <div className="subscription-point-info">
-                        {ele.cost_period == "Featured" ? (
+                        {ele.isCurrentPlan && ele.cost_period == "Featured" ? (
                           <div className="plan-action mb-3">
                             <button
                               onClick={(e) => {

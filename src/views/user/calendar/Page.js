@@ -12,6 +12,7 @@ import moment from "moment";
 let events = [];
 
 const Page = () => {
+  const [date, setDateVal] = useState(null);
   const [dateVal, setDate] = useState(null);
   const [monthVal, setMonth] = useState(null);
   const [yearVal, setYear] = useState(null);
@@ -25,7 +26,10 @@ const Page = () => {
     const currentYear = currentDate.getFullYear();
     const currentDay = moment().format("DD");
     const response = await ApiService.getAPIWithAccessToken(
-      api + `?day=${dateVal ?? currentDay}&month=${monthVal ?? currentMonth}&year=${yearVal ?? currentYear}`
+      api +
+        `?day=${dateVal ?? currentDay}&month=${monthVal ?? currentMonth}&year=${
+          yearVal ?? currentYear
+        }`
     );
     // console.log("all calendar list data => ", response.data);
     if (response.data.status && response.data.statusCode === 200) {
@@ -64,12 +68,13 @@ const Page = () => {
             <div className="col-md-4">
               <Calendar
                 onChange={(e) => {
+                  setDateVal(e);
                   setDate(moment(e).format("DD"));
                   setMonth(moment(e).format("MM"));
                   setYear(moment(e).format("yyyy"));
                 }}
                 defaultView="month"
-                value={dateVal}
+                value={date}
                 tileClassName={({ date, view }) =>
                   view === "month" && hasEvent(date) ? "highlight" : null
                 }

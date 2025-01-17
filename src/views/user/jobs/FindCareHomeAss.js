@@ -1560,7 +1560,7 @@ const FindCareHomeAss = () => {
                             </div>
                           )}
 
-                          {hasMore ? (
+                          {providers.length !== 0 && hasMore ? (
                             <div className="form-group w-100 text-center">
                               <button
                                 className="btn-bl"
@@ -1574,20 +1574,22 @@ const FindCareHomeAss = () => {
                             </div>
                           ) : null}
 
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <button
-                                type="button"
-                                className="btn-bl mx-2"
-                                onClick={() => handleUncheck()}
-                              >
-                                Clear All
-                              </button>
-                              <button className="btn-gr" type="submit">
-                                Submit Service Request
-                              </button>
+                          {providers.length !== 0 ? (
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <button
+                                  type="button"
+                                  className="btn-bl mx-2"
+                                  onClick={() => handleUncheck()}
+                                >
+                                  Clear All
+                                </button>
+                                <button className="btn-gr" type="submit">
+                                  Submit Service Request
+                                </button>
+                              </div>
                             </div>
-                          </div>
+                          ) : null}
                         </div>
                       </Form>
                     </Formik>

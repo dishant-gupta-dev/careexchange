@@ -108,6 +108,9 @@ const UserRegister = () => {
         if (responseData.data.status) {
           // toast.success(response.data.message);
           toast.success(responseData.data.message);
+          let localData = JSON.parse(localStorage.getItem("careexchange"));
+          localData.fullname = data.name;
+          localStorage.setItem("careexchange", JSON.stringify(localData));
           navigate(routes.dashboard);
         } else {
           toast.error(responseData.data.message);
