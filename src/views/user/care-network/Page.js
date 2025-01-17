@@ -31,6 +31,7 @@ import {
 } from "../../../utlis/common.utlis";
 
 const Page = () => {
+  let userData = JSON.parse(localStorage.getItem("careexchange"));
   const navigate = useNavigate();
   const inputRef = useRef(null);
   const localData = useLocation();
@@ -46,8 +47,8 @@ const Page = () => {
   const [filter, setFilter] = useState(false);
   const [apply, setApply] = useState({ status: false, id: null });
   const [selectRadius, setSelectRadius] = useState(null);
-  const [selectCategories, setSelectCategory] = useState("");
-  const [selectSubCategories, setSelectSubCategory] = useState("");
+  const [selectCategories, setSelectCategory] = useState(null);
+  const [selectSubCategories, setSelectSubCategory] = useState(null);
   const [categories, setCategory] = useState([]);
   const [subCategories, setSubCategory] = useState([]);
   const [location, setLocation] = useState({
@@ -56,8 +57,6 @@ const Page = () => {
     address: address ?? null,
     state: null,
   });
-
-  let userData = JSON.parse(localStorage.getItem("careexchange"));
 
   const initialValues = {
     full_name: userData.fullname ?? "",
@@ -122,7 +121,10 @@ const Page = () => {
     if (response.data.status && response.data.statusCode === 200) {
       setCareNetwork(response.data.data.jobList);
       setTotal(response.data.data.total);
-    } else setCareNetwork([]);
+    } else {
+      setTotal(response.data.data.total);
+      setCareNetwork([]);
+    };
     setLoading(false);
   };
 
@@ -393,7 +395,7 @@ const Page = () => {
           <p>
             {total ?? 0} Job Opportunity Posted Near{" "}
             {location.address == "" || location.address == null
-              ? "10000 Miles"
+              ? (selectRadius ?? CommonMiles) + " Miles"
               : `"${location.address}"`}
           </p>
           <div className="carenetwork-content">

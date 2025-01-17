@@ -306,7 +306,7 @@ const FindCareHomeAss = () => {
   useEffect(() => {
     getProviders(
       api.providerList +
-        `?user_type=2&latitude=${location.lat}&longitude=${location.lng}&radious=${selectRadius}&page=${pageNum}&limit=${providerLIMIT}`
+        `?user_type=2&latitude=${location.lat}&longitude=${location.lng}&radious=${selectRadius}&categoryid=${selectCategories}&page=${pageNum}&limit=${providerLIMIT}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab, pageNum]);

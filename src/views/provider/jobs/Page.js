@@ -5,7 +5,7 @@ import WhCalen from "../../../assets/provider/images/whcalendar.svg";
 import RepeatImg from "../../../assets/provider/images/Repeat.svg";
 import locationImage from "../../../assets/admin/images/Google_Map.svg";
 import Verify from "../../../assets/provider/images/verify.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../../../utlis/provider/routes.utlis";
 import { api } from "../../../utlis/provider/api.utlis";
 import ApiService from "../../../core/services/ApiService";
@@ -18,8 +18,10 @@ import { subscribtionAuth } from "../../../utlis/common.utlis";
 const Page = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [tab, setTab] = useState(2);
   const [list, setList] = useState([]);
+  const localData = useLocation();
+  const status = localData.state?.tab;
+  const [tab, setTab] = useState(status ?? 2);
 
   const getJobList = async (api) => {
     setLoading(true);
@@ -149,7 +151,7 @@ const Page = () => {
                                     <div className="title-text">
                                       {ele.first_name ?? "NA"}
                                     </div>
-                                    <div className="d-flex justify-content-between">
+                                    <div className="d-flex">
                                       <div className="date-text">
                                         <img src={WhCalen} />{" "}
                                         {moment(ele.start_date).format(
@@ -157,7 +159,7 @@ const Page = () => {
                                         )}{" "}
                                         {ele.start_time ?? "NA"}
                                       </div>
-                                      <div className="pointtags-list">
+                                      <div className="pointtags-list mx-2">
                                         <div className="tags-item1">
                                           {ele.category ?? "NA"}
                                         </div>
@@ -165,15 +167,13 @@ const Page = () => {
                                           {ele.subcategory ?? "NA"}
                                         </div>
                                       </div>
-                                      <div class="tags-list float-end">
-                                        <div class="tags-item-sub">
-                                          {ele?.gender == "M"
-                                            ? "Male"
-                                            : "Female"}
-                                        </div>
-                                        <div class="tags-item-sub mx-2">
-                                          Age: {ele?.age ?? "NA"}
-                                        </div>
+                                    </div>
+                                    <div class="tags-list float-end">
+                                      <div class="tags-item-sub">
+                                        {ele?.gender == "M" ? "Male" : "Female"}
+                                      </div>
+                                      <div class="tags-item-sub mx-2">
+                                        Age: {ele?.age ?? "NA"}
                                       </div>
                                     </div>
                                     <div className="care-point-list">

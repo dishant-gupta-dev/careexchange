@@ -59,8 +59,12 @@ const Details = () => {
       form
     );
     if (response.data.status && response.data.statusCode === 200) {
-      getJobDetails(api.jobDetails + `${decode(id)}`);
       toast.success(response.data.message);
+      navigate(routes.myJobs, {
+        state: {
+          tab: 1,
+        },
+      });
     } else {
       toast.error(response.data.message);
     }
@@ -142,7 +146,9 @@ const Details = () => {
                         {details?.start_time ?? "NA"}
                       </div>
                       <div className="pointtags-list">
-                        <div className="tags-item1">{details?.category ?? "NA"}</div>
+                        <div className="tags-item1">
+                          {details?.category ?? "NA"}
+                        </div>
                         <div className="tags-item-sub1">
                           {details?.subcategory ?? "NA"}
                         </div>

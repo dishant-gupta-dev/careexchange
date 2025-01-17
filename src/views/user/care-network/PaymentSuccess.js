@@ -25,7 +25,8 @@ const PaymentSuccess = () => {
               <img src={checkimage} />
             </div>
             <div className="payment-item-text">
-              <h2>Post Job Payment Successful</h2>
+              <h2>Payment Successful</h2>
+              <p>Your job has been posted successfully.</p>
               <p className="mt-3">
                 Transaction ID: <span className="text-gray">{transaction}</span>
               </p>
@@ -39,7 +40,7 @@ const PaymentSuccess = () => {
                 </span>
               </p>
               <p>
-                Payed By: <span className="text-gray">Paypal</span>
+                Payment Mode: <span className="text-gray">Paypal</span>
               </p>
               <Link className="btn-bl mt-3" to={routes.postedJob}>
                 Posted Jobs

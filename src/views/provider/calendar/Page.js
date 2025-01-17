@@ -9,16 +9,20 @@ import NoData from "../../../assets/admin/images/no-data-found.svg";
 import WhCalen from "../../../assets/provider/images/whcalendar.svg";
 import Loader from "../../../layouts/loader/Loader";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { subscribtionAuth } from "../../../utlis/common.utlis";
 let events = [];
 
 const Page = () => {
   const navigate = useNavigate();
+  const localData = useLocation();
+  const dates = localData.state?.dates;
+  const months = localData.state?.months;
+  const years = localData.state?.years;
   const [date, setDateVal] = useState(null);
-  const [dateVal, setDate] = useState(null);
-  const [monthVal, setMonth] = useState(null);
-  const [yearVal, setYear] = useState(null);
+  const [dateVal, setDate] = useState(dates ?? null);
+  const [monthVal, setMonth] = useState(months ?? null);
+  const [yearVal, setYear] = useState(years ?? null);
   const [event, setEvent] = useState([]);
   const [loading, setLoading] = useState(false);
 

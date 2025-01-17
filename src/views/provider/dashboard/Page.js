@@ -416,7 +416,16 @@ const Page = () => {
             </div>
             <div className="calender-card">
               <Calendar
-                onChange={(e) => setDate(e)}
+                onChange={(e) => {
+                  setDate(e);
+                  navigate(routes.calendar, {
+                    state: {
+                      dates: moment(e).format('DD'),
+                      months: moment(e).format('MM'),
+                      years: moment(e).format('yyyy'),
+                    },
+                  });
+                }}
                 defaultView="month"
                 value={dateVal}
                 tileClassName={({ date, view }) =>
