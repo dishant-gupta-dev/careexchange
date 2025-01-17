@@ -59,7 +59,7 @@ const Page = () => {
       toast.error(response.data.message);
     }
     setLoading(false);
-  }
+  };
 
   const addNewsLetter = async (formvalue) => {
     setLoading(true);
@@ -102,10 +102,15 @@ const Page = () => {
                       <img src={NewsletterImg} alt="logo" />
                     </div>
                     <div className="newsletter-content">
-                      <h2>Are you sure about unsubscribing?</h2>
+                      <h2 className="mt-3">You're Subscribed!</h2>
+                      <p className="my-2">
+                        Thank you for subscribing to our newsletter. You're all
+                        set to receive the latest updates, news, and exclusive
+                        offers straight to your inbox.
+                      </p>
                       <p>
-                        If you unsubscribe now, you might miss nice deals and
-                        useful hints form signnow!
+                        If you have any questions or need support, feel free to
+                        Contact Us.
                       </p>
                       <div className="newsletter-action">
                         <Link onClick={() => setUnsubscribe(true)} className="btn-bl">Unsubscribe</Link>
