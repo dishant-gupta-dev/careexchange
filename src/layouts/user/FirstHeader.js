@@ -134,10 +134,9 @@ const FirstHeader = () => {
                           ></path>
                         </svg>
                       </a>
-                      {
-                        count != 0 && count != undefined && count != null ? (<span class="bg-danger dots"></span>) : null
-                      }
-
+                      {count != 0 && count != undefined && count != null ? (
+                        <span class="bg-danger dots"></span>
+                      ) : null}
                     </DropdownToggle>
                     <DropdownMenu
                       end
@@ -146,23 +145,35 @@ const FirstHeader = () => {
                     >
                       <div className="parent-notification">
                         <div className="notification-head">
-                          <h2>Notifications &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <small class="badge  badge-light float-right pt-1">{count ?? 0} Unseen Messages</small></h2>
+                          <h2>
+                            Notifications &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                            &nbsp; &nbsp; &nbsp;{" "}
+                            <small class="badge  badge-light float-right pt-1">
+                              {count ?? 0} Unseen Messages
+                            </small>
+                          </h2>
                         </div>
                         <div className="notification-body">
                           {notify.length !== 0 ? (
                             notify.map((ele, indx) => {
                               return (
-                                <div key={indx}
-                                  className={ele.is_seen == 0 ? "notification-item seen cursor-pointer" : "notification-item"}
+                                <div
+                                  key={indx}
+                                  className={
+                                    ele.is_seen == 0
+                                      ? "notification-item seen cursor-pointer"
+                                      : "notification-item"
+                                  }
                                   onClick={() => {
                                     seenNotification(ele.id);
-                                  }}>
+                                  }}
+                                >
                                   <div className="notification-item-icon">
                                     <i className="fa fa-bell"></i>
                                   </div>
                                   <div className="notification-item-text">
                                     <h2>{ele.message ?? "NA"}</h2>
-                                    <p style={{color: "#626568"}}>
+                                    <p style={{ color: "#626568" }}>
                                       <span>
                                         <i className="fas fa-clock"></i>
                                         {/* {moment(ele.created_date).format(
@@ -243,13 +254,71 @@ const FirstHeader = () => {
                             onClick={() => navigate(routes.profile)}
                             className="dropdown-item"
                           >
-                            <i className="las la-user"></i> Profile
+                            <svg
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M12.1202 12.78C12.0502 12.77 11.9602 12.77 11.8802 12.78C10.1202 12.72 8.72021 11.28 8.72021 9.50998C8.72021 7.69998 10.1802 6.22998 12.0002 6.22998C13.8102 6.22998 15.2802 7.69998 15.2802 9.50998C15.2702 11.28 13.8802 12.72 12.1202 12.78Z"
+                                stroke="#292D32"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                              <path
+                                d="M18.7398 19.3801C16.9598 21.0101 14.5998 22.0001 11.9998 22.0001C9.39977 22.0001 7.03977 21.0101 5.25977 19.3801C5.35977 18.4401 5.95977 17.5201 7.02977 16.8001C9.76977 14.9801 14.2498 14.9801 16.9698 16.8001C18.0398 17.5201 18.6398 18.4401 18.7398 19.3801Z"
+                                stroke="#292D32"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                              <path
+                                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                                stroke="#292D32"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                            </svg>{" "}
+                            &nbsp; Profile
                           </DropdownItem>
                           <DropdownItem
                             onClick={signOut}
                             className="dropdown-item"
                           >
-                            <i className="las la-sign-out-alt"></i> Logout
+                            <svg
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M8.8999 7.55999C9.2099 3.95999 11.0599 2.48999 15.1099 2.48999H15.2399C19.7099 2.48999 21.4999 4.27999 21.4999 8.74999V15.27C21.4999 19.74 19.7099 21.53 15.2399 21.53H15.1099C11.0899 21.53 9.2399 20.08 8.9099 16.54"
+                                stroke="#292D32"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                              <path
+                                d="M15.0001 12H3.62012"
+                                stroke="#292D32"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                              <path
+                                d="M5.85 8.65002L2.5 12L5.85 15.35"
+                                stroke="#292D32"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                            </svg>{" "}
+                            &nbsp; Logout
                           </DropdownItem>
                         </DropdownMenu>
                       </UncontrolledDropdown>
@@ -278,7 +347,8 @@ const FirstHeader = () => {
               <div className="deleteaccount-text mb-4">
                 <h5 className="text-center pb-0">Clear Notification</h5>
                 <p className="text-center">
-                  This action can't be undone. Do you really want to clear all notifications ?
+                  This action can't be undone. Do you really want to clear all
+                  notifications ?
                 </p>
               </div>
               <div className="form-group text-center mb-2">
