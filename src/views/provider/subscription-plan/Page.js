@@ -216,6 +216,7 @@ const Page = () => {
                             </span>
                           </div>
                         )}
+                        <p className="m-0" style={{color: "#000", fontWeight:"600"}}>Enjoy a {ele.free_trial ?? 0}-Day Free Trial</p>
                       </div>
                       <div className="subscription-point-info">
                         {ele.isCurrentPlan && ele.cost_period == "Featured" ? (

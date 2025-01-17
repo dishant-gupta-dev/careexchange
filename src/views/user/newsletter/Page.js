@@ -50,6 +50,7 @@ const Page = () => {
       api.newsletterUnsubscribe,
       form
     );
+    setUnsubscribe(false);
     if (response.data.status) {
       getNewsletterSubscribe(api.newsletterSubscribe);
       toast.success(response.data.message);
@@ -106,9 +107,10 @@ const Page = () => {
                         offers straight to your inbox.
                       </p>
                       <p>
-                        If you have any questions or need support, feel free to
-                        Contact Us.
+                        If you no longer wish to receive our newsletters, you
+                        can unsubscribe at any time.
                       </p>
+                      <p className="my-2">Click below to unsubscribe from the newsletter.</p>
                       <div className="newsletter-action">
                         <Link
                           onClick={() => setUnsubscribe(true)}
@@ -117,6 +119,10 @@ const Page = () => {
                           Unsubscribe
                         </Link>
                       </div>
+                      <p className="mt-2">
+                        If you have any questions or need support, feel free to
+                        Contact Us.
+                      </p>
                     </div>
                   </div>
                 </div>

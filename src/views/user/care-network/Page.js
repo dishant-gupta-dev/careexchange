@@ -926,7 +926,7 @@ const Page = () => {
       >
         <div className="modal-content">
           <ModalHeader>
-            <h5 className="mb-0">Apply Jobs</h5>
+            <h5 className="mb-0">Apply Job</h5>
           </ModalHeader>
           <ModalBody className="">
             <div className="add-items d-flex row">

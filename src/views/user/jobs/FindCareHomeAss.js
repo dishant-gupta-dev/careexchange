@@ -191,6 +191,7 @@ const FindCareHomeAss = () => {
     setFormValues(formValue);
     setTab(3);
     setProvider([]);
+    setTotal(0);
     setLoading(false);
   };
 
@@ -417,7 +418,7 @@ const FindCareHomeAss = () => {
                             <div className="row">
                               <div className="col-md-12">
                                 <div className="form-group search-form-group mb-1">
-                                  <h4>Job Location</h4>
+                                  <h4>Care Job Location</h4>
                                   {isLoaded && (
                                     <StandaloneSearchBox
                                       onLoad={(ref) => (inputRef.current = ref)}
@@ -1266,7 +1267,7 @@ const FindCareHomeAss = () => {
                                         />
                                         <label for="Repeat_Weekly">
                                           <span className="ceradio-text">
-                                            <i className="fa fa-clock-rotate-left"></i>{" "}
+                                            <i className="fa fa-clock"></i>{" "}
                                             Repeat Weekly
                                           </span>
                                         </label>
@@ -1393,7 +1394,7 @@ const FindCareHomeAss = () => {
                                   Clear All
                                 </button>
                                 <button className="btn-gr" type="submit">
-                                  Next
+                                  Submit Details & Find Care Provider
                                 </button>
                               </div>
                             </div>

@@ -236,7 +236,7 @@ const Register = () => {
     const response = await ApiService.postAPIMultiPart(api.register, form);
     // console.log("Add service request => ", response.data);
     if (response.data.status) {
-      toast.success(response.data.message);
+      // toast.success(response.data.message);
       let form1 = JSON.stringify({
         email: formValue.email,
         user_type: 2,
@@ -250,7 +250,8 @@ const Register = () => {
             color: "#fff",
           },
         });
-        toast.success(response1.data.message);
+        // toast.success(response1.data.message);
+        toast.success(response.data.message);
         setData({ email: formValue.email, name: formValue.name });
         setTimer(30);
         setIsDisabled(true);
@@ -1177,7 +1178,7 @@ const Register = () => {
                                         Clear All
                                       </button>
                                       <button className="btn-gr" type="submit">
-                                        Next
+                                        Submit & Verify Email
                                       </button>
                                     </div>
                                   </div>

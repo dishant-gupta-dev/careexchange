@@ -239,9 +239,9 @@ const Page = () => {
                 <div className="careservices-section">
                   <div className="care-title-header">
                     <h2 className="heading-title">
-                      Ongoing Jobs ({dashboard?.activeJobCount ?? 0})
+                      Locked Jobs Request ({dashboard?.lockedJobCount ?? 0})
                     </h2>
-                    <Link className="btn-gr" to={routes.myJobs}>
+                    <Link className="btn-gr" to={routes.lockedJobs}>
                       {" "}
                       View All{" "}
                     </Link>
@@ -250,8 +250,8 @@ const Page = () => {
                     <div className="col-md-12">
                       <div className="job-table-content">
                         <div className="job-table-box">
-                          {dashboard?.activeJobs.length !== 0 ? (
-                            dashboard?.activeJobs.map((ele, indx) => {
+                          {dashboard?.lockedJobs.length !== 0 ? (
+                            dashboard?.lockedJobs.map((ele, indx) => {
                               return (
                                 <div key={indx} className="job-table-item">
                                   <div className="job-table-col-3">
@@ -331,13 +331,13 @@ const Page = () => {
                 </div>
               </div>
 
-              <div className="col-lg-12  mt-2">
+              <div className="col-lg-12 mt-2">
                 <div className="careservices-section">
                   <div className="care-title-header">
                     <h2 className="heading-title">
-                      Locked Jobs Request ({dashboard?.lockedJobCount ?? 0})
+                      Ongoing Jobs ({dashboard?.activeJobCount ?? 0})
                     </h2>
-                    <Link className="btn-gr" to={routes.lockedJobs}>
+                    <Link className="btn-gr" to={routes.myJobs}>
                       {" "}
                       View All{" "}
                     </Link>
@@ -346,8 +346,8 @@ const Page = () => {
                     <div className="col-md-12">
                       <div className="job-table-content">
                         <div className="job-table-box">
-                          {dashboard?.lockedJobs.length !== 0 ? (
-                            dashboard?.lockedJobs.map((ele, indx) => {
+                          {dashboard?.activeJobs.length !== 0 ? (
+                            dashboard?.activeJobs.map((ele, indx) => {
                               return (
                                 <div key={indx} className="job-table-item">
                                   <div className="job-table-col-3">
