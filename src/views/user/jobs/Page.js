@@ -204,7 +204,7 @@ const Page = () => {
                                       <div className="title-text">
                                         {ele.first_name ?? "NA"}
                                       </div>
-                                      <div className="d-flex justify-content-between">
+                                      <div className="d-flex">
                                         <div className="date-text">
                                           <img src={WhCalen} />{" "}
                                           {moment(ele.start_date).format(
@@ -212,7 +212,7 @@ const Page = () => {
                                           )}{" "}
                                           {ele.start_time ?? "NA"}
                                         </div>
-                                        <div className="pointtags-list">
+                                        <div className="pointtags-list mx-2">
                                           <div className="tags-item1">
                                             {ele.category ?? "NA"}
                                           </div>
@@ -220,15 +220,15 @@ const Page = () => {
                                             {ele.subcategory ?? "NA"}
                                           </div>
                                         </div>
-                                        <div class="tags-list float-end">
-                                          <div class="tags-item-sub">
-                                            {ele?.gender == "M"
-                                              ? "Male"
-                                              : "Female"}
-                                          </div>
-                                          <div class="tags-item-sub mx-2">
-                                            Age: {ele?.age ?? "NA"}
-                                          </div>
+                                      </div>
+                                      <div class="tags-list float-end">
+                                        <div class="tags-item-sub">
+                                          {ele?.gender == "M"
+                                            ? "Male"
+                                            : "Female"}
+                                        </div>
+                                        <div class="tags-item-sub mx-2">
+                                          Age: {ele?.age ?? "NA"}
                                         </div>
                                       </div>
                                       <div className="care-point-list">
