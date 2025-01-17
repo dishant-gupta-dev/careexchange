@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import NoData from "../../../assets/admin/images/no-data-found.svg";
 import Arrowicon from "../../../assets/provider/images/arrow-right.svg";
 import { api } from "../../../utlis/provider/api.utlis";
 import ApiService from "../../../core/services/ApiService";
@@ -249,71 +250,80 @@ const Page = () => {
                     <div className="col-md-12">
                       <div className="job-table-content">
                         <div className="job-table-box">
-                          {dashboard?.activeJobs.length !== 0
-                            ? dashboard?.activeJobs.map((ele, indx) => {
-                                return (
-                                  <div key={indx} className="job-table-item">
-                                    <div className="job-table-col-3">
-                                      <div className="job-task-item">
-                                        <p>Job ID</p>
-                                        <h4>{ele.job_id ?? "NA"}</h4>
-                                      </div>
-                                    </div>
-                                    <div className="job-table-col-3">
-                                      <div className="job-task-item">
-                                        <p>Name</p>
-                                        <h4>{ele.first_name ?? "NA"}</h4>
-                                      </div>
-                                    </div>
-
-                                    <div className="job-table-col-2">
-                                      <div className="job-task-item">
-                                        <p>Date</p>
-                                        <h4>
-                                          {ele.start_date ?? "NA"}{" "}
-                                          {ele.start_time ?? ""}
-                                        </h4>
-                                      </div>
-                                    </div>
-                                    <div className="job-table-col-2">
-                                      <div className="job-task-item">
-                                        <p>Gender</p>
-                                        <h4>
-                                          {ele.gender == "M"
-                                            ? "Male"
-                                            : "Female"}
-                                        </h4>
-                                      </div>
-                                    </div>
-
-                                    <div className="job-table-col-1">
-                                      <div className="job-task-item">
-                                        <p>Age</p>
-                                        <h4>{ele.age ?? "NA"}</h4>
-                                      </div>
-                                    </div>
-
-                                    <div className="job-table-col-1">
-                                      <div className="action-btn-info">
-                                        <Link
-                                          className="action-btn"
-                                          onClick={(e) => {
-                                            e.preventDefault();
-                                            navigate(routes.jobDetails, {
-                                              state: {
-                                                id: encode(ele.id),
-                                              },
-                                            });
-                                          }}
-                                        >
-                                          <img src={Arrowicon} alt="" />
-                                        </Link>
-                                      </div>
+                          {dashboard?.activeJobs.length !== 0 ? (
+                            dashboard?.activeJobs.map((ele, indx) => {
+                              return (
+                                <div key={indx} className="job-table-item">
+                                  <div className="job-table-col-3">
+                                    <div className="job-task-item">
+                                      <p>Job ID</p>
+                                      <h4>{ele.job_id ?? "NA"}</h4>
                                     </div>
                                   </div>
-                                );
-                              })
-                            : null}
+                                  <div className="job-table-col-3">
+                                    <div className="job-task-item">
+                                      <p>Name</p>
+                                      <h4>{ele.first_name ?? "NA"}</h4>
+                                    </div>
+                                  </div>
+
+                                  <div className="job-table-col-2">
+                                    <div className="job-task-item">
+                                      <p>Date</p>
+                                      <h4>
+                                        {ele.start_date ?? "NA"}{" "}
+                                        {ele.start_time ?? ""}
+                                      </h4>
+                                    </div>
+                                  </div>
+                                  <div className="job-table-col-2">
+                                    <div className="job-task-item">
+                                      <p>Gender</p>
+                                      <h4>
+                                        {ele.gender == "M" ? "Male" : "Female"}
+                                      </h4>
+                                    </div>
+                                  </div>
+
+                                  <div className="job-table-col-1">
+                                    <div className="job-task-item">
+                                      <p>Age</p>
+                                      <h4>{ele.age ?? "NA"}</h4>
+                                    </div>
+                                  </div>
+
+                                  <div className="job-table-col-1">
+                                    <div className="action-btn-info">
+                                      <Link
+                                        className="action-btn"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          navigate(routes.jobDetails, {
+                                            state: {
+                                              id: encode(ele.id),
+                                            },
+                                          });
+                                        }}
+                                      >
+                                        <img src={Arrowicon} alt="" />
+                                      </Link>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })
+                          ) : (
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                margin: "5% 0",
+                              }}
+                            >
+                              <img width={200} src={NoData} alt="" />
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -336,71 +346,80 @@ const Page = () => {
                     <div className="col-md-12">
                       <div className="job-table-content">
                         <div className="job-table-box">
-                          {dashboard?.lockedJobs.length !== 0
-                            ? dashboard?.lockedJobs.map((ele, indx) => {
-                                return (
-                                  <div key={indx} className="job-table-item">
-                                    <div className="job-table-col-3">
-                                      <div className="job-task-item">
-                                        <p>Job ID</p>
-                                        <h4>{ele.job_id ?? "NA"}</h4>
-                                      </div>
-                                    </div>
-                                    <div className="job-table-col-3">
-                                      <div className="job-task-item">
-                                        <p>Name</p>
-                                        <h4>{ele.first_name ?? "NA"}</h4>
-                                      </div>
-                                    </div>
-
-                                    <div className="job-table-col-2">
-                                      <div className="job-task-item">
-                                        <p>Date</p>
-                                        <h4>
-                                          {ele.start_date ?? "NA"}{" "}
-                                          {ele.start_time ?? ""}
-                                        </h4>
-                                      </div>
-                                    </div>
-                                    <div className="job-table-col-2">
-                                      <div className="job-task-item">
-                                        <p>Gender</p>
-                                        <h4>
-                                          {ele.gender == "M"
-                                            ? "Male"
-                                            : "Female"}
-                                        </h4>
-                                      </div>
-                                    </div>
-
-                                    <div className="job-table-col-1">
-                                      <div className="job-task-item">
-                                        <p>Age</p>
-                                        <h4>{ele.age ?? "NA"}</h4>
-                                      </div>
-                                    </div>
-
-                                    <div className="job-table-col-1">
-                                      <div className="action-btn-info">
-                                        <Link
-                                          className="action-btn"
-                                          onClick={(e) => {
-                                            e.preventDefault();
-                                            navigate(routes.jobDetails, {
-                                              state: {
-                                                id: encode(ele.id),
-                                              },
-                                            });
-                                          }}
-                                        >
-                                          <img src={Arrowicon} alt="" />
-                                        </Link>
-                                      </div>
+                          {dashboard?.lockedJobs.length !== 0 ? (
+                            dashboard?.lockedJobs.map((ele, indx) => {
+                              return (
+                                <div key={indx} className="job-table-item">
+                                  <div className="job-table-col-3">
+                                    <div className="job-task-item">
+                                      <p>Job ID</p>
+                                      <h4>{ele.job_id ?? "NA"}</h4>
                                     </div>
                                   </div>
-                                );
-                              })
-                            : null}
+                                  <div className="job-table-col-3">
+                                    <div className="job-task-item">
+                                      <p>Name</p>
+                                      <h4>{ele.first_name ?? "NA"}</h4>
+                                    </div>
+                                  </div>
+
+                                  <div className="job-table-col-2">
+                                    <div className="job-task-item">
+                                      <p>Date</p>
+                                      <h4>
+                                        {ele.start_date ?? "NA"}{" "}
+                                        {ele.start_time ?? ""}
+                                      </h4>
+                                    </div>
+                                  </div>
+                                  <div className="job-table-col-2">
+                                    <div className="job-task-item">
+                                      <p>Gender</p>
+                                      <h4>
+                                        {ele.gender == "M" ? "Male" : "Female"}
+                                      </h4>
+                                    </div>
+                                  </div>
+
+                                  <div className="job-table-col-1">
+                                    <div className="job-task-item">
+                                      <p>Age</p>
+                                      <h4>{ele.age ?? "NA"}</h4>
+                                    </div>
+                                  </div>
+
+                                  <div className="job-table-col-1">
+                                    <div className="action-btn-info">
+                                      <Link
+                                        className="action-btn"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          navigate(routes.jobDetails, {
+                                            state: {
+                                              id: encode(ele.id),
+                                            },
+                                          });
+                                        }}
+                                      >
+                                        <img src={Arrowicon} alt="" />
+                                      </Link>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })
+                          ) : (
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                margin: "5% 0",
+                              }}
+                            >
+                              <img width={200} src={NoData} alt="" />
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -420,9 +439,9 @@ const Page = () => {
                   setDate(e);
                   navigate(routes.calendar, {
                     state: {
-                      dates: moment(e).format('DD'),
-                      months: moment(e).format('MM'),
-                      years: moment(e).format('yyyy'),
+                      dates: moment(e).format("DD"),
+                      months: moment(e).format("MM"),
+                      years: moment(e).format("yyyy"),
                     },
                   });
                 }}

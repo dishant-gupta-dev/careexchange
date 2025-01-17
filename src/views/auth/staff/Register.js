@@ -704,16 +704,12 @@ const Register = () => {
                                               <select
                                                 {...field}
                                                 className="form-control"
-                                                value={selectCategories}
                                                 onChange={(e) => {
                                                   setFieldValue(
                                                     field.name,
                                                     e.target.value
                                                   );
                                                   getSubCategoryList(
-                                                    e.target.value
-                                                  );
-                                                  setSelectCategory(
                                                     e.target.value
                                                   );
                                                 }}

@@ -47,8 +47,8 @@ const Page = () => {
   const [filter, setFilter] = useState(false);
   const [apply, setApply] = useState({ status: false, id: null });
   const [selectRadius, setSelectRadius] = useState(null);
-  const [selectCategories, setSelectCategory] = useState(null);
-  const [selectSubCategories, setSelectSubCategory] = useState(null);
+  const [selectCategories, setSelectCategory] = useState("");
+  const [selectSubCategories, setSelectSubCategory] = useState("");
   const [categories, setCategory] = useState([]);
   const [subCategories, setSubCategory] = useState([]);
   const [location, setLocation] = useState({
@@ -124,7 +124,7 @@ const Page = () => {
     } else {
       setTotal(response.data.data.total);
       setCareNetwork([]);
-    };
+    }
     setLoading(false);
   };
 
@@ -137,7 +137,11 @@ const Page = () => {
     else date = "";
     getCareNetwork(
       api.careNetworkList +
-        `?search=${name}&date=${date}&latitude=${location.lat}&categoryid=${selectCategories}&subcategoryid=${selectSubCategories}&longitude=${location.lng}&radius=${selectRadius}&page=${pageNum}&limit=${LIMIT}`
+        `?search=${name}&date=${date}&latitude=${
+          location.lat
+        }&categoryid=${selectCategories}&subcategoryid=${selectSubCategories}&longitude=${
+          location.lng
+        }&radius=${selectRadius ?? CommonMiles}&page=${pageNum}&limit=${LIMIT}`
     );
   };
 
@@ -175,7 +179,13 @@ const Page = () => {
     setFilter(false);
     getCareNetwork(
       api.careNetworkList +
-        `?latitude=${location.lat}&longitude=${location.lng}&categoryid=${selectCategories}&subcategoryid=${formValue.sub_category}&radius=${formValue.radius}&page=${pageNum}&limit=${LIMIT}`
+        `?latitude=${location.lat}&longitude=${
+          location.lng
+        }&categoryid=${selectCategories}&subcategoryid=${
+          formValue.sub_category
+        }&radius=${
+          formValue.radius ?? CommonMiles
+        }&page=${pageNum}&limit=${LIMIT}`
     );
   };
 
@@ -229,7 +239,7 @@ const Page = () => {
     });
   };
 
-  const getCurrentAddress = () => {
+  const getCurrentAddress = (cate = null, subcate = null) => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const crd = pos.coords;
@@ -257,7 +267,9 @@ const Page = () => {
           api.careNetworkList +
             `?latitude=${lat ?? crd.latitude}&longitude=${
               lng ?? crd.longitude
-            }&categoryid=${selectCategories}&subcategoryid=${selectSubCategories}&radius=${CommonMiles}&page=${pageNum}&limit=${LIMIT}`
+            }&categoryid=${cate ?? selectCategories}&subcategoryid=${
+              subcate ?? selectSubCategories
+            }&radius=${CommonMiles}&page=${pageNum}&limit=${LIMIT}`
         );
       },
       function errorCallback(error) {
@@ -283,7 +295,11 @@ const Page = () => {
     window.scrollTo(0, 0);
     getCareNetwork(
       api.careNetworkList +
-        `?latitude=${location.lat}&longitude=${location.lng}&categoryid=${selectCategories}&subcategoryid=${selectSubCategories}&radius=${selectRadius ?? CommonMiles}&page=${pageNum}&limit=${LIMIT}`
+        `?latitude=${location.lat}&longitude=${
+          location.lng
+        }&categoryid=${selectCategories}&subcategoryid=${selectSubCategories}&radius=${
+          selectRadius ?? CommonMiles
+        }&page=${pageNum}&limit=${LIMIT}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNum]);
@@ -553,7 +569,10 @@ const Page = () => {
                         <li
                           className="disabled"
                           id="example_previous"
-                          onClick={(e) => {e.preventDefault(); setPageNum(pageNum - 1);}}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setPageNum(pageNum - 1);
+                          }}
                         >
                           <button
                             aria-controls="example"
@@ -574,7 +593,10 @@ const Page = () => {
                                 <li
                                   className={pageNo === pageNum ? "active" : ""}
                                   key={indx}
-                                  onClick={(e) => {e.preventDefault(); setPageNum(pageNo);}}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    setPageNum(pageNo);
+                                  }}
                                 >
                                   <button className="page-link">
                                     {pageNo}
@@ -588,7 +610,10 @@ const Page = () => {
                         <li
                           className="next"
                           id="example_next"
-                          onClick={(e) => {e.preventDefault(); setPageNum(pageNum + 1);}}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setPageNum(pageNum + 1);
+                          }}
                         >
                           <button
                             aria-controls="example"
@@ -867,8 +892,8 @@ const Page = () => {
                                         setSelectCategory("");
                                         setSelectSubCategory("");
                                         setSubCategory([]);
-                                        setSelectRadius("");
-                                        getCurrentAddress();
+                                        setSelectRadius();
+                                        getCurrentAddress("", "");
                                       }
                                     }}
                                   >
